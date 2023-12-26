@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int main() {
+    int row = 5;
+
+    
+    for (int i = 0; i <= row; i++) {
+        for ( int b = 1; b <= i; b++) {
+            /*printf("%d ", b);*/
+            printf("* \t");
+        }
+        printf("\t\n");
+
+    }
+    for (int i = 0; row >= i; row--) {
+       for ( int c = 1; c <= row ; c++) {
+            /*printf("%d ", c);*/
+            printf("* \t");
+        }
+        printf("\t\n");
+    }
+
+
+
+    return 0;
+}

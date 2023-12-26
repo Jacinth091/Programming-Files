@@ -1,0 +1,25 @@
+1. Hello World: Start with the classic "Hello, World!" program to get familiar with the basics of C.
+
+2. Calculator: Build a simple calculator that can perform addition and subtraction.
+
+3. Guess the Number: Create a number guessing game where the computer generates a random number, and the user tries to guess it.
+
+4. Factorial Calculator: Write a program to calculate the factorial of a given number using loops.
+
+5. Even or Odd: Develop a program that determines if a number is even or odd.
+
+6. Sum of Digits: Calculate and display the sum of the digits of a given integer.
+
+7. Simple To-Do List: Create a basic to-do list application where users can add and view tasks.
+
+8. String Reversal: Write a program that reverses a string without using any built-in functions.
+
+9. Temperature Converter: Implement a program that converts temperatures between Fahrenheit and Celsius.
+
+10. FizzBuzz: Create a simple FizzBuzz program that prints numbers from 1 to 100, following the FizzBuzz rules.
+
+11. Prime Number Checker: Write a program to check if a given number is prime or not.
+
+12. Array Sum and Average: Calculate the sum and average of elements in an array of numbers.
+
+13. Days in a Month: Create a program that determines the number of days in a given month and year.

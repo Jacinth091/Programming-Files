@@ -1,8 +1,8 @@
 #include <iostream>
+#include <thread>  // Include the thread header
+#include <chrono> 
 
-using std::cout;
-using std::cin;
-using std::string;
+using namespace std;
 
 void burgerBuns(int& usersPick, string breadOptions[], string& playerBread);
 void burgerToppings(int& usersPick, string toppingsOptions[], string& playerToppings);
@@ -61,6 +61,10 @@ int main() {
         }while(usersPick != 1 && usersPick != 2 && usersPick != 3 && usersPick != 4 && usersPick != 5);
 
         cout << "Creating your Burger... \n\n";
+        cout.flush();  // Flush the buffer to ensure the message is displayed
+
+        // Sleep for 2 seconds (adjust the duration as needed)
+        this_thread::sleep_for(chrono::seconds(2));
 
         cout << "Here is your " << playerBread << " burger"<< ", with " << playerToppings << " toppings and a(n) " << playerPatty << " patty"<< "." << "\nEnjoy!!" << '\n';
 

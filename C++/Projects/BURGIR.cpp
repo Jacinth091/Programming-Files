@@ -25,66 +25,69 @@ int main() {
         cout << "Start Game? (Y/N): ";
         cin >> startGame;
         startGame = toupper(startGame);
-
-
-
+        if(startGame == 'N'){
+            break;
+        }
     }while(startGame != 'Y' || startGame == 'N');
-    do{
-        do {
+    if(startGame == 'N'){
+        cout << "Goodbye :<\n";
+    }
+    else {
+        do{
+            do {
 
-            cout << "Options for BUNS: \n\n";
-            for(int i = 0; i < sizeof(breadOptions) / sizeof(breadOptions[0]); i++){
-                cout << "\t" << i + 1 << ". " << breadOptions[i] << '\n';
-            }
+                cout << "Options for BUNS: \n\n";
+                for(int i = 0; i < sizeof(breadOptions) / sizeof(breadOptions[0]); i++){
+                    cout << "\t" << i + 1 << ". " << breadOptions[i] << '\n';
+                }
 
-            burgerBuns(usersPick, breadOptions, playerBread);
-        } while (usersPick != 1 && usersPick != 2 && usersPick != 3);
+                burgerBuns(usersPick, breadOptions, playerBread);
+            } while (usersPick != 1 && usersPick != 2 && usersPick != 3);
 
-        
-        do {
-            cout << "\nOptions for Toppings: \n\n";
-            for(int i = 0; i < sizeof(toppingsOptions) / sizeof(toppingsOptions[0]); i++){
-                cout << "\t" << i + 1 << ". " << toppingsOptions[i] << '\n';
-            }
+            
+            do {
+                cout << "\nOptions for Toppings: \n\n";
+                for(int i = 0; i < sizeof(toppingsOptions) / sizeof(toppingsOptions[0]); i++){
+                    cout << "\t" << i + 1 << ". " << toppingsOptions[i] << '\n';
+                }
 
-            burgerToppings(usersPick, toppingsOptions, playerToppings);
+                burgerToppings(usersPick, toppingsOptions, playerToppings);
 
-        }while (usersPick != 1 && usersPick != 2 && usersPick != 3 && usersPick != 4 && usersPick != 5);
+            }while (usersPick != 1 && usersPick != 2 && usersPick != 3 && usersPick != 4 && usersPick != 5);
 
-        do {
-            cout << "\nOptions for Burger Patty: \n\n";
-            for(int i = 0; i < sizeof(pattyOptions) / sizeof(pattyOptions[0]); i++){
-                cout << "\t" << i + 1 << ". " << pattyOptions[i] << '\n';
-            }
+            do {
+                cout << "\nOptions for Burger Patty: \n\n";
+                for(int i = 0; i < sizeof(pattyOptions) / sizeof(pattyOptions[0]); i++){
+                    cout << "\t" << i + 1 << ". " << pattyOptions[i] << '\n';
+                }
 
-            burgerPatty(usersPick, pattyOptions, playerPatty);
-        }while(usersPick != 1 && usersPick != 2 && usersPick != 3 && usersPick != 4 && usersPick != 5);
+                burgerPatty(usersPick, pattyOptions, playerPatty);
+            }while(usersPick != 1 && usersPick != 2 && usersPick != 3 && usersPick != 4 && usersPick != 5);
 
-        cout << "Creating your Burger... \n\n";
-        cout.flush();  // Flush the buffer to ensure the message is displayed
+            cout << "Creating your Burger... \n\n";
+            cout.flush();  // Flush the buffer to ensure the message is displayed
 
-        // Sleep for 2 seconds (adjust the duration as needed)
-        this_thread::sleep_for(chrono::seconds(2));
+            // Sleep for 2 seconds (adjust the duration as needed)
+            this_thread::sleep_for(chrono::seconds(2));
 
-        cout << "Here is your " << playerBread << " burger"<< ", with " << playerToppings << " toppings and a(n) " << playerPatty << " patty"<< "." << "\nEnjoy!!" << '\n';
+            cout << "Here is your " << playerBread << " burger"<< ", with " << playerToppings << " toppings and a(n) " << playerPatty << " patty"<< "." << "\nEnjoy!!" << '\n';
 
+            do {
+                cout << "\n\nAgain? (Y/N): ";
+                cin >> response;
+                response = toupper(response);
+                if (response == 'N'){
+                    break;
+                }    	
+            }while (response != 'Y' && response != 'N');
+                if (response == 'N') {
+                    cout << "Thanks, see you again!" << '\n' <<'\n';
+                    break;
+                }
 
+        }while (response == 'Y');
+    }
 
-
-        do {
-			cout << "\n\nAgain? (Y/N): ";
-			cin >> response;
-			response = toupper(response);
-			if (response == 'N'){
-				break;
-			}    	
-		}while (response != 'Y' && response != 'N');
-			if (response == 'N') {
-				cout << "Thanks, see you again!" << '\n' <<'\n';
-				break;
-			}
-
-    }while (response == 'Y');
 
 
 

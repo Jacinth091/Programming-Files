@@ -1,13 +1,11 @@
-    string cars[4];
+ // cout << phones[0][0] << ", ";
+    // cout << phones[0][1] << ", ";
+    // cout << phones[0][2] << " \n\n";
 
-    cars[0] = "Camero";
-    cars[1] = "Ford";
-    cars[2] = "Ferrari";
-    cars[3] = "Lamborgini";
+    // cout << phones[1][0] << ", ";
+    // cout << phones[1][1] << ", ";
+    // cout << phones[1][2] << " \n\n";
 
-
-
-    cout << cars[0] << '\n';
-    cout << cars[1] << '\n';
-    cout << cars[2] << '\n';
-    cout << cars[3] << '\n';
+    // cout << phones[2][0] << ", ";
+    // cout << phones[2][1] << ", ";
+    // cout << phones[2][2] << " \n\n";

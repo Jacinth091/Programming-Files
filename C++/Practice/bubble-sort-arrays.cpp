@@ -8,9 +8,14 @@ int main() {
      
     int array[] = {100, 200, 1, 150, 99, 23, 8, 17, 16, 34, 5};
     int size = sizeof(array) / sizeof(array[0]);
-
+    cout << "Before: " << endl;
+    for(int element : array){
+        cout << element << " ";
+    }
+    cout<< endl << endl;
+    
     sortAlgo(array, size);
-
+    cout << "After: " << endl;
     for(int element : array){
         cout << element << " ";
     }

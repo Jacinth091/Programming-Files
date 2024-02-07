@@ -11,13 +11,13 @@ public class IfStatement
       
       if(age >= 18)
       {
-         JOptionPane.showMessageDialog(null, "You are an Adult!");
-         // System.out.println("You are an Adult!");
+         // JOptionPane.showMessageDialog(null, "You are an Adult!");
+         System.out.println("You are an Adult!");
 
       }
       else {
-         // System.out.println("You are not an Adult!");
-         JOptionPane.showMessageDialog(null, "You are not an Adult!");
+         System.out.println("You are not an Adult!");
+         // JOptionPane.showMessageDialog(null, "You are not an Adult!");
 
       }
       

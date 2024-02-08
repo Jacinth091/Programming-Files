@@ -4,3 +4,6 @@
 .vscode
 *.mp4
 *.class
+*.iml
+*.xml
+.gitignore

@@ -19,7 +19,7 @@ int main() {
     cout << "*               C++ QUIZ BOWL               *" << endl;
     cout << "*********************************************" << endl << endl;
 
-     do{
+    do{
         cout << "Start Game? (Y/N): ";
         cin >> startGame;
 

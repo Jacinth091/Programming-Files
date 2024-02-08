@@ -44,7 +44,7 @@ public class Calculator {
                     break;
             }
 
-            System.out.print("\nAgain? (y/n): ");
+                System.out.print("\nAgain? (y/n): ");
             response = input.next().toUpperCase().charAt(0);
             if(response == 'N' ){
                 break;

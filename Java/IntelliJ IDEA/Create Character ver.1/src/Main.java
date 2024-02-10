@@ -3,7 +3,7 @@ import java.util.Scanner;
 class Character {
     Scanner input = new Scanner(System.in);
     int response;
-    String name, race, charClass, job, gender;
+    String name, race, charClass, job, gender, stringBuffer;
     String[] raceArr = {"Elf", "Dwarf", "Human", "Vampire", "Demon", "Angel"};
     String[] genderArr = {"Male", "Female"};
     String[] charClassArr = {"Magician", "Fighter", "Rangers", "Rogue", "Clerics", "Rare"};
@@ -13,15 +13,21 @@ class Character {
             {"Assassin", "Ninja"},
             {"Healer", "Priest"},
             {"Spell-Weaver", "Beast-Tamer", "Bard"}};
-    //    String[] jobArr = {"Elf","Dwarf","Human","Vampire","Demon","Angel"};
-
-    //    int size = raceArr.length;
 
 
     void playerChoose() {
         response = 0;
         System.out.print("Choose: ");
         response = input.nextInt();
+    }
+    void enterString(){
+/*
+        String stringBuffer;
+*/      input.nextLine();
+        System.out.print("Enter: ");
+        stringBuffer = input.nextLine();
+//        System.out.println(name);
+
     }
 
     void displayArray(String[] array) {
@@ -80,6 +86,14 @@ class Character {
             System.out.println("Invalid Character Class");
 
         }*/
+    void determineName(){
+       if(stringBuffer != null)
+           name = stringBuffer;;
+
+    }
+
+
+
     void determineJobByClass(String[] charClassArr) {
         for (int i = 0; i < charClassArr.length; i++) {
             if (charClassArr[i].equals(charClass)) {
@@ -90,9 +104,6 @@ class Character {
 
         System.out.println("Invalid Character Class");
     }
-
-
-
 
     void playerChooseJob(String[] jobArray) {
         System.out.print("Choose: ");
@@ -107,13 +118,21 @@ class Character {
         }
     }
 
+    void getPlayerJob(){
+        int classIndex = response - 1; // Adjust the index to start from 0
+        if (classIndex >= 0 && classIndex < jobArray.length) {
+            playerChooseJob(jobArray[classIndex]);
+        } else {
+            System.out.println("Invalid Character Class choice.");
+        }
+    }
 
 
 }
 public class Main {
     public static void main (String[] args)
     {
-        Scanner input = new Scanner(System.in);
+//        Scanner input = new Scanner(System.in);
 
        /* char yesOrNo;
 
@@ -135,7 +154,7 @@ public class Main {
         System.out.println("\n\n***************Create Character***************\n");
 
 
-        /*********************************CHARACTER GENDER*********************************/
+        /* ********************************CHARACTER GENDER******************************** */
 
         System.out.println("Character Gender: \n");
 
@@ -150,7 +169,7 @@ public class Main {
 
 
 
-        /*********************************CHARACTER RACE*********************************/
+        /* ********************************CHARACTER RACE******************************** */
 
         System.out.println("Character Race: \n");
 
@@ -163,7 +182,7 @@ public class Main {
 
 
 
-        /*********************************CHARACTER CLASS*********************************/
+        /* ********************************CHARACTER CLASS******************************** */
 
         System.out.println("Character Class: \n");
 
@@ -176,23 +195,25 @@ public class Main {
 
 
 
-        /*********************************CHARACTER JOB*********************************/
+        /* ********************************CHARACTER JOB******************************** */
 
         System.out.println("Choose your Job: \n");
 
         playerOne.determineJobByClass(playerOne.charClassArr);
         System.out.print("\n");
-        int classIndex = playerOne.response - 1; // Adjust the index to start from 0
-        if (classIndex >= 0 && classIndex < playerOne.jobArray.length) {
-            playerOne.playerChooseJob(playerOne.jobArray[classIndex]);
-        } else {
-            System.out.println("Invalid Character Class choice.");
-        }
+        playerOne.getPlayerJob();
 
         // Now 'playerOne.job' contains the selected job
 
 
+        /* ********************************CHARACTER NAME******************************** */
 
+        System.out.println("Enter your desired character name: ");
+
+        playerOne.enterString();
+        playerOne.determineName();
+
+        System.out.println("\nYour character is now named \"" +playerOne.name+ "\". " );
 
 
 

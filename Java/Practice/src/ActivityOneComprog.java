@@ -3,7 +3,7 @@ Name: Barral, Jacinth Cedric C.
 Date: Febuary 6, 2024
 Description: Display of Strings 
 */
-class Main {
+class ActivityOneComprog {
     public static void main (String[] args){
         String userName = "Jacinth";
         String dreamJob = "Software Developer and a Game Developer";

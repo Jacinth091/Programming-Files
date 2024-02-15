@@ -11,9 +11,11 @@ public class RandomNumbers
 
       // double y = randNum.nextDouble(); // Generates Numbers between 0 and 1
       boolean z = randNum.nextBoolean(); // Generate random instances, either True or False
+      int y = randNum.nextInt(); // Generate random instances, random numbers
+
       
-      
-      System.out.print(z);
-   
+      System.out.println(z);
+      System.out.println(y);
+
    }
 }

@@ -17,7 +17,7 @@ class CreateCatPlayer {
 
 //    boolean hasTail, hasPatches;
 
-    CreateCat(){
+    CreateCatPlayer(){
         this.in = new Scanner(System.in);
         this.genderArr = new String[]{"Male", "Female"};
         this.colorArr = new String[]{"Orange", "Black", "White", "Brown", "Red"};

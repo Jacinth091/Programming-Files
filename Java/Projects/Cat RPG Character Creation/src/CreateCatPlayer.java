@@ -30,18 +30,6 @@ class CreateCatPlayer {
         this.eyeColorArr = new String[]{"Hazel", "Brown", "Gold", "Green", "Blue"};
         this.userOptions = new String[]{"Gender: None", "Eye-Colour: None ", "Color: None ","Pattern: None","Age: None", "Name: None"};
     }
-    void setArrayList(){
-        for(byte i = 0; i <= userOptions.length; i++){
-            catValueList.set((i+1), userOptions[i]);
-        }
-    }
-    void displayArray(String[] array){
-        for(byte i = 0; i < array.length; i++){
-            System.out.println( "\t" + (i+1) + ".  " + array[i] + " ");
-        }
-
-    }
-
     void determineTitle(){
         String stringBuffer = "";
         for(byte i = 0; i < userOptions.length; i++){
@@ -55,7 +43,18 @@ class CreateCatPlayer {
         }
 //        playerSelect = 0;
     }
+    void setArrayList() {
+        for (byte i = 0; i < 6; i++) {
+            catValueList.add(userOptions[i]);
+        }
+    }
 
+    void displayArray(String[] array){
+        for(byte i = 0; i < array.length; i++){
+            System.out.println( "\t" + (i+1) + ".  " + array[i] + " ");
+        }
+
+    }
     void playerSelect(String[] array){
         playerSelect = 0;
         response = 0;
@@ -96,39 +95,99 @@ class CreateCatPlayer {
 
     }
 
-
     void dispAndSelect(String[] array){
 
         displayArray(array);
         playerSelect(array);
-
+//        determineCatValue();
     }
 
     void determineCatValue(String[] array, String catValue){
         for(byte i = 0; i < array.length; i++){
             if(playerSelect == (i + 1)){
                 catValue = array[i];
-                System.out.println("\n\n" + catValue);
-
             }
         }
 //        playerSelect = 0;
     }
-    void gameLoop(){
-        for(byte i = 0; i < userOptions.length; i++){
+
+/*    void gameLoop(String[] array, String catValue){
+        for(byte i = 0; i < catValueList.size(); i++){
             // An attempt in looping when ever if you select and pick
             // it will loop back to the main menu and loops again
             // up until the user states if he/she is finish creating the character
+            dispAndSelArrayList();
+            determineCatValue(array, catValue);
+
+
+        }
+    }*/
+
+    void displayArrayList(){
+        for(byte i = 0; i < catValueList.size(); i++){
+            System.out.println( "\t" + (i+1) + ".  " + catValueList.get(i) + " ");
+
         }
     }
-    void gameState(){
+
+    void selectArrayList(){
+        playerSelect = 0;
+        response = 0;
+        do {
+
+            try{
+                determineTitle();
+                System.out.println("\nEnter #" + "1 to " + "#" + catValueList.size() + " to Select, 0 to Cancel\n");
+                System.out.print("---------> ::  ");
+                response = in.nextByte();
+//                System.out.println();
+                if(response <= catValueList.size() && response >= 0 ){
+                    playerSelect = response;
+//                    System.out.println(playerSelect);
+                    validInput = true;
+                    break;
+
+                }
+                else{
+                    System.out.println("=============================");
+                    System.out.println("Invalid Input!, Try Again!");
+                    System.out.println("=============================\n");
+                    displayArrayList();
+                }
+            }
+            catch (InputMismatchException e){
+                System.out.println("=============================");
+                System.out.println("Mismatch Input! Try Again!");
+                System.out.println("=============================\n");
+                in.nextLine();
+                displayArrayList();
+
+            }
+
+
+        }while(!validInput);
+
+
+    }
+
+/*    void dispAndSelArrayList() {
+        displayArrayList();
+        validInput = false; // Reset validInput
+        do {
+            selectArrayList();
+        } while (!validInput);
+    }*/
+
+ /*   void dispAndSelArrayList(){
+        displayArrayList();
+        selectArrayList();
+    }*/
+
+
+   /* void gameState(){
         determineTitle();
         switch(playerSelect){
             case 1:
-
-                dispAndSelect(genderArr);
-                determineCatValue(genderArr, catGender);
-                displayArray(userOptions);
 
                 break;
             case 2:
@@ -158,7 +217,7 @@ class CreateCatPlayer {
 
 
         }
-    }
+    }*/
 
 
 

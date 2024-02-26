@@ -44,10 +44,12 @@ class CreateCatPlayer {
 //        playerSelect = 0;
     }
     void setArrayList() {
-        for (byte i = 0; i < 6; i++) {
-            catValueList.add(userOptions[i]);
+//        catValueList.addAll(Arrays.asList(userOptions).subList(0, 6));
+        for(byte i = 0; i < catValueList.size(); i++){
+            catValueList.set(i, userOptions[i]);
         }
     }
+
 
     void displayArray(String[] array){
         for(byte i = 0; i < array.length; i++){
@@ -111,18 +113,6 @@ class CreateCatPlayer {
 //        playerSelect = 0;
     }
 
-/*    void gameLoop(String[] array, String catValue){
-        for(byte i = 0; i < catValueList.size(); i++){
-            // An attempt in looping when ever if you select and pick
-            // it will loop back to the main menu and loops again
-            // up until the user states if he/she is finish creating the character
-            dispAndSelArrayList();
-            determineCatValue(array, catValue);
-
-
-        }
-    }*/
-
     void displayArrayList(){
         for(byte i = 0; i < catValueList.size(); i++){
             System.out.println( "\t" + (i+1) + ".  " + catValueList.get(i) + " ");
@@ -169,6 +159,25 @@ class CreateCatPlayer {
 
 
     }
+
+    void createAndAssign(String[] catValue){
+        displayArray(catValue);
+        playerSelect(catValue);
+        displayArrayList();
+//        dispAndSelect(catOption);
+    }
+
+/*    void gameLoop(String[] array, String catValue){
+        for(byte i = 0; i < catValueList.size(); i++){
+            // An attempt in looping when ever if you select and pick
+            // it will loop back to the main menu and loops again
+            // up until the user states if he/she is finish creating the character
+            dispAndSelArrayList();
+            determineCatValue(array, catValue);
+
+
+        }
+    }*/
 
 /*    void dispAndSelArrayList() {
         displayArrayList();

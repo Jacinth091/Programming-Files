@@ -18,6 +18,7 @@ public class Main {
 
 
 
+
         boolean isDone = false;
 
         do {
@@ -26,18 +27,42 @@ public class Main {
             // If you picked one in the first choices, the second time it will loop back again to the second choices
             // unless you choose to input a different number than 1
             if(catOne.playerSelect == 1){
-                catOne.createAndAssign(catOne.genderArr);
+//                catOne.createAndAssign(catOne.genderArr);
+                catOne.determineTitle();
+                catOne.displayArray(catOne.genderArr);
+                catOne.playerSelect(catOne.genderArr);
+                catOne.determineCatValue(catOne.genderArr);
+                System.out.println(catOne.catValue);
+                catOne.catGender = catOne.catValue;
+                System.out.println(catOne.catGender);
+
+                if(catOne.catGender != null){
+                    catOne.displayArrayList();
+                    catOne.selectArrayList();
+                    break;
+//                    isDone = true;
+                }
+
             }
-            else if(catOne.response == 2 ){
-                catOne.createAndAssign(catOne.eyeColorArr);
+            else if(catOne.playerSelect == 2 ){
+//                catOne.createAndAssign(catOne.eyeColorArr);
+                catOne.determineTitle();
+                catOne.displayArray(catOne.eyeColorArr);
+                catOne.playerSelect(catOne.eyeColorArr);
+                catOne.determineCatValue(catOne.eyeColorArr);
+                System.out.println(catOne.catValue);
+                System.out.println(catOne.catEyeColor);
+
+                catOne.displayArrayList();
+                catOne.selectArrayList();
             }
-            else if(catOne.response == 3 ){
+            else if(catOne.playerSelect == 3 ){
                 catOne.createAndAssign(catOne.colorArr);
             }
-            else if(catOne.response == 4 ){
+            else if(catOne.playerSelect == 4 ){
                 catOne.createAndAssign(catOne.patternArr);
             }
-            else if(catOne.response == 5 ){
+            else if(catOne.playerSelect == 5 ){
                 catOne.createAndAssign(catOne.ageArr);
             }
 /*            else if(catOne.response == 2 ){
@@ -85,7 +110,7 @@ public class Main {
                     break;
 
             }*/
-        }while(true);
+        }while(!isDone);
 
 
 /*        for(byte i = 0; i < catOne.userOptions.length; i++){

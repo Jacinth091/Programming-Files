@@ -1,5 +1,7 @@
-import java.util.Scanner;
+import java.util.InputMismatchException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Objects;
 class Books{
     String bookTitle, bookAuthor, bookGenre,bookDueDate;
     String[][] defaultBooks;
@@ -54,15 +56,24 @@ class Books{
     }
 }
 class Library{
+    Books books = new Books();
     ArrayList<ArrayList<String>> libraryBooks = new ArrayList<ArrayList<String>>();
 
-
-    void hi(){
-        System.out.println("HI!!!!");
+    void libraryBookList(){
+        for(byte i = 0; i < books.defaultBooks.length; i++){
+            // Add the 2d normal Array Items title, author, genre to ArrayList
+        }
     }
+
+    void librarySearch() {
+        // Implement a basis search function for the books
+    }
+
 }
 class Records{
-    String[] recordsOptions = {"Search Available Book/s", "Order Book/s", "Book-Cart", "Renew Book", "Checkout Book/s" };
+    String[] recordsOptions = {"Search Available Book/s", "Order Book/s", "Book-Cart", "Renew Book", "Checkout Book/s"};
+    String[] recordCheckout;
+
 
 }
 
@@ -73,17 +84,105 @@ class LibrarySystem{
     public static Library library = new Library();
     public static Records records = new Records();
 
+    public static Scanner in = new Scanner(System.in);
+
     public static void main(String[] args) {
+        char userPrompt;
+        int userChoice;
+        boolean isValid = false, exitLoop = false;
+
+
         System.out.println("---------------------------------------");
         System.out.println("\t \tLibrary System ver 1.");
         System.out.println("---------------------------------------");
 
+        do {
+            displayList(records.recordsOptions);
+            userChoice = getInputFromList(records.recordsOptions);
+
+            switch (userChoice){
+                case 1:
+                    System.out.println("BOBO!");
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 0:
+                    System.out.println("Exiting....");
+                    System.exit(0);
+                    break;
+                case -1:
+                    break;
+
+                default:
+                    break;
+            }
+
+
+
+
+        }while(true);
+
 
 
     }
-    static void initListBooks(){
-        for(byte i = 0 ; i < book.defaultBooks.length; i++){
-
+    static void displayList(String[] array){
+        System.out.println("***************************************\n");
+        for(byte  i = 0; i < array.length; i++){
+            System.out.printf("%s: %s\n", (i+1), array[i]);
         }
+        System.out.println("\n0: Exit Program");
+        System.out.println("\n***************************************");
+
     }
+    static int getInputFromList(String[] array){
+        byte userResponse = 0;
+        boolean isValid = false;
+
+
+        do{
+            System.out.printf("\n0 to EXIT, Enter #1 to #%d to Select", array.length);
+
+
+            try{
+                userResponse = 0;
+                System.out.print("\n--->>: ");
+                userResponse = in.nextByte();
+                in.nextLine();
+
+                if(userResponse <= array.length && userResponse  >= 0){
+                    if(userResponse == 0){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.printf("Your Response %d: %s\n", userResponse, array[userResponse-1]);
+                        isValid = true;
+                        break;
+                    }
+                }
+                else{
+                    System.out.println("\n---------------------------------------");
+                    System.out.println("\t   Invalid Input, Try again!");
+                    System.out.println("---------------------------------------");
+                    displayList(array);
+                }
+            }catch(InputMismatchException e){
+                System.out.println("\n---------------------------------------");
+                System.out.println("\t   Invalid Input, Try again!");
+                System.out.println("---------------------------------------");
+                in.nextLine();
+                displayList(array);
+            }
+        }while(!isValid);
+        return userResponse;
+
+
+    }
+
+
 }

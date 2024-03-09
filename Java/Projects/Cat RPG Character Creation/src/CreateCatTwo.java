@@ -266,6 +266,7 @@ public class CreateCatTwo {
         }
         return catAttribute;
     }
+
     static void gameLoop() {
 //        int userChoice;
         while (!isValid) {

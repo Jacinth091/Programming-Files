@@ -1,7 +1,5 @@
-import java.util.InputMismatchException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Objects;
+import java.util.*;
+
 class Books{
     String bookTitle, bookAuthor, bookGenre,bookDueDate;
     String[][] defaultBooks;
@@ -56,14 +54,52 @@ class Books{
     }
 }
 class Library{
-    Books books = new Books();
-    ArrayList<ArrayList<String>> libraryBooks = new ArrayList<ArrayList<String>>();
+//    Books books = new Books();
+    ArrayList<ArrayList<String>> libraryBooks;
+    ArrayList<String> libraryBookTitle;
+    ArrayList<String> libraryBookAuthor;
+    ArrayList<String> libraryBookGenre;
 
-    void libraryBookList(){
-        for(byte i = 0; i < books.defaultBooks.length; i++){
-            // Add the 2d normal Array Items title, author, genre to ArrayList
-        }
+    Library(){
+        this.libraryBookTitle = new ArrayList<>();
+        this.libraryBookAuthor = new ArrayList<>();
+        this.libraryBookGenre = new ArrayList<>();
+        this.libraryBooks = new ArrayList<>();
     }
+
+
+    void libraryBookList(String[][] arrayMulti) {
+        for (byte i = 0; i < arrayMulti.length; i++) {
+
+            libraryBookTitle.add(arrayMulti[i][0]);
+            libraryBookAuthor.add(arrayMulti[i][1]);
+            libraryBookGenre.add(arrayMulti[i][2]);
+
+
+        }
+        libraryBooks.add(libraryBookTitle);
+        libraryBooks.add(libraryBookAuthor);
+        libraryBooks.add(libraryBookGenre);
+    }
+
+/*            System.out.printf("i: %d\n\n", i);
+
+            for(byte j = 0; j < arrayMulti[i].length; j++ ){
+                ArrayList<Object> title = new ArrayList<>(Arrays.asList(libraryBookTitle, libraryBookAuthor, libraryBookGenre));
+                title.add(j, arrayMulti[i][j]);
+//                System.out.printf("%d:     %s: %s\n",j, title, arrayMulti[i][j]);
+
+
+*//*                System.out.printf("\n\tJ: %d", j);
+                System.out.printf("\n\tItems: %s", arrayMulti[i][j]);*//*
+            }
+            System.out.println();*/
+/*    void libraryBooksAttributes(int index){
+        switch(index){
+            case 0:
+                libraryBookTitle.add(index)
+        }
+    }*/
 
     void librarySearch() {
         // Implement a basis search function for the books
@@ -88,10 +124,10 @@ class LibrarySystem{
 
     public static void main(String[] args) {
         char userPrompt;
-        int userChoice;
+        int userChoice= 0, userResponse = 0;
         boolean isValid = false, exitLoop = false;
 
-
+        library.libraryBookList(book.defaultBooks);
         System.out.println("---------------------------------------");
         System.out.println("\t \tLibrary System ver 1.");
         System.out.println("---------------------------------------");
@@ -102,9 +138,14 @@ class LibrarySystem{
 
             switch (userChoice){
                 case 1:
-                    System.out.println("BOBO!");
+                    displayList(library.libraryBookTitle);
+                    userResponse = getInputFromList(library.libraryBookTitle);
+
                     break;
                 case 2:
+                    displayList(library.libraryBooks);
+                    userResponse = getInputFromList(library.libraryBooks);
+
                     break;
                 case 3:
                     break;
@@ -131,7 +172,7 @@ class LibrarySystem{
 
 
     }
-    static void displayList(String[] array){
+    static <T> void displayList(T[] array){
         System.out.println("***************************************\n");
         for(byte  i = 0; i < array.length; i++){
             System.out.printf("%s: %s\n", (i+1), array[i]);
@@ -140,7 +181,26 @@ class LibrarySystem{
         System.out.println("\n***************************************");
 
     }
-    static int getInputFromList(String[] array){
+    static <T> void displayList(T[][] array){
+        System.out.println("***************************************\n");
+        for(byte  i = 0; i < array.length; i++){
+            System.out.printf("%s: %s\n", (i+1), Arrays.toString(array[i]));
+        }
+        System.out.println("\n0: Exit Program");
+        System.out.println("\n***************************************");
+
+    }
+    static <T> void displayList(ArrayList<T> array){
+        System.out.println("***************************************\n");
+        for(byte  i = 0; i < array.size(); i++){
+            System.out.printf("%s: %s\n", (i+1), array.get(i));
+        }
+        System.out.println("\n0: Exit Program");
+        System.out.println("\n***************************************");
+
+    }
+
+    static <T> int getInputFromList(T[] array){
         byte userResponse = 0;
         boolean isValid = false;
 
@@ -184,5 +244,134 @@ class LibrarySystem{
 
     }
 
+    static <T> int getInputFromList(T[][] array){
+        byte userResponse = 0;
+        boolean isValid = false;
+
+
+        do{
+            System.out.printf("\n0 to EXIT, Enter #1 to #%d to Select", array.length);
+
+
+            try{
+                userResponse = 0;
+                System.out.print("\n--->>: ");
+                userResponse = in.nextByte();
+                in.nextLine();
+
+                if(userResponse <= array.length && userResponse  >= 0){
+                    if(userResponse == 0){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.printf("Your Response %d: %s\n", userResponse, array[userResponse-1]);
+                        isValid = true;
+                        break;
+                    }
+                }
+                else{
+                    System.out.println("\n---------------------------------------");
+                    System.out.println("\t   Invalid Input, Try again!");
+                    System.out.println("---------------------------------------");
+                    displayList(array);
+                }
+            }catch(InputMismatchException e){
+                System.out.println("\n---------------------------------------");
+                System.out.println("\t   Invalid Input, Try again!");
+                System.out.println("---------------------------------------");
+                in.nextLine();
+                displayList(array);
+            }
+        }while(!isValid);
+        return userResponse;
+
+
+    }
+    static <T> int getInputFromList(ArrayList<T> array){
+        byte userResponse = 0;
+        boolean isValid = false;
+
+
+        do{
+            System.out.printf("\n0 to EXIT, Enter #1 to #%d to Select", array.size());
+
+
+            try{
+                userResponse = 0;
+                System.out.print("\n--->>: ");
+                userResponse = in.nextByte();
+                in.nextLine();
+
+                if(userResponse <= array.size() && userResponse  >= 0){
+                    if(userResponse == 0){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.printf("Your Response %d: %s\n", userResponse, array.get(userResponse-1));
+                        isValid = true;
+                        break;
+                    }
+                }
+                else{
+                    System.out.println("\n---------------------------------------");
+                    System.out.println("\t   Invalid Input, Try again!");
+                    System.out.println("---------------------------------------");
+                    displayList(array);
+                }
+            }catch(InputMismatchException e){
+                System.out.println("\n---------------------------------------");
+                System.out.println("\t   Invalid Input, Try again!");
+                System.out.println("---------------------------------------");
+                in.nextLine();
+                displayList(array);
+            }
+        }while(!isValid);
+        return userResponse;
+
+
+    }
+ /*   static <T> int getInputFromList(ArrayList<ArrayList<T>> array){
+        byte userResponse = 0;
+        boolean isValid = false;
+
+
+        do{
+            System.out.printf("\n0 to EXIT, Enter #1 to #%d to Select", array.size());
+
+
+            try{
+                userResponse = 0;
+                System.out.print("\n--->>: ");
+                userResponse = in.nextByte();
+                in.nextLine();
+
+                if(userResponse <= array.size() && userResponse  >= 0){
+                    if(userResponse == 0){
+                        isValid = true;
+                    }
+                    else{
+                        System.out.printf("Your Response %d: %s\n", userResponse, array.get(userResponse-1));
+                        isValid = true;
+                        break;
+                    }
+                }
+                else{
+                    System.out.println("\n---------------------------------------");
+                    System.out.println("\t   Invalid Input, Try again!");
+                    System.out.println("---------------------------------------");
+                    displayList(array);
+                }
+            }catch(InputMismatchException e){
+                System.out.println("\n---------------------------------------");
+                System.out.println("\t   Invalid Input, Try again!");
+                System.out.println("---------------------------------------");
+                in.nextLine();
+                displayList(array);
+            }
+        }while(!isValid);
+        return userResponse;
+
+
+    }*/
 
 }

@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class testing{
     public static void main(String[] args) {
         List<Book> bookList = new ArrayList<>();
+        Book book = new Book("", "", "" ,"", 0, 0);
         Scanner in = new Scanner(System.in);
         // Column names
 
@@ -63,15 +64,20 @@ public class testing{
         for(byte bookIndex = 0; bookIndex < bookList.size(); bookIndex++){
 
             Book currentBook = bookList.get(bookIndex);
-            System.out.printf("%-10d%-45s%-25s%-25s%-20s%-15d\n", currentBook.id, currentBook.bookTitle, currentBook.bookAuthor, currentBook.bookGenre, currentBook.bookAvailable, currentBook.numOfBook);
+            System.out.printf("%-10d%-45s%-25s%-25s\n", currentBook.id, currentBook.bookTitle, currentBook.bookAuthor, currentBook.bookGenre);
+//            System.out.printf("%s\n", bookList.get(bookIndex));
         }
         System.out.printf("BookList size: %d\n", bookList.size());
+        System.out.printf("Book Title: %s\n", book.bookTitle);
+
 
         int response;
 
         System.out.print("Input response: ");
         response = in.nextInt();
         in.nextLine();
+
+
 
         if (response > 0 && response <= bookList.size()) {
             Book selectedBook = bookList.get(response - 1);
@@ -92,6 +98,13 @@ public class testing{
 
 
     }
+
+/*    public static void clearConsole() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
+    }*/
+
 
 }
 

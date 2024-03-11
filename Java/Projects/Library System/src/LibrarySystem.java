@@ -55,7 +55,7 @@ class Books{
 }
 class Library{
 //    Books books = new Books();
-    ArrayList<ArrayList<String>> libraryBooks;
+    ArrayList<ArrayList<String>> libraryBookData;
     ArrayList<String> libraryBookTitle;
     ArrayList<String> libraryBookAuthor;
     ArrayList<String> libraryBookGenre;
@@ -64,10 +64,11 @@ class Library{
         this.libraryBookTitle = new ArrayList<>();
         this.libraryBookAuthor = new ArrayList<>();
         this.libraryBookGenre = new ArrayList<>();
-        this.libraryBooks = new ArrayList<>();
+        this.libraryBookData = new ArrayList<>();
     }
 
 
+/*
     void libraryBookList(String[][] arrayMulti) {
         for (byte i = 0; i < arrayMulti.length; i++) {
 
@@ -81,25 +82,7 @@ class Library{
         libraryBooks.add(libraryBookAuthor);
         libraryBooks.add(libraryBookGenre);
     }
-
-/*            System.out.printf("i: %d\n\n", i);
-
-            for(byte j = 0; j < arrayMulti[i].length; j++ ){
-                ArrayList<Object> title = new ArrayList<>(Arrays.asList(libraryBookTitle, libraryBookAuthor, libraryBookGenre));
-                title.add(j, arrayMulti[i][j]);
-//                System.out.printf("%d:     %s: %s\n",j, title, arrayMulti[i][j]);
-
-
-*//*                System.out.printf("\n\tJ: %d", j);
-                System.out.printf("\n\tItems: %s", arrayMulti[i][j]);*//*
-            }
-            System.out.println();*/
-/*    void libraryBooksAttributes(int index){
-        switch(index){
-            case 0:
-                libraryBookTitle.add(index)
-        }
-    }*/
+*/
 
     void librarySearch() {
         // Implement a basis search function for the books
@@ -127,7 +110,7 @@ class LibrarySystem{
         int userChoice= 0, userResponse = 0;
         boolean isValid = false, exitLoop = false;
 
-        library.libraryBookList(book.defaultBooks);
+//        library.libraryBookList(book.defaultBooks);
         System.out.println("---------------------------------------");
         System.out.println("\t \tLibrary System ver 1.");
         System.out.println("---------------------------------------");
@@ -143,8 +126,8 @@ class LibrarySystem{
 
                     break;
                 case 2:
-                    displayList(library.libraryBooks);
-                    userResponse = getInputFromList(library.libraryBooks);
+/*                    displayList(library.libraryBooks);
+                    userResponse = getInputFromList(library.libraryBooks);*/
 
                     break;
                 case 3:

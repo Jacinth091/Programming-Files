@@ -1,18 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class testing{
     public static void main(String[] args) {
-        // Sample data for the table
-        int idNum = 0;
-
-
+        List<Book> bookList = new ArrayList<>();
+        Scanner in = new Scanner(System.in);
         // Column names
-        String[] columnNames = {"Book Title", "Book Author", "Book Genre"};
-
-        System.out.printf("%-10s", "Book-ID");
-        for (String columnName : columnNames) {
-
-            System.out.printf("%-45s", columnName);
-        }
-        System.out.println("\n");
 
         String[][] data = new String[][]{
                 {"Don Quixote", "Miguel de Cervantes", "Fiction"},
@@ -32,7 +26,7 @@ public class testing{
                 {"A Tale of Two Cities", "Charles Dickens", "Historical Fiction"},
                 {"Little Women", "Louisa May Alcott", "Coming-of-Age"},
                 {"Great Expectations", "Charles Dickens", "Fiction"},
-                {"The Hobbit, or, There and Back Again", "J.R.R. Tolkien", "Fantasy"},
+/*                {"The Hobbit, or, There and Back Again", "J.R.R. Tolkien", "Fantasy"},
                 {"Frankenstein, or, the Modern Prometheus", "Mary Shelley", "Gothic Fiction"},
                 {"Oliver Twist", "Charles Dickens", "Fiction"},
                 {"Uncle Tom's Cabin", "Harriet Beecher Stowe", "Anti-Slavery Novel"},
@@ -54,24 +48,66 @@ public class testing{
                 {"20,000 Leagues Under the Sea", "Jules Verne", "Adventure"},
                 {"Anna Karenina", "Leo Tolstoy", "Realist Fiction"},
                 {"The Wind in the Willows", "Kenneth Grahame", "Children's Literature"},
-                {"The Picture of Dorian Gray", "Oscar Wilde", "Gothic Fiction"}
+                {"The Picture of Dorian Gray", "Oscar Wilde", "Gothic Fiction"}*/
         };
 
-        // Print table data
-        for (byte i = 0; i < data.length; i++) {
+        for(byte bookIndex = 0; bookIndex < data.length; bookIndex++){
 
-            System.out.printf("%-10d", (i+1));
-            for(byte j = 0; j < data[i].length; j++){
-                System.out.printf("%-45s", data[i][j]);
-            }
+            String title = data[bookIndex][0];
+            String author = data[bookIndex][1];
+            String genre = data[bookIndex][2];
 
-
-/*            String[] row = data[i];
-            for (String cell : row) {
-                System.out.printf("%-15s", cell);
-            }*/
-            System.out.println();
+            bookList.add(new Book(title, author, genre, "Available", bookIndex + 1, 10));
         }
+        System.out.printf("%-10s%-45s%-25s%-25s%-20s%-15s\n", "Id No.", "Title", "Author", "Genre", "Stock", "No. of Stock" );
+        for(byte bookIndex = 0; bookIndex < bookList.size(); bookIndex++){
+
+            Book currentBook = bookList.get(bookIndex);
+            System.out.printf("%-10d%-45s%-25s%-25s%-20s%-15d\n", currentBook.id, currentBook.bookTitle, currentBook.bookAuthor, currentBook.bookGenre, currentBook.bookAvailable, currentBook.numOfBook);
+        }
+        System.out.printf("BookList size: %d\n", bookList.size());
+
+        int response;
+
+        System.out.print("Input response: ");
+        response = in.nextInt();
+        in.nextLine();
+
+        if (response > 0 && response <= bookList.size()) {
+            Book selectedBook = bookList.get(response - 1);
+            selectedBook.bookAvailable = "Not Available";
+            System.out.println("Book status updated successfully.");
+        } else {
+            System.out.println("Invalid input. Please enter a valid book ID.");
+        }
+        for(byte bookIndex = 0; bookIndex < bookList.size(); bookIndex++){
+
+            Book currentBook = bookList.get(bookIndex);
+            System.out.printf("%-10d%-45s%-45s%-45s%-45s\n", currentBook.id, currentBook.bookTitle, currentBook.bookAuthor, currentBook.bookGenre, currentBook.bookAvailable);
+        }
+
+
+
+
+
+
     }
 
+}
+
+class Book{
+
+
+    int id, numOfBook;
+    String bookAuthor, bookTitle, bookGenre, bookAvailable;
+//    boolean isAvailable;
+
+    Book(String bookTitle, String bookAuthor, String bookGenre, String bookAvailable,int id, int numOfBook){
+        this.id = id;
+        this.numOfBook = numOfBook;
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.bookGenre = bookGenre;
+        this.bookAvailable = bookAvailable;
+    }
 }

@@ -38,6 +38,10 @@ public class JPanels {
         yellowPanel. setBackground(Color.yellow);
         yellowPanel.setBounds(500, 0, 250, 500);
 
+        JPanel orangePanel = new JPanel();
+        orangePanel. setBackground(Color.orange);
+        orangePanel.setBounds(0, 500, 750, 250);
+
 
         JFrame frame = new JFrame();
         frame.setVisible(true);
@@ -48,6 +52,7 @@ public class JPanels {
         frame.add(bluePanel);
         frame.add(greenPanel);
         frame.add(yellowPanel);
+        frame.add(orangePanel);
         greenPanel.add(label);
 
 

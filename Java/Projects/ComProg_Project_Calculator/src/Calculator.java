@@ -6,7 +6,8 @@ import javax.swing.*;
 public class Calculator {
     public static void main(String[] args) {
 
-        mainFrame MAIN = new mainFrame();
+        MainFrame myFrame = new MainFrame();
+//        MAIN.frame.setVisible(true);
 //        Scanner in = new Scanner(System.in);
 //        char oper;
 //        int num1, num2;
@@ -28,56 +29,75 @@ public class Calculator {
 
     }
 }
-class mainFrame {
-
-    JFrame frame;
-    JPanel panel;
+class MainFrame extends JFrame{
+    final int windowWidth = 450;
+    final int windowHeight = 450;
+    int padding = 10;
+//    JFrame mainFrame;
+    JPanel mainPanelWrapper, childPanel;
     JLabel label;
     JButton button;
 
-    mainFrame(){
+    MainFrame(){
 
-        this.frame = new JFrame("My Simple Calculator");
-
-
-        this.frame.setSize(new Dimension(450,450));
-        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.setLayout(new GridLayout(2,1,10,10));
-        this.frame.setResizable(false);
-        this.frame.setVisible(true);
+        this.setTitle("My Simple Calculator");
 
 
-
-
-        this.panel = new JPanel();
-
-
-        this.panel.setBackground(Color.gray);
-        this.panel.setOpaque(true);
-        this.panel.setBounds(100, 100,500,250);
-        this.panel.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-        this.panel.setLayout(null);
+        this.setSize(windowWidth, windowHeight);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(new GridLayout(1,1,10,10));
+//        this.setResizable(false);
+        this.setVisible(true);
 
 
 
+        // Main Panel Wrapper
+        this.mainPanelWrapper = new JPanel();
+
+
+        this.mainPanelWrapper.setBackground(Color.lightGray);
+        this.mainPanelWrapper.setOpaque(true);
+        this.mainPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
+        this.mainPanelWrapper.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        this.mainPanelWrapper.setLayout(new GridLayout(1,1));
+        
+        
+        // Child Panel
+        this.childPanel = new JPanel();
+
+        this.childPanel.setBackground(Color.blue);
+        this.childPanel.setOpaque(true);
+
+
+//        this.childPanel.setBounds(0, 0,windowWidth,250);
+        this.childPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.childPanel.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
+        this.childPanel.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        this.childPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
 
 
 
-        this.label = new JLabel("Welcome to Simple Calculator ver.1");
-
-        this.label.setBorder(BorderFactory.createLineBorder(Color.white, 1));
-        this.label.setSize(new Dimension(500, 250));
-        this.label.setHorizontalTextPosition(10);
 
 
+//        this.label = new JLabel("Welcome to Simple Calculator ver.1");
+//
+//        this.label.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+//        this.label.setSize(new Dimension(windowWidth-15, 200));
+//        this.label.setHorizontalAlignment(SwingConstants.CENTER);
 
 
-        // ADD for Frames
-        this.frame.add(panel);
 
 
-        // ADD for Panels
-        this.panel.add(label);
+        // ADD for mainFrames
+        this.add(mainPanelWrapper);
+
+        mainPanelWrapper.add(childPanel);
+
+
+        // ADD for mainPanels
+//        this.mainPanel.add(label);
 
 
     }

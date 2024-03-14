@@ -36,10 +36,10 @@ class MainFrame extends JFrame implements ActionListener{
     final int windowWidth = 450;
     final int windowHeight = 450;
     int padding = 10;
-//    JFrame mainFrame;
-    JPanel mainPanelWrapper, childPanel;
-    JLabel label, labelTwo;
-    JButton buttonOne, buttonTwo;
+    JFrame mainFrame;
+    JPanel mainPanelWrapper, childPanel, buttonsPanelWrapper, startButtonPanel, exitButtonPanel;
+    JLabel titleLabel, startButtonLabel, exitButtonLabel;
+    JButton startButton, exitButton;
 //     JOptionPane messagePane;
 
     MainFrame(){
@@ -50,118 +50,186 @@ class MainFrame extends JFrame implements ActionListener{
         this.setSize(windowWidth, windowHeight);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLayout(new GridLayout(1,1,10,10));
-//         this.setResizable(false);
+        this.setResizable(false);
         this.setVisible(true);
 
 
 
         // Main Panel Wrapper
-        this.mainPanelWrapper = new JPanel();
+        mainPanelWrapper = new JPanel();
 
-
-        this.mainPanelWrapper.setBackground(Color.lightGray);
-        this.mainPanelWrapper.setOpaque(true);
-        this.mainPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
-        this.mainPanelWrapper.setPreferredSize(new Dimension(windowWidth, windowHeight));
-        this.mainPanelWrapper.setLayout(new GridLayout(1,1));
+        mainPanelWrapper.setBackground(Color.lightGray);
+        mainPanelWrapper.setOpaque(true);
+        mainPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.black));
+        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
+        mainPanelWrapper.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        mainPanelWrapper.setLayout(new GridLayout(1,1));
         
         
         
         // Child Panel
-        this.childPanel = new JPanel();
+        childPanel = new JPanel();
 
-        this.childPanel.setBackground(Color.gray);
-       
-        this.childPanel.setOpaque(true);
+        childPanel.setBackground(Color.gray);
+        childPanel.setOpaque(true);
 
 
-//        this.childPanel.setBounds(0, 0,windowWidth,250);
-        this.childPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.childPanel.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
-        this.childPanel.setPreferredSize(new Dimension(windowWidth, windowHeight));
-        this.childPanel.setLayout(new GridLayout(2, 1));
+//        childPanel.setBounds(0, 0,windowWidth,250);
+        childPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        childPanel.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
+        childPanel.setPreferredSize(new Dimension(windowWidth, windowHeight));
+        childPanel.setLayout(new GridLayout(2, 1));
         
 
 
 
 
 
-        label = new JLabel("Simple Calculator ver.1");
+        titleLabel = new JLabel("<html><div style='border:none;'><p style='" +
+                "color: white; " +
+                "word-wrap: break-word; " +
+                "text-align: center;" +
+                "padding: 10px; " +
+                "font-size: 30px;" +
+                "" +
+                "'>" +
+                "Simple Calculator <b>version. 1</p></div></html>");
 
-        label.setOpaque(true);
-        label.setBackground(Color.black);
-        label.setForeground(Color.white);
-        label.setBorder(BorderFactory.createLineBorder(Color.red, 1));
-        label.setSize(new Dimension(windowWidth-15, 200));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font("Calibri",Font.BOLD, 20)); 
+        titleLabel.setOpaque(true);
+//        titleLabel.setBackground(Color.black);
+        titleLabel.setForeground(Color.white);
+        titleLabel.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+        titleLabel.setSize(new Dimension(windowWidth-15, 200));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Calibri",Font.BOLD, 20)); 
+
+        // Buttons Panel Wrapper
+        buttonsPanelWrapper = new JPanel();
+
+        buttonsPanelWrapper.setOpaque(true);
+        buttonsPanelWrapper.setBackground(Color.white);
+//        buttonsPanelWrapper.setBorder(BorderFactory.createLineBorder(Color.red, 20));
+        buttonsPanelWrapper.setBorder(BorderFactory.createEmptyBorder(padding,padding,padding,padding));
+        buttonsPanelWrapper.setLayout(new GridLayout(1,2, 10,0));
+        
+
+        startButtonPanel = new JPanel();
+
+        startButtonPanel.setOpaque(true);
+        startButtonPanel.setBackground(Color.DARK_GRAY);
+        startButtonPanel.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
+        startButtonPanel.setBorder(BorderFactory.createEmptyBorder(padding*3,padding,padding*3,padding));
+        startButtonPanel.setLayout(new BorderLayout());
+
+        exitButtonPanel = new JPanel();
+
+        exitButtonPanel.setOpaque(true);
+        exitButtonPanel.setBackground(Color.DARK_GRAY);
+        exitButtonPanel.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
+        exitButtonPanel.setBorder(BorderFactory.createEmptyBorder(padding*3,padding,padding*3,padding));
+        exitButtonPanel.setLayout(new BorderLayout());
 
 
-        labelTwo = new JLabel();
-        labelTwo.setOpaque(true);
-        labelTwo.setBackground(Color.white);
-        labelTwo.setBorder(BorderFactory.createLineBorder(Color.yellow, 2));
-        labelTwo.setLayout(new GridLayout(1,2));
+
+
+        startButtonLabel = new JLabel();
+
+        startButtonLabel.setText("<html><div style='border:1px solid black;'><p style='color: black; " +
+                "word-wrap: break-word; " +
+                "text-align: center;" +
+                "padding: 10px; " +
+                "font-size: 12px;" +
+                "" +
+                "'>" +
+                "Press the Start Button to Start the Program</p></div></html>");
+        startButtonLabel.setOpaque(true);
+//        startButtonLabel.setBounds(0,0,100,100);
+        startButtonLabel.setForeground(Color.white);
+        startButtonLabel.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+        startButtonLabel.setFont(new Font("Calibri",Font.BOLD, 20));
+
+
+        exitButtonLabel = new JLabel();
+
+
+        exitButtonLabel.setText("<html><div style='border:1px solid black;'><p style='color: black; " +
+                "word-wrap: break-word; " +
+                "text-align: center; " +
+                "padding: 10px; " +
+                "font-size: 12px;" +
+                "" +
+                "'>" +
+                "Press the Exit Button to Exit the Program</p>" +
+                "</div></html>");
+        exitButtonLabel.setOpaque(true);
+        exitButtonLabel.setForeground(Color.white);
+        exitButtonLabel.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+        exitButtonLabel.setFont(new Font("Calibri",Font.BOLD, 20));
+
+
+
+
+        startButton = new JButton("Start Program");
+
+        startButton.setBounds(20,100,150,30);
+        startButton.setFocusable(false);
+        startButton.setForeground(Color.black);
+        startButton.setBackground(Color.white);
+//        startButton.addActionListener(this);
         
-        
-        
-        buttonOne = new JButton("start");
-        
-        
-//         button.setBounds(120,100, 250,100);// 
-//         button.setBounds(0,50, 100, 50);
-        buttonOne.setFocusable(false);
-        buttonOne.setForeground(Color.black);
-        buttonOne.setBackground(Color.black);
-        buttonOne.addActionListener(this);
-        
-        
-        buttonTwo = new JButton("Exit");
-        
-        
-//         button.setBounds(120,100, 250,100);// 
-//         buttonTwo.setBounds(0,50, 100, 50);
-        buttonTwo.setFocusable(false);
-        buttonTwo.setForeground(Color.black);
-        buttonTwo.setBackground(Color.black);
-        buttonTwo.addActionListener(this);
+
+        exitButton = new JButton("Exit Program");
+
+        exitButton.setBounds(0,0,150,30);
+        exitButton.setFocusable(false);
+        exitButton.setForeground(Color.black);
+        exitButton.setBackground(Color.white);
+//        exitButton.addActionListener(this);
         
 
 
 
         // ADD for mainFrames
-        this.add(mainPanelWrapper);
-
+        add(mainPanelWrapper);
+        // Main Panel Wrapper
         mainPanelWrapper.add(childPanel);
-        
-        
-        childPanel.add(label);
-        childPanel.add(labelTwo);
-        
-        
-        
-        labelTwo.add(buttonOne);
-        labelTwo.add(buttonTwo);
+
+        // Child Panel
+        childPanel.add(titleLabel);
+        childPanel.add(buttonsPanelWrapper);
 
 
-        // ADD for mainPanels
-//        this.mainPanel.add(label);
+        buttonsPanelWrapper.add(startButtonPanel);
+        buttonsPanelWrapper.add(exitButtonPanel);
 
 
+        startButtonPanel.add(startButtonLabel, BorderLayout.NORTH);
+        startButtonPanel.add(startButton, BorderLayout.SOUTH);
+
+        exitButtonPanel.add(exitButtonLabel, BorderLayout.NORTH);
+        exitButtonPanel.add(exitButton, BorderLayout.SOUTH);
+
+
+
+        revalidate();
+        repaint();
+        pack();
     }
 
    @Override
    public void actionPerformed(ActionEvent e){
-        if(e.getSource() == buttonOne){
-         System.out.println("Hellow!");
-         JOptionPane.showMessageDialog(null, "Hello!!");
-        
+        if(e.getSource() == startButton){
+            System.out.println("Hellow!");
+            JOptionPane.showMessageDialog(null, "Hello!!");
+//            repaint();
+
         }
-        if(e.getSource() == buttonTwo){
-         System.out.println("byeeee!");
-         JOptionPane.showMessageDialog(null, "Byeee!!");
-        
+        if(e.getSource() == exitButton){
+            System.out.println("byeeee!");
+//            dispose();
+            JOptionPane.showMessageDialog(null, "Byeee!!");
+
+
         }
    
    }

@@ -4,45 +4,46 @@ public class CalculatorProject {
     static UserMenu userMenu = new UserMenu();
     static Operations operation = new Operations();
     public static void main(String[] args) {
-//        Operations oper = new Operations();
-        int i = 0;
-
-/*        userMenu.displayArray(userMenu.mainMenu);
-        userMenu.getInputFromArray(userMenu.mainMenu);*/
-
-        do{
-
-            // Addition
-            operation.getDataFromUser();
-            System.out.printf("Result: %.2f", operation.sumOfNum(operation.numbers));
-            System.out.println("\n");
-
-            // Subtraction
-            operation.getDataFromUser();
-            System.out.printf("Result: %.2f", operation.diffOfNum(operation.numbers));
-            System.out.println("\n");
-            i++;
-
-        }while(i < 10);
 
 
-        // Multiplication
-        operation.getDataFromUser();
-        System.out.printf("Result: %.2f", operation.prodOfNum(operation.numbers));
-        System.out.println("\n");
+/*//        operation.numData = 20;
+        operation.getValue();
+        System.out.println("Num Data: " + operation.numData);
+        System.out.printf("Temp: %d\n", operation.temp);
 
-        // Division
-        operation.getDataFromUser();
-        System.out.printf("Result: %.2f", operation.quotientOfNum(operation.numbers));
-        System.out.println("\n");
+        System.out.printf("%d converted to Binary: \n", operation.temp);
+        operation.deciToBin(operation.numData);
 
-        // Modulo
-        operation.getDataFromUser();
-        System.out.printf("Result: %.2f", operation.moduloOfNum(operation.numbers));
-        System.out.println("\n");
+        for(int i = operation.index -1; i >= 0; i--){
+            System.out.printf("%d ", operation.digits[i]);
+        }*/
+
+
+        int num =1000000000;
+        char[] hex = new char[20];
+        int index =0;
+
+        while(num > 0){
+
+            hex[index] = (num%16 == 10) ? 'A' : (num%16 == 11) ? 'B' :
+                         (num%16 == 12) ? 'C' : (num%16 == 13) ? 'D' :
+                         (num%16 == 14) ? 'E' : (num%16 == 15) ? 'F' :
+                          (char) ((num%16)+48);
+            num /= 16;
+/*            digits[i] = (num%16)*/
+            index++;
+        }
+
+        System.out.println();
+        for(int i = index -1; i >= 0; i--){
+            System.out.print(hex[i]);
+        }
+
 
     }
 }
+
+
 class UserMenu {
     Scanner in = new Scanner(System.in);
     static byte responseOne, responseTwo;
@@ -59,7 +60,7 @@ class UserMenu {
             System.out.printf("%d.) %s\n", (i+1), array[i]);
         }
     }
-    void getInputFromArray(String[] array){
+    void getInputFromMenu(String[] array){
         exitLoop = false;
         responseOne =0;
         responseTwo = 0;
@@ -102,8 +103,12 @@ class UserMenu {
 class Operations{
     Scanner in = new Scanner(System.in);
     float[] numbers;
+    int[] digits;
+    byte index;
+    int temp, numData;
+    boolean exitLoop;
     float result;
-    void getDataFromUser(){
+    void getNumbersArray(){
         numbers = new float[2];
         do{
             for(byte i = 0; i < numbers.length; i++){
@@ -122,7 +127,6 @@ class Operations{
     float diffOfNum(float[] num){
         return num[0] - num[1]; // Assuming only two numbers are provided
     }
-
     float prodOfNum(float[] num){
         return num[0] * num[1]; // Assuming only two numbers are provided
     }
@@ -146,6 +150,43 @@ class Operations{
             System.out.printf("Result: %.2f\n", result);
         }
         return result;
+    }
+
+
+    void getValue(){
+        numData = 0;
+        temp = 0;
+        exitLoop = false;
+        do{
+            System.out.println("--------Enter Number to Convert--------\n");
+            try{
+                System.out.print("Number -->::  ");
+                numData = in.nextInt();
+                in.nextLine();
+                temp = numData;
+                exitLoop = true;
+            }catch (InputMismatchException e){
+                System.out.println("---------------------------------------");
+                System.out.println("\t   Invalid Input, try again!");
+                System.out.println("---------------------------------------");
+                in.nextLine();
+                System.out.println();
+            }
+        }while(!exitLoop);
+    }
+
+
+    void deciToBin(int num){
+        digits  = new int[20];
+        index = 0;
+
+        while (num > 0) {
+            digits[index] = num % 2;
+            num /= 2;
+//                System.out.printf("%d ", num);
+            index++;
+        }
+
     }
 
 }

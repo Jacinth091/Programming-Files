@@ -84,15 +84,8 @@ class MainFrame extends JFrame implements ActionListener{
 
 
 
-        titleLabel = new JLabel("<html><div style='border:none;'><p style='" +
-                "color: white; " +
-                "word-wrap: break-word; " +
-                "text-align: center;" +
-                "padding: 10px; " +
-                "font-size: 30px;" +
-                "" +
-                "'>" +
-                "Simple Calculator <b>version. 1</p></div></html>");
+        titleLabel = new JLabel();
+
 
         titleLabel.setOpaque(true);
 //        titleLabel.setBackground(Color.black);

@@ -93,8 +93,6 @@ class MainMenu extends JFrame implements ActionListener{
         bodyPanels[1].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(20,10,20,20), BorderFactory.createLineBorder(Color.black, 1) ));
 
 
-
-
         menuTitle = new JLabel();
 
         menuTitle.setHorizontalAlignment(JLabel.CENTER);

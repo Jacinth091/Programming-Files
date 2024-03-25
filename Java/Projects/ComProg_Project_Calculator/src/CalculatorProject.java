@@ -217,10 +217,6 @@ class UserMenu {
     }
 }
 
-
-
-
-
 class Operations{
     Scanner in = new Scanner(System.in);
     final int size = 20;

@@ -12,14 +12,33 @@ public class CalculatorWithGUI {
     static Scanner in = new Scanner(System.in);
     public static void main(String[] args) {
 
-        System.out.println("Start Program? ");
-        char choice = in.next().charAt(0);
+        boolean exitLoop = false;
+        char choice;
 
-        if(choice == 'y'){
-            System.out.println("Please Wait....");
-            callMainWindow();
-        }
 
+
+        do{
+            System.out.println("Start Program (Y for yes, N for No): ");
+            choice = in.next().charAt(0);
+            choice = Character.toUpperCase(choice);
+
+            in.nextLine();
+
+            if(choice !='Y' && choice != 'N'){
+                System.out.println("Invalid Input, try again!");
+                continue;
+            }
+            else if(choice == 'Y'){
+                callMainWindow();
+                exitLoop = true;
+            }
+            else{
+                exitLoop = true;
+            }
+
+
+
+        }while(!exitLoop);
 
     }
 
@@ -30,10 +49,14 @@ public class CalculatorWithGUI {
 }
 
 class mainWindow extends JFrame implements ActionListener {
+
+    operationWindow operWind;
     
     JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
     JPanel[] elementContainer;
+
     JLabel titleLabel;
+    
     JLabel[] buttonTitles, buttonContainer;
     JButton[] mainButtons;
 
@@ -173,7 +196,9 @@ class mainWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         JButton source = (JButton) e.getSource();
+        String operName;
 
         for (int i = 0; i < mainMenu.length; i++) {
             // Check if the source button matches the current menu button
@@ -182,36 +207,55 @@ class mainWindow extends JFrame implements ActionListener {
                 switch (i) {
                     case 0:
                         System.out.println("Addition");
+                        dispose();
+                        operWind = new operationWindow("Addition");
+
+
 
                         break;
                     case 1:
                         System.out.println("Subtraction");
+                        dispose();
+                        operWind = new operationWindow("Subtraction");
 
                         break;
                     case 2:
                         System.out.println("Multiplication");
-
+                        dispose();
+                        operWind = new operationWindow("Multiplication");
                         // Code for button 2
                         break;
                     case 3:
                         System.out.println("Division");
+                        dispose();
+                        operWind = new operationWindow("Division");
 
                         // Code for button 2
                         break;
                     case 4:
                         System.out.println("Modulo");
+                        dispose();
+                        operWind = new operationWindow("Modulo");
                         // Code for button 2
                         break;
                     case 5:
                         System.out.println("Conversion");
+                        dispose();
+                        operWind = new operationWindow("Conversion");
                         // Code for button 2
                         break;
                     case 6:
                         System.out.println("All Operations");
+                        dispose();
+                        operWind = new operationWindow("All Operations");
                         // Code for button 2
                         break;
                     case 7:
                         System.out.println("Exiting Program");
+                        dispose();
+                        JOptionPane.showMessageDialog(null, "Thank you! and Goodbye!! :D");
+                        System.exit(0);
+                    
                         // Code for button 2
                         break;
                     default:
@@ -223,4 +267,36 @@ class mainWindow extends JFrame implements ActionListener {
             }
         }
     }
+}
+
+
+class operationWindow extends JFrame{
+
+    JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
+
+    operationWindow(String operTitle){
+
+
+
+
+        
+        this.setTitle(operTitle);
+        this.setSize(new Dimension(600,600));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+
+
+        // this.add(mainPanelWrapper, BorderLayout.CENTER);
+        this.setResizable(false);
+        this.setVisible(true);
+        this.revalidate();
+        this.repaint();
+        
+
+
+    }
+
+
+
+
 }

@@ -3,6 +3,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.InputMismatchException;
+// import java.util.NumberFormatExeception;
 import java.util.Scanner;
 
 import static java.awt.Color.black;
@@ -17,33 +19,38 @@ public class CalculatorWithGUI {
 
 
 
-        do{
-            System.out.println("Start Program (Y for yes, N for No): ");
-            choice = in.next().charAt(0);
-            choice = Character.toUpperCase(choice);
+        // do{
+        //     System.out.println("Start Program (Y for yes, N for No): ");
+        //     choice = in.next().charAt(0);
+        //     choice = Character.toUpperCase(choice);
 
-            in.nextLine();
+        //     in.nextLine();
 
-            if(choice !='Y' && choice != 'N'){
-                System.out.println("Invalid Input, try again!");
-                continue;
-            }
-            else if(choice == 'Y'){
-                callMainWindow();
-                exitLoop = true;
-            }
-            else{
-                exitLoop = true;
-            }
+        //     if(choice !='Y' && choice != 'N'){
+        //         System.out.println("Invalid Input, try again!");
+        //         continue;
+        //     }
+        //     else if(choice == 'Y'){
+        //         callMainWindow();
+        //         exitLoop = true;
+        //     }
+        //     else{
+        //         exitLoop = true;
+        //     }
 
 
 
-        }while(!exitLoop);
+        // }while(!exitLoop);
+        /*DEbug*/
+        
+        callMainWindow();
 
     }
 
     static void callMainWindow(){
         mainWindow startWindow = new mainWindow();
+        operationWindow operWind = new operationWindow("Testing");
+
 
     }
 }
@@ -198,7 +205,13 @@ class mainWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         JButton source = (JButton) e.getSource();
-        String operName;
+        buttonEventController(source);
+
+
+
+    }
+
+    public void buttonEventController(JButton source){
 
         for (int i = 0; i < mainMenu.length; i++) {
             // Check if the source button matches the current menu button
@@ -266,27 +279,133 @@ class mainWindow extends JFrame implements ActionListener {
                 break;
             }
         }
+
+
     }
 }
 
 
-class operationWindow extends JFrame{
-
+class operationWindow extends JFrame implements ActionListener{
+    
+    // JFrame operFrame = new JFrame();
     JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
+
+    JLabel titleLabel;
+    JButton button, calculate;
+    JLabel[] textFieldTitle;
+    JTextField[] userInput;
 
     operationWindow(String operTitle){
 
+        // button = new JButton();
+        // button.setOpaque(true);
+        // button.setText("Submit");
+        // button.addActionListener(this);
 
 
+        // textField = new JTextField();
+        // textField.setOpaque(true);
+        // // textField.
 
+        textFieldTitle = new JLabel[2];
+        userInput = new JTextField[2];
+
+        for(byte i = 0; i < 2; i++){
+
+            textFieldTitle[i] = new JLabel("Input Number " + (i+1) + ": ");
+            textFieldTitle[i].setHorizontalAlignment(JLabel.CENTER);
+
+            userInput[i] = new JTextField();
+
+            userInput[i].setPreferredSize(new Dimension(150, 150));
+            userInput[i].setOpaque(true);
+
+        }
+
+        calculate = new JButton("Calculate");
+
+
+        calculate.setHorizontalAlignment(JButton.LEFT);
+        calculate.setFont(new Font("Calibri", Font.BOLD, 18));
+        calculate.addActionListener(this);
+        calculate.setFocusable(false);
+        calculate.setBorder(BorderFactory.createEtchedBorder(1));
+
+        // ************************ Title Label ************************
+        titleLabel = new JLabel();
+
+        titleLabel.setHorizontalAlignment(JLabel.LEFT);
+        titleLabel.setOpaque(true);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        titleLabel.setText("<html><p style='color: #353839; word-wrap: break-word;'>\n "+ "<b>"+operTitle+ "</b>"+": Press the CALCULATE Button for the Results"+" </p></html>");
+        titleLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+       
         
+        
+        // ************************ Header Panel ************************
+        headerPanel = new JPanel();
+
+        headerPanel.setOpaque(true);
+        headerPanel.setPreferredSize(new Dimension(400,100));
+        headerPanel.setBackground(Color.white);
+        headerPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
+        headerPanel.setLayout(new BorderLayout(10,10));
+
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+
+
+        // ************************ Body Element Panel  ************************
+        bodyElementPanel = new JPanel();
+
+        bodyElementPanel.setOpaque(true);
+        // bodyElementPanel.setPreferredSize(new Dimension(300, 150));
+        bodyElementPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
+        bodyElementPanel.setBackground(Color.white);
+        bodyElementPanel.setLayout(new GridLayout(3,2));
+
+
+        bodyElementPanel.add(textFieldTitle[0]);
+        bodyElementPanel.add(textFieldTitle[1]);
+        bodyElementPanel.add(userInput[0]);
+        bodyElementPanel.add(userInput[1]);
+        bodyElementPanel.add(calculate);
+
+
+
+
+
+        // bodyElementPanel.setLayout()
+
+        // bodyElementPanel.add(textField);
+        // bodyElementPanel.add(button);
+
+
+
+        // ************************ Main Panel Wrapper ************************
+        mainPanelWrapper = new JPanel();
+
+        mainPanelWrapper.setOpaque(true);
+        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        mainPanelWrapper.setBackground(new Color(246, 248, 255));
+        mainPanelWrapper.setLayout(new BorderLayout());
+        // mainPanelWrapper.setBorder(BorderFactory.createLineBorder(black,2));
+
+        mainPanelWrapper.add(headerPanel, BorderLayout.NORTH);
+        mainPanelWrapper.add(bodyElementPanel, BorderLayout.CENTER);
+
+
+
+
+
+        // ************************ Main Window ************************
         this.setTitle(operTitle);
-        this.setSize(new Dimension(600,600));
+        this.setSize(new Dimension(400,300));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
 
-        // this.add(mainPanelWrapper, BorderLayout.CENTER);
+        this.add(mainPanelWrapper, BorderLayout.CENTER);
         this.setResizable(false);
         this.setVisible(true);
         this.revalidate();
@@ -296,7 +415,163 @@ class operationWindow extends JFrame{
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e){
+        JButton source = (JButton) e.getSource();
+
+        eventController(source);
 
 
+    }
+    public void eventController(JButton source){
+        int inputOne, inputTwo;
+        // String inputOneStr = toString.userInput[0].getText();
+        // String inputTwoStr = toString.userInput[1].getText();
+        
+
+        if(source == calculate){
+
+            try{   
+                inputOne = Integer.parseInt(userInput[0].getText());
+                inputTwo = Integer.parseInt(userInput[1].getText());
+
+
+                System.out.println("Result: " + (inputOne + inputTwo));
+
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Input only Numbers");
+            }
+
+
+
+        }
+
+    }
+
+
+
+
+}
+
+class Operations{
+    Scanner in = new Scanner(System.in);
+    final int size = 20;
+    float[] numbers;
+    int temp, numData;
+//    float result;
+
+    // For Conversion
+    int[] digits;
+    char[] hex;
+    byte index;
+
+    boolean exitLoop;
+
+    void getNumbersArray(){
+        numbers = new float[2];
+        System.out.println();
+        do{
+            for(byte i = 0; i < numbers.length; i++){
+                System.out.printf("Input Value %d: ", (i+1));
+                numbers[i] = in.nextFloat();
+                in.nextLine();
+            }
+
+        }while(numbers.length != 2);
+    }
+
+    // Operations
+    float sumOfNum(float[] num){
+        return num[0] + num[1]; // Assuming only two numbers are provided
+    }
+    float diffOfNum(float[] num){
+        return num[0] - num[1]; // Assuming only two numbers are provided
+    }
+    float prodOfNum(float[] num){
+        return num[0] * num[1]; // Assuming only two numbers are provided
+    }
+
+    float quotientOfNum(float[] num){
+        if(num[1] == 0){
+            return 0;
+        }
+        return num[0] / num[1];
+    }
+    float moduloOfNum(float[] num){
+        if(num[1] == 0){
+            return 0;
+        }
+        return num[0] % num[1];
+    }
+
+
+    // Conversion
+
+    void getValue(){
+        numData = 0;
+        temp = 0;
+        exitLoop = false;
+        do{
+            System.out.println("--------Enter Number to Convert--------\n");
+            try{
+                System.out.print("Number -->::  ");
+                numData = in.nextInt();
+                in.nextLine();
+                temp = numData;
+                exitLoop = true;
+            }catch (InputMismatchException e){
+                System.out.println("---------------------------------------");
+                System.out.println("\t   Invalid Input, try again!");
+                System.out.println("---------------------------------------");
+                in.nextLine();
+                System.out.println();
+            }
+        }while(!exitLoop);
+    }
+
+    void decToBin(int num){
+        digits  = new int[size];
+        index = 0;
+        while (num > 0) {
+            digits[index] = num % 2;
+            num /= 2;
+            index++;
+        }
+
+    }
+
+    void decToOctal(int num) {
+        digits = new int[size];
+        index = 0;
+
+        while(num > 0) {
+            digits[index] = num % 8;
+            num /= 8;
+            index++;
+        }
+    }
+
+    void decToHex(int num){
+        hex = new char[size];
+        index =0;
+        while(num > 0){
+
+            hex[index] = (num%16 == 10) ? 'A' : (num%16 == 11) ? 'B' :
+                    (num%16 == 12) ? 'C' : (num%16 == 13) ? 'D' :
+                            (num%16 == 14) ? 'E' : (num%16 == 15) ? 'F' :
+                                    (char) ((num%16)+48);
+            num /= 16;
+            index++;
+        }
+    }
+
+    void conversDispNumb(int[] array){
+        for( int  i = index -1; i >= 0; i--)
+            System.out.printf("%d", array[i]);
+    }
+    void conversDispChar(char[] array){
+        for( int  i = index -1; i >= 0; i--)
+            System.out.printf("%c", array[i]);
+    }
 
 }

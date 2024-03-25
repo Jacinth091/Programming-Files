@@ -1,3 +1,4 @@
+/*
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class CalculatorProject {
@@ -168,7 +169,9 @@ class UserMenu {
         initChoice =0;
         userChoice = 0;
 
-        /*Selecting Value from Array*/
+        */
+/*Selecting Value from Array*//*
+
 
         do{
             try{
@@ -201,7 +204,9 @@ class UserMenu {
     }
 
     void displayArray(String[] array){
-        /*Display Array*/
+        */
+/*Display Array*//*
+
         for(byte  i = 0; i < array.length; i++){
 
             if(array[i] == "Back to the Main Menu"){
@@ -217,7 +222,7 @@ class UserMenu {
     }
 }
 
-class Operations{
+class Operation{
     Scanner in = new Scanner(System.in);
     final int size = 20;
     float[] numbers;
@@ -354,7 +359,9 @@ class Operations{
 
 
 
-/*//        operation.numData = 20;
+*/
+/*//*
+/        operation.numData = 20;
         operation.getValue();
         System.out.println("Num Data: " + operation.numData);
         System.out.printf("Temp: %d\n", operation.temp);
@@ -364,7 +371,8 @@ class Operations{
 
         for(int i = operation.index -1; i >= 0; i--){
             System.out.printf("%d ", operation.digits[i]);
-        }*/
+        }*//*
 
 
-//        int num =1000000000;
+
+//        int num =1000000000;*/

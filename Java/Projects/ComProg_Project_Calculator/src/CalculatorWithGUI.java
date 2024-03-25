@@ -1,10 +1,12 @@
+// import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.InputMismatchException;
-// import java.util.NumberFormatExeception;
+// import java.util.NumberFormatException;
 import java.util.Scanner;
 
 import static java.awt.Color.black;
@@ -48,24 +50,22 @@ public class CalculatorWithGUI {
     }
 
     static void callMainWindow(){
-        mainWindow startWindow = new mainWindow();
-        operationWindow operWind = new operationWindow("Testing");
+        new mainWindow();
+        //        operationWindow operWind = new operationWindow("Testing", -1);
 
 
     }
 }
 
 class mainWindow extends JFrame implements ActionListener {
-
     operationWindow operWind;
-    
     JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
     JPanel[] elementContainer;
-
     JLabel titleLabel;
-    
     JLabel[] buttonTitles, buttonContainer;
     JButton[] mainButtons;
+
+
 
 
     // ************************ Button Lists ************************
@@ -128,7 +128,6 @@ class mainWindow extends JFrame implements ActionListener {
             elementContainer[0].add(buttonTitles[j]);
             elementContainer[1].add(buttonContainer[j]);
         }
-
 
 
 
@@ -207,75 +206,64 @@ class mainWindow extends JFrame implements ActionListener {
         JButton source = (JButton) e.getSource();
         buttonEventController(source);
 
-
-
     }
 
     public void buttonEventController(JButton source){
-
         for (int i = 0; i < mainMenu.length; i++) {
-            // Check if the source button matches the current menu button
             if (source == mainButtons[i]) {
-                // Perform different actions based on the index i
                 switch (i) {
                     case 0:
                         System.out.println("Addition");
                         dispose();
-                        operWind = new operationWindow("Addition");
-
-
+                        operWind = new operationWindow("Addition", (i+1));
+                        
 
                         break;
                     case 1:
                         System.out.println("Subtraction");
                         dispose();
-                        operWind = new operationWindow("Subtraction");
-
+                        operWind = new operationWindow("Subtraction", (i+1));
+                        
                         break;
                     case 2:
                         System.out.println("Multiplication");
                         dispose();
-                        operWind = new operationWindow("Multiplication");
-                        // Code for button 2
+                        operWind = new operationWindow("Multiplication", (i+1));
                         break;
                     case 3:
                         System.out.println("Division");
                         dispose();
-                        operWind = new operationWindow("Division");
-
-                        // Code for button 2
+                        operWind = new operationWindow("Division", (i+1));
+                        
                         break;
                     case 4:
                         System.out.println("Modulo");
                         dispose();
-                        operWind = new operationWindow("Modulo");
-                        // Code for button 2
+                        operWind = new operationWindow("Modulo", (i+1));
+                        
                         break;
                     case 5:
                         System.out.println("Conversion");
                         dispose();
-                        operWind = new operationWindow("Conversion");
-                        // Code for button 2
+                        operWind = new operationWindow("Conversion", (i+1));
+                        
                         break;
                     case 6:
                         System.out.println("All Operations");
                         dispose();
-                        operWind = new operationWindow("All Operations");
-                        // Code for button 2
+                        operWind = new operationWindow("All Operations", (i+1));
+                        
                         break;
                     case 7:
                         System.out.println("Exiting Program");
                         dispose();
                         JOptionPane.showMessageDialog(null, "Thank you! and Goodbye!! :D");
                         System.exit(0);
-                    
-                        // Code for button 2
                         break;
                     default:
-                        // Default case (optional)
+                        // Optional
                         break;
                 }
-                // Exit the loop since we found the matching button
                 break;
             }
         }
@@ -285,28 +273,24 @@ class mainWindow extends JFrame implements ActionListener {
 }
 
 
+
+
 class operationWindow extends JFrame implements ActionListener{
-    
-    // JFrame operFrame = new JFrame();
+    mainOperations operations = new mainOperations();
     JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
 
     JLabel titleLabel;
-    JButton button, calculate;
+    JButton button, calculate, backButton;
     JLabel[] textFieldTitle;
     JTextField[] userInput;
 
-    operationWindow(String operTitle){
+    int eventIndex;
+    double[] numberInput;
 
-        // button = new JButton();
-        // button.setOpaque(true);
-        // button.setText("Submit");
-        // button.addActionListener(this);
-
-
-        // textField = new JTextField();
-        // textField.setOpaque(true);
-        // // textField.
-
+    operationWindow(String operTitle, int event){
+        // Indicator for what Operation to Use
+        this.eventIndex = event;
+        
         textFieldTitle = new JLabel[2];
         userInput = new JTextField[2];
 
@@ -319,13 +303,22 @@ class operationWindow extends JFrame implements ActionListener{
 
             userInput[i].setPreferredSize(new Dimension(150, 150));
             userInput[i].setOpaque(true);
+            userInput[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(10, 10, 10, 10) ));
 
         }
+        backButton = new JButton("Back to Menu");
+
+
+        backButton.setHorizontalAlignment(JButton.CENTER);
+        backButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        backButton.addActionListener(this);
+        backButton.setFocusable(false);
+        backButton.setBorder(BorderFactory.createEtchedBorder(1));
 
         calculate = new JButton("Calculate");
 
 
-        calculate.setHorizontalAlignment(JButton.LEFT);
+        calculate.setHorizontalAlignment(JButton.CENTER);
         calculate.setFont(new Font("Calibri", Font.BOLD, 18));
         calculate.addActionListener(this);
         calculate.setFocusable(false);
@@ -362,7 +355,7 @@ class operationWindow extends JFrame implements ActionListener{
         // bodyElementPanel.setPreferredSize(new Dimension(300, 150));
         bodyElementPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
         bodyElementPanel.setBackground(Color.white);
-        bodyElementPanel.setLayout(new GridLayout(3,2));
+        bodyElementPanel.setLayout(new GridLayout(3,2,10,10));
 
 
         bodyElementPanel.add(textFieldTitle[0]);
@@ -370,6 +363,7 @@ class operationWindow extends JFrame implements ActionListener{
         bodyElementPanel.add(userInput[0]);
         bodyElementPanel.add(userInput[1]);
         bodyElementPanel.add(calculate);
+        bodyElementPanel.add(backButton);
 
 
 
@@ -415,47 +409,184 @@ class operationWindow extends JFrame implements ActionListener{
 
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e){
         JButton source = (JButton) e.getSource();
-
         eventController(source);
-
-
     }
     public void eventController(JButton source){
-        int inputOne, inputTwo;
-        // String inputOneStr = toString.userInput[0].getText();
-        // String inputTwoStr = toString.userInput[1].getText();
-        
-
         if(source == calculate){
-
-            try{   
-                inputOne = Integer.parseInt(userInput[0].getText());
-                inputTwo = Integer.parseInt(userInput[1].getText());
-
-
-                System.out.println("Result: " + (inputOne + inputTwo));
-
-            }catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Input only Numbers");
+            if(!userInput[0].getText().isEmpty() || !userInput[1].getText().isEmpty()){
+                try{
+                    operationEvent();
+                }catch (NumberFormatException e){
+                    JOptionPane.showMessageDialog(null, "Invalid Input, try Again!");
+                }
             }
+            else
+                JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!");
+        }
+        else if(source == backButton){
+            dispose();
+            callBackMenu();
+        }
+    }
+    public void operationEvent(){
+        numberInput = new double[2];
+        switch (eventIndex) {
+            case 1:
+//                JOptionPane.showMessageDialog(null, "Addition EYYY");
+                for(byte i = 0; i < numberInput.length; i++){
+                    numberInput[i] = Double.parseDouble(userInput[i].getText());
+                }
+                JOptionPane.showMessageDialog(null, "Result: " + operations.sumOfNum(numberInput));
+                userInput[0].setText("");
+                userInput[1].setText("");
+                break;
+            case 2:
 
+                // JOptionPane.showMessageDialog(null, "Subtraction EYYY");
+                for(byte i = 0; i < numberInput.length; i++){
+                    numberInput[i] = Double.parseDouble(userInput[i].getText());
+                }
+                
+                JOptionPane.showMessageDialog(null, "Result: " + operations.diffOfNum(numberInput));
 
+                break;
+            case 3:
+                // JOptionPane.showMessageDialog(null, "Multiplication EYYY");
+                for(byte i = 0; i < numberInput.length; i++){
+                    numberInput[i] = Double.parseDouble(userInput[i].getText());
+                }
+                
+                JOptionPane.showMessageDialog(null, "Result: " + operations.prodOfNum(numberInput));
 
+                break;
+            case 4:
+                // JOptionPane.showMessageDialog(null, "Division EYYY");
+                for(byte i = 0; i < numberInput.length; i++){
+                    numberInput[i] = Double.parseDouble(userInput[i].getText());
+                }
+                
+                JOptionPane.showMessageDialog(null, "Result: " + operations.quotientOfNum(numberInput));
+
+                break;
+            case 5:
+                // JOptionPane.showMessageDialog(null, "Modulo EYYY");
+                for(byte i = 0; i < numberInput.length; i++){
+                    numberInput[i] = Double.parseDouble(userInput[i].getText());
+                }
+                JOptionPane.showMessageDialog(null, "Result: " + operations.moduloOfNum(numberInput));
+
+                break;
+            case 6:
+                JOptionPane.showMessageDialog(null, "Coversion EYYY");
+
+                break;
+            case 7:
+                // JOptionPane.showMessageDialog(null, "All Operations EYYY");
+                for(byte i = 0; i < numberInput.length; i++){
+                    numberInput[i] = Double.parseDouble(userInput[i].getText());
+                }
+                System.out.printf("Addition: %.2f\nSubtraction: %.2f\nMultiplication: %.2f\nDivision: %.2f\nModulo: %.2f", operations.sumOfNum(numberInput), operations.diffOfNum(numberInput), operations.prodOfNum(numberInput), operations.quotientOfNum(numberInput), operations.moduloOfNum(numberInput));
+
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Testing EYYY");
+                // Default case (optional)
+                break;
         }
 
     }
 
-
-
+    public void callBackMenu(){
+        new mainWindow();
+    }
 
 }
 
+
+
+class mainOperations{
+    final int ARRAY_SIZE = 20;
+
+    int numToConvert, index;
+    int[] digits;
+    
+    char[] hexaDecimal;
+
+    double sumOfNum(double[] num){
+        return num[0] + num[1];
+    }
+    double diffOfNum(double[] num){
+        return num[0] - num[1];
+    }
+    double prodOfNum(double[] num){
+        return num[0] * num[1];
+    }
+
+    double quotientOfNum(double[] num){
+        if(num[1] == 0){
+            return 0;
+        }
+        return num[0] / num[1];
+    }
+    double moduloOfNum(double[] num){
+        if(num[1] == 0){
+            return 0;
+        }
+        return num[0] % num[1];
+    }
+
+    void decToBin(int numData){
+        digits  = new int[ARRAY_SIZE];
+        index = 0;
+        while (numData > 0) {
+            digits[index] = numData % 2;
+            numData /= 2;
+            index++;
+        }
+
+    }
+
+    void decToOctal(int numData) {
+        digits = new int[ARRAY_SIZE];
+        index = 0;
+
+        while(numData > 0) {
+            digits[index] = numData % 8;
+            numData /= 8;
+            index++;
+        }
+    }
+
+    void decToHex(int numData){
+        hexaDecimal = new char[ARRAY_SIZE];
+        index =0;
+        while(numData > 0){
+
+            hexaDecimal[index] = (numData%16 == 10) ? 'A' : (numData%16 == 11) ? 'B' :
+                    (numData%16 == 12) ? 'C' : (numData%16 == 13) ? 'D' :
+                            (numData%16 == 14) ? 'E' : (numData%16 == 15) ? 'F' :
+                                    (char) ((numData%16)+48);
+            numData /= 16;
+            index++;
+        }
+    }
+    
+}
+
+
+
+
+
+/*
 class Operations{
-    Scanner in = new Scanner(System.in);
+//    Scanner in = new Scanner(System.in);
     final int size = 20;
+
+    
     float[] numbers;
     int temp, numData;
 //    float result;
@@ -574,4 +705,4 @@ class Operations{
             System.out.printf("%c", array[i]);
     }
 
-}
+}*/

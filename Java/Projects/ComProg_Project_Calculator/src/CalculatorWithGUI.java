@@ -10,6 +10,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static java.awt.Color.black;
+import static java.awt.Color.lightGray;
+import static java.awt.Color.white;
 
 
 public class CalculatorWithGUI {
@@ -52,6 +54,7 @@ public class CalculatorWithGUI {
     static void callMainWindow(){
         new mainWindow();
         //        operationWindow operWind = new operationWindow("Testing", -1);
+        // new operationWindow("Testing");
 
 
     }
@@ -70,8 +73,7 @@ class mainWindow extends JFrame implements ActionListener {
 
     // ************************ Button Lists ************************
     String[] mainMenu = {"Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Conversion", "All Operations?", "Exit Program"};
-    String[] menuLogo = {"+", "-", "*", "/", "%", "<-->", "--all--", "0"};
-    String[] conversionMenu = {"Decimal to Binary",  "Decimal to Hex", "Decimal to Octal", "Back to the Main Menu", "Exit Program" };
+    String[] menuLogo = {"+", "-", "*", "/", "%", "-->", "-all-", "0"};
     public mainWindow(){
 
 
@@ -81,27 +83,36 @@ class mainWindow extends JFrame implements ActionListener {
         mainButtons = new JButton[mainMenu.length];
         for(byte  i = 0; i< mainMenu.length; i++){
 
-            mainButtons[i] = new JButton("<html><p style='color: #353839; word-wrap: break-word;'>\n" +"( " +menuLogo[i]+ " )     "+ mainMenu[i]  +"</p></html>");
+            /*----------------- Main Buttons -----------------*/
+
+            mainButtons[i] = new JButton("<html><p style='color: #353839; word-wrap: break-word;'>\n"+ mainMenu[i]  +"</p></html>");
 
             mainButtons[i].setHorizontalAlignment(JButton.LEFT);
-            mainButtons[i].setFont(new Font("Calibri", Font.BOLD, 18));
+            mainButtons[i].setFont(new Font("Calibri", Font.BOLD, 14));
             mainButtons[i].addActionListener(this);
             mainButtons[i].setFocusable(false);
             mainButtons[i].setBorder(BorderFactory.createEtchedBorder(1));
 
+            /*----------------- Button Titles -----------------*/
+
             buttonTitles[i] = new JLabel(mainMenu[i], JLabel.LEFT);
 
 //            buttonTitles[i].setOpaque(true);
-            buttonTitles[i].setText("<html><p style='color: #353839; word-wrap: break-word; margin: 10px, 10px, 10px, 10px;'>\n" +(i+1)+ ").    "+ mainMenu[i]  +"</p></html>");
-            buttonTitles[i].setFont(new Font("Calibri", Font.PLAIN, 25));
+            buttonTitles[i].setText("<html><p style='color: #353839; word-wrap: break-word; margin: 10px, 10px, 10px, 10px;'>\n" +"(" +menuLogo[i]+ ")  "+ mainMenu[i]  +"</p></html>");
+            buttonTitles[i].setFont(new Font("Calibri", Font.PLAIN, 17));
 //            buttonTitles[i].setBackground(Color.white);
 //            buttonTitles[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
+
+
+            /*----------------- Button Containers -----------------*/
+
 
             buttonContainer[i] = new JLabel();
 
             buttonContainer[i].setHorizontalAlignment(JLabel.CENTER);
+            // buttonContainer[i].setPreferredSize(new Dimension(150,200));
 //            buttonContainer[i].setOpaque(true);
-            buttonContainer[i].setFont(new Font("Calibri", Font.PLAIN, 30));
+            // buttonContainer[i].setFont(new Font("Calibri", Font.PLAIN, 17));
 //            buttonContainer[i].setBackground(Color.white);
             buttonContainer[i].setLayout(new BorderLayout());
             buttonContainer[i].setBorder(BorderFactory.createEmptyBorder(5,15,5,15) );
@@ -137,7 +148,7 @@ class mainWindow extends JFrame implements ActionListener {
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setOpaque(true);
         titleLabel.setText("<html><p style='color: #353839; word-wrap: break-word;'>\nSimple Calculator</p></html>");
-        titleLabel.setFont(new Font("Calibri", Font.BOLD, 50));
+        titleLabel.setFont(new Font("Calibri", Font.BOLD, 30));
 
 
 
@@ -186,7 +197,7 @@ class mainWindow extends JFrame implements ActionListener {
 
         // ************************ Main Window ************************
         this.setTitle("Simple Calculator");
-        this.setSize(new Dimension(600,600));
+        this.setSize(new Dimension(450,500));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
@@ -245,7 +256,7 @@ class mainWindow extends JFrame implements ActionListener {
                     case 5:
                         System.out.println("Conversion");
                         dispose();
-                        operWind = new operationWindow("Conversion", (i+1));
+                        operWind = new operationWindow("Conversion");
                         
                         break;
                     case 6:
@@ -279,13 +290,34 @@ class operationWindow extends JFrame implements ActionListener{
     mainOperations operations = new mainOperations();
     JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
 
-    JLabel titleLabel;
+    JLabel titleLabel, mainBodyLabel;
     JButton button, calculate, backButton;
     JLabel[] textFieldTitle;
     JTextField[] userInput;
 
     int eventIndex;
     double[] numberInput;
+
+
+
+    // ************************ Variables for the Conversion Window ************************
+
+    JLabel[] labelElements, labelElementsTitle;
+
+    JTextField[] resultFields;
+
+
+    JTextField numberToConvert;
+    JLabel ntc_Label, inputTitle, interactLabel;
+    JButton convertButton;
+
+    String[] conversionMenu = {"Decimal to Binary",  "Decimal to Hex", "Decimal to Octal" };
+    String[] conversionTitle = {"Binary",  "Hex", "Octal" };
+
+
+
+
+    /*-------------Operations Window -------------*/
 
     operationWindow(String operTitle, int event){
         // Indicator for what Operation to Use
@@ -408,13 +440,227 @@ class operationWindow extends JFrame implements ActionListener{
 
 
     }
+    
+    
+    /*-------------Conversion Window -------------*/
+    operationWindow(String operTitle){
 
+        // ************************ Label Elements ************************
+
+        labelElements = new JLabel[2];
+
+        for(byte i=0; i < labelElements.length; i++){
+            
+            labelElements[i] = new JLabel();
+
+            labelElements[i].setOpaque(true);
+            // labelElements[i].setPreferredSize(new Dimension(150,100));
+            // labelElements[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            // labelElements[i].setBorder(BorderFactory.createLineBorder(black, 1));
+        }
+        labelElements[0].setPreferredSize(new Dimension(50,150));
+        labelElements[0].setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        labelElements[0].setLayout(new GridLayout(3,2,5,5));
+        
+
+        // ************************ Items in the Label Elements index 0 (Top) ************************
+
+        labelElementsTitle = new JLabel[3];
+        resultFields = new JTextField[3];
+
+        for(byte i =0; i < labelElementsTitle.length; i++){
+
+            labelElementsTitle[i] = new JLabel();
+
+            labelElementsTitle[i].setOpaque(true);
+            labelElementsTitle[i].setBackground(white);
+            labelElementsTitle[i].setText(conversionMenu[i]);
+            labelElementsTitle[i].setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+
+        // ************************ Result Fields ************************
+
+            resultFields[i] = new JTextField();
+
+            resultFields[i].setOpaque(true);
+            resultFields[i].setBackground(lightGray);
+
+            resultFields[i].setEditable(false);
+            resultFields[i].setText(conversionTitle[i]);
+            resultFields[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(10, 10, 10, 10) ));
+
+
+
+
+
+            labelElements[0].add(labelElementsTitle[i]);
+            labelElements[0].add(resultFields[i]);
+        }
+        
+
+
+        // ************************ Items in the Label Elements index 1 (Center) ************************
+
+
+        // labelElements[1].setPreferredSize(new Dimension(50,50));
+        labelElements[1].setLayout(new BorderLayout());
+        
+        inputTitle = new JLabel();
+
+        inputTitle.setOpaque(true);
+        inputTitle.setPreferredSize(new Dimension(100,50));
+        inputTitle.setBackground(white);
+        inputTitle.setText("<html><p style='color: #353839; word-wrap: break-word;'>Conversion</p></html>");
+        inputTitle.setFont(new Font("Calibri", Font.BOLD, 25));
+        inputTitle.setHorizontalAlignment(JLabel.CENTER);
+
+        interactLabel = new JLabel();
+
+        // interactLabel.setOpaque(true);
+        // interactLabel.setBackground(white);
+
+
+
+
+        // ************************ Items inside Interact Label ************************
+        interactLabel.setPreferredSize(new Dimension(50,100));
+        interactLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        interactLabel.setLayout(new GridLayout(2,2,10,10));
+
+
+        numberToConvert = new JTextField();
+
+        numberToConvert.setOpaque(true);
+        numberToConvert.setBackground(white);
+        numberToConvert.setText("Enter Number Here");
+        numberToConvert.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(10, 10, 10, 10) ));
+
+
+        ntc_Label = new JLabel();
+
+        ntc_Label.setOpaque(true);
+        ntc_Label.setBackground(white);
+        ntc_Label.setText("Number to Convert");
+        ntc_Label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        
+        backButton = new JButton("Back to Menu");
+
+        backButton.setHorizontalAlignment(JButton.CENTER);
+        backButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        backButton.addActionListener(this);
+        backButton.setFocusable(false);
+        // backButton.setBorder(BorderFactory.createEtchedBorder(1));
+
+
+        convertButton = new JButton("Convert");
+
+        convertButton.setHorizontalAlignment(JButton.CENTER);
+        convertButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        convertButton.addActionListener(this);
+        convertButton.setFocusable(false);
+        // convertButton.setBorder(BorderFactory.createEtchedBorder(1));
+
+
+        interactLabel.add(ntc_Label);
+        interactLabel.add(numberToConvert);
+        interactLabel.add(convertButton);
+        interactLabel.add(backButton); 
+
+
+
+        labelElements[1].add(inputTitle, BorderLayout.NORTH);
+        labelElements[1].add(interactLabel, BorderLayout.CENTER);
+
+
+
+
+
+
+
+
+        // ************************ Main Body Label in Body Element Panel ************************
+        mainBodyLabel = new JLabel();
+
+        mainBodyLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        mainBodyLabel.setLayout(new BorderLayout());
+
+        mainBodyLabel.add(labelElements[0], BorderLayout.SOUTH);
+        mainBodyLabel.add(labelElements[1], BorderLayout.CENTER);
+        // mainBodyLabel.add(labelElements[2], BorderLayout.SOUTH);
+
+
+        // ************************ Title Label ************************
+
+        titleLabel = new JLabel();
+
+        titleLabel.setHorizontalAlignment(JLabel.LEFT);
+        titleLabel.setOpaque(true);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        titleLabel.setText("<html><p style='color: #353839; word-wrap: break-word;'>\n "+ "<b>"+operTitle+ "</b>"+": Press the CALCULATE Button for the Results"+" </p></html>");
+        titleLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+       
+        
+        
+        // ************************ Header Panel ************************
+        headerPanel = new JPanel();
+
+        headerPanel.setOpaque(true);
+        headerPanel.setPreferredSize(new Dimension(400,100));
+        headerPanel.setBackground(Color.white);
+        headerPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
+        headerPanel.setLayout(new BorderLayout(10,10));
+
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+
+        // ************************ Body Element Panel  ************************
+        bodyElementPanel = new JPanel();
+
+        bodyElementPanel.setOpaque(true);
+        // bodyElementPanel.setPreferredSize(new Dimension(300, 150));
+        bodyElementPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
+        bodyElementPanel.setBackground(Color.white);
+        bodyElementPanel.setLayout(new BorderLayout());
+
+        bodyElementPanel.add(mainBodyLabel, BorderLayout.CENTER);
+
+
+
+        // ************************ Main Panel Wrapper ************************
+        mainPanelWrapper = new JPanel();
+
+        mainPanelWrapper.setOpaque(true);
+        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        mainPanelWrapper.setBackground(new Color(246, 248, 255));
+        mainPanelWrapper.setLayout(new BorderLayout());
+        // mainPanelWrapper.setBorder(BorderFactory.createLineBorder(black,2));
+
+        mainPanelWrapper.add(headerPanel, BorderLayout.NORTH);
+        mainPanelWrapper.add(bodyElementPanel, BorderLayout.CENTER);
+
+
+        // ************************ Main Window ************************
+        this.setTitle(operTitle);
+        this.setSize(new Dimension(400,500));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+
+
+        this.add(mainPanelWrapper, BorderLayout.CENTER);
+        this.setResizable(false);
+        this.setVisible(true);
+        this.revalidate();
+        this.repaint();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e){
         JButton source = (JButton) e.getSource();
         eventController(source);
     }
+
+
     public void eventController(JButton source){
         if(source == calculate){
             if(!userInput[0].getText().isEmpty() || !userInput[1].getText().isEmpty()){
@@ -427,61 +673,94 @@ class operationWindow extends JFrame implements ActionListener{
             else
                 JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!");
         }
+        else if(source == convertButton){
+            JOptionPane.showMessageDialog(null, "Conversion AYYYYEEEE");
+            // TODO : Convert Function 
+
+
+
+        }
         else if(source == backButton){
             dispose();
             callBackMenu();
         }
     }
+    public void conversionEvent(){
+        // TODO: Create a function that takes the input, convert the input, and display the input.
+
+
+
+    }
+
+
+
     public void operationEvent(){
         numberInput = new double[2];
         switch (eventIndex) {
             case 1:
+                // Addition
+
 //                JOptionPane.showMessageDialog(null, "Addition EYYY");
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
                 JOptionPane.showMessageDialog(null, "Result: " + operations.sumOfNum(numberInput));
-                userInput[0].setText("");
-                userInput[1].setText("");
+                resetValue();
                 break;
             case 2:
+                // Subtraction
 
                 // JOptionPane.showMessageDialog(null, "Subtraction EYYY");
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                
                 JOptionPane.showMessageDialog(null, "Result: " + operations.diffOfNum(numberInput));
-
+                resetValue();
                 break;
             case 3:
+                // Multiplication
                 // JOptionPane.showMessageDialog(null, "Multiplication EYYY");
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
                 
                 JOptionPane.showMessageDialog(null, "Result: " + operations.prodOfNum(numberInput));
-
+                resetValue();
                 break;
             case 4:
+                // Division
+
                 // JOptionPane.showMessageDialog(null, "Division EYYY");
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                
-                JOptionPane.showMessageDialog(null, "Result: " + operations.quotientOfNum(numberInput));
+                if(numberInput[1] == 0){
+                    JOptionPane.showMessageDialog(null, "Dividing By Zero is Not Allowed!, Try Again");
+                    resetValue();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Result: " + operations.quotientOfNum(numberInput));
+                    resetValue();
+                }
+
+
 
                 break;
             case 5:
+                // Modulo
+
                 // JOptionPane.showMessageDialog(null, "Modulo EYYY");
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                JOptionPane.showMessageDialog(null, "Result: " + operations.moduloOfNum(numberInput));
-
-                break;
-            case 6:
-                JOptionPane.showMessageDialog(null, "Coversion EYYY");
+                if(numberInput[1] == 0){
+                    JOptionPane.showMessageDialog(null, "Dividing By Zero is Not Allowed!, Try Again");
+                    resetValue();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Result: " + operations.moduloOfNum(numberInput));
+                    resetValue();
+                }
 
                 break;
             case 7:
@@ -489,7 +768,14 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                System.out.printf("Addition: %.2f\nSubtraction: %.2f\nMultiplication: %.2f\nDivision: %.2f\nModulo: %.2f", operations.sumOfNum(numberInput), operations.diffOfNum(numberInput), operations.prodOfNum(numberInput), operations.quotientOfNum(numberInput), operations.moduloOfNum(numberInput));
+                if(numberInput[1] == 0){
+                    System.out.printf("Addition: %.2f\nSubtraction: %.2f\nMultiplication: %.2f\nDivision: Error!, dividing by zero is Invalid\nModulo: Error!, dividing by zero is Invalid", operations.sumOfNum(numberInput), operations.diffOfNum(numberInput), operations.prodOfNum(numberInput));
+                    resetValue();
+                }
+                else {
+                    System.out.printf("Addition: %.2f\nSubtraction: %.2f\nMultiplication: %.2f\nDivision: %.2f\nModulo: %.2f", operations.sumOfNum(numberInput), operations.diffOfNum(numberInput), operations.prodOfNum(numberInput), operations.quotientOfNum(numberInput), operations.moduloOfNum(numberInput));
+                    resetValue();
+                }
 
                 break;
             default:
@@ -502,6 +788,10 @@ class operationWindow extends JFrame implements ActionListener{
 
     public void callBackMenu(){
         new mainWindow();
+    }
+    public void resetValue(){
+        userInput[0].setText("");
+        userInput[1].setText("");
     }
 
 }

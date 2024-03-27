@@ -1,2 +1,3 @@
-        // interactLabel.setOpaque(true);
-        // interactLabel.setBackground(white);
+
+        // interactLabel.add(ntc_Label);
+        // interactLabel.add(numberToConvert);

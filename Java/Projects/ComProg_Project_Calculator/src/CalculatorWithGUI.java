@@ -71,6 +71,8 @@ class mainWindow extends JFrame implements ActionListener {
     // ************************ Button Lists ************************
     String[] mainMenu = {"Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Conversion", "All Operations?", "Exit Program"};
     String[] menuLogo = {"+", "-", "*", "/", "%", "-->", "-all-", "0"};
+
+
     public mainWindow(){
 
 
@@ -101,9 +103,8 @@ class mainWindow extends JFrame implements ActionListener {
 //            buttonTitles[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
 
 
+
             /*----------------- Button Containers -----------------*/
-
-
             buttonContainer[i] = new JLabel();
 
             buttonContainer[i].setHorizontalAlignment(JLabel.CENTER);
@@ -439,7 +440,7 @@ class operationWindow extends JFrame implements ActionListener{
     }
     
     
-    /*-------------Conversion Window -------------*/
+    // ************************ Conversion Windwo ************************
     operationWindow(String operTitle){
 
         // ************************ Label Elements ************************
@@ -500,6 +501,12 @@ class operationWindow extends JFrame implements ActionListener{
 
         // labelElements[1].setPreferredSize(new Dimension(50,50));
         labelElements[1].setLayout(new BorderLayout());
+
+
+
+
+        // ************************ Title ************************
+
         
         inputTitle = new JLabel();
 
@@ -510,18 +517,18 @@ class operationWindow extends JFrame implements ActionListener{
         inputTitle.setFont(new Font("Calibri", Font.BOLD, 25));
         inputTitle.setHorizontalAlignment(JLabel.CENTER);
 
+
+
+        // ************************ Label Container for USER INTERACTION ************************
         interactLabel = new JLabel();
 
-        // interactLabel.setOpaque(true);
-        // interactLabel.setBackground(white);
-
-
-        // ************************ Items inside Interact Label ************************
         interactLabel.setPreferredSize(new Dimension(50,100));
         interactLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         interactLabel.setLayout(new GridLayout(2,2,5,5));
 
+        // ************************ Items inside Interact Label ************************
 
+        // ************************ Text Field for INPUT ************************
         numberToConvert = new JTextField();
 
         numberToConvert.setOpaque(true);
@@ -529,6 +536,8 @@ class operationWindow extends JFrame implements ActionListener{
         numberToConvert.setText("Enter Number Here");
         numberToConvert.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(10, 10, 10, 10) ));
 
+
+        // ************************ Label for the Text Field ************************
         ntc_Label = new JLabel();
 
         ntc_Label.setOpaque(true);
@@ -536,6 +545,9 @@ class operationWindow extends JFrame implements ActionListener{
         ntc_Label.setText("Number to Convert");
         ntc_Label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         
+
+
+        // ************************ Back to Menu Button ************************
         backButton = new JButton("Back to Menu");
 
         backButton.setHorizontalAlignment(JButton.CENTER);
@@ -544,6 +556,8 @@ class operationWindow extends JFrame implements ActionListener{
         backButton.setFocusable(false);
         // backButton.setBorder(BorderFactory.createEtchedBorder(1));
 
+
+        // ************************ Convert Button ************************
         convertButton = new JButton("Convert");
 
         convertButton.setHorizontalAlignment(JButton.CENTER);
@@ -552,10 +566,17 @@ class operationWindow extends JFrame implements ActionListener{
         convertButton.setFocusable(false);
         // convertButton.setBorder(BorderFactory.createEtchedBorder(1));
 
+
+
+        // ************************ Adding Items into Interact Label ************************
+
         interactLabel.add(ntc_Label);
         interactLabel.add(numberToConvert);
         interactLabel.add(convertButton);
         interactLabel.add(backButton); 
+
+
+        // ************************ LAYOUT FOR THE TWO LABELS ************************
 
         labelElements[1].add(inputTitle, BorderLayout.NORTH);
         labelElements[1].add(interactLabel, BorderLayout.CENTER);
@@ -664,10 +685,12 @@ class operationWindow extends JFrame implements ActionListener{
                     conversionEvent();
                 }catch(NumberFormatException e){
                     JOptionPane.showMessageDialog(null, "Invalid Input, try Again!");
+                    resetValueConversion();
                 }
             }
             else{
                 JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!");
+                resetValueConversion();
             }
         }
         // ************************ Checking for the Back to Menu Button ************************
@@ -680,27 +703,37 @@ class operationWindow extends JFrame implements ActionListener{
     public void conversionEvent(){
         num = Integer.parseInt(numberToConvert.getText());
 
-        if(num >= 0){
-             /************************ Converts Number to Binary, puts them into Binary_Array, 
-                                        Converts it back to String to display *********************** */
-            index = operations.decToBin(num);
-            binary = new String[index];
-            binary = conversDispNumb(operations.digits, index);
-            resultFields[0].setText(arrayToString(binary));
-            
-             /************************ Converts Number to Hexadecminal, puts them into hexaDecimal_Array, 
-                                        Converts it back to String to display *********************** */
-            index = operations.decToHex(num);
-            hexaDecimal = new String[index];
-            hexaDecimal = conversDispChar(operations.hexaDecimal, index);
-            resultFields[1].setText(arrayToString(hexaDecimal));
+        int inputLength = String.valueOf(num).length();
+        final int maxInputBuffer = 7;
 
-             /************************ Converts Number to Octal, puts them into Octal_Array, 
-                                        Converts it back to String to display *********************** */
-            index = operations.decToOctal(num);
-            octal = new String[index];
-            octal = conversDispNumb(operations.digits, index);
-            resultFields[2].setText(arrayToString(octal));
+        if(inputLength > maxInputBuffer){
+            // throw new NumberFormatException();
+            JOptionPane.showMessageDialog(null, "The Number is too LARGE!");
+            resetValueConversion();
+        }
+        else{
+            if(num >= 0){
+                /************************ Converts Number to Binary, puts them into Binary_Array, 
+                                           Converts it back to String to display *********************** */
+               index = operations.decToBin(num);
+               binary = new String[index];
+               binary = conversDispNumb(operations.digits, index);
+               resultFields[0].setText(arrayToString(binary));
+               
+                /************************ Converts Number to Hexadecminal, puts them into hexaDecimal_Array, 
+                                           Converts it back to String to display *********************** */
+               index = operations.decToHex(num);
+               hexaDecimal = new String[index];
+               hexaDecimal = conversDispChar(operations.hexaDecimal, index);
+               resultFields[1].setText(arrayToString(hexaDecimal));
+   
+                /************************ Converts Number to Octal, puts them into Octal_Array, 
+                                           Converts it back to String to display *********************** */
+               index = operations.decToOctal(num);
+               octal = new String[index];
+               octal = conversDispNumb(operations.digits, index);
+               resultFields[2].setText(arrayToString(octal));
+           }
         }
     }
 
@@ -711,6 +744,8 @@ class operationWindow extends JFrame implements ActionListener{
         }
         return result.toString();
     }
+
+    // ************************ Get data from int array, returns the data into a String array ************************
     public String[] conversDispNumb(int[] array, int index){
         String[] items = new String[index];
         for( int  i = index -1; i >= 0; i--){
@@ -720,6 +755,7 @@ class operationWindow extends JFrame implements ActionListener{
         }
         return items;
     }
+    // ************************ Get data from char array, returns the data into a String array ************************
     public String[] conversDispChar(char[] array, int index){
         String[] items = new String[index];
         for( int  i = index -1; i >= 0; i--){
@@ -831,12 +867,17 @@ class operationWindow extends JFrame implements ActionListener{
         userInput[0].setText("");
         userInput[1].setText("");
     }
-
+    public void resetValueConversion(){
+        numberToConvert.setText("");
+        resultFields[0].setText("");
+        resultFields[1].setText("");
+        resultFields[2].setText("");
+    }
 
 }
 
 class mainOperations{
-    final int ARRAY_SIZE = 20;
+    final int ARRAY_SIZE = 22;
 
     int numToConvert, index;
     int[] digits;

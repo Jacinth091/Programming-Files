@@ -1,9 +1,9 @@
-/*
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class CalculatorProject {
     static UserMenu userMenu = new UserMenu();
-    static Operations operation = new Operations();
+    static Operation operation = new Operation();
     static Scanner in = new Scanner(System.in);
     public static void main(String[] args) {
 
@@ -87,7 +87,7 @@ public class CalculatorProject {
         }while(!exitLoop);
     }
 
-    static void conversionControler(UserMenu userMenu, Operations operation){
+    static void conversionControler(UserMenu userMenu, Operation operation){
         char choice;
         boolean exitLoop = false;
         do{
@@ -169,8 +169,8 @@ class UserMenu {
         initChoice =0;
         userChoice = 0;
 
-        */
-/*Selecting Value from Array*//*
+
+// electing Value from Array*//*
 
 
         do{
@@ -204,8 +204,8 @@ class UserMenu {
     }
 
     void displayArray(String[] array){
-        */
-/*Display Array*//*
+
+// /*Display Array*//*
 
         for(byte  i = 0; i < array.length; i++){
 
@@ -359,7 +359,7 @@ class Operation{
 
 
 
-*/
+
 /*//*
 /        operation.numData = 20;
         operation.getValue();

@@ -1,3 +1,4 @@
+/*
 // import javax.swing.*;
 
 // public class testing {
@@ -25,6 +26,7 @@
 //         frame.setVisible(true);
 //     }
 // }
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -33,42 +35,73 @@ import javax.swing.JPanel;
 import javax.swing.BoxLayout; // added code
 import java.awt.Component; // added code
 
-public class testing{
+public class testing {
 
-public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    JFrame frame = new JFrame("A Simple GUI");
-    frame.setVisible(true);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(500, 500);
-    frame.setLocation(430, 100);
+        JFrame frame = new JFrame("A Simple GUI");
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.setLocation(430, 100);
 
-    JPanel panel = new JPanel();
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // added code
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // added code
 
-    frame.add(panel);
+        frame.add(panel);
 
-    JLabel lbl = new JLabel("Select one of the possible choices and click OK");
-    lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-    //lbl.setVisible(true); // Not needed
+        JLabel lbl = new JLabel("Select one of the possible choices and click OK");
+        lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //lbl.setVisible(true); // Not needed
 
-    panel.add(lbl);
+        panel.add(lbl);
 
-    String[] choices = { "CHOICE 1", "CHOICE 2", "CHOICE 3", "CHOICE 4",
-                         "CHOICE 5", "CHOICE 6" };
+        String[] choices = {"CHOICE 1", "CHOICE 2", "CHOICE 3", "CHOICE 4",
+                "CHOICE 5", "CHOICE 6"};
 
-    final JComboBox<String> cb = new JComboBox<String>(choices);
+        final JComboBox<String> cb = new JComboBox<String>(choices);
 
-    cb.setMaximumSize(cb.getPreferredSize()); // added code
-    cb.setAlignmentX(Component.CENTER_ALIGNMENT);// added code
-    //cb.setVisible(true); // Not needed
-    panel.add(cb);
+        cb.setMaximumSize(cb.getPreferredSize()); // added code
+        cb.setAlignmentX(Component.CENTER_ALIGNMENT);// added code
+        //cb.setVisible(true); // Not needed
+        panel.add(cb);
 
-    JButton btn = new JButton("OK");
-    btn.setAlignmentX(Component.CENTER_ALIGNMENT); // added code
-    panel.add(btn);
+        JButton btn = new JButton("OK");
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT); // added code
+        panel.add(btn);
 
-    frame.setVisible(true); // added code
+        frame.setVisible(true); // added code
 
     }
 }
+*/
+import javax.swing.*;
+
+public class testing extends JDialog {
+    public testing(JFrame parent, String message) {
+        super(parent, "Custom Dialog", true);
+        setLocationRelativeTo(parent);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel(message));
+        getContentPane().add(panel);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        pack();
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Main Frame");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JButton button = new JButton("Show Dialog");
+        button.addActionListener(e -> {
+            testing dialog = new testing(frame, "This is a custom dialog.");
+            dialog.setVisible(true);
+        });
+
+        frame.add(button);
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
+        frame.setVisible(true);
+    }
+}
+

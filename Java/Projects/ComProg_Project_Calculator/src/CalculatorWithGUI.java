@@ -31,7 +31,7 @@ public class CalculatorWithGUI {
         System.out.println("\t  NOTE: Only takes 2 input :(");
         System.out.println("*******************************************\n\n");
 
-        do{
+/*        do{
             System.out.println("Start Program (Y for yes, N for No) ");
             System.out.print("--------->:: ");
             choice = in.next().charAt(0);
@@ -53,17 +53,17 @@ public class CalculatorWithGUI {
                 System.out.println("Exiting....");
                 exitLoop = true;
             }
-        }while(!exitLoop);
+        }while(!exitLoop);*/
 
         // /*DEbug*/
         
-        // callMainWindow();
+         callMainWindow();
     }
 
     static void callMainWindow(){
         new mainWindow();
-        //        operationWindow operWind = new operationWindow("Testing", -1);
-        // new operationWindow("Testing");
+//        operationWindow operWind = new operationWindow("Testing", 0);
+//         new operationWindow("Testing");
 
 
     }
@@ -71,7 +71,7 @@ public class CalculatorWithGUI {
 
 class mainWindow extends JFrame implements ActionListener {
     operationWindow operWind;
-    JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
+    JPanel mainPanelWrapper, headerPanel, bodyElementPanel, elementPanel;
     JPanel[] elementContainer;
     JLabel titleLabel;
     JLabel[] buttonTitles, buttonContainer;
@@ -98,8 +98,8 @@ class mainWindow extends JFrame implements ActionListener {
             mainButtons[i].setFont(new Font("Calibri", Font.BOLD, 14));
             mainButtons[i].addActionListener(this);
             mainButtons[i].setFocusable(false);
-//            mainButtons[i].setBorder(BorderFactory.createEtchedBorder(1));
             mainButtons[i].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+//            mainButtons[i].setBorder(BorderFactory.createLineBorder(black, 1));
 
             mainButtons[i].setBackground(new Color(172, 221, 250));
 
@@ -107,26 +107,24 @@ class mainWindow extends JFrame implements ActionListener {
 
             buttonTitles[i] = new JLabel(mainMenu[i], JLabel.LEFT);
 
-//            buttonTitles[i].setOpaque(true);
-            buttonTitles[i].setText("<html><p style='color: #353839; word-wrap: break-word; margin: 10px, 10px, 10px, 10px;'>\n" +"(" +menuLogo[i]+ ")  "+ mainMenu[i]  +"</p></html>");
-            buttonTitles[i].setFont(new Font("Calibri", Font.PLAIN, 17));
-            buttonTitles[i].setBorder(BorderFactory.createEmptyBorder(3,0,3,0) );
-//            buttonTitles[i].setBackground(Color.white);
-//            buttonTitles[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
+
+            buttonTitles[i].setText("<html><p style='color: #353839; white-space: nowrap;'>\n" +"(" +menuLogo[i]+ ")  "+ mainMenu[i]  +"</p></html>");
+            buttonTitles[i].setFont(new Font("Calibri", Font.PLAIN, 16));
+            buttonTitles[i].setBorder(BorderFactory.createEmptyBorder(3,5,3,5) );
+
+//            buttonTitles[i].setBorder(BorderFactory.createLineBorder(black, 1));
 
             /*----------------- Button Containers -----------------*/
             buttonContainer[i] = new JLabel();
 
             buttonContainer[i].setHorizontalAlignment(JLabel.CENTER);
-            // buttonContainer[i].setPreferredSize(new Dimension(150,200));
-//            buttonContainer[i].setOpaque(true);
-            // buttonContainer[i].setFont(new Font("Calibri", Font.PLAIN, 17));
-//            buttonContainer[i].setBackground(Color.white);
             buttonContainer[i].setLayout(new BorderLayout());
-            buttonContainer[i].setBorder(BorderFactory.createEmptyBorder(3,10,3,10) );
+            buttonContainer[i].setBorder(BorderFactory.createEmptyBorder(3,5,3,5) );
 
             buttonContainer[i].add(mainButtons[i]);
-        }   
+        }
+        // ************************ last Button to be color RED ************************
+        mainButtons[mainMenu.length -1].setBackground(new Color(250, 172, 172));
 
 
         // ************************ Elements Container ************************
@@ -134,9 +132,7 @@ class mainWindow extends JFrame implements ActionListener {
         for(byte  i = 0; i < 2; i++){
             elementContainer[i] = new JPanel();
 
-            elementContainer[i].setOpaque(true);
-            elementContainer[i].setBackground(Color.WHITE);
-            elementContainer[i].setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            elementContainer[i].setOpaque(false);
             elementContainer[i].setLayout(new GridLayout(mainMenu.length, elementContainer.length));
 
         }
@@ -146,14 +142,26 @@ class mainWindow extends JFrame implements ActionListener {
             elementContainer[1].add(buttonContainer[j]);
         }
 
+        // ************************ Elements Panel Cont ************************
+
+        elementPanel = new JPanel();
+
+        elementPanel.setOpaque(true);
+        elementPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
+        elementPanel.setLayout(new GridLayout(1,2,5,5));
+        elementPanel.setBackground(new Color(238, 238, 238));
+
+        elementPanel.add(elementContainer[0]);
+        elementPanel.add(elementContainer[1]);
+
 
         // ************************ Title Label ************************
         titleLabel = new JLabel();
 
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setOpaque(true);
+        titleLabel.setBackground(new Color(255, 243, 176));
         titleLabel.setText("<html><div style='text-align: center;'><p style='color: #353839; font-size: 30px;'>Simple Calculator</p><p>Barral, Jacinth Cedric C.</p><p>BSIT - 1B</p></div></html>");
-
 
         titleLabel.setFont(new Font("Calibri", Font.BOLD, 17));
 
@@ -163,8 +171,8 @@ class mainWindow extends JFrame implements ActionListener {
 
         headerPanel.setOpaque(true);
         headerPanel.setPreferredSize(new Dimension(300, 150));
-        headerPanel.setBackground(Color.white);
-        headerPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(20,20,10,20), BorderFactory.createLineBorder(black, 1) ));
+        headerPanel.setBackground(new Color(48, 48, 48));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,5,10));
         headerPanel.setLayout(new BorderLayout(10,10));
 
         headerPanel.add(titleLabel, BorderLayout.CENTER);
@@ -175,13 +183,11 @@ class mainWindow extends JFrame implements ActionListener {
 
         bodyElementPanel.setOpaque(true);
         bodyElementPanel.setPreferredSize(new Dimension(300, 150));
-        bodyElementPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,20,10,20), BorderFactory.createLineBorder(black, 1) ));
-        bodyElementPanel.setBackground(Color.white);
-        bodyElementPanel.setLayout(new GridLayout(1,2));
+        bodyElementPanel.setBorder(BorderFactory.createEmptyBorder(5,10,10,10));
+        bodyElementPanel.setBackground(new Color(48, 48, 48));
 
-        bodyElementPanel.add(elementContainer[0]);
-        bodyElementPanel.add(elementContainer[1]);
-
+        bodyElementPanel.setLayout(new BorderLayout());
+        bodyElementPanel.add(elementPanel, BorderLayout.CENTER);
 
 
         // ************************ Main Panel Wrapper ************************
@@ -189,8 +195,6 @@ class mainWindow extends JFrame implements ActionListener {
         mainPanelWrapper = new JPanel();
 
         mainPanelWrapper.setOpaque(true);
-        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        mainPanelWrapper.setBackground(new Color(246, 248, 255));
         mainPanelWrapper.setLayout(new BorderLayout());
 
         mainPanelWrapper.add(headerPanel, BorderLayout.NORTH);
@@ -200,14 +204,14 @@ class mainWindow extends JFrame implements ActionListener {
 
         // ************************ Main Window ************************
         this.setTitle("Simple Calculator");
-        this.setSize(new Dimension(450,500));
+        this.setSize(new Dimension(400,500));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
-
 
         this.add(mainPanelWrapper, BorderLayout.CENTER);
         this.setResizable(false);
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
         this.revalidate();
         this.repaint();
     }
@@ -268,7 +272,7 @@ class mainWindow extends JFrame implements ActionListener {
                     case 7:
                         System.out.println("Exiting Program");
                         dispose();
-                        JOptionPane.showMessageDialog(null, "Thank you! and Goodbye!! :D");
+                        JOptionPane.showMessageDialog(null, "Thank you! and Goodbye!! :D", "Goodbye", JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
                         break;
                     default:
@@ -285,15 +289,13 @@ class mainWindow extends JFrame implements ActionListener {
 
 class operationWindow extends JFrame implements ActionListener{
     mainOperations operations = new mainOperations();
-    JPanel mainPanelWrapper, headerPanel, bodyElementPanel, buttonsPanel;
+    JPanel mainPanelWrapper, headerPanel, bodyElementPanel;
     JLabel titleLabel, mainBodyLabel;
-    JButton button, calculate, backButton;
+    JButton calculate, backButton;
     JLabel[] textFieldTitle;
     JTextField[] userInput;
     int eventIndex;
     double[] numberInput;
-
-
 
     // ************************ Variables for the Conversion Window ************************
 
@@ -306,33 +308,39 @@ class operationWindow extends JFrame implements ActionListener{
     String[] conversionTitle = {"Binary",  "Hex", "Octal" };
 
     String[] binary, octal, hexaDecimal;
+    String operTitle;
     int num =0, index = 0;
 
     /*-------------Operations Window -------------*/
 
-    operationWindow(String operTitle, int event){
+    operationWindow(String title, int event){
         // Indicator for what Operation to Use
         this.eventIndex = event;
+        this.operTitle = title;
+
         
         textFieldTitle = new JLabel[2];
         userInput = new JTextField[2];
 
         for(byte i = 0; i < 2; i++){
 
-            textFieldTitle[i] = new JLabel("Input Number " + (i+1) + ": ");
+            textFieldTitle[i] = new JLabel("<html><p style='color: #353839;'><b>Input Number " +(i+1)+":</b></p></html>");
+            textFieldTitle[i].setFont(new Font("Calibri", Font.PLAIN, 15));
             textFieldTitle[i].setHorizontalAlignment(JLabel.CENTER);
 
+            // *********************** UserInput for the Operations ***********************
             userInput[i] = new JTextField();
 
             userInput[i].setPreferredSize(new Dimension(150, 150));
             userInput[i].setOpaque(true);
             userInput[i].setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(10, 10, 10, 10) ));
-
+            Font currentFont = userInput[i].getFont();
+            Font newFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 5);
+            userInput[i].setFont(newFont);
         }
 
-
+        // *********************** Back To Menu button ***********************
         backButton = new JButton("<html><p style='color: #353839;'>Back to Menu</p></html>");
-
 
         backButton.setHorizontalAlignment(JButton.CENTER);
         backButton.setFont(new Font("Calibri", Font.BOLD, 18));
@@ -342,7 +350,7 @@ class operationWindow extends JFrame implements ActionListener{
         backButton.setBackground(new Color(172, 221, 250));
 
 
-
+        // *********************** Calculate Button***********************
         calculate = new JButton("<html><p style='color: #353839;'>Calculate</p></html>");
 
         calculate.setHorizontalAlignment(JButton.CENTER);
@@ -352,6 +360,23 @@ class operationWindow extends JFrame implements ActionListener{
         calculate.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         calculate.setBackground(new Color(182, 250, 172));
 
+
+        mainBodyLabel = new JLabel();
+
+        mainBodyLabel.setOpaque(true);
+        mainBodyLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        mainBodyLabel.setLayout(new GridLayout(3,2,5,5));
+        mainBodyLabel.setBackground(new Color(240, 240, 240 ));
+
+        // *********************** Adding items in MainBodyLabel ***********************
+        mainBodyLabel.add(textFieldTitle[0]);
+        mainBodyLabel.add(userInput[0]);
+        mainBodyLabel.add(textFieldTitle[1]);
+        mainBodyLabel.add(userInput[1]);
+        mainBodyLabel.add(calculate);
+        mainBodyLabel.add(backButton);
+
+
         // ************************ Title Label ************************
         titleLabel = new JLabel();
 
@@ -359,22 +384,19 @@ class operationWindow extends JFrame implements ActionListener{
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         titleLabel.setText("<html><div style='text-align: center;'><p style='color: #353839; word-wrap: break-word;'><b>" + operTitle.toUpperCase() + "</b>: Press the <b>Calculate</b> Button for the Results</p></div></html>");
         titleLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+        titleLabel.setBackground(new Color(255, 243, 176));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-       
-        
-        
         // ************************ Header Panel ************************
         headerPanel = new JPanel();
 
         headerPanel.setOpaque(true);
         headerPanel.setPreferredSize(new Dimension(400,100));
-        headerPanel.setBackground(Color.white);
-        headerPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
+        headerPanel.setBackground(new Color(48, 48, 48));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,5,10));
         headerPanel.setLayout(new BorderLayout(10,10));
 
         headerPanel.add(titleLabel, BorderLayout.CENTER);
-
 
 
         // ************************ Body Element Panel  ************************
@@ -382,35 +404,21 @@ class operationWindow extends JFrame implements ActionListener{
 
         bodyElementPanel.setOpaque(true);
         // bodyElementPanel.setPreferredSize(new Dimension(300, 150));
-        bodyElementPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
-        bodyElementPanel.setBackground(Color.white);
-        bodyElementPanel.setLayout(new GridLayout(3,2,10,10));
+        bodyElementPanel.setBorder(BorderFactory.createEmptyBorder(5,10,10,10));
+        bodyElementPanel.setBackground(new Color(48, 48, 48));
+        bodyElementPanel.setLayout(new BorderLayout());
 
+        bodyElementPanel.add(mainBodyLabel, BorderLayout.CENTER);
 
-        bodyElementPanel.add(textFieldTitle[0]);
-        bodyElementPanel.add(textFieldTitle[1]);
-        bodyElementPanel.add(userInput[0]);
-        bodyElementPanel.add(userInput[1]);
-        bodyElementPanel.add(calculate);
-        bodyElementPanel.add(backButton);
-
-
-
-
-
-        // bodyElementPanel.setLayout()
-
-        // bodyElementPanel.add(textField);
-        // bodyElementPanel.add(button);
 
 
 
         // ************************ Main Panel Wrapper ************************
         mainPanelWrapper = new JPanel();
 
-        mainPanelWrapper.setOpaque(true);
-        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        mainPanelWrapper.setBackground(new Color(246, 248, 255));
+//        mainPanelWrapper.setOpaque(true);
+//        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+//        mainPanelWrapper.setBackground(new Color(48, 48, 48));
         mainPanelWrapper.setLayout(new BorderLayout());
         // mainPanelWrapper.setBorder(BorderFactory.createLineBorder(black,2));
 
@@ -423,13 +431,14 @@ class operationWindow extends JFrame implements ActionListener{
 
         // ************************ Main Window ************************
         this.setTitle(operTitle);
-        this.setSize(new Dimension(400,300));
+        this.setSize(new Dimension(350,300));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
 
         this.add(mainPanelWrapper, BorderLayout.CENTER);
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.revalidate();
         this.repaint();
@@ -438,21 +447,18 @@ class operationWindow extends JFrame implements ActionListener{
 
     }
     // ************************ Conversion Windwo ************************
-    operationWindow(String operTitle){
+    operationWindow(String title){
 
         // ************************ Label Elements ************************
-
+        this.operTitle = title;
         labelElements = new JLabel[2];
 
         for(byte i=0; i < labelElements.length; i++){
             
             labelElements[i] = new JLabel();
 
-            labelElements[i].setOpaque(true);
+//            labelElements[i].setOpaque(true);
             labelElements[i].setBackground(new Color(240, 240, 240 ));
-            // labelElements[i].setPreferredSize(new Dimension(150,100));
-            // labelElements[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            // labelElements[i].setBorder(BorderFactory.createLineBorder(black, 1));
         }
         labelElements[0].setPreferredSize(new Dimension(50,150));
         labelElements[0].setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -494,15 +500,14 @@ class operationWindow extends JFrame implements ActionListener{
 
 
         // labelElements[1].setPreferredSize(new Dimension(50,50));
-        labelElements[1].setLayout(new BorderLayout(0,10));
-        labelElements[1].setBorder(BorderFactory.createEmptyBorder(10, 10,10, 10));
+        labelElements[1].setLayout(new BorderLayout(0,15));
+        labelElements[1].setBorder(BorderFactory.createEmptyBorder(0, 10,10, 10));
 
 
         // ************************ Title ************************
 
-
         inputTitle = new JLabel();
-        inputTitle.setPreferredSize(new Dimension(100, 30));
+        inputTitle.setPreferredSize(new Dimension(100, 50));
         inputTitle.setOpaque(true);
         inputTitle.setText("<html><p style='font-family: Calibri; font-size: 18px; black;'>Input Number to Convert</p></html>");
         inputTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -515,7 +520,7 @@ class operationWindow extends JFrame implements ActionListener{
         // interactLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         interactLabel.setLayout(new GridLayout(1,2,5,5));
 
-        // ************************ Items inside Interact Label ************************
+        // ------------------------------------------------- Items inside Interact Label -------------------------------------------------
 
         // ************************ Text Field for INPUT ************************
         numberToConvert = new JTextField();
@@ -523,19 +528,15 @@ class operationWindow extends JFrame implements ActionListener{
         numberToConvert.setOpaque(true);
         numberToConvert.setBackground(white);
         numberToConvert.setText("Enter Number Here");
-        numberToConvert.setPreferredSize(new Dimension(100,150));
-        numberToConvert.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(10, 10, 10, 10) ));
 
-
-        // ************************ Label for the Text Field ************************
-        // ntc_Label = new JLabel();
-
-        // ntc_Label.setOpaque(true);
-        // ntc_Label.setBackground(white);
-        // ntc_Label.setText("Number to Convert");
-        // ntc_Label.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        
-
+        Font currentFont = numberToConvert.getFont();
+        // Create a new font with a larger size
+        Font newFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 5); // Increase font size by 5 points
+        numberToConvert.setFont(newFont);
+        numberToConvert.setCaretPosition(0);
+        numberToConvert.setPreferredSize(new Dimension(100,70));
+        numberToConvert.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(5,10,5,10) ));
+        numberToConvert.setHorizontalAlignment(JTextField.LEFT);
 
         // ************************ Back to Menu Button ************************
         // backButton settings
@@ -561,8 +562,6 @@ class operationWindow extends JFrame implements ActionListener{
 
         // ************************ Adding Items into Interact Label ************************
 
-        // interactLabel.add(ntc_Label);
-        // interactLabel.add(numberToConvert);
         interactLabel.add(convertButton);
         interactLabel.add(backButton); 
 
@@ -579,6 +578,8 @@ class operationWindow extends JFrame implements ActionListener{
 
         mainBodyLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         mainBodyLabel.setLayout(new BorderLayout());
+        mainBodyLabel.setOpaque(true);
+        mainBodyLabel.setBackground(new Color(238, 238, 238));
 
         mainBodyLabel.add(labelElements[0], BorderLayout.SOUTH);
         mainBodyLabel.add(labelElements[1], BorderLayout.CENTER);
@@ -594,6 +595,7 @@ class operationWindow extends JFrame implements ActionListener{
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         titleLabel.setText("<html><div style='text-align: center;'><p style='color: #353839; word-wrap: break-word;'><b>" + operTitle.toUpperCase() + "</b>: Press the <b>Convert</b> Button for the Results</p></div></html>");
         titleLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
+        titleLabel.setBackground(new Color(255, 243, 176));
        
         
         
@@ -602,8 +604,9 @@ class operationWindow extends JFrame implements ActionListener{
 
         headerPanel.setOpaque(true);
         headerPanel.setPreferredSize(new Dimension(400,100));
-        headerPanel.setBackground(Color.white);
-        headerPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
+        headerPanel.setBackground(new Color(48, 48, 48));
+
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,5,10));
         headerPanel.setLayout(new BorderLayout(10,10));
 
         headerPanel.add(titleLabel, BorderLayout.CENTER);
@@ -614,8 +617,8 @@ class operationWindow extends JFrame implements ActionListener{
 
         bodyElementPanel.setOpaque(true);
         // bodyElementPanel.setPreferredSize(new Dimension(300, 150));
-        bodyElementPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10,10,10,10), BorderFactory.createLineBorder(black, 1) ));
-        bodyElementPanel.setBackground(Color.white);
+        bodyElementPanel.setBorder(BorderFactory.createEmptyBorder(5,10,10,10));
+        bodyElementPanel.setBackground(new Color(48, 48, 48));
         bodyElementPanel.setLayout(new BorderLayout());
 
         bodyElementPanel.add(mainBodyLabel, BorderLayout.CENTER);
@@ -625,10 +628,8 @@ class operationWindow extends JFrame implements ActionListener{
         mainPanelWrapper = new JPanel();
 
         mainPanelWrapper.setOpaque(true);
-        mainPanelWrapper.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
-        mainPanelWrapper.setBackground(new Color(246, 248, 255));
         mainPanelWrapper.setLayout(new BorderLayout());
-        // mainPanelWrapper.setBorder(BorderFactory.createLineBorder(black,2));
+
 
         mainPanelWrapper.add(headerPanel, BorderLayout.NORTH);
         mainPanelWrapper.add(bodyElementPanel, BorderLayout.CENTER);
@@ -644,6 +645,7 @@ class operationWindow extends JFrame implements ActionListener{
         this.add(mainPanelWrapper, BorderLayout.CENTER);
         this.setResizable(false);
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
         this.revalidate();
         this.repaint();
     }
@@ -656,16 +658,16 @@ class operationWindow extends JFrame implements ActionListener{
     public void eventController(JButton source){
         // ************************ Checking for the Calculate Button ************************
         if(source == calculate){
-            if(!userInput[0].getText().isEmpty() || !userInput[1].getText().isEmpty()){
+            if(!userInput[0].getText().isEmpty() && !userInput[1].getText().isEmpty()){
                 try{
                     operationEvent();
 
                 }catch (NumberFormatException e){
-                    JOptionPane.showMessageDialog(null, "Invalid Input, try Again!");
+                    JOptionPane.showMessageDialog(null, "Invalid Input, try Again!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else
-                JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!");
+                JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // ************************ Checking for the Conversion Button ************************
@@ -674,12 +676,12 @@ class operationWindow extends JFrame implements ActionListener{
                 try{
                     conversionEvent();
                 }catch(NumberFormatException e){
-                    JOptionPane.showMessageDialog(null, "Invalid Input, try Again!");
+                    JOptionPane.showMessageDialog(null, "Invalid Input, try Again!", "Error", JOptionPane.ERROR_MESSAGE);
                     resetValueConversion();
                 }
             }
             else{
-                JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!");
+                JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!", "Error", JOptionPane.ERROR_MESSAGE);
                 resetValueConversion();
             }
         }
@@ -691,7 +693,7 @@ class operationWindow extends JFrame implements ActionListener{
     }
     // ************************ Operation Methods ************************
     public void operationEvent(){
-        String resultString = "";
+        String resultString = "", titleMessage = "";
         numberInput = new double[2];
         boolean divisionByZero = false;
         switch (eventIndex) {
@@ -702,6 +704,7 @@ class operationWindow extends JFrame implements ActionListener{
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
                 resultString = "Result: " + operations.sumOfNum(numberInput);
+                titleMessage = operTitle;
                 resetValue();
                 break;
             case 2:
@@ -712,6 +715,8 @@ class operationWindow extends JFrame implements ActionListener{
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
                 resultString = "Result: " + operations.diffOfNum(numberInput);
+                titleMessage = operTitle;
+
                 resetValue();
                 break;
             case 3:
@@ -721,6 +726,8 @@ class operationWindow extends JFrame implements ActionListener{
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
                 resultString = "Result: " + operations.prodOfNum(numberInput);
+                titleMessage = operTitle;
+
                 resetValue();
                 break;
             case 4:
@@ -735,6 +742,8 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 else{
                     resultString = "Result: " + operations.quotientOfNum(numberInput);
+                    titleMessage = operTitle;
+
                     resetValue();
                 }
                 break;
@@ -750,6 +759,8 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 else{
                     resultString = "Result: " + operations.moduloOfNum(numberInput);
+                    titleMessage = operTitle;
+
                     resetValue();
                 }
                 break;
@@ -764,6 +775,8 @@ class operationWindow extends JFrame implements ActionListener{
                             "\nMultiplication: " + operations.prodOfNum(numberInput) +
                             "\nDivision: Error!, Division By Zero is Not Allowed!" +
                             "\nModulo: Error!, Division By Zero is Not Allowed!";
+                    titleMessage = operTitle;
+
                     resetValue();
                 }
                 else {
@@ -772,6 +785,8 @@ class operationWindow extends JFrame implements ActionListener{
                             "\nMultiplication: " + operations.prodOfNum(numberInput) +
                             "\nDivision: " + operations.quotientOfNum(numberInput) +
                             "\nModulo: " + operations.moduloOfNum(numberInput);
+                    titleMessage = operTitle;
+
                     resetValue();
                 }
                 break;
@@ -781,10 +796,10 @@ class operationWindow extends JFrame implements ActionListener{
                 break;
         }
         if(divisionByZero){
-            JOptionPane.showMessageDialog(null, "Dividing By Zero is Not Allowed!, Try Again");
+            JOptionPane.showMessageDialog(null, "Dividing By Zero is Not Allowed!, Try Again", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else{
-            JOptionPane.showMessageDialog(null, resultString);
+            JOptionPane.showMessageDialog(null, resultString, titleMessage, JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
@@ -796,12 +811,11 @@ class operationWindow extends JFrame implements ActionListener{
         final int maxInputBuffer = 7;
 
         if(inputLength > maxInputBuffer){
-            // throw new NumberFormatException();
-            JOptionPane.showMessageDialog(null, "The Number is too LARGE!");
+            JOptionPane.showMessageDialog(null, "The Number is too LARGE!", "Error", JOptionPane.ERROR_MESSAGE);
             resetValueConversion();
         }
         else{
-            /************************ Converts Number to Binary, puts them into Binary_Array,
+            /* *********************** Converts Number to Binary, puts them into Binary_Array,
             Converts it back to String to display *********************** */
             if (num >= 0) {
                 index = operations.decToBin(num);
@@ -812,7 +826,7 @@ class operationWindow extends JFrame implements ActionListener{
             binary = conversDispNumb(operations.digits, index);
             resultFields[0].setText(arrayToString(binary, num));
 
-            /************************ Converts Number to Hexadecminal, puts them into hexaDecimal_Array,
+            /* *********************** Converts Number to Hexadecminal, puts them into hexaDecimal_Array,
              Converts it back to String to display *********************** */
             if (num >= 0) {
                 index = operations.decToHex(num);
@@ -823,7 +837,7 @@ class operationWindow extends JFrame implements ActionListener{
             hexaDecimal = conversDispChar(operations.hexaDecimal, index);
             resultFields[1].setText(arrayToString(hexaDecimal, num));
 
-            /************************ Converts Number to Octal, puts them into Octal_Array,
+            /* *********************** Converts Number to Octal, puts them into Octal_Array,
              Converts it back to String to display *********************** */
             if (num >= 0) {
                 index = operations.decToOctal(num);
@@ -835,7 +849,7 @@ class operationWindow extends JFrame implements ActionListener{
             resultFields[2].setText(arrayToString(octal, num));
         }
     }
-    // ************************ String ARray converst into a String ************************
+    // ************************ String Array convert into a String ************************
     public String arrayToString(String[] array, int num) {
         StringBuilder result = new StringBuilder();
         if(num < 0 ){

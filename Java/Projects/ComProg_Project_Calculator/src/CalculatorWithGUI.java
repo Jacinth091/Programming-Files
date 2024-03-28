@@ -31,7 +31,7 @@ public class CalculatorWithGUI {
         System.out.println("\t  NOTE: Only takes 2 input :(");
         System.out.println("*******************************************\n\n");
 
-/*        do{
+        do{
             System.out.println("Start Program (Y for yes, N for No) ");
             System.out.print("--------->:: ");
             choice = in.next().charAt(0);
@@ -53,11 +53,11 @@ public class CalculatorWithGUI {
                 System.out.println("Exiting....");
                 exitLoop = true;
             }
-        }while(!exitLoop);*/
+        }while(!exitLoop);
 
         // /*DEbug*/
-        
-         callMainWindow();
+//
+//         callMainWindow();
     }
 
     static void callMainWindow(){

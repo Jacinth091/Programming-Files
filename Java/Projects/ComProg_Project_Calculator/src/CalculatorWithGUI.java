@@ -30,7 +30,6 @@ public class CalculatorWithGUI {
         System.out.println("*******************************************");
         System.out.println("\t  NOTE: Only takes 2 input :(");
         System.out.println("*******************************************\n\n");
-
         do{
             System.out.println("Start Program (Y for yes, N for No) ");
             System.out.print("--------->:: ");
@@ -50,17 +49,19 @@ public class CalculatorWithGUI {
             }
             else{
                 System.out.println("Exiting....");
+                System.out.println("Thank You and Goodbye!");
                 exitLoop = true;
             }
         }while(!exitLoop);
 
-        // /*DEbug*/
-//
-//         callMainWindow();
+        in.close();
+/*         DEbug
+
+         callMainWindow();*/
     }
 
     static void callMainWindow(){
-        new mainWindow();
+      new mainWindow();
 //        operationWindow operWind = new operationWindow("Testing", 0);
 //         new operationWindow("Testing");
 
@@ -301,8 +302,8 @@ class operationWindow extends JFrame implements ActionListener{
     JLabel[] labelElements, labelElementsTitle;
     JTextField[] resultFields;
     JTextField numberToConvert;
-    JLabel inputTitle, interactLabel;
-    JButton convertButton;
+    JLabel inputTitle, interactLabel, inputAndConvert;
+    JButton convertButton, resetButton;
     String[] conversionMenu = {"Decimal to Binary",  "Decimal to Hex", "Decimal to Octal" };
     String[] conversionTitle = {"Binary",  "Hex", "Octal" };
 
@@ -508,7 +509,7 @@ class operationWindow extends JFrame implements ActionListener{
         inputTitle = new JLabel();
         inputTitle.setPreferredSize(new Dimension(100, 50));
         inputTitle.setOpaque(true);
-        inputTitle.setText("<html><p style='font-family: Calibri; font-size: 18px; black;'>Input Number to Convert</p></html>");
+        inputTitle.setText("<html><p style='font-family: Calibri; font-size: 18px; text-align: center;'>Input Number to Convert<br><span style='font-size: 12px; color: #FF5733;'>Note: Can only convert up to 7 digits</span></p></html>");
         inputTitle.setHorizontalAlignment(JLabel.CENTER);
         
 
@@ -519,8 +520,8 @@ class operationWindow extends JFrame implements ActionListener{
         // interactLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         interactLabel.setLayout(new GridLayout(1,2,5,5));
 
-        // ------------------------------------------------- Items inside Interact Label -------------------------------------------------
 
+        
         // ************************ Text Field for INPUT ************************
         numberToConvert = new JTextField();
 
@@ -533,9 +534,31 @@ class operationWindow extends JFrame implements ActionListener{
         Font newFont = new Font(currentFont.getName(), currentFont.getStyle(), currentFont.getSize() + 5); // Increase font size by 5 points
         numberToConvert.setFont(newFont);
         numberToConvert.setCaretPosition(0);
-        numberToConvert.setPreferredSize(new Dimension(100,70));
+        numberToConvert.setPreferredSize(new Dimension(100,50));
         numberToConvert.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(black,1) ,BorderFactory.createEmptyBorder(5,10,5,10) ));
         numberToConvert.setHorizontalAlignment(JTextField.LEFT);
+
+        convertButton = new JButton("<html><p style='color: #353839;'>Convert</p></html>");
+
+        convertButton.setHorizontalAlignment(JButton.CENTER);
+        convertButton.setPreferredSize(new Dimension(100,50));
+        convertButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        convertButton.addActionListener(this);
+        convertButton.setFocusable(false);
+        convertButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        convertButton.setBackground(new Color(182, 250, 172));
+
+        inputAndConvert = new JLabel();
+
+        inputAndConvert.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        inputAndConvert.setLayout(new BorderLayout(10,0));
+        inputAndConvert.setOpaque(true);
+        inputAndConvert.setBackground(new Color(238, 238, 238));
+
+        inputAndConvert.add(convertButton, BorderLayout.EAST);
+        inputAndConvert.add(numberToConvert, BorderLayout.CENTER);
+
+        // ------------------------------------------------- Items inside Interact Label -------------------------------------------------
 
         // ************************ Back to Menu Button ************************
         // backButton settings
@@ -550,25 +573,25 @@ class operationWindow extends JFrame implements ActionListener{
 
         // ************************ Convert Button ************************
         // convertButton settings
-        convertButton = new JButton("<html><p style='color: #353839;'>Convert</p></html>");
+        resetButton = new JButton("<html><p style='color: #353839;'>Reset</p></html>");
 
-        convertButton.setHorizontalAlignment(JButton.CENTER);
-        convertButton.setFont(new Font("Calibri", Font.BOLD, 18));
-        convertButton.addActionListener(this);
-        convertButton.setFocusable(false);
-        convertButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-        convertButton.setBackground(new Color(182, 250, 172));
+        resetButton.setHorizontalAlignment(JButton.CENTER);
+        resetButton.setFont(new Font("Calibri", Font.BOLD, 18));
+        resetButton.addActionListener(this);
+        resetButton.setFocusable(false);
+        resetButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        resetButton.setBackground(new Color(250, 172, 172));
 
         // ************************ Adding Items into Interact Label ************************
 
-        interactLabel.add(convertButton);
+        interactLabel.add(resetButton);
         interactLabel.add(backButton); 
 
 
         // ************************ LAYOUT FOR THE TWO LABELS ************************
 
         labelElements[1].add(inputTitle, BorderLayout.NORTH);
-        labelElements[1].add(numberToConvert, BorderLayout.CENTER);
+        labelElements[1].add(inputAndConvert, BorderLayout.CENTER);
         labelElements[1].add(interactLabel, BorderLayout.SOUTH);
 
 
@@ -663,10 +686,13 @@ class operationWindow extends JFrame implements ActionListener{
 
                 }catch (NumberFormatException e){
                     JOptionPane.showMessageDialog(null, "Invalid Input, try Again!", "Error", JOptionPane.ERROR_MESSAGE);
+                    resetValue();
                 }
             }
-            else
+            else{
                 JOptionPane.showMessageDialog(null, "Enter Numbers in the Specified Fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                resetValue();
+            }
         }
 
         // ************************ Checking for the Conversion Button ************************
@@ -689,6 +715,9 @@ class operationWindow extends JFrame implements ActionListener{
             dispose();
             callBackMenu();
         }
+        else if(source == resetButton){
+            resetValueConversion();
+        }
     }
     // ************************ Operation Methods ************************
     public void operationEvent(){
@@ -704,7 +733,6 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 resultString = "Result: " + operations.sumOfNum(numberInput);
                 titleMessage = operTitle;
-                resetValue();
                 break;
             case 2:
                 // Subtraction
@@ -715,8 +743,6 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 resultString = "Result: " + operations.diffOfNum(numberInput);
                 titleMessage = operTitle;
-
-                resetValue();
                 break;
             case 3:
                 // Multiplication
@@ -726,8 +752,6 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 resultString = "Result: " + operations.prodOfNum(numberInput);
                 titleMessage = operTitle;
-
-                resetValue();
                 break;
             case 4:
                 // Division
@@ -737,13 +761,10 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 if(numberInput[1] == 0){
                     divisionByZero = true;
-                    resetValue();
                 }
                 else{
                     resultString = "Result: " + operations.quotientOfNum(numberInput);
                     titleMessage = operTitle;
-
-                    resetValue();
                 }
                 break;
             case 5:
@@ -754,13 +775,10 @@ class operationWindow extends JFrame implements ActionListener{
                 }
                 if(numberInput[1] == 0){
                     divisionByZero = true;
-                    resetValue();
                 }
                 else{
                     resultString = "Result: " + operations.moduloOfNum(numberInput);
                     titleMessage = operTitle;
-
-                    resetValue();
                 }
                 break;
             case 7:
@@ -776,7 +794,6 @@ class operationWindow extends JFrame implements ActionListener{
                             "\nModulo: Error!, Division By Zero is Not Allowed!";
                     titleMessage = operTitle;
 
-                    resetValue();
                 }
                 else {
                     resultString = "Results\n\nAddition: " + operations.sumOfNum(numberInput) +
@@ -785,26 +802,27 @@ class operationWindow extends JFrame implements ActionListener{
                             "\nDivision: " + operations.quotientOfNum(numberInput) +
                             "\nModulo: " + operations.moduloOfNum(numberInput);
                     titleMessage = operTitle;
-
-                    resetValue();
                 }
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Error");
-                // Default case (optional)
                 break;
         }
         if(divisionByZero){
             JOptionPane.showMessageDialog(null, "Dividing By Zero is Not Allowed!, Try Again", "Error", JOptionPane.ERROR_MESSAGE);
+            resetValue();
         }
         else{
             JOptionPane.showMessageDialog(null, resultString, titleMessage, JOptionPane.INFORMATION_MESSAGE);
+//            resetValue();
+
         }
 
     }
     // Barral, Jacinth Cedric
     // ************************ Conversion Methods ************************
     public void conversionEvent(){
+
         num = Integer.parseInt(numberToConvert.getText());
         int inputLength = numberToConvert.getText().length();
         final int maxInputBuffer = 7;
@@ -814,13 +832,14 @@ class operationWindow extends JFrame implements ActionListener{
             resetValueConversion();
         }
         else{
+
             /* *********************** Converts Number to Binary, puts them into Binary_Array,
             Converts it back to String to display *********************** */
             if(num ==0){
                 resultFields[0].setText("0");
 
             }else {
-                if (num >= 0) {
+                if (num >=0) {
                     index = operations.decToBin(num);
                 } else {
                     index = operations.decToBin(-num); // Convert positive number to binary
@@ -831,11 +850,11 @@ class operationWindow extends JFrame implements ActionListener{
             }
             /* *********************** Converts Number to Hexadecminal, puts them into hexaDecimal_Array,
              Converts it back to String to display *********************** */
-            if(num ==0){
+            if(num == 0){
                 resultFields[1].setText("0");
 
             }else {
-                if (num >= 0) {
+                if (num >=0) {
                     index = operations.decToHex(num);
                 } else {
                     index = operations.decToHex(-num); // Convert positive number to hexadecimal
@@ -846,11 +865,11 @@ class operationWindow extends JFrame implements ActionListener{
             }
             /* *********************** Converts Number to Octal, puts them into Octal_Array,
              Converts it back to String to display *********************** */
-            if(num ==0){
+            if(num == 0){
                 resultFields[2].setText("0");
 
             }else{
-                if (num >= 0) {
+                if (num >=0) {
                     index = operations.decToOctal(num);
                 } else {
                     index = operations.decToOctal(-num); // Convert positive number to octal

@@ -42,7 +42,6 @@ public class CalculatorWithGUI {
 
             if(choice !='Y' && choice != 'N'){
                 System.out.println("Invalid Input, try again!\n");
-                continue;
             }
             else if(choice == 'Y'){
                 System.out.println("Starting...");
@@ -302,7 +301,7 @@ class operationWindow extends JFrame implements ActionListener{
     JLabel[] labelElements, labelElementsTitle;
     JTextField[] resultFields;
     JTextField numberToConvert;
-    JLabel ntc_Label, inputTitle, interactLabel;
+    JLabel inputTitle, interactLabel;
     JButton convertButton;
     String[] conversionMenu = {"Decimal to Binary",  "Decimal to Hex", "Decimal to Octal" };
     String[] conversionTitle = {"Binary",  "Hex", "Octal" };
@@ -817,36 +816,50 @@ class operationWindow extends JFrame implements ActionListener{
         else{
             /* *********************** Converts Number to Binary, puts them into Binary_Array,
             Converts it back to String to display *********************** */
-            if (num >= 0) {
-                index = operations.decToBin(num);
-            } else {
-                index = operations.decToBin(-num); // Convert positive number to binary
-            }
-            binary = new String[index];
-            binary = conversDispNumb(operations.digits, index);
-            resultFields[0].setText(arrayToString(binary, num));
+            if(num ==0){
+                resultFields[0].setText("0");
 
+            }else {
+                if (num >= 0) {
+                    index = operations.decToBin(num);
+                } else {
+                    index = operations.decToBin(-num); // Convert positive number to binary
+                }
+                binary = new String[index];
+                binary = conversDispNumb(operations.digits, index);
+                resultFields[0].setText(arrayToString(binary, num));
+            }
             /* *********************** Converts Number to Hexadecminal, puts them into hexaDecimal_Array,
              Converts it back to String to display *********************** */
-            if (num >= 0) {
-                index = operations.decToHex(num);
-            } else {
-                index = operations.decToHex(-num); // Convert positive number to hexadecimal
-            }
-            hexaDecimal = new String[index];
-            hexaDecimal = conversDispChar(operations.hexaDecimal, index);
-            resultFields[1].setText(arrayToString(hexaDecimal, num));
+            if(num ==0){
+                resultFields[1].setText("0");
 
+            }else {
+                if (num >= 0) {
+                    index = operations.decToHex(num);
+                } else {
+                    index = operations.decToHex(-num); // Convert positive number to hexadecimal
+                }
+                hexaDecimal = new String[index];
+                hexaDecimal = conversDispChar(operations.hexaDecimal, index);
+                resultFields[1].setText(arrayToString(hexaDecimal, num));
+            }
             /* *********************** Converts Number to Octal, puts them into Octal_Array,
              Converts it back to String to display *********************** */
-            if (num >= 0) {
-                index = operations.decToOctal(num);
-            } else {
-                index = operations.decToOctal(-num); // Convert positive number to octal
+            if(num ==0){
+                resultFields[2].setText("0");
+
+            }else{
+                if (num >= 0) {
+                    index = operations.decToOctal(num);
+                } else {
+                    index = operations.decToOctal(-num); // Convert positive number to octal
+                }
+                octal = new String[index];
+                octal = conversDispNumb(operations.digits, index);
+                resultFields[2].setText(arrayToString(octal, num));
             }
-            octal = new String[index];
-            octal = conversDispNumb(operations.digits, index);
-            resultFields[2].setText(arrayToString(octal, num));
+
         }
     }
     // ************************ String Array convert into a String ************************

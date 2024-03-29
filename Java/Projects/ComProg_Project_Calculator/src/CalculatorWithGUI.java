@@ -719,7 +719,7 @@ class operationWindow extends JFrame implements ActionListener{
         numberInput = new double[2];
         double decimalPart;
         boolean divisionByZero = false;
-        boolean hasDecimalPoint, hasRemainder;
+        boolean hasDecimalPoint;
 
         switch (eventIndex) {
             case 1:

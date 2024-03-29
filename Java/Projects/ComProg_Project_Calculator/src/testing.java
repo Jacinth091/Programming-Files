@@ -1,107 +1,78 @@
 /*
-// import javax.swing.*;
-
-// public class testing {
-//     public static void main(String[] args) {
-//         JFrame frame = new JFrame("My Frame");
-//         frame.setSize(400, 300);
-
-//         JButton showButton = new JButton("Show Frame");
-//         showButton.addActionListener(e -> {
-//             frame.setVisible(true); // Make the frame visible
-//         });
-
-//         JButton hideButton = new JButton("Hide Frame");
-//         hideButton.addActionListener(e -> {
-//             JOptionPane.showMessageDialog(null, "BOBO");
-//             frame.setVisible(false); // Hide the frame
-//         });
-
-//         JPanel panel = new JPanel();
-//         panel.add(showButton);
-//         panel.add(hideButton);
-
-//         frame.add(panel);
-//         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//         frame.setVisible(true);
-//     }
-// }
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BoxLayout; // added code
-import java.awt.Component; // added code
-
-public class testing {
-
+import javax.swing.*;
+import java.util.Scanner;
+class testing{
     public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int userIn, temp;
+        boolean isNegative;
+        String userInSTR, tempSTR;
 
-        JFrame frame = new JFrame("A Simple GUI");
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
-        frame.setLocation(430, 100);
+        System.out.print("Enter Number: ");
+        userIn = in.nextInt();
+        in.nextLine();
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // added code
+        userInSTR = String.valueOf(userIn);
 
-        frame.add(panel);
+        isNegative = userInSTR.contains("-");
 
-        JLabel lbl = new JLabel("Select one of the possible choices and click OK");
-        lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        //lbl.setVisible(true); // Not needed
 
-        panel.add(lbl);
 
-        String[] choices = {"CHOICE 1", "CHOICE 2", "CHOICE 3", "CHOICE 4",
-                "CHOICE 5", "CHOICE 6"};
 
-        final JComboBox<String> cb = new JComboBox<String>(choices);
+        System.out.printf("%s", userInSTR);
 
-        cb.setMaximumSize(cb.getPreferredSize()); // added code
-        cb.setAlignmentX(Component.CENTER_ALIGNMENT);// added code
-        //cb.setVisible(true); // Not needed
-        panel.add(cb);
-
-        JButton btn = new JButton("OK");
-        btn.setAlignmentX(Component.CENTER_ALIGNMENT); // added code
-        panel.add(btn);
-
-        frame.setVisible(true); // added code
 
     }
-}
-*/
+}*/
 import javax.swing.*;
 
-public class testing extends JDialog {
-    public testing(JFrame parent, String message) {
-        super(parent, "Custom Dialog", true);
-        setLocationRelativeTo(parent);
-        JPanel panel = new JPanel();
-        panel.add(new JLabel(message));
-        getContentPane().add(panel);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        pack();
-    }
-
+public class testing {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Main Frame");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Create JFrame and JTextField
+        JFrame frame = new JFrame("Number Converter");
+        JTextField textField = new JTextField(10);
 
-        JButton button = new JButton("Show Dialog");
-        button.addActionListener(e -> {
-            testing dialog = new testing(frame, "This is a custom dialog.");
-            dialog.setVisible(true);
-        });
-
-        frame.add(button);
-        frame.setLocationRelativeTo(null); // Center the frame on the screen
+        // Add JTextField to JFrame
+        frame.getContentPane().add(textField);
+        frame.pack();
         frame.setVisible(true);
+
+        // Wait for user to input a number
+        JOptionPane.showMessageDialog(frame, "Enter a number and press OK");
+
+        // Get input from JTextField
+        String input = textField.getText();
+
+        // Check if the input is negative
+        boolean isNegative = input.startsWith("-");
+
+        // Remove negative sign if present and limit input to maximum 7 characters
+        if (isNegative) {
+            input = input.substring(1); // Remove negative sign
+            input = input.substring(0, Math.min(input.length(), 7)); // Limit to maximum 7 characters
+        } else {
+            input = input.substring(0, Math.min(input.length(), 7)); // Limit to maximum 7 characters
+        }
+
+        // Convert input string to integer
+        int num = Integer.parseInt(input);
+
+        // Proceed with conversion logic as before
+        int positiveNum = Math.abs(num); // Convert to positive number
+
+        // Perform your desired conversion here, for example, let's convert to hexadecimal
+        String convertedString = Integer.toHexString(positiveNum);
+
+        // Convert the result back to integer if needed
+        int convertedNum = Integer.parseInt(convertedString, 16);
+
+        // Reattach the negative sign if the original number was negative
+        int result = isNegative ? -convertedNum : convertedNum;
+
+        // Display result
+        JOptionPane.showMessageDialog(frame, "Original number: " + num + "\nConverted number: " + result);
+
+        // Close JFrame
+        frame.dispose();
     }
 }
-

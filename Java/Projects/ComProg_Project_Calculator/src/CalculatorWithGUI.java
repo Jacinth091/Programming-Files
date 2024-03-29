@@ -55,9 +55,9 @@ public class CalculatorWithGUI {
         }while(!exitLoop);
 
         in.close();
-/*         DEbug
 
-         callMainWindow();*/
+//         DEbug
+//         callMainWindow();
     }
 
     static void callMainWindow(){
@@ -308,8 +308,8 @@ class operationWindow extends JFrame implements ActionListener{
     String[] conversionTitle = {"Binary",  "Hex", "Octal" };
 
     String[] binary, octal, hexaDecimal;
-    String operTitle;
-    int num =0, index = 0;
+    String operTitle, userInSTR;
+    int userInNum =0, index = 0;
 
     /*-------------Operations Window -------------*/
 
@@ -821,72 +821,78 @@ class operationWindow extends JFrame implements ActionListener{
     }
     // Barral, Jacinth Cedric
     // ************************ Conversion Methods ************************
+    
+    
+    
     public void conversionEvent(){
+        // Get String from JTextField numberToConvert
+        userInSTR = numberToConvert.getText().trim();
 
-        num = Integer.parseInt(numberToConvert.getText());
-        int inputLength = numberToConvert.getText().length();
+        String userInSTRTemp;
+        // Assign boolean value if userInSTR contains "-" negative sign
+        boolean isNegative = userInSTR.startsWith("-");
+        // InputBuffer Limit only to 7 Characters excluding "-"
         final int maxInputBuffer = 7;
+        // Input length from the user
+        int inputLength;
+
+        if(isNegative) {
+            // isNegative is true, then
+
+            // Gets the Temp value of "NEGATIVE" STring and then removes the '-' sign
+            userInSTRTemp = userInSTR.replaceFirst("-", "");
+//            System.out.println(userInSTRTemp);
+
+            // userInSTRTemp will then be a String without the NEGATIVE SIGN and can be parsed into INTEGER
+            // The NOW Positive userInSTRTemp will be stored in userInNum
+            userInNum = Integer.parseInt(userInSTRTemp);
+            // get the Length of the String to use for checking
+            inputLength = String.valueOf(userInNum).length();
+            System.out.println(userInNum + " from negative \n");
+
+        }
+        else {
+            // If isNegative is FALSE, then
+
+            // The already positive userInSTR will be stored in userInNum
+            userInNum = Integer.parseInt(userInSTR);
+
+            // get the Length of the String to use for checking
+            inputLength = String.valueOf(userInNum).length();
+            System.out.println(userInNum + " positive\n");
+        }
 
         if(inputLength > maxInputBuffer){
             JOptionPane.showMessageDialog(null, "The Number is too LARGE!", "Error", JOptionPane.ERROR_MESSAGE);
             resetValueConversion();
-        }
-        else{
-
-            /* *********************** Converts Number to Binary, puts them into Binary_Array,
-            Converts it back to String to display *********************** */
-            if(num ==0){
+        }else{
+            if(userInNum == 0){
                 resultFields[0].setText("0");
-
-            }else {
-                if (num >=0) {
-                    index = operations.decToBin(num);
-                } else {
-                    index = operations.decToBin(-num); // Convert positive number to binary
-                }
-                binary = new String[index];
-                binary = conversDispNumb(operations.digits, index);
-                resultFields[0].setText(arrayToString(binary, num));
-            }
-            /* *********************** Converts Number to Hexadecminal, puts them into hexaDecimal_Array,
-             Converts it back to String to display *********************** */
-            if(num == 0){
                 resultFields[1].setText("0");
-
-            }else {
-                if (num >=0) {
-                    index = operations.decToHex(num);
-                } else {
-                    index = operations.decToHex(-num); // Convert positive number to hexadecimal
-                }
-                hexaDecimal = new String[index];
-                hexaDecimal = conversDispChar(operations.hexaDecimal, index);
-                resultFields[1].setText(arrayToString(hexaDecimal, num));
-            }
-            /* *********************** Converts Number to Octal, puts them into Octal_Array,
-             Converts it back to String to display *********************** */
-            if(num == 0){
                 resultFields[2].setText("0");
 
-            }else{
-                if (num >=0) {
-                    index = operations.decToOctal(num);
-                } else {
-                    index = operations.decToOctal(-num); // Convert positive number to octal
-                }
+            }else {
+
+                index = operations.decToBin(userInNum);
+                binary = new String[index];
+                binary = conversDispNumb(operations.digits, index);
+                resultFields[0].setText(isNegative ? "-" + arrayToString(binary) : arrayToString(binary));
+
+                index = operations.decToHex(userInNum);
+                hexaDecimal = new String[index];
+                hexaDecimal = conversDispChar(operations.hexaDecimal, index);
+                resultFields[1].setText(isNegative ? "-" + arrayToString(hexaDecimal) : arrayToString(hexaDecimal));
+
+                index = operations.decToOctal(userInNum);
                 octal = new String[index];
                 octal = conversDispNumb(operations.digits, index);
-                resultFields[2].setText(arrayToString(octal, num));
+                resultFields[2].setText(isNegative ? "-" + arrayToString(octal) : arrayToString(octal));
             }
-
         }
     }
     // ************************ String Array convert into a String ************************
-    public String arrayToString(String[] array, int num) {
+    public String arrayToString(String[] array) {
         StringBuilder result = new StringBuilder();
-        if(num < 0 ){
-            result.append('-');
-        }
         for (int i = index -1; i >=0; i--) {
             result.append(array[i]);
         }
@@ -895,7 +901,7 @@ class operationWindow extends JFrame implements ActionListener{
     // ************************ Get data from int array, returns the data into a String array ************************
     public String[] conversDispNumb(int[] array, int index){
         String[] items = new String[index];
-        for( int  i = index -1; i >= 0; i--){
+        for( int  i = index - 1; i >= 0; i--){
             items[i] = String.valueOf(array[i]);
         }
         return items;

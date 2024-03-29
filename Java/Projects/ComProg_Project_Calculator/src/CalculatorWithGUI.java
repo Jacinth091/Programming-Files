@@ -1,21 +1,19 @@
 /*
 Name: Barral, Jacinth Cedric C.
 Date: March 27, 2024
-Description: Using Java, create a calculator that can perform arithmetic operations such as Addition, Subtraction, Multiplication, Division and Modulo.
+Description: Simple Calculator - Midterm Project
+                Using Java, create a calculator that can perform arithmetic operations such as Addition, Subtraction, Multiplication, Division and Modulo.
                 For an additional point for your project, you may include conversions from Decimal to Octal, Decimal to Hexadecimal and Decimal to Binary numbers.
                 The Java program for the calculator should use the topics already discussed such as Decision making and branching, loops and arrays.
 * */
-
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
-
 import static java.awt.Color.black;
 import static java.awt.Color.white;
-
 
 public class CalculatorWithGUI {
     public static void main(String[] args) {
@@ -53,19 +51,15 @@ public class CalculatorWithGUI {
                 exitLoop = true;
             }
         }while(!exitLoop);
-
         in.close();
-
 //         DEbug
 //         callMainWindow();
     }
-
     static void callMainWindow(){
       new mainWindow();
 //        operationWindow operWind = new operationWindow("Testing", 0);
+//        new operationWindow("Division", 4);
 //         new operationWindow("Testing");
-
-
     }
 }
 
@@ -80,9 +74,7 @@ class mainWindow extends JFrame implements ActionListener {
     String[] mainMenu = {"Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Conversion", "All Operations?", "Exit Program"};
     String[] menuLogo = {"+", "-", "*", "/", "%", "-->", "-all-", "0"};
 
-
     public mainWindow(){
-
 
         // ************************ Button Titles, Button Containers, and Buttons Intializer ************************
         buttonTitles = new JLabel[mainMenu.length];
@@ -196,10 +188,8 @@ class mainWindow extends JFrame implements ActionListener {
 
         mainPanelWrapper.setOpaque(true);
         mainPanelWrapper.setLayout(new BorderLayout());
-
         mainPanelWrapper.add(headerPanel, BorderLayout.NORTH);
         mainPanelWrapper.add(bodyElementPanel, BorderLayout.CENTER);
-
 
 
         // ************************ Main Window ************************
@@ -223,48 +213,47 @@ class mainWindow extends JFrame implements ActionListener {
         buttonEventController(source);
 
     }
-
     public void buttonEventController(JButton source){
         for (int i = 0; i < mainMenu.length; i++) {
             if (source == mainButtons[i]) {
                 switch (i) {
                     case 0:
-                        System.out.println("Addition");
+//                        System.out.println("Addition");
                         dispose();
                         operWind = new operationWindow("Addition", (i+1));
                         // Barral, Jacinth Cedric
                         break;
                     case 1:
-                        System.out.println("Subtraction");
+//                        System.out.println("Subtraction");
                         dispose();
                         operWind = new operationWindow("Subtraction", (i+1));
                         
                         break;
                     case 2:
-                        System.out.println("Multiplication");
+//                        System.out.println("Multiplication");
                         dispose();
                         operWind = new operationWindow("Multiplication", (i+1));
                         break;
                     case 3:
-                        System.out.println("Division");
+//                        System.out.println("Division");
                         dispose();
                         operWind = new operationWindow("Division", (i+1));
                         
                         break;
                     case 4:
-                        System.out.println("Modulo");
+//                        System.out.println("Modulo");
                         dispose();
                         operWind = new operationWindow("Modulo", (i+1));
                         
                         break;
                     case 5:
-                        System.out.println("Conversion");
+//                        System.out.println("Conversion");
                         dispose();
                         operWind = new operationWindow("Conversion");
                         
                         break;
                     case 6:
-                        System.out.println("All Operations");
+//                        System.out.println("All Operations");
                         dispose();
                         operWind = new operationWindow("All Operations", (i+1));
                         
@@ -276,17 +265,13 @@ class mainWindow extends JFrame implements ActionListener {
                         System.exit(0);
                         break;
                     default:
-                        // Optional
                         break;
                 }
                 break;
             }
         }
-
-
     }
 }
-
 class operationWindow extends JFrame implements ActionListener{
     mainOperations operations = new mainOperations();
     JPanel mainPanelWrapper, headerPanel, bodyElementPanel;
@@ -680,9 +665,18 @@ class operationWindow extends JFrame implements ActionListener{
     public void eventController(JButton source){
         // ************************ Checking for the Calculate Button ************************
         if(source == calculate){
+            final int maxUserIn = 15;
             if(!userInput[0].getText().isEmpty() && !userInput[1].getText().isEmpty()){
                 try{
-                    operationEvent();
+//                    System.out.println("UserInput[0] Length: " + userInput[0].getText().length() + "\n");
+//                    System.out.println("UserInput[1] Length: " + userInput[1].getText().length() + "\n");
+                    if(userInput[0].getText().length() > maxUserIn || userInput[1].getText().length() > maxUserIn){
+                        JOptionPane.showMessageDialog(null, "You have reached the Max Input!, try Again", "Error", JOptionPane.ERROR_MESSAGE);
+                        resetValue();
+                    }else{
+                        operationEvent();
+                    }
+
 
                 }catch (NumberFormatException e){
                     JOptionPane.showMessageDialog(null, "Invalid Input, try Again!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -723,7 +717,10 @@ class operationWindow extends JFrame implements ActionListener{
     public void operationEvent(){
         String resultString = "", titleMessage = "";
         numberInput = new double[2];
+        double decimalPart;
         boolean divisionByZero = false;
+        boolean hasDecimalPoint, hasRemainder;
+
         switch (eventIndex) {
             case 1:
                 // Addition
@@ -731,7 +728,12 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                resultString = "Result: " + operations.sumOfNum(numberInput);
+                decimalPart = operations.sumOfNum(numberInput) - (int)operations.sumOfNum(numberInput);
+
+                hasDecimalPoint = (int) (numberInput[0] * 10.0) % 10 == 0 && (int) (numberInput[1] * 10.0) % 10 == 0 && decimalPart ==0;
+
+                resultString = (hasDecimalPoint) ? "Result: " + (int)operations.sumOfNum(numberInput) : String.format("Result: %.2f", operations.sumOfNum(numberInput));
+
                 titleMessage = operTitle;
                 break;
             case 2:
@@ -741,7 +743,11 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                resultString = "Result: " + operations.diffOfNum(numberInput);
+                decimalPart = operations.diffOfNum(numberInput) - (int)operations.diffOfNum(numberInput);
+
+                hasDecimalPoint = (int) (numberInput[0] * 10.0) % 10 == 0 && (int) (numberInput[1] * 10.0) % 10 == 0 && decimalPart ==0;
+                resultString = (hasDecimalPoint) ? "Result: " + (int) operations.diffOfNum(numberInput) : String.format("Result: %.2f", operations.diffOfNum(numberInput));
+
                 titleMessage = operTitle;
                 break;
             case 3:
@@ -750,7 +756,11 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                resultString = "Result: " + operations.prodOfNum(numberInput);
+                decimalPart = operations.prodOfNum(numberInput) - (int) operations.prodOfNum(numberInput);
+
+                hasDecimalPoint = (int) (numberInput[0] * 10.0) % 10 == 0 && (int) (numberInput[1] * 10.0) % 10 == 0 && decimalPart == 0;
+                resultString = (hasDecimalPoint) ? "Result: " + (int)operations.prodOfNum(numberInput) : String.format("Result: %.2f", operations.prodOfNum(numberInput));
+
                 titleMessage = operTitle;
                 break;
             case 4:
@@ -759,11 +769,23 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
+
                 if(numberInput[1] == 0){
                     divisionByZero = true;
                 }
                 else{
-                    resultString = "Result: " + operations.quotientOfNum(numberInput);
+//                    System.out.println("Result Quotient: "+operations.quotientOfNum(numberInput));
+//                    System.out.println("Result Quotient (int) : "+(int)operations.quotientOfNum(numberInput));
+                    decimalPart = operations.quotientOfNum(numberInput) - (int) operations.quotientOfNum(numberInput);
+//                    System.out.println("After the Decimal Point Numbers: " + decimalPart);
+//                    System.out.printf("Number Input 1: %s\n", ((int)(numberInput[0] * 10.0) % 10 == 0) ? "No Decimal" : "Hav Decimal");
+//                    System.out.printf("Number Input 2: %s\n", ((int)(numberInput[1] * 10.0) % 10 == 0) ? "No Decimal" : "Hav Decimal");
+//                    System.out.printf("Decimal Part: %s\n", decimalPart == 0 ? true : false);
+
+                    hasDecimalPoint = (int) (numberInput[0] * 10.0) % 10 == 0 && (int) (numberInput[1] * 10.0) % 10 == 0 && decimalPart == 0 ;
+//                    System.out.println("Has Decimal?: " + hasDecimalPoint + "\n\n");
+                    resultString = (hasDecimalPoint) ? "Result: " + (int) operations.quotientOfNum(numberInput) : String.format("Result: %.2f", operations.quotientOfNum(numberInput)) ;
+
                     titleMessage = operTitle;
                 }
                 break;
@@ -773,11 +795,21 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
+
                 if(numberInput[1] == 0){
                     divisionByZero = true;
                 }
                 else{
-                    resultString = "Result: " + operations.moduloOfNum(numberInput);
+//                    System.out.println("Result Modulo: "+operations.moduloOfNum(numberInput));
+//                    System.out.println("Result Modulo (int) : "+(int)operations.moduloOfNum(numberInput));
+                    decimalPart = operations.moduloOfNum(numberInput) - (int) operations.moduloOfNum(numberInput);
+//                    System.out.println("After the Decimal Point Numbers: " + decimalPart);
+//                    System.out.printf("Number Input 1: %s\n", ((int)(numberInput[0] * 10.0) % 10 == 0) ? "No Decimal" : "Hav Decimal");
+//                    System.out.printf("Number Input 2: %s\n", ((int)(numberInput[1] * 10.0) % 10 == 0) ? "No Decimal" : "Hav Decimal");
+//                    System.out.printf("Decimal Part: %s\n", decimalPart == 0 ? true : false);
+                    hasDecimalPoint = (int)(numberInput[0] * 10.0) % 10 == 0 && (int) (numberInput[1] * 10.0) % 10 == 0 && decimalPart == 0 ;
+//                    System.out.println(hasDecimalPoint);
+                    resultString = (hasDecimalPoint) ?  "Result: " + (int) operations.moduloOfNum(numberInput): String.format("Result: %.2f", operations.moduloOfNum(numberInput)) ;
                     titleMessage = operTitle;
                 }
                 break;
@@ -786,23 +818,14 @@ class operationWindow extends JFrame implements ActionListener{
                 for(byte i = 0; i < numberInput.length; i++){
                     numberInput[i] = Double.parseDouble(userInput[i].getText());
                 }
-                if(numberInput[1] == 0){
-                    resultString = "Results\n\nAddition: " + operations.sumOfNum(numberInput) +
-                            " \nSubtraction: " + operations.diffOfNum(numberInput) +
-                            "\nMultiplication: " + operations.prodOfNum(numberInput) +
-                            "\nDivision: Error!, Division By Zero is Not Allowed!" +
-                            "\nModulo: Error!, Division By Zero is Not Allowed!";
-                    titleMessage = operTitle;
-
-                }
-                else {
-                    resultString = "Results\n\nAddition: " + operations.sumOfNum(numberInput) +
-                            " \nSubtraction: " + operations.diffOfNum(numberInput) +
-                            "\nMultiplication: " + operations.prodOfNum(numberInput) +
-                            "\nDivision: " + operations.quotientOfNum(numberInput) +
-                            "\nModulo: " + operations.moduloOfNum(numberInput);
-                    titleMessage = operTitle;
-                }
+                hasDecimalPoint = (int) (numberInput[0] * 10.0) % 10 == 0 && (int) (numberInput[1] * 10.0) % 10 == 0;
+                resultString = "Results\n\n" +
+                        "Addition: " + ((hasDecimalPoint) ?  (int) operations.sumOfNum(numberInput): String.format("%.2f", operations.sumOfNum(numberInput))) +
+                        " \nSubtraction: " + ((hasDecimalPoint) ? (int) operations.diffOfNum(numberInput) : String.format("%.2f", operations.diffOfNum(numberInput))) +
+                        "\nMultiplication: " + ((hasDecimalPoint) ? (int) operations.prodOfNum(numberInput) : String.format("%.2f", operations.prodOfNum(numberInput))) +
+                        "\nDivision: " + ((numberInput[1] != 0) ? ((operations.quotientOfNum(numberInput) - (int) operations.quotientOfNum(numberInput) == 0) ? (int) operations.quotientOfNum(numberInput) : String.format("%.2f", operations.quotientOfNum(numberInput))) : "Error!") +
+                        "\nModulo: " + ((numberInput[1] != 0) ? ((operations.moduloOfNum(numberInput) - (int) operations.moduloOfNum(numberInput) == 0) ? (int) operations.moduloOfNum(numberInput) : String.format("%.2f", operations.moduloOfNum(numberInput)) ) : "Error!");
+                titleMessage = operTitle;
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Error");
@@ -818,12 +841,12 @@ class operationWindow extends JFrame implements ActionListener{
 
         }
 
+
+
     }
     // Barral, Jacinth Cedric
     // ************************ Conversion Methods ************************
-    
-    
-    
+
     public void conversionEvent(){
         // Get String from JTextField numberToConvert
         userInSTR = numberToConvert.getText().trim();
@@ -848,7 +871,7 @@ class operationWindow extends JFrame implements ActionListener{
             userInNum = Integer.parseInt(userInSTRTemp);
             // get the Length of the String to use for checking
             inputLength = String.valueOf(userInNum).length();
-            System.out.println(userInNum + " from negative \n");
+//            System.out.println(userInNum + " from negative \n");
 
         }
         else {
@@ -859,7 +882,7 @@ class operationWindow extends JFrame implements ActionListener{
 
             // get the Length of the String to use for checking
             inputLength = String.valueOf(userInNum).length();
-            System.out.println(userInNum + " positive\n");
+//            System.out.println(userInNum + " positive\n");
         }
 
         if(inputLength > maxInputBuffer){
@@ -933,12 +956,9 @@ class operationWindow extends JFrame implements ActionListener{
 }
 class mainOperations{
     final int ARRAY_SIZE = 22;
-
     int index;
     int[] digits;
-    
     char[] hexaDecimal;
-
     double sumOfNum(double[] num){
         return num[0] + num[1];
     }
@@ -948,7 +968,6 @@ class mainOperations{
     double prodOfNum(double[] num){
         return num[0] * num[1];
     }
-
     double quotientOfNum(double[] num){
         if(num[1] == 0){
             return 0;
@@ -961,7 +980,6 @@ class mainOperations{
         }
         return num[0] % num[1];
     }
-
     int decToBin(int numData){
         digits  = new int[ARRAY_SIZE];
         index = 0;
@@ -973,7 +991,6 @@ class mainOperations{
         return index;
 
     }
-
     int decToOctal(int numData) {
         digits = new int[ARRAY_SIZE];
         index = 0;
@@ -985,7 +1002,6 @@ class mainOperations{
         }
         return index;
     }
-
     int decToHex(int numData){
         hexaDecimal = new char[ARRAY_SIZE];
         index =0;
@@ -1001,6 +1017,5 @@ class mainOperations{
         return index;
     }
     // Barral, Jacinth Cedric
-
 }
 

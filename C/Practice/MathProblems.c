@@ -15,10 +15,11 @@ int main(){
 
     bool exitLoop;
     char choice;
-    char probl[[4]][25] = {"Solve for Circumference", "Solve for Hypotenuse", "Temperature Conversion", "Simple Calculator"};
+    char probl[4][25] = {"Solve for Circumference", "Solve for Hypotenuse", "Temperature Conversion", "Simple Calculator"};
     int userChoice, length = sizeof(probl)/sizeof(probl[0]);
     do
     {   
+        userChoice = 0;
         printf("\nMath Problems\n\n"); 
         for(int i =0; i < length; i++){
             printf("%d). %s\n", (i+1), probl[i]); 
@@ -54,7 +55,7 @@ int main(){
 
                         case 4:
                         simpleCalcu();
-
+                        break;
                         default:
                         printf("Invalid\n");
                         break;  
@@ -170,7 +171,65 @@ void simpleCalcu(){
 
     char oper;
     double num1, num2, result;
+    bool divideByZero = false, invalidOper = false;
 
-    printf("Yehey Calculator!!!\n"); 
+    printf("Enter an Operator (+ - * / %%): ");
+    scanf(" %c",&oper );
+
+    printf("Enter num1: \n");
+    scanf("%lf", &num1);    
+
+    printf("Enter num2: \n");
+    scanf("%lf", &num2);
+
+    switch (oper)
+    {
+    case '+':
+        result = num1 + num2;
+        break;
+    case '-':
+        result = num1 - num2;
+        break;
+    case '*':
+        result = num1 * num2;
+        break;
+    case '/':
+        if(num2 == 0){
+            divideByZero = true;
+        }
+        else{
+            result = num1 / num2;
+        }
+
+        break;
+    case '%':
+        if(num2 == 0){
+            divideByZero = true;
+        }
+        else{
+            result = (int) num1 % (int)num2;
+        }
+        break;
+    
+    default:
+        invalidOper =true;
+        
+        break;
+    }
+    if(!invalidOper){
+        if(divideByZero){
+            printf("Division By Zero is not Allowed!\n"); 
+        }
+        else{
+            printf("Result: %.2lf\n", result); 
+        }
+    }
+    else{
+        printf("Invalid Operation!\n"); 
+    }
+
+
+
+
 
 }

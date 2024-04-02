@@ -7,13 +7,15 @@ void clearInputBuffer();
 void dispArr(char *array[], int length);
 int dispAndGetUserIn(char *array[], int length);
 
-void checkBalance(double balance);
+void checkBalance(double balance, char title[]);
 double depositMoney(double currentBalance);
+double withdrawMoney(double currentBalance);
 int main()
 {
+    const double seedBalance = 1000000.00;
     printf("\n****************** Simple Bank Program ******************\n\n");
     
-    double deposit=0, withdraw=0, balance = 10000.00;
+    double deposit=0, withdraw=0, balance = seedBalance;
     char *bankMenu[] = {"Check Balance", "Deposit Money", "Withdraw Money", "Review Transactions", "Exit"};
     char choice;
     bool exitLoop, tryAgain;
@@ -24,15 +26,15 @@ int main()
 
         printf("\n Welcome To the Bank \n");
     do{
+
         userIn =0;
         exitLoop = false;
-        printf("\n Choose your Options \n");
         userIn = dispAndGetUserIn(bankMenu, length);
 
         // printf("User Input : %d", userIn);
         switch(userIn){
             case 1:
-                checkBalance(balance);
+                checkBalance(balance, "Current");
             continue;
 
             case 2:
@@ -40,11 +42,11 @@ int main()
             continue;
 
             case 3:
-            
+                balance = withdrawMoney(balance);
             continue;
 
             case 4:
-            
+
             continue;
 
             case 5:
@@ -70,6 +72,7 @@ int main()
                 continue;
             }
             else if( choice == 'Y'){
+                balance = seedBalance;
                 tryAgain = true;
             }
             else{
@@ -86,12 +89,15 @@ int main()
         
     }while(!exitLoop);
     
+    
     return 0;
 }
 
-void checkBalance(double balance){
+void checkBalance(double balance, char title[]){
 
-    printf("\n******************* Current Bank Balance *******************\n");
+
+
+    printf("\n******************* %s Bank Balance *******************\n", title);
 
     printf("\nYour Balance: %.2lf\n", balance);
 
@@ -99,16 +105,135 @@ void checkBalance(double balance){
 
 }
 
-double depositMoney(double currentBalance){
-    double userDepos = 0;
-    bool isInputValid = false;
-    int maxDepo = 1000000;
-    printf("\n******************* Depost Money *******************\n");
+double withdrawMoney(double currentBalance){
 
-    printf("\nHow much money you want to Deposit?\n");
+    double userWithdraw = 0;
+    bool isInputValid = false, deductBalance;
+    int maxWithdraw = currentBalance;
+
+    char choice;
+    printf("\n******************* Withdraw Money *******************\n");
+
+    printf("\nHow much money you want to WITHDRAW for your account?\n");
     
     do{
-        printf("Your Deposit: ");
+        printf("Amount to Withdraw: ");
+        if(scanf("%lf", &userWithdraw) != 1){
+            printf("\nInvalid Input, try again!\n");
+            clearInputBuffer();
+            continue;
+        }
+        else if( userWithdraw > maxWithdraw){
+            printf("\nInsuffcient Balance!, try again\n");
+            clearInputBuffer();
+            continue;
+        }
+        else if(userWithdraw <= 0){
+            printf("\nYou are not allowed enter amount of 0 or below!, try again!\n");
+            clearInputBuffer();
+            continue;
+        }
+        else if(userWithdraw == currentBalance){
+
+            printf("\nYou are about to EMPTY your Account, would you like to proceed?\n");
+            do{
+                deductBalance =false;
+                printf("\n(Y = YES, N = NO)\n");
+                printf("------->: ");
+                scanf(" %c", &choice);
+                choice = toupper(choice);
+
+                if(choice != 'Y' && choice != 'N'){
+                    printf("\nInvalid Input, try again!\n");
+                    while(getchar() != '\n');
+                    continue;
+                }
+                else if( choice == 'Y'){
+                    printf("\nWithdrwaing (%.2lf) from your account, please wait.....\n",userWithdraw); 
+                    break;
+                }
+                else{
+                    printf("\nWhat amount would you like to Withdraw?\n");
+                    deductBalance = true;
+                    break;
+
+                }
+
+
+
+            }while(true);
+
+            if(deductBalance){
+                continue;
+            }
+            else{
+                isInputValid = true;
+                break;
+            }
+
+
+        }   
+        else{
+
+             printf("\nYou are about to Withdraw (%.2lf) from your Account, would you like to proceed?\n", userWithdraw);
+            do{
+                printf("\n(Y = YES, N = NO)\n");
+                printf("------->: ");
+                scanf(" %c", &choice);
+                choice = toupper(choice);
+
+                if(choice != 'Y' && choice != 'N'){
+                    printf("\nInvalid Input, try again!\n");
+                    while(getchar() != '\n');
+                    continue;
+                }
+                else if( choice == 'Y'){
+                    printf("\nWithdrwaing (%.2lf) from your account, please wait.....\n",userWithdraw); 
+                    break;
+                }
+                else{
+                    printf("\nWhat amount would you like to Withdraw?\n");
+                    deductBalance = true;
+                    break;
+
+                }
+
+
+
+            }while(true);
+
+            if(deductBalance){
+                continue;
+            }
+            else{
+                isInputValid = true;
+            }
+        }
+    }while(!isInputValid);
+
+    currentBalance -= userWithdraw;
+
+    printf("\n*******************************************************\n");
+
+    checkBalance(currentBalance, "New"); 
+
+
+    return currentBalance;
+
+    
+}
+
+double depositMoney(double currentBalance){
+    double userDepos = 0;
+    bool isInputValid = false, addBalance;
+    int maxDepo = 2000000;
+    char choice;
+    printf("\n******************* Depost Money *******************\n");
+
+    printf("\nHow much money you want to DEPOSIT from your account?\n");
+    
+    do{
+        printf("Amount to Deposit: ");
         if(scanf("%lf", &userDepos) != 1){
             printf("\nInvalid Input, try again!\n");
             clearInputBuffer();
@@ -119,16 +244,54 @@ double depositMoney(double currentBalance){
             clearInputBuffer();
             continue;
         }
+        else if(userDepos < 0){
+            printf("\nYou are not allowed to put value below 0!, try again!\n");
+            clearInputBuffer();
+            continue;
+        }   
         else{
-            isInputValid = true;
+             printf("\nYou are about to Deposit (%.2lf) into your Account, would you like to proceed?\n",userDepos);
+            do{
+                addBalance = false;
+                printf("\n(Y = YES, N = NO)\n");
+                printf("------->: ");
+                scanf(" %c", &choice);
+                choice = toupper(choice);
+
+                if(choice != 'Y' && choice != 'N'){
+                    printf("\nInvalid Input, try again!\n");
+                    while(getchar() != '\n');
+                    continue;
+                }
+                else if( choice == 'Y'){
+                    printf("\nDepositing (%.2lf )into your account, please wait.....\n", userDepos); 
+                    break;
+                }
+                else{
+                    printf("\nWhat amount would you like to Deposit?\n");
+                    addBalance = true;
+                    break;
+
+                }
+
+
+
+            }while(true);
+
+            if(addBalance){
+                continue;
+            }
+            else{
+                isInputValid = true;
+            }
         }
     }while(!isInputValid);
 
     currentBalance += userDepos;
 
-    printf("\n************************************************************\n");
+    printf("\n*******************************************************\n");
 
-
+    checkBalance(currentBalance, "New"); 
 
 
     return currentBalance;
@@ -153,6 +316,7 @@ int dispAndGetUserIn(char *array[], int length){
     bool isInputValid = false;
 
     do{
+        printf("\n Choose your Options \n");
         dispArr(array, length);
         printf("Your choice ==>: ");
         if(scanf("%d", &userIn) != 1){

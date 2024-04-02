@@ -1,1 +1,1 @@
-seed
+    int maxDepo = 1000000;

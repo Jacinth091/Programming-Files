@@ -1,0 +1,27 @@
+Description:
+Weather Forecasting is a program that generates random weather forecasts for different cities. The program will simulate weather conditions such as sunny, cloudy, rainy, or snowy for each city. Users can input the name of a city, and the program will provide a random forecast for that city.
+
+Key Components:
+
+Enums: Use enums to represent different weather conditions, such as sunny, cloudy, rainy, and snowy.
+
+Typedefs: Define a struct to represent a city, including its name and the current weather forecast.
+
+Random Numbers: Use the rand() function from the <stdlib.h> library to generate random weather forecasts for each city.
+
+User Interaction: Allow users to input the name of a city for which they want to see the weather forecast. The program will then display the current weather conditions for that city.
+
+City Database: You can either hardcode a list of cities with predefined weather forecasts or create a more dynamic approach where users can add new cities and their forecasts.
+
+Possible Features:
+
+Displaying temperature along with weather conditions.
+Providing a multi-day forecast for each city.
+Implementing graphical representation of weather conditions using ASCII art or simple graphics.
+Learning Objectives:
+
+Practice using enums, typedefs, and structs in C programming.
+Understand how to generate random numbers using the rand() function.
+Learn about user interaction and input handling in C programs.
+Explore different approaches to managing data, such as using a city database.
+By working on this activity, you'll gain valuable experience in using enums, typedefs, structs, and random numbers while creating a fun and interactive program. You can customize the complexity and features of the program based on your interests and learning goals.

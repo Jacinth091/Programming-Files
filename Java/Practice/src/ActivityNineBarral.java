@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Arrays;
 class ActivityNineBarral{
 
     public static void main(String[] args){
@@ -11,23 +10,25 @@ class ActivityNineBarral{
 
         Scanner in = new Scanner(System.in);
 
+        System.out.println("\nActivity Nine: Class Array");
+
         System.out.print("\nHow many students: ");
         numOfStudents = in.nextInt();
         in.nextLine();
 
-        System.out.print("\nHow many grades per student: ");
+        System.out.print("How many grades per student: ");
         numOfGrades = in.nextInt();
         in.nextLine();
-        userInGrades = new int[numOfGrades];
-
 
         students = new Student[numOfStudents];
 
+        System.out.println("\nEnter data:");
         for(int i =0; i < numOfStudents; i++){
             System.out.printf("\nName of Student: ", (i+1));
             studentName = in.nextLine();
-
+            userInGrades = new int[numOfGrades];
             for(int j = 0; j < numOfGrades; j++){
+
                 System.out.printf("Enter grade #%d: ", (j+1));
                 userInGrades[j] = in.nextInt();
                 in.nextLine();
@@ -35,23 +36,11 @@ class ActivityNineBarral{
             students[i] = new Student(studentName, userInGrades);
         }
         System.out.println("\n");
-        // for(int i =0; i < numOfStudents; i++){
-        //     System.out.printf("Student Name %d: %s \n", (i+1), students[i].studentName);
-        //     System.out.println();
-        //     for(int j = 0; j < students[i].studentGrades.length; j++){
-        //         System.out.printf("%s's, grades: %d\n", students[i].studentName ,students[i].studentGrades[j]);
-
-        //     }
-        // }
-
-        System.out.println("\nStudents sorted from highest average to lowest\n");
-        // Arrays.sort(students);
+        System.out.println("\nStudents sorted from highest average to lowest:");
         sortAve(students);
         for(int i =0; i < numOfStudents; i++){
-            System.out.printf("Name: %s\tAverage: %.2f  Min: %d\n", students[i].studentName, students[i].getAverage(), students[i].getMinGrade() );
-            
+            System.out.printf("Name: %s\tAverage: %.2f  Min: %d\n", students[i].studentName, students[i].getAverage(), students[i].getMinGrade() );  
         }
-        
         in.close();
 
 
@@ -61,14 +50,14 @@ class ActivityNineBarral{
 
     }
     static void sortAve(Student[] students){
-        Student[] tempObj = new Student[1];
-        for(int i = 0; i < students.length ; i++){
+        Student temp;
+        for(int i = 0; i < students.length - 1; i++){
 
-            for(int j = 0; j < students.length; j++){
-                if(students[i].getAverage() > students[j].getAverage()){
-                    tempObj[i] = students[i];
+            for(int j =  i +1; j < students.length; j++){
+                if(students[i].getAverage() < students[j].getAverage()){
+                    temp = students[i];
                     students[i] = students[j];
-                    students[j] = tempObj[i];
+                    students[j] = temp;
                 }
             }
         }
@@ -100,14 +89,5 @@ class Student{
             }
         }
         return min;
-    }
-    int getMaxGrade(){
-        int max = 0;
-        for(byte i =0; i<studentGrades.length; i++){
-            if(max < studentGrades[i]){
-                max = studentGrades[i];
-            }
-        }
-        return max;
     }
 }

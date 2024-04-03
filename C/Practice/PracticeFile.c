@@ -7,24 +7,30 @@ void removeDuplicates();
 
 int main(){
 
-    // int matrixSize = 0, matrixElements = 0;
+    int matrixSize = 0, matrixElements = 0;
     
-    // printf("\nEnter the size of the matrix: ");
-    // scanf("%d", &matrixSize);
+    printf("\nEnter the size of the matrix: ");
+    scanf("%d", &matrixSize);
     
-    // int matrixArray[matrixSize][matrixSize];
-    // printf("Enter the Elements of the matrix: \n");
-    // for(int row = 1; row <= matrixSize; row++){
+    int matrixArray[matrixSize][matrixSize];
+    printf("Enter the Elements of the matrix: \n");
+    for(int row = 0; row < matrixSize; row++){
 
-    //     for(int col = 1; col <= matrixSize; col++){
-    //         scanf("%d", &matrixElements);
-    //         matrixArray[row][col] = matrixElements;
-    //     }
+        for(int col = 0; col < matrixSize; col++){
+            scanf("%d", &matrixArray[row][col]);
+        }
         
-    // }
+    }
+
+    for(int i =0; i < matrixSize; i++){
+        for(int j = 0; j < matrixSize; j++){
+            printf("%d ", matrixArray[j][i]);
+        }
+        printf("\n");
+    }
 
 
-    removeDuplicates();
+    // removeDuplicates();
 
 
 
@@ -53,6 +59,7 @@ void removeDuplicates(){
         scanf("%d", &userIn);
         numArr[i] = userIn;
     } 
+
     for(int i =0; i < sizeof(numArr)/sizeof(numArr[0]); i++){
         bool foundDupe = false;
         for(int j = 0; j < counter; j++){
@@ -61,7 +68,7 @@ void removeDuplicates(){
                 break;
             }
         }
-        if(foundDupe == 0){
+        if(!foundDupe){
             dupeNumArr[counter++] = numArr[i];
         }
     }  

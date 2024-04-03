@@ -20,6 +20,7 @@ int main()
         }
         
     }
+    
     for(int row = 1; row <= matrixSize; row++){
 
         for(int col = 1; col <= matrixSize; col++){

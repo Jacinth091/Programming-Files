@@ -3,6 +3,15 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+
+typedef struct{
+    char transactionType[20];
+    double transactionAmount;
+
+}Transactions;
+
+
+
 void clearInputBuffer();
 void dispArr(char *array[], int length);
 int dispAndGetUserIn(char *array[], int length);

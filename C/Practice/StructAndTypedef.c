@@ -19,7 +19,7 @@ typedef struct{
 
 void clearInputBuffer();
 int main(){
-    int numberOfStudents = 2;
+    const int numberOfStudents = 2;
     Student students[numberOfStudents];
 
     char studentName[100];

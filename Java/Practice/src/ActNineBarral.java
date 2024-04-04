@@ -10,7 +10,8 @@ import java.util.Scanner;
 public class ActNineBarral {
     public static void main(String[] args) {
         
-        int numOfStudents, numOfGrades, studGrade;
+        int numOfStudents, numOfGrades;
+        float studGrade;
         String name;
         char choice;
         boolean exitLoop = false;
@@ -18,9 +19,9 @@ public class ActNineBarral {
         Student[] students; // create an instance of Students[] without setting the size
 
         System.out.println("********************** Activity Nine **********************\n");
-        int attempt =0;
+        int attempt = 1;
         do{
-            System.out.printf("\nAttempts: %d\n\n", attempt);
+            System.out.printf("Attempts: %d\n\n", attempt);
 
             do{ // Checks if value inputted (number of students) are within range 1 -10
                 System.out.print("Number of Students: ");
@@ -81,17 +82,29 @@ public class ActNineBarral {
                 System.out.printf("\n\tStudent Number #%d\n", (i+1));
                 System.out.print("\nName of Student: ");
                 name = in.nextLine();
+
+                if(name.isEmpty()){
+                    System.out.println("\nYou need to input a name, try again!\n");
+                    i--;
+                    continue;
+                }
+                else if(name.length() == 1){
+                    System.out.println("\nEnter a valid name with atleast 2 or more characters, try again!\n");
+                    i--;
+                    continue;
+                }
+
     
                 System.out.println();
     
                 students[i] = new Student(name); // For every name that is input is getting stored in the studentsName variable inside the Students class
-                students[i].studentGrades = new int[numOfGrades];   // Declaration of the size of the studentsGrades array
-    
+                students[i].studentGrades = new float[numOfGrades];   // Declaration of the size of the studentsGrades array
+                // System.out.printf("\nName Lenght: %d\n", students[i].studentName.length());
                 for(byte j =0; j < numOfGrades; j++){
                 
                     System.out.printf("Enter grades #%d: ", (j+1));
-                    if(in.hasNextInt()){
-                        studGrade = in.nextInt();
+                    if(in.hasNextFloat()){
+                        studGrade = in.nextFloat();
                         in.nextLine();
             
                         if(studGrade <= 0){ // If grade is below or equal to zero, ask the user again 
@@ -99,8 +112,8 @@ public class ActNineBarral {
                             j--;
                             continue;
                         }
-                        else if(studGrade > 100){// If grade is above 100, ask the user again 
-                            System.out.print("\nEnter only grades that are below 100, try again\n");
+                        else if(studGrade > 100 || studGrade < 50){// If grade is below 50 AND above 100, ask the user again 
+                            System.out.print("\nEnter only grades that 50 - 100, try again!\n\n");
                             j--;
                             continue;
                         }
@@ -119,12 +132,13 @@ public class ActNineBarral {
                 }
             }
             System.out.println("\n\nStudents sorted from highest average to lowest:");
-            sortByAve(students);
+            sortByAve(students); // Sort the Student[] object array based on the average from highest to lowest
             for(int i =0; i < numOfStudents; i++){
                 System.out.printf("Name : %-15s", students[i].studentName);
                 System.out.printf("Average: %-7.2f", students[i].getAverage());
                 System.out.printf("Min: %-5d", students[i].getMinGrade());
                 System.out.printf("Max: %-5d\n", students[i].getMaxGrade());
+
             }
             System.out.println();
             do{// Asks the user if he'she will exit the program or not
@@ -143,7 +157,7 @@ public class ActNineBarral {
                     break;
                 }
                 else{
-                    System.out.println("\nProceed!\n");
+                    System.out.println("\n**********************************************************\n");
                     break;
                 }
             }while(true);
@@ -167,23 +181,23 @@ public class ActNineBarral {
 }
 class Student{
     String studentName;
-    int[] studentGrades;
+    float[] studentGrades;
 
     Student(String name){
         studentName = name;
     }
     float getAverage(){
-        int sum = 0;
+        float sum = 0;
         for(int i = 0; i < studentGrades.length; i++){
             sum += studentGrades[i];
         }
-        return (float) sum/studentGrades.length;
+        return sum/studentGrades.length;
     }
     int getMinGrade(){
         int min = 100;
         for(byte i =0; i<studentGrades.length; i++){
             if(min > studentGrades[i]){
-                min = studentGrades[i];
+                min = (int)studentGrades[i];
             }
         }
         return min;
@@ -192,7 +206,7 @@ class Student{
         int max = 0;
         for(byte i =0; i<studentGrades.length; i++){
             if(max < studentGrades[i]){
-                max = studentGrades[i];
+                max = (int)studentGrades[i];
             }
         }
         return max;

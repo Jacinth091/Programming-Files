@@ -25,3 +25,43 @@ Understand how to generate random numbers using the rand() function.
 Learn about user interaction and input handling in C programs.
 Explore different approaches to managing data, such as using a city database.
 By working on this activity, you'll gain valuable experience in using enums, typedefs, structs, and random numbers while creating a fun and interactive program. You can customize the complexity and features of the program based on your interests and learning goals.
+
+
+GuideLines for the Weather Condition
+
+Sunny/Clear:
+
+	Temperature: Typically above 70°F (21°C)
+	Humidity: Moderate to low, usually below 60%
+	Humidity: 30% to 60%
+
+Cloudy/Partly Cloudy:
+
+	Temperature: Variable, but often between 50°F to 80°F 	(10°C to 27°C)
+	Humidity: Variable, can range from moderate to high
+	Humidity: 50% to 80%
+
+Rainy:
+
+	Temperature: Can vary widely, but often between 45°F to 	75°F (7°C to 24°C)
+	Humidity: Moderate to high, often above 60%
+	Humidity: 60% to 100%
+
+Snowy:
+
+	Temperature: Typically below freezing, ranging from 20°F 	to 32°F (-7°C to 0°C)
+	Humidity: Can vary, but often moderate to low
+	Humidity: 40% to 80%
+
+Windy:
+
+	Temperature: Can vary widely, but often above 50°F (10°	C)
+	Humidity: Variable, but often lower than rainy 	conditions
+	Humidity: 30% to 60%
+
+Stormy/Thunderstorms:
+
+	Temperature: Typically warm, above 60°F (15°C)
+	Humidity: High, often above 70%
+	Humidity: 70% to 100%
+

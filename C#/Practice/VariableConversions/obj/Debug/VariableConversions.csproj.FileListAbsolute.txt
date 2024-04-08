@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\bin\Debug\VariableConversions.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\obj\Debug\VariableConversions.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\obj\Debug\VariableConversions.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\obj\Debug\VariableConversions.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\bin\Debug\VariableConversions.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\bin\Debug\VariableConversions.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\VariableConversions\obj\Debug\VariableConversions.exe

@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\bin\Debug\FirstC#File.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\bin\Debug\FirstC#File.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\bin\Debug\FirstC#File.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\obj\Debug\FirstC#File.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\obj\Debug\FirstC#File.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\obj\Debug\FirstC#File.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\FirstC#File\obj\Debug\FirstC#File.pdb

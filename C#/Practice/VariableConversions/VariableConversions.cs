@@ -10,23 +10,57 @@ namespace VariableConversions
     {
         static void Main(string[] args)
         {
-
+            // Convert String to Int = Convert.ToInt32();
             string ageSTR = "65";
             int ageInt = Convert.ToInt32(ageSTR);
+            Console.WriteLine(ageInt);
 
-            Console.WriteLine("You're currently {0}, years old!\n", ageInt);
-            Console.WriteLine(ageInt.GetType());
+            // Convert String to Long = Convert.ToInt64();
+            string strBigNumber = "-900000000";
+            long bigNumber = Convert.ToInt64(strBigNumber);
+            Console.WriteLine(bigNumber);
 
-            Console.Write("What is your name?: ");
-            string name = Console.ReadLine();
+            // Convert String to Double = Convert.ToDouble();
+            string strPI = "3.141596854789315";
+            double PI = Convert.ToDouble(strPI);
+            Console.WriteLine(PI);
 
-            Console.WriteLine("Hello! {0}, It's nice to meet you!\n", name);
+            // Convert String to float = Convert.ToSingle();
+            string strPrice = "1040.256";
+            float price = Convert.ToSingle(strPrice);
+            Console.WriteLine(price);
 
-            for(int i = 0; i< 10; i++)
+            // Convert String to Decimal = Convert.ToDecimal();
+            string strMoney = "23241635746254683468";
+            decimal money = Convert.ToDecimal(strMoney);
+            Console.WriteLine(money);
+
+
+            Console.Read();
+        }
+
+        static void pyramid()
+        {
+            int i, j, n = 10;
+            for (i = 1; i <= n; i++)
             {
-                Console.WriteLine("{0} ", i+1);
+                for (j = 1; j <= (2 * n) - 1; j++)
+                {
+                    if (j >= n - (i - 1) && j <= n + (i - 1))
+                    {
+                        Console.Write("*");
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                    }
+                }
+                Console.Write("\n");
             }
+        }
 
+        static void misInputEx()
+        {
             char choice;
             do
             {
@@ -35,7 +69,7 @@ namespace VariableConversions
 
                 //input = Console.ReadLine();
                 //choice = char.ToUpper(input[0]);
-                //choice = char.ToUpper(Console.ReadKey().KeyChar);
+                choice = char.ToUpper(Console.ReadKey().KeyChar);
 
 
                 if (choice != 'Y' && choice != 'N')
@@ -43,7 +77,7 @@ namespace VariableConversions
                     Console.Write("\nInvalid Input, try again!\n");
                     continue;
                 }
-                else if(choice == 'N')
+                else if (choice == 'N')
                 {
                     Console.Write("\nThank you for using the program, see ya!\n");
                     break; ;
@@ -55,10 +89,6 @@ namespace VariableConversions
                 }
 
             } while (true);
-
-
-
-            Console.Read();
         }
     }
 }

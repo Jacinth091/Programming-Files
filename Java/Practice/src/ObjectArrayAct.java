@@ -9,6 +9,7 @@ Description: Create a Java program that accepts the names and grades of three(3)
 import java.util.Scanner;
 
 public class ObjectArrayAct {
+    
     static Scanner in = new Scanner(System.in);
     static int getUserIn(int min, int max, String question){
         int userIn;

@@ -9,7 +9,8 @@ public class testing{
         Scanner in = new Scanner(System.in);
         // Column names
 
-        String[][] data = new String[][]{
+        String[][] data = new String[][]
+                {
                 {"Don Quixote", "Miguel de Cervantes", "Fiction"},
                 {"Alice's Adventures in Wonderland", "Lewis Carroll", "Fantasy"},
                 {"The Adventures of Huckleberry Finn", "Mark Twain", "Adventure"},

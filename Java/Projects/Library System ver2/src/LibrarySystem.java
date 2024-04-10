@@ -4,7 +4,9 @@ import java.util.List;
 public class LibrarySystem {
     static Scanner in = new Scanner(System.in);
     static Library library = new Library();
-    static int userIn;
+    static int userIn, length;
+    static  boolean isValid = false;
+
 
     public static void main(String[] args) {
 
@@ -51,17 +53,18 @@ public class LibrarySystem {
         do {
             System.out.print("\n**************** Menu ****************");
             dispList(menu);
-            userIn = getValidIn(menu, "Menu");
+            userIn = getValidIn(menu, "Menu", 1);
             System.out.print("**************************************\n\n");
 
 
             switch (userIn) {
                 case 1:
-                    viewLibrary(viewBookMenu, "View Book List");
+                    viewLibrary(viewBookMenu, "View Book List", 1);
 
                     break;
                 case 2:
                     System.out.println("Order");
+                    library.displayBooks(2);
 
                     break;
                 case 3:
@@ -74,8 +77,9 @@ public class LibrarySystem {
                     break;
                 case 0:
                     System.out.println("Exiting......");
-                    System.exit(0);
+//                    System.exit(0);
 
+                    exitLoop = true;
                     break;
                 default:
                     continue;
@@ -98,75 +102,118 @@ public class LibrarySystem {
         }
     }
 
-    static int getValidIn(String[] array, String title) {
-        int userIn = -1;
-        boolean isValid = false;
-        int length = array.length -1;
-
-        do {
-            System.out.print("Your choice: ");
-            if (in.hasNextInt()) {
-                userIn = in.nextInt();
-                in.nextLine();
-                if (userIn <= length && userIn >= 0) {
-                    isValid = true;
-                } else {
+    static int getValidIn(String[] array, String title, int indicator) {
+        isValid = false;
+        switch(indicator){
+            case 1:
+                do{
+                    isValid = false;
+                    length = array.length -1;
+                    System.out.print("Your choice: ");
+                    if (in.hasNextInt()) {
+                        userIn = in.nextInt();
+                        in.nextLine();
+                        if (userIn <= length && userIn >= 0) {
+                            isValid = true;
+                        } else {
 //                    System.out.print("**************************************\n");
-                    System.out.print("\nOut of Range, try again!\n");
-                    System.out.printf("\n**************** %s ****************", title);
-                    dispList(array);
-                    continue;
-                }
-            } else {
-                System.out.print("\nInvalid Input, try again!\n");
-                System.out.printf("\n**************** %s ****************", title);
-                dispList(array);
-                in.nextLine();
-                continue;
-            }
+                            System.out.print("\nOut of Range, try again!\n");
+                            System.out.printf("\n**************** %s ****************", title);
+                            dispList(array);
+                        }
+                    } else {
+                        System.out.print("\nInvalid Input, try again!\n");
+                        System.out.printf("\n**************** %s ****************", title);
+                        dispList(array);
+                        in.nextLine();
+                    }
+                }while(!isValid);
 
-        } while (!isValid);
+                return userIn;
+//            break;
+            case 2:
 
+                break;
+            case 3:
+                break;
+
+        }
 
         return userIn;
     }
 
-    static void viewLibrary(String[] array, String title){
-
-        boolean isValid = false;
-
+    static void viewLibrary(String[] array, String title, int indicator){
         do{
+//            System.out.println("In: " + isValid);
             System.out.printf("**************** %s ****************\n", title);
             dispList(array);
-            userIn = getValidIn(array, title);
-//            System.out.print("**************************************************\n\n");
-
-
+            userIn = getValidIn(array, title, indicator);
+            isValid = false;
             switch(userIn){
                 case 1:
-//                    System.out.println("\nLibrary: Book List\n");
-                    System.out.printf("\n**************** Book List ****************\n");
-                    library.displayBooks();
-//                    System.out.print("\n*******************************************");
+                    System.out.printf("\n**************** %s ****************\n", title);
+                    library.displayBooks(1); // 1 = for all book Data
                     break;
                 case 2:
+
                     System.out.println("Users: Book List\n");
                     continue;
                 case 0:
+
                     System.out.println("Back to Menu\n");
                     isValid = true;
                     break;
             }
-
         }while(!isValid);
-
-
-
     }
-    static void getBookFromList(){
+//    static void orderBooksFromList(){
+//
+//        isValid = false;
+//
+//        do{
+//
+//
+//
+//        }while(!isValid);
+//
+//
+//    }
 
-    }
 
+//    public int getValidInput(){
+//        int userIn;
+//        boolean isValid = false;
+//        int length = library.bookList.size();
+//
+//        do {
+//            System.out.print("Your choice: ");
+//            if (in.hasNextInt()) {
+//                userIn = in.nextInt();
+//                in.nextLine();
+//                if (userIn <= length && userIn >= 0) {
+//                    isValid = true;
+//                } else {
+////                    System.out.print("**************************************\n");
+//                    System.out.print("\nOut of Range, try again!\n");
+//                    System.out.printf("\n**************** %s ****************", title);
+//                    continue;
+//                }
+//            } else {
+//                System.out.print("\nInvalid Input, try again!\n");
+//                System.out.printf("\n**************** %s ****************", title);
+//                dispList(array);
+//                in.nextLine();
+//                continue;
+//            }
+//
+//        } while (!isValid);
+//
+//
+//        return userIn;
+//
+//
+//        return 0;
+//    }
 
 
 }

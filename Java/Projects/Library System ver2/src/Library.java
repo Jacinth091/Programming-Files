@@ -71,7 +71,7 @@ class Library {
                     current = bookList.get(currBook);
                     System.out.printf("\n%-5d%-45s%-30s%-20s\n", (currBook + 1), current.bookTitle.toUpperCase(), current.bookAuthor.toUpperCase(), current.bookGenre.toUpperCase());
                 }
-                System.out.println("*********************************************************************************************************\n");
+                System.out.println("*********************************************************************************************************");
 
                 break;
             case 3: // Display all the Book title and availablity
@@ -83,11 +83,49 @@ class Library {
     }
 
 
-    public void getBooks(){
+    public int getBookNumber(Scanner in){
+        int userIn = 0, length = bookList.size();
+        boolean isValid = false;
 
+        do{
+            System.out.print("\nEnter Book # you want to order\n");
+            System.out.print("Book Number: ");
+            if(in.hasNextInt()){
+                userIn = in.nextInt();
+                in.nextLine();
+                if(userIn <= length && userIn > 0 ){
+                    isValid = true;
+                }
+                else{
+                    System.out.print("\nBook Not Found!, try again\n");
+                }
+            }
+            else {
+                System.out.print("\nInvalid Input, try again!\n");
+                in.nextLine();
+            }
 
+        }while(!isValid);
 
+        return userIn;
     }
 
+    public BookData getBookFromList(int bookNumber){
+        return bookList.get(bookNumber - 1);
+    }
+    public void addBookToOrderList(BookData bookToAdd){
+        userBookCart.add(bookToAdd);
+    }
+    public <T> void  dispUserBookList(List<T> list){
+        BookData current;
+        int length = list.size();
 
+        System.out.println("\n*********************************************************************************************************");
+        System.out.printf("%-10s%-45s%-30s%-20s\n","Serial #","Title", "Author", "Genre");
+        for(int currBook = 0; currBook < length; currBook++){
+            current = (BookData) list.get(currBook);
+            System.out.printf("\n%-10d%-45s%-30s%-20s\n",current.bookId, current.bookTitle.toUpperCase(), current.bookAuthor.toUpperCase(), current.bookGenre.toUpperCase());
+        }
+        System.out.println("*********************************************************************************************************\n");
+    }
 }

@@ -41,9 +41,9 @@ public class LibrarySystem {
     }
 
     static void libraryMenu() {
-        String[] menu = {"View Book List", "Order Book/s", "Book-Cart", "Checkout Book/s", "Exit"};
+        String[] menu = {"View Book List", "Order Book/s", "Add Book/s", "Checkout Book/s", "Exit"};
         String[] viewBookMenu = {"Book List", "User Added Book List", "Back to Menu"};
-        String[] orderBookMenu = {"Add to List", "Remove from List", "Back to Menu"};
+        String[] orderBookMenu = {"View Ordered Books", "Add to List", "Remove from List", "Back to Menu"};
 
         library.initializeBook(); // initialize the library with lists of books
 
@@ -51,24 +51,25 @@ public class LibrarySystem {
 
 
         do {
-            System.out.print("\n**************** Menu ****************");
+            System.out.print("\n**************** Menu ****************\n");
             dispList(menu);
-            userIn = getValidIn(menu, "Menu", 1);
+            userIn = getValidIn(menu, "Menu");
             System.out.print("**************************************\n\n");
 
 
             switch (userIn) {
                 case 1:
-                    viewLibrary(viewBookMenu, "View Book List", 1);
+                    viewLibrary(viewBookMenu, "View Book List");
 
                     break;
                 case 2:
                     System.out.println("Order");
-                    library.displayBooks(2);
+                    orderBooks(orderBookMenu, "Order Book/s");
+
 
                     break;
                 case 3:
-                    System.out.println("Book-Cart");
+                    System.out.println("Add Book/s");
 
                     break;
                 case 4:
@@ -92,7 +93,7 @@ public class LibrarySystem {
 
     static void dispList(String[] array) {
         int length = array.length;
-        System.out.println();
+//        System.out.println();
         for (int i = 0; i < length; i++) {
             if (array[i] == "Exit" || array[i] == "Back to Menu") {
                 System.out.printf("\n%d. %s\n", i - (length - 1), array[i]);
@@ -102,53 +103,44 @@ public class LibrarySystem {
         }
     }
 
-    static int getValidIn(String[] array, String title, int indicator) {
+    static int getValidIn(String[] array, String title) {
+        userIn = -1;
         isValid = false;
-        switch(indicator){
-            case 1:
-                do{
-                    isValid = false;
-                    length = array.length -1;
-                    System.out.print("Your choice: ");
-                    if (in.hasNextInt()) {
-                        userIn = in.nextInt();
-                        in.nextLine();
-                        if (userIn <= length && userIn >= 0) {
-                            isValid = true;
-                        } else {
+
+        do{
+            length = array.length -1;
+            System.out.print("Your choice: ");
+            if (in.hasNextInt()) {
+                userIn = in.nextInt();
+                in.nextLine();
+                if (userIn <= length && userIn >= 0) {
+                    isValid = true;
+                } else {
 //                    System.out.print("**************************************\n");
-                            System.out.print("\nOut of Range, try again!\n");
-                            System.out.printf("\n**************** %s ****************", title);
-                            dispList(array);
-                        }
-                    } else {
-                        System.out.print("\nInvalid Input, try again!\n");
-                        System.out.printf("\n**************** %s ****************", title);
-                        dispList(array);
-                        in.nextLine();
-                    }
-                }while(!isValid);
-
-                return userIn;
-//            break;
-            case 2:
-
-                break;
-            case 3:
-                break;
-
-        }
+                    System.out.print("\nOut of Range, try again!\n");
+                    System.out.printf("\n**************** %s ****************\n", title);
+                    dispList(array);
+                }
+            } else {
+                System.out.print("\nInvalid Input, try again!\n");
+                System.out.printf("\n**************** %s ****************\n", title);
+                dispList(array);
+                in.nextLine();
+            }
+        }while(!isValid);
 
         return userIn;
     }
 
-    static void viewLibrary(String[] array, String title, int indicator){
+    static void viewLibrary(String[] array, String title){
         do{
 //            System.out.println("In: " + isValid);
             System.out.printf("**************** %s ****************\n", title);
             dispList(array);
-            userIn = getValidIn(array, title, indicator);
+            userIn = getValidIn(array, title);
             isValid = false;
+
+
             switch(userIn){
                 case 1:
                     System.out.printf("\n**************** %s ****************\n", title);
@@ -166,54 +158,91 @@ public class LibrarySystem {
             }
         }while(!isValid);
     }
-//    static void orderBooksFromList(){
-//
-//        isValid = false;
-//
-//        do{
-//
-//
-//
-//        }while(!isValid);
-//
-//
-//    }
+
+    static void orderBooks(String[] array, String title){
+        BookData orderedBook;
+        do{
+            System.out.printf("\n**************** %s ****************\n", title);
+            dispList(array);
+            userIn = getValidIn(array, title);
+            isValid = false;
+//            System.out.println(userIn);
+
+            switch(userIn){
+                case 1: // Displays User Ordered Book List
+//                    library.displayBooks(2);
+                    library.dispUserBookList(library.userBookCart);
+
+                    continue;
+                case 2:
+//                    System.out.println("Get Data from List\n");
+                    library.displayBooks(2);
+
+                    // Get Book Number from List
+                    userIn = library.getBookNumber(in);
+
+                    // Get Book from Book List using the Book Number
+                    orderedBook = library.getBookFromList(userIn);
+
+                    System.out.printf("\nOrder --> %s by %s? \n", orderedBook.bookTitle, orderedBook.bookAuthor);
+                    if(askConfirm()){
+                        System.out.print("\n---------------------------------------------------------------\n");
+                        System.out.print("\t\t\t\t\t   ORDER COMPLETED\n");
+                        System.out.print("---------------------------------------------------------------\n");
+                        // Add Book to Ordered Book List
+                        library.addBookToOrderList(orderedBook);
+                    }
+                    else{
+                        System.out.print("\n---------------------------------------------------------------\n");
+                        System.out.print("\t\t\t\t\t   ORDER FAILED\n");
+                        System.out.print("---------------------------------------------------------------\n");
+                        continue;
+                    }
+
+                    // Display Current Ordered Book List
+                    library.dispUserBookList(library.userBookCart);
 
 
-//    public int getValidInput(){
-//        int userIn;
-//        boolean isValid = false;
-//        int length = library.bookList.size();
-//
-//        do {
-//            System.out.print("Your choice: ");
-//            if (in.hasNextInt()) {
-//                userIn = in.nextInt();
-//                in.nextLine();
-//                if (userIn <= length && userIn >= 0) {
-//                    isValid = true;
-//                } else {
-////                    System.out.print("**************************************\n");
-//                    System.out.print("\nOut of Range, try again!\n");
-//                    System.out.printf("\n**************** %s ****************", title);
-//                    continue;
-//                }
-//            } else {
-//                System.out.print("\nInvalid Input, try again!\n");
-//                System.out.printf("\n**************** %s ****************", title);
-//                dispList(array);
-//                in.nextLine();
-//                continue;
-//            }
-//
-//        } while (!isValid);
-//
-//
-//        return userIn;
-//
-//
-//        return 0;
-//    }
+                    continue;
+                case 3:
+                    System.out.println("Users: Book List\n");
+                    continue;
+                case 0:
+
+                    System.out.println("Back to Menu\n");
+                    isValid = true;
+                    break;
+            }
+        }while(!isValid);
+    }
+
+static boolean askConfirm(){
+        boolean boolValue = false;
+        isValid = false;
+        char choice;
+
+        do{
+            System.out.print("Confrim Action ( Y = Yes, N = No): ");
+            choice = in.next().charAt(0);
+            choice = Character.toUpperCase(choice);
+
+            if(choice != 'Y' && choice != 'N'){
+                System.out.print("\nInvalid Input, try again!\n");
+
+            }
+            else if(choice == 'Y'){
+                boolValue = true;
+                isValid = true;
+            }
+            else{
+                isValid = true;
+            }
+
+        }while(!isValid);
+            isValid = false;
+
+        return boolValue;
+}
 
 
 }

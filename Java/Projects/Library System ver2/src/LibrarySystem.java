@@ -1,42 +1,17 @@
 import java.util.Scanner;
-import java.util.List;
 
 public class LibrarySystem {
     static Scanner in = new Scanner(System.in);
     static Library library = new Library();
-    static int userIn, length;
+    static int userIn, length =0;
     static  boolean isValid = false;
 
-
     public static void main(String[] args) {
-
-//        Library library =  new Library();
-//        BookData books = new BookData(null,null,null,0 ,0,false);
-//
-//        library.initializeBook();
-//        library.displayBooks();
-//
-//        System.out.println();
-//
-//        System.out.printf("\nAuthor: ");
-//        for(int i =0; i <library.length; i++){
-//            System.out.printf("%s  ", library.authorList.get(i));
-//        }
-//        System.out.printf("\nTitle: ");
-//        for(int i =0; i <library.length; i++){
-//            System.out.printf("%s  ", library.titleList.get(i));
-//        }
-//        System.out.printf("\nGenre: ");
-//        for(int i =0; i <library.length; i++){
-//            System.out.printf("%s  ", library.genreList.get(i));
-//        }
-
         System.out.print("\n**************************************************\n");
         System.out.print("\t\t\t Library System ver 2");
         System.out.print("\n**************************************************\n");
 
         libraryMenu();
-
 
     }
 
@@ -60,13 +35,10 @@ public class LibrarySystem {
             switch (userIn) {
                 case 1:
                     viewLibrary(viewBookMenu, "View Book List");
-
                     break;
                 case 2:
                     System.out.println("Order");
                     orderBooks(orderBookMenu, "Order Book/s");
-
-
                     break;
                 case 3:
                     System.out.println("Add Book/s");
@@ -166,46 +138,91 @@ public class LibrarySystem {
             dispList(array);
             userIn = getValidIn(array, title);
             isValid = false;
-//            System.out.println(userIn);
-
             switch(userIn){
                 case 1: // Displays User Ordered Book List
-//                    library.displayBooks(2);
-                    library.dispUserBookList(library.userBookCart);
-
+                    if(library.userBookCart.isEmpty()){
+                        System.out.print("\n---------------------------------------------------------------\n");
+                        System.out.printf("\t\t\t   %s\n", "Your Books List is currently EMPTY!");
+                        System.out.printf("\t\t\t\t   %s\n", "Add Books to List first");
+                        System.out.print("---------------------------------------------------------------\n");
+                    }else{
+                        library.dispUserBookList(library.userBookCart);
+                    }
                     continue;
                 case 2:
 //                    System.out.println("Get Data from List\n");
                     library.displayBooks(2);
 
                     // Get Book Number from List
-                    userIn = library.getBookNumber(in);
-
-                    // Get Book from Book List using the Book Number
-                    orderedBook = library.getBookFromList(userIn);
-
-                    System.out.printf("\nOrder --> %s by %s? \n", orderedBook.bookTitle, orderedBook.bookAuthor);
-                    if(askConfirm()){
-                        System.out.print("\n---------------------------------------------------------------\n");
-                        System.out.print("\t\t\t\t\t   ORDER COMPLETED\n");
-                        System.out.print("---------------------------------------------------------------\n");
-                        // Add Book to Ordered Book List
-                        library.addBookToOrderList(orderedBook);
-                    }
-                    else{
-                        System.out.print("\n---------------------------------------------------------------\n");
-                        System.out.print("\t\t\t\t\t   ORDER FAILED\n");
-                        System.out.print("---------------------------------------------------------------\n");
+                    userIn = library.getBookNumber(in, library.bookList, "order");
+                    if(userIn == 0){
                         continue;
                     }
+                    else{
+                        // Get Book from Book List using the Book Number
+                        orderedBook = library.getBookFromList(userIn, library.bookList);
+                        // checks if the book Status if "Available" or "Not Available"
+                        if(!library.checkBookStatus(orderedBook, library.bookList)){
+                            System.out.print("\n---------------------------------------------------------------\n");
+                            System.out.printf("\t\t\t   %s\n", "The Book is Currently Not Available");
+                            System.out.printf("\t\t\t\t   %s\n", "Check your order list");
+                            System.out.print("---------------------------------------------------------------\n");
+                            continue;
+                        }
 
-                    // Display Current Ordered Book List
-                    library.dispUserBookList(library.userBookCart);
+                        // checks if the user confirm order, add to list
+                        if(dispSuccess(orderedBook, "ORDER")){
+                            // Add Book to Ordered Book List
+                            library.optToOrderList(orderedBook, true);
+                            // set status to ordered Book Data to False == Not Available
+                            library.setBookToFalse(userIn, library.bookList);
+
+                        }// if not confirmed, loop back at the menu
+                        else{
+                            continue;
+                        }
+
+                        // Display Current Ordered Book List
+                        library.dispUserBookList(library.userBookCart);
+                    }
+
 
 
                     continue;
                 case 3:
-                    System.out.println("Users: Book List\n");
+//                    System.out.println("Remove Books\n");
+                    // Check if list has data
+                        // if list has no data, continue to loop
+                    if(library.userBookCart.isEmpty()){
+                        System.out.print("\n---------------------------------------------------------------\n");
+                        System.out.printf("\t\t\t   %s\n", "Your Books List is currently EMPTY!");
+                        System.out.printf("\t\t\t\t   %s\n", "Add Books to List first");
+                        System.out.print("---------------------------------------------------------------\n");
+                    }
+                    // if list has data, perform removing
+                    else{
+                        // Get current data list
+                        library.dispUserBookList(library.userBookCart);
+                        // Get Book Number from List, using user input
+                        userIn = library.getBookNumber(in, library.userBookCart, "remove");
+                        if(userIn == 0)
+                            continue;
+                        else{
+                            // Get Book from Book List using the Book Number
+                            orderedBook = library.getBookFromList(userIn, library.userBookCart);
+                            if(dispSuccess(orderedBook, "REMOVE")){
+                                // Remove Book from List
+                                library.optToOrderList(orderedBook, false);
+                                library.setBookToTrue(library.bookList,orderedBook);
+
+                            }
+                            else{
+                                continue;
+                            }
+                            // Display Current Ordered Book List
+                            library.dispUserBookList(library.userBookCart);
+                        }
+                    }
                     continue;
                 case 0:
 
@@ -216,7 +233,7 @@ public class LibrarySystem {
         }while(!isValid);
     }
 
-static boolean askConfirm(){
+    static boolean askConfirm(){
         boolean boolValue = false;
         isValid = false;
         char choice;
@@ -243,7 +260,24 @@ static boolean askConfirm(){
 
         return boolValue;
 }
+    static boolean dispSuccess(BookData orderedBook, String option){
+        boolean flagValue;
+        System.out.printf("\n%s --> %s by %s? \n", option, orderedBook.bookTitle, orderedBook.bookAuthor);
+        if(askConfirm()){
+            System.out.print("\n---------------------------------------------------------------\n");
+            System.out.printf("\t\t\t\t\t   %s COMPLETED\n", option);
+            System.out.print("---------------------------------------------------------------\n");
 
+            return true;
+        }
+        else{
+            System.out.print("\n---------------------------------------------------------------\n");
+            System.out.printf("\t\t\t\t\t   %s FAILED\n", option);
+            System.out.print("---------------------------------------------------------------\n");
+            return false;
+        }
+
+    }
 
 }
 

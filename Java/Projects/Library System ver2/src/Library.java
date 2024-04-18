@@ -139,13 +139,10 @@ class Library {
         int length = list.size();
         for(int currBook = 0; currBook < length; currBook++ ){
             checkBook = (BookData) list.get(currBook);
-            if(Objects.equals(checkBook.bookTitle, orderedBook.bookTitle)){
+            if(Objects.equals(checkBook.bookId, orderedBook.bookId)){
                 if(checkBook.isBookAvailable){
                     flagValue = true;
                     break;
-                }
-                else{
-                    continue;
                 }
             }
         }

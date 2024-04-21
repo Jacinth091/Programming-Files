@@ -1,7 +1,9 @@
 /*
 Name: Barral, Jacinth Cedric C
-Date: April 20, 2024
-Description:
+Date: April 21, 2024
+Description: Create a 2d array and populate it with numbers,
+, find the maximum element inside the array
+and display the location (row and col) of the maximum element to the user
 
 */
 import java.util.Scanner;
@@ -12,31 +14,36 @@ class ActTenBarral {
     static Random rand = new Random();
 
     public static void main(String[] args){
-        boolean exitLoop = false;
 
-        int[][] numAr;
-        int choice;
-        int attempts = 1;
-        String[] userOptions = {"Hard-Code Data", "Input Data", "Truly Random Data", "Custom Number or Rows and Columns", "Exit"};
+        boolean exitLoop = false;
+        String[] userOptions = {"Hard-Code Data (Only for 3 x 4 array size!)", "Input Data", "Truly Random Data", "Custom Row and Col Size", "Reset Row and Col Back to DEFAULT SIZE","Exit"};
+        int defRow =3, defCol = 4, choice, attempts = 1;
+        int[][] numAr = new int[defRow][defCol];
 
         do{
-            numAr  = new int[3][4]; // initialize the size of the numAr at the beginning of the loop inorder to prevent unwanted errors
-            System.out.print("\n***************************************************************\n");
-            System.out.printf("\t\t\t  %s\n", "2 Dimensional Arrays - Activity 10");
-            System.out.printf("\t\t\t\t   %s\n", "Barral, Jacinth Cedric C.");
-            System.out.printf("\t\t\t\t\t    %s - %-1d\n", "Attempt/s", attempts);
-            System.out.print("***************************************************************\n");
-            System.out.println("NOTE: The array size is 3X4 based on the instructions");
+            // display Header
+            displayHeader(attempts, numAr.length, numAr[0].length);
 
-
+            // User Ask Event
             System.out.printf("\nEnter # (1 - %d) to continue, 0 to EXIT. \n", (userOptions.length -1));
             displayOptions(userOptions); // Display Menu
             System.out.println();
-            choice = getValidInput(userOptions); // Get valid input based on the length of the menu
+            choice = getUserChoice(userOptions); // Get valid input based on the length of the menu
 
             switch(choice){
                 case 1: // Hardcoded Option
-                    optionOne(numAr);
+                        if(numAr.length == 3 && numAr[0].length == 4){
+                            optionOne(numAr);
+                        }
+                        else{
+                            System.out.print("\n---------------------------------------------------------------\n");
+                            System.out.printf("\t\t\t\t\t\t   %s\n", "Error!");
+                            System.out.printf("\t\t\t  %s\n", "Array Size should be 3 x 4 to proceed!");
+                            System.out.print("---------------------------------------------------------------\n");
+                            waitKeyPress();
+                            continue;
+
+                        }
                     break;
                 case 2: // Input option
                     optionTwo(numAr);
@@ -44,6 +51,12 @@ class ActTenBarral {
                 case 3: // Truly Random Option
                     optionThree(numAr);
                     break;
+                case 4: // Set Custom Size of Row and Column
+                    numAr = optionFour();
+                    continue;
+                case 5: // Reset Size back to DEFAULT
+                        numAr = optionFive(defRow, defCol);
+                    continue;
                 case 0: //Exit
                     System.out.println("\nExiting.... :(\n");
                     System.exit(0);
@@ -70,6 +83,246 @@ class ActTenBarral {
         in.close();
     }
     
+
+
+    //------------------------------------------ UserInputs ------------------------------------------
+    static int getValidInput(int min, int max){
+        int errMsg;
+
+        if(in.hasNextInt()){
+            int temp = in.nextInt();
+            in.nextLine();
+            if(temp >= min && temp <=max){
+                errMsg = temp;
+
+            }else{
+                errMsg = -2; // Indicates Out of Range Error Message
+            }
+        }
+        else{
+            in.nextLine();
+            errMsg = -1; // Indicates Invalid or Illegal Input
+        }
+
+        return errMsg;
+    }
+
+    static int getUserChoice(String[] array){
+        int max = array.length - 1, min = 0; // Excluding the "Exit" Option
+        int userIn;
+        do{
+            System.out.print("Your Choice: ");
+            userIn = getValidInput(min, max);
+
+            if(userIn == -1){
+                System.out.println("\nInvalid Input, Try Again!\n");
+                System.out.printf("Enter # (1 - %d) to continue, 0 to EXIT. \n", max);
+                displayOptions(array);
+            }
+            else if(userIn == -2){
+                System.out.println("\nOut of Range, Try Again!\n");
+                System.out.printf("Enter # (1 - %d) to continue, 0 to EXIT. \n", max);
+                displayOptions(array);
+
+            }
+            else{
+                break;
+            }
+
+
+        }while(true);
+
+        return userIn;
+    }
+
+    static int getInputData(int i, int j, int max, int min){
+        int inData;
+        do{
+            if((j+1) == 1){ //checks if J is on 1 to print the row title
+                System.out.printf("--------------------- ROW #%-1d ---------------------\n", (i+1));
+            }
+            System.out.printf("Input (1-100) integers in ROW #%-1d and COL #%-1d: ", (i+1), (j+1));
+
+            inData = getValidInput(min, max);
+
+            if(inData == -1){
+                System.out.println("\nInvalid Input, Try Again!\n");
+            }
+            else if(inData == -2){
+                System.out.println("\nOut of Range, Try Again!\n");
+
+            }
+            else{
+                break;
+            }
+        }while(true);
+        // return inData
+        return inData;
+    }
+
+    static boolean askYesOrNo(){
+        // Boolean Return Method, returns true or false whenever the user inputs either 'Y' or 'N'
+        boolean valueFlag = false;
+        char choice;
+        do{
+            System.out.println("\nTry Again? (Y/N): ");
+            System.out.print("Your Choice: ");
+            String inputBuffer = in.nextLine().trim();
+
+            if(inputBuffer.isEmpty()){ // Input buffer is empty, ask again
+                System.out.println("\nEmpty Input, try again!");
+                continue;
+            }
+
+            // It is either Yes, No and Y, N, proceed with the statements
+            if(inputBuffer.equalsIgnoreCase("Y") || inputBuffer.equalsIgnoreCase("N") || inputBuffer.equalsIgnoreCase("Yes") || inputBuffer.equalsIgnoreCase("No")){
+                choice = inputBuffer.charAt(0);
+                choice = Character.toUpperCase(choice);
+
+                if( choice == 'Y'){ // Returns TRUE value if 'Y', want to try again
+                    valueFlag = true;
+                }
+                // If it is not 'Y', automatically be FALSE
+                break; // Get out of the loop
+            }
+            else{
+                // If the input is neither Y, N, Yes and No
+                System.out.println("\nInput Y, Yes OR N, No, try again!");
+            }
+
+        }while(true);
+        // return boolean value
+        return valueFlag;
+    }
+
+
+    //------------------------------------------ Display Or Print ------------------------------------------
+
+    static void displayOptions(String[] array){
+        int arrayLength = array.length;
+        for(int i = 0; i<arrayLength; i++) {
+            if(array[i].equals("Exit")){ // checks if the current iteration of the menu is "Exit" String
+                System.out.println();
+                System.out.printf("%-1d. %s\n", (arrayLength - i) - 1, array[i]); // it will display 0, an indication to exit
+            }
+            else{// if the current iteration of the menu is not "Exit" String
+                System.out.printf("%-1d. %s\n", (i+1), array[i]);
+            }
+        }
+
+
+
+    }
+
+    static void displayArray(int[][] array){
+
+        System.out.print("|         |"); // print the space
+        for (int col = 0; col < array[0].length; col++) {
+            // print the COL headers
+            String formatSpecifier = (array[0].length >= 10) ? "| %6s %-4d |" : "| %5s %-2d |";
+            System.out.printf(formatSpecifier, "COL", (col + 1));
+        }
+        System.out.println("\n");
+        for(int i= 0; i< array.length; i++) {
+            // print the ROW title
+            System.out.printf("| %s %-2d |", "ROW ", (i + 1));
+            for (int j = 0; j < array[0].length; j++) {
+                String formatSpecifier = (array[0].length >= 10) ? "  %7d      " : "  %5d     ";
+                System.out.printf(formatSpecifier, array[i][j]);
+//                System.out.printf(formatSpecifier, array[i][j]);
+            }
+            System.out.println("\n");
+        }
+    }
+
+    static void displayMaxAndLocation(int[][] array){
+        // Get the return data from the getMax() method and prints it out
+        System.out.printf("The Maximum Element: %-1d\n", getMax(array));
+        // Get the LRow data from the getMax() method and prints it out
+        System.out.printf("At ROW #: %-1d\n", lRow);
+        // Get the lCol data from the getMax() method and prints it out
+        System.out.printf("At COL #: %-1d\n", lCol);
+    }
+
+    static void displayHeader(int attempts,int rowLen, int colLen){
+        System.out.print("\n***************************************************************\n");
+        System.out.printf("\t\t\t  %s\n", "2 Dimensional Arrays - Activity 10");
+        System.out.printf("\t\t\t\t   %s\n", "Barral, Jacinth Cedric C.");
+        System.out.printf("\t\t\t\t\t    %s - %-1d\n", "Attempt/s", attempts);
+        System.out.print("***************************************************************\n");
+        System.out.println("NOTE: The DEFAULT array size is 3X4 based on the instructions");
+        System.out.printf("Current Row Size: %d\n", rowLen);
+        System.out.printf("Current Col Size: %d\n", colLen);
+    }
+
+    static void waitKeyPress(){
+        System.out.print("\nPress ENTER to continue: ");
+        in.nextLine();
+    }
+
+
+    //------------------------------------------ Initialize or DO Something------------------------------------------
+
+    static void initializeArray(int[][] array, boolean isRandom){
+        int max = 100, min =1;
+        for(int i =0; i< array.length; i++){
+            for(int j = 0; j <array[0].length; j++){
+                if(isRandom){ // checks if the isRandom == TRUE, then it will give random integers from 1-100
+                    array[i][j] = rand.nextInt(max)+min;
+                }
+                else{ // if isRandom == FALSE, user Input will be put inside the array[][]
+                    array[i][j] = getInputData(i,j, max, min);
+                }
+            }
+        }
+
+    }
+
+
+    //------------------------------------------ Get Value ------------------------------------------
+
+    static int getRowAndCol(String title){
+        int value, min =1, max = 15;
+
+        do {
+            System.out.printf("Enter New %s Size (1 - 15) Only!\n", title);
+            System.out.print("Input -->: ");
+            value = getValidInput(min, max); // checks the value for it's validity
+
+            if(value == -1){ // if the value is equals -1, it indicates an illegal or invalid input
+                System.out.println("\nInvalid Input, Try Again!\n");
+            }
+            else if(value == -2){ // if the value is equals -2, it indicates an OUT OF RANGE input
+                System.out.println("\nOut of Range, Try Again!\n");
+
+            }
+            else{ // If all goes well, exit out of the loop
+                break;
+            }
+
+        }while(true);
+
+        return value;
+
+    }
+
+    static int getMax(int[][] array){
+        int max = 0;
+        for(byte i =0; i< array.length; i++){
+            for(int j =0; j < array[0].length; j++){
+                if(max < array[i][j]){ // checks if the current iteration of the array[][] is greater than 100
+                    max = array[i][j]; // assigns the max value to the new value
+                    lRow = (i+1); // fetch the current ROW data and assigns it into lRow variable
+                    lCol = (j+1); // fetch the current COL data and assigns it into lCol variable
+                }
+            }
+        }
+        return max;
+    }
+
+
+    //------------------------------------------ Options ------------------------------------------
+
     static void optionOne(int[][] array){
         System.out.print("\n---------------------------------------------------------------\n");
         System.out.printf("\t\t\t\t   %s\n", "Hard-Coded Data - Data Table");
@@ -103,173 +356,38 @@ class ActTenBarral {
         System.out.print("---------------------------------------------------------------\n\n");
     }
 
-    static void optionThree(int[][] array){
+    static void optionThree(int[][] array ){
         System.out.print("\n---------------------------------------------------------------\n");
         System.out.printf("\t\t\t\t   %s\n", "Randomized Data - Data Table");
         System.out.print("---------------------------------------------------------------\n\n");
         initializeArray(array, true); // passing boolean value of TRUE, because the user indicated to randomize
     }
 
+    static int[][] optionFour(){
+        int newRow, newCol;
+        System.out.print("\n---------------------------------------------------------------\n");
+        System.out.printf("\t\t\t   %s\n", "Set Custom Row and Column Size");
+        System.out.print("---------------------------------------------------------------\n\n");
 
-    static void displayMaxAndLocation(int[][] array){
-        // Get the return data from the getMax() method and prints it out
-        System.out.printf("The Maximum Element: %-1d\n", getMax(array));
-        // Get the LRow data from the getMax() method and prints it out
-        System.out.printf("At ROW #: %-1d\n", lRow);
-        // Get the lCol data from the getMax() method and prints it out
-        System.out.printf("At COL #: %-1d\n", lCol);
+        newRow = getRowAndCol("Row");
+        newCol = getRowAndCol("Column");
+
+        System.out.print("\n---------------------------------------------------------------\n");
+        System.out.printf("\t\t\t   %s\n", "Operation Successfully Complete!!");
+        System.out.print("---------------------------------------------------------------\n");
+
+        waitKeyPress();
+
+        return new int[newRow][newCol];
     }
 
-    static boolean askYesOrNo(){
-        // Boolean Return Method, returns true or false whenever the user inputs either 'Y' or 'N'
-        boolean valueFlag = false;
-        boolean isValid;
-        char choice;
-        do{
-            System.out.println("\nTry Again? (Y/N): ");
-            System.out.print("Your Choice: ");
-            String inputBuffer = in.nextLine().trim();
-
-           if(inputBuffer.isEmpty()){ // Input buffer is empty, ask again
-               System.out.println("\nEmpty Input, try again!");
-               continue;
-           }
-
-           // It is either Yes, No and Y, N, proceed with the statements
-           if(inputBuffer.equalsIgnoreCase("Y") || inputBuffer.equalsIgnoreCase("N") || inputBuffer.equalsIgnoreCase("Yes") || inputBuffer.equalsIgnoreCase("No")){
-               choice = inputBuffer.charAt(0);
-               choice = Character.toUpperCase(choice);
-
-               if( choice == 'Y'){ // Returns TRUE value if 'Y', want to try again
-                   valueFlag = true;
-               }
-               // If it is not 'Y', automatically be FALSE
-               break; // Get out of the loop
-           }
-           else{
-               // If the input is neither Yes and No or Y and N
-               System.out.println("\nInput Y or Yes, N or No, try again!");
-           }
-
-        }while(true);
-        // return boolean value
-        return valueFlag;
-    }
-    static void displayArray(int[][] array){
-
-        System.out.print("      "); // print the space
-        for (int col = 0; col < array[0].length; col++) {
-            // print the COL headers
-            System.out.printf("%7s", "COL " + (col + 1));
-        }
-        System.out.println("\n");
-        for(int i= 0; i< array.length; i++) {
-            // print the ROW title
-            System.out.printf("%s", "ROW " + (i + 1));
-            for (int j = 0; j < array[0].length; j++) {
-                System.out.printf("%6d ", array[i][j]);
-            }
-            System.out.println("\n");
-        }
-    }
-    static void initializeArray(int[][] array, boolean isRandom){
-        int max = 100, min =1;
-        for(int i =0; i< array.length; i++){
-            for(int j = 0; j <array[0].length; j++){
-                if(isRandom){ // checks if the isRandom == TRUE, then it will give random integers from 1-100
-                    array[i][j] = rand.nextInt(max)+min;
-                }
-                else{ // if isRandom == FALSE, user Input will be put inside the array[][]
-                    array[i][j] = getValidInput(i,j, max, min);
-                }
-            }
-        }
-
-    }
-
-    static int getValidInput(int i, int j, int max, int min){
-        int numValue;
-        do{
-            if((j+1) == 1){ //checks if J is on 1 to print the row title
-                System.out.printf("--------------------- ROW #%-1d ---------------------\n", (i+1));
-            }
-            System.out.printf("Input (1-100) integers in ROW #%-1d and COL #%-1d: ", (i+1), (j+1));
-            if(in.hasNextInt()){ // checks if user inputted an type INT value
-                numValue = in.nextInt();
-                in.nextLine();
-
-                if(numValue <= max && numValue >= min){
-                    break;
-                }
-                else{
-                    System.out.println("\nOut of Range, try again!\n");
-                }
-            }
-            else{ // If the user inputted a NON type INT value
-                System.out.println("\nInvalid Input, try again!\n");
-                in.nextLine();
-            }
-
-        }while(true);
-        // return numVAlue
-        return numValue;
-    }
-
-    static void displayOptions(String[] array){
-        int arrayLength = array.length;
-        for(int i = 0; i<arrayLength; i++) {
-            if(array[i].equals("Exit")){ // checks if the current iteration of the menu is "Exit" String
-                System.out.println();
-                System.out.printf("%-1d. %s\n", (arrayLength - i) - 1, array[i]); // it will display 0, an indication to exit
-            }
-            else{// if the current iteration of the menu is not "Exit" String
-                System.out.printf("%-1d. %s\n", (i+1), array[i]);
-            }
-        }
-
-
-
-    }
-    static int getValidInput(String[] array){
-        int arrayLength = array.length - 1; // Excluding the "Exit" Option
-        int userIn;
-        do{
-            System.out.print("Your Choice: ");
-            if(in.hasNextInt()){ // checks if user inputted an type INT value
-                userIn = in.nextInt();
-                in.nextLine();
-                if(userIn  <= arrayLength && userIn >=0) { // checks if the input is within range of the length of the arrayLength
-                    break;
-                }
-                else{ // if it is not in range
-                    System.out.println("\nNot in Range, try again!\n");
-                    System.out.printf("Enter # (1 - %d) to continue, 0 to EXIT. \n", (arrayLength));
-                    displayOptions(array);
-                }
-            }
-            else{ // if the user inputted a non-INT type value
-                System.out.println("\nInvalid Input, Try Again!\n");
-                System.out.printf("Enter # (1 - %d) to continue, 0 to EXIT. \n", arrayLength);
-                displayOptions(array);
-                in.nextLine();
-            }
-
-        }while(true);
-
-        return userIn;
-    }
-    static int getMax(int[][] array){
-        int max = 0;
-        for(byte i =0; i< array.length; i++){
-            for(int j =0; j < array[0].length; j++){
-                if(max < array[i][j]){ // checks if the current iteration of the array[][] is greater than 100
-                    max = array[i][j]; // assigns the max value to the new value
-                    lRow = (i+1); // fetch the current ROW data and assigns it into lRow variable
-                    lCol = (j+1); // fetch the current COL data and assigns it into lCol variable
-                }
-            }
-        }
-        return max;
+    static int[][] optionFive(int defRow, int defCol){
+        System.out.print("\n---------------------------------------------------------------\n");
+//        System.out.printf("\t\t\t   %s\n", "Operation Successfully Complete!!");
+        System.out.printf("   %s\n", "Resetting array size to DEFAULT Successfully Complete!");
+        System.out.print("---------------------------------------------------------------\n");
+        waitKeyPress();
+        return new int[defRow][defCol];
     }
 
 }

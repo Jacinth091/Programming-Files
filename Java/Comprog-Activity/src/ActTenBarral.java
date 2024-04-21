@@ -1,7 +1,7 @@
 /*
 Name: Barral, Jacinth Cedric C
-Date: April 21, 2024
-Description: Create a 2d array and populate it with numbers,
+Date: April 22, 2024
+Description: Create a 2d array and populate it with numbers
 , find the maximum element inside the array
 and display the location (row and col) of the maximum element to the user
 
@@ -58,7 +58,7 @@ class ActTenBarral {
                         numAr = optionFive(defRow, defCol);
                     continue;
                 case 0: //Exit
-                    System.out.println("\nExiting.... :(\n");
+                    System.out.println("\nThank you for using the program, come again :D!\n");
                     System.exit(0);
                     break;
 
@@ -163,7 +163,6 @@ class ActTenBarral {
     static boolean askYesOrNo(){
         // Boolean Return Method, returns true or false whenever the user inputs either 'Y' or 'N'
         boolean valueFlag = false;
-        char choice;
         do{
             System.out.println("\nTry Again? (Y/N): ");
             System.out.print("Your Choice: ");
@@ -173,23 +172,18 @@ class ActTenBarral {
                 System.out.println("\nEmpty Input, try again!");
                 continue;
             }
-
             // It is either Yes, No and Y, N, proceed with the statements
             if(inputBuffer.equalsIgnoreCase("Y") || inputBuffer.equalsIgnoreCase("N") || inputBuffer.equalsIgnoreCase("Yes") || inputBuffer.equalsIgnoreCase("No")){
-                choice = inputBuffer.charAt(0);
-                choice = Character.toUpperCase(choice);
-
-                if( choice == 'Y'){ // Returns TRUE value if 'Y', want to try again
+                if(inputBuffer.equalsIgnoreCase("yes") || inputBuffer.equalsIgnoreCase("Y")){ // If it is "yes" or "Y", automatically be TRUE
                     valueFlag = true;
-                }
-                // If it is not 'Y', automatically be FALSE
-                break; // Get out of the loop
+                } // If it is not "yes" or "Y", automatically be FALSE
+                break;// Get out of the loop
+
             }
             else{
                 // If the input is neither Y, N, Yes and No
                 System.out.println("\nInput Y, Yes OR N, No, try again!");
             }
-
         }while(true);
         // return boolean value
         return valueFlag;
@@ -216,22 +210,22 @@ class ActTenBarral {
 
     static void displayArray(int[][] array){
 
-        System.out.print("|         |"); // print the space
+        System.out.print("       "); // print the space
         for (int col = 0; col < array[0].length; col++) {
             // print the COL headers
-            String formatSpecifier = (array[0].length >= 10) ? "| %6s %-4d |" : "| %5s %-2d |";
+            String formatSpecifier = (array[0].length >= 10) ? "%5s %-4d" : "%4s %-2d  ";
             System.out.printf(formatSpecifier, "COL", (col + 1));
         }
         System.out.println("\n");
         for(int i= 0; i< array.length; i++) {
             // print the ROW title
-            System.out.printf("| %s %-2d |", "ROW ", (i + 1));
+            System.out.printf(" %s%-2d ", "ROW ", (i + 1));
             for (int j = 0; j < array[0].length; j++) {
-                String formatSpecifier = (array[0].length >= 10) ? "  %7d      " : "  %5d     ";
+                String formatSpecifier = (array[0].length >= 10) ? "%5d     " : "%4d     ";
                 System.out.printf(formatSpecifier, array[i][j]);
-//                System.out.printf(formatSpecifier, array[i][j]);
             }
             System.out.println("\n");
+
         }
     }
 

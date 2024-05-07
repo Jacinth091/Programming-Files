@@ -1,6 +1,6 @@
 /*
- Name: Barral, Jacinth Cedric c.
- Date: May 2, 2024
+ Name: Barral, Jacinth Cedric C.
+ Date: May 7, 2024
  Description: Creating a Student Class with Grades using 2d Arrays
  */
 class Main2D{
@@ -74,9 +74,8 @@ class Main2D{
         }
     }
         
-        
-
     // ------------------------------------------------------- DISPLAY -------------------------------------------------------
+    
     static void displayHeader(){
         System.out.print("\n**********************************************************************************\n");
         System.out.printf("%-25s  %s\n", " ", "Objects 2-Dimensional Arrays");
@@ -84,31 +83,7 @@ class Main2D{
         System.out.printf("%-33s  %s\n", " ", "Activity 11");
         System.out.print("**********************************************************************************\n");
     }
-    
-    // static void displayArray(Students[][] students, String[] sec,String[] title, boolean isOrdered){
-    //     System.out.println();
-    //   for (int i=0; i<students.length; i++)
-    //   {
 
-    //       System.out.printf("*********************************** %s ************************************\n", sec[i]);
-    //       System.out.printf("%-25s %-35s %-20s\n","Rank","Name of Student","Average");
-    //       System.out.println("----------------------------------------------------------------------------------");
-
-    //       for(int j=0; j<students[0].length; j++)
-    //       {
-    //           if(isOrdered){
-    //               System.out.printf("%-25s %-35s %-20.2f\n",title[j],students[i][j].getName(),students[i][j].getAverage());
-    //           }
-    //           else{
-    //               System.out.printf("%-25s %-35s %-20.2f\n","(*)",students[i][j].getName(),students[i][j].getAverage());
-
-    //           }
-    //       }
-
-    //       System.out.println("----------------------------------------------------------------------------------\n");
-    //   }  
-    // }
-    
     static void dispStudents(Students[] studList, String[] title, boolean isDeansList){
         System.out.println();
         System.out.print("************************************** BSIT **************************************\n");
@@ -137,27 +112,38 @@ class Main2D{
 
     }
 
-
     static void dispArrayItems(Students[][] studAr, String[] sec) {
         System.out.println();
+        System.out.printf("%-10s  || ", "Section");
+        for(int j = 0; j < studAr[0].length; j++){
+            if(j != studAr[0].length -1){
+                System.out.printf("%-10s %-6s || ", "Name", "Average");
+            }else{
+                System.out.printf("%-10s %5s", "Name", "Average");
+            }
+            
+        }
+        System.out.println("\n----------------------------------------------------------------------------------");
         for (int x=0; x<studAr.length; x++)
-        {
-            System.out.printf("%-15s => ",sec[x]);
+        {   
+
+            System.out.printf("%-11s || ",sec[x]);
+
             for(int y=0; y<studAr[0].length; y++)
             {
                 if(y != studAr[0].length -1){
-                    System.out.printf("%-10s %.2f  ||  ",studAr[x][y].getName(),studAr[x][y].getAverage());
+                    System.out.printf("%-10s %-7.2f || ",studAr[x][y].getName(),studAr[x][y].getAverage());
 
                 }
                 else{
-                    System.out.printf("%-10s %.2f",studAr[x][y].getName(),studAr[x][y].getAverage());
+                    System.out.printf("%-10s %-7.2f",studAr[x][y].getName(),studAr[x][y].getAverage());
 
                 }
             }
             System.out.println();
         }
+        System.out.println("----------------------------------------------------------------------------------");
     }
-
 
     // ------------------------------------------------------- Arrange / Function todo something -------------------------------------------------------
 
@@ -195,7 +181,7 @@ class Main2D{
       
     }
     
-    static Students[] getAllTopStudents(Students[][] students, int noOfSections, int noOfStudents ){
+    static Students[] getStudents(Students[][] students, int noOfSections, int noOfStudents ){
         int totalNoOfStudents = noOfStudents * noOfSections;
 
         Students[] studList = new Students[totalNoOfStudents];
@@ -222,7 +208,6 @@ class Main2D{
         return studList;
 
     }
-    
     
     // ------------------------------------------------------- Code Body -------------------------------------------------------
     
@@ -252,9 +237,9 @@ class Main2D{
         System.out.println("\n");
 
 
-        studentList= getAllTopStudents(students, noOfSections, noOfStudents);
+        studentList= getStudents(students, noOfSections, noOfStudents);
         System.out.print("----------------------------------------------------------------------------------\n");
-        System.out.printf("%-20s  %s\n", " ", "All Students from all Sections");
+        System.out.printf("%-15s  %s\n", " ", "All Students from all Sections (by Average)");
         System.out.print("----------------------------------------------------------------------------------");
         dispStudents(studentList, title ,false);
 

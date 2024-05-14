@@ -1,28 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buttons</title>
-</head>
-<body>
-    <button class="sub">SUBSCRIBE</button>
-    <button>JOIN</button>
-    <button>Tweet</button>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Buttons Tutorial</title>
+    </head>
+    <body>
+        <div class="buttons">
+            <button class="sub_butt">SUBSCRIBE</button>
+            <button class="join_butt">JOIN</button>
+            <button class="tweet_butt">Tweet</button>
+            <button class="dwl_butt">DOWNLOAD NOW!</button>
+        </div>
+        <div class="butt_exer">
+            <button class="part2a">Request now</button>
+
+            <button class="part2b">Add to Cart</button>
+
+            <button class="part2c">Sign Up</button>
+
+            <div class="part2d">
+                <button class="butt_A">Get Started</button>
+                <button class="butt_B">Download</button>
+            </div>
+
+            <div class="part2e">
+                <button class="butt_A">Apply to company website</button>
+                <button class="butt_B">Save</button>
+            </div>
+
+        </div>
+
+        
+    </body>
+
+    <style>
+
+        button{
+            padding: 10px 15px 10px 15px;
+            cursor: pointer;
+            margin: 0px 5px 0px 5px;
+        }
+        .sub_butt{
+            background-color: rgb(199, 1, 1);
+            border: none;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            transition: opacity .15s;
+        }
+        .sub_butt:hover{
+            /* background-color: rgba(199, 1, 1, 0.473); */
+            opacity: 0.7;
+        }
+        .sub_butt:active{
+            /* background-color: rgba(199, 1, 1, 0.327); */
+            opacity: 0.5;
+        }
+
+        .join_butt{
+            background-color: none;
+            border: solid 1px #0961cc;
+            border-radius: 3px;
+            color: #0961cc;
+            font-weight: bold;
+            transition: background-color .15s, color .15s;
+
+        }
+        .join_butt:hover{
+            background-color: #0961cc;
+            color: white;
+            border: solid 1px #0961cc;
+
+        }
+        .join_butt:active{
+            opacity: 0.7;
+        }
+
+        .tweet_butt{
+            border-radius: 50px;
+            padding: 8px 20px;
+            border: none;
+            background-color: rgb(37, 173, 252);
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            /* letter-spacing: 1.5px; */
+        }
+        .dwl_butt{
+            border-radius: 30px;
+            border:none;
+            background-color: rgb(38, 205, 94);
+            color: white;
+            box-shadow: 3px 6px 10px rgba(0, 0, 0, 0.179);
+            
+
+        }
+
+        div{
+            margin: 10px;
+        }
+
+        .part2a{
+            background-color: black;
+            border: none;
+            color: white;
+            font-size: 13px;
+        }
+        .part2b{
+            background-color: rgb(255, 216, 20);
+            padding: 10px 50px 10px 50px;
+            border-radius: 30px;
+            border: none;
+            font-size: 14px;
+        }
+        .part2c{
+            background-color: rgb(46, 164, 79);
+            border-radius: 5px;
+            border: none;
+            color: white;
+            padding: 10px 17px;
+        }
+        .part2d > .butt_A{
+            background-color: rgb(121, 82, 179);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;            
+        }
+        .part2d > .butt_B{
+            background-color: none;
+            border: 1px solid rgb(108, 117, 125);
+            color: rgb(108, 117, 125);
+            font-weight: bold;
+            border-radius: 5px;     
+        }
+
+        .part2e > .butt_A{
+            background-color: rgb(10, 102, 194);
+            border: none;
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            padding: 10px 15px;
+
+        }
+        .part2e > .butt_B{
+            background-color: none;
+            border: 1px solid rgb(10, 102, 194);
+            color: rgb(10, 102, 194);
+            border-radius: 30px;
+            font-weight: bold;
+            padding: 10px 20px;
+            
+        }
 
 
 
-</body>
-
-<style>
-    .sub{
-        background-color: red;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        padding: 10px 15px 10px 15px;
-        font-size: medium;
-        text-align: center;
-    }
-</style>
+    </style>
 </html>

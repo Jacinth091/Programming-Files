@@ -11,23 +11,38 @@
                 and print out the values using getters.
  */
 
-
+import java.util.Random;
 class Acitivity12 {
     public static void main(String[] args){
         int noOfSandwiches = 5;
         Sandwich[] sandwiches = new Sandwich[noOfSandwiches];
+        Random rand = new Random();
 
-        
-
-
-
-
-
-
-
+        initItems(sandwiches, rand, noOfSandwiches);
 
 
         
+
+
+
+
+
+
+
+
+
+        
+
+    }
+    static void initItems(Sandwich[] sandwich, Random rand,int noOfSandwiches){
+        Storage storage = new Storage();
+        int min = 0;
+        for(int i=0; i < noOfSandwiches; i++){
+            int random = rand.nextInt(noOfSandwiches) + min;
+            System.out.printf("%d\n",rand);
+            // sandwich[i] = new Sandwich(storage.breads[]);
+        }
+
 
     }
     
@@ -41,12 +56,6 @@ class Storage{
 
     String[] menu = {"Create Your Own Sandwich", "View Sandwiches (Pre-Created)"};
 
-    public void displayArray(String[] array){
-        for(int i =0; i < array.length; i++){
-            System.out.printf("%s", array[i]);
-        }
-
-    }
 }
 
 

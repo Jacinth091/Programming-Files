@@ -8,8 +8,8 @@ class Main2D{
 
         int noOfSections = 2, noOfStudents = 3;
 
-        Students[][] students  = new Students[noOfSections][noOfStudents];
-        Students[] studentList = null;
+        StudentsList[][] students  = new StudentsList[noOfSections][noOfStudents];
+        StudentsList[] studentList = null;
         String[] section = {"BSIT - 1B", "BSIT - 1A"};
         String[] title = {"1st", "2nd", "3rd", "4th","5th","6th","7th","8th","9th","10th"};
 
@@ -45,7 +45,7 @@ class Main2D{
     
     // ------------------------------------------------------- INITIALIZE -------------------------------------------------------
         
-    static void initData(Students[][] students, int[][] gradeData, String[][] name, String[] section, int noOfSections, int noOfStudents){
+    static void initData(StudentsList[][] students, int[][] gradeData, String[][] name, String[] section, int noOfSections, int noOfStudents){
         for (int i = 0; i < noOfSections; i++) {
             for (int j = 0; j < noOfStudents; j++) {
                 // Getting grades data buffer
@@ -56,14 +56,14 @@ class Main2D{
                     grades[k] = gradeData[ i * noOfStudents + j][k];
                 }
                 // Passing and Setting the student's name, section and grade through the Students constructor
-                students[i][j] = new Students(name[i][j], section[i], grades);
+                students[i][j] = new StudentsList(name[i][j], section[i], grades);
             }
         }
         
         
     } 
     
-    static void computeStudAve(Students[][] students, int noOfSections, int noOfStudents){
+    static void computeStudAve(StudentsList[][] students, int noOfSections, int noOfStudents){
         for(int i = 0; i< noOfSections; i++){
             for(int j = 0; j < noOfStudents; j++){
                 // declaring and initializing and computing of average of students
@@ -84,7 +84,7 @@ class Main2D{
         System.out.print("**********************************************************************************\n");
     }
 
-    static void dispStudents(Students[] studList, String[] title, boolean isDeansList){
+    static void dispStudents(StudentsList[] studList, String[] title, boolean isDeansList){
         System.out.println();
         System.out.print("************************************** BSIT **************************************\n");
         if(!isDeansList){
@@ -112,7 +112,7 @@ class Main2D{
 
     }
 
-    static void dispArrayItems(Students[][] studAr, String[] sec) {
+    static void dispArrayItems(StudentsList[][] studAr, String[] sec) {
         System.out.println();
         System.out.printf("%-10s  || ", "Section");
         for(int j = 0; j < studAr[0].length; j++){
@@ -147,7 +147,7 @@ class Main2D{
 
     // ------------------------------------------------------- Arrange / Function todo something -------------------------------------------------------
 
-    static void arrangeBySection(Students[][] students, int noOfSections, int noOfStudents){
+    static void arrangeBySection(StudentsList[][] students, int noOfSections, int noOfStudents){
         for (int k=0; k<noOfSections; k++)
         {
             for (int i=0; i<noOfStudents-1; i++)
@@ -156,7 +156,7 @@ class Main2D{
                 {
                     if (students[k][i].getAverage() < students[k][j].getAverage())
                     {
-                        Students temp = students[k][i];
+                        StudentsList temp = students[k][i];
                         students[k][i] = students[k][j];
                         students[k][j] = temp;
                    }
@@ -165,12 +165,12 @@ class Main2D{
         }
     }
     
-    static void arrangeByRow(Students[][] students, String[] sections ){
+    static void arrangeByRow(StudentsList[][] students, String[] sections ){
         for(int i=0; i<students.length-1; i++)
          for (int j=i+1; j<students.length; j++)
             if (students[i][0].getAverage() < students[j][0].getAverage())
             {
-               Students[] temp = students[i];
+                StudentsList[] temp = students[i];
                students[i] = students[j];
                students[j] = temp;
                
@@ -181,10 +181,10 @@ class Main2D{
       
     }
     
-    static Students[] getStudents(Students[][] students, int noOfSections, int noOfStudents ){
+    static StudentsList[] getStudents(StudentsList[][] students, int noOfSections, int noOfStudents ){
         int totalNoOfStudents = noOfStudents * noOfSections;
 
-        Students[] studList = new Students[totalNoOfStudents];
+        StudentsList[] studList = new StudentsList[totalNoOfStudents];
 
         int index = 0;
         for(int i = 0; i < students.length; i++){
@@ -198,7 +198,7 @@ class Main2D{
             for(int j = i + 1; j < studList.length; j++){
                 if (studList[i].getAverage() < studList[j].getAverage())
                 {
-                    Students temp = studList[i];
+                    StudentsList temp = studList[i];
                     studList[i] = studList[j];
                     studList[j] = temp;
                 }
@@ -211,7 +211,7 @@ class Main2D{
     
     // ------------------------------------------------------- Code Body -------------------------------------------------------
     
-    static void dispItemSection(Students[][] students, Students[] studentList, String[] section, String[] title, int noOfSections, int noOfStudents){
+    static void dispItemSection(StudentsList[][] students, StudentsList[] studentList, String[] section, String[] title, int noOfSections, int noOfStudents){
         
         displayHeader();
 
@@ -252,13 +252,13 @@ class Main2D{
     }
 
 }
-class Students{
+class StudentsList{
     private String studName, studSection;
     private int[] studGrades;
     private double studAverage;
-    
 
-    Students(String name, String section, int[] grades){
+
+    StudentsList(String name, String section, int[] grades){
         this.setName(name);
         this.setSection(section);
         this.setGrade(grades);

@@ -11,6 +11,7 @@
                 and print out the values using getters.
  */
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 class Acitivity12 {
@@ -29,14 +30,50 @@ class Acitivity12 {
         Scanner in = new Scanner(System.in);
 
         initItems(sandwiches, rand,ingred, noOfSandwiches);
+        System.out.println();
+
 
 //        System.out.println("\n");
 
-//        for(Sandwich sw : sandwiches){
-//            System.out.printf("Bread: %s, Meat: %s, Topping: %s, Sauce: %s\n", sw.getBread(), sw.getMeat(), sw.getToppings(), sw.getSauce());
-//        }\
+        for(Sandwich sw : sandwiches){
+            String[] getToppings = sw.getMultToppings();
+            switch(sw.getIndicator()){
+                case 1:
+                System.out.println("Normal Sandwich");
+                    break;
+                case 2:
+                    System.out.println("Multiple Toppings Sandwich");
+                    break;
+                case 3:
+                    System.out.println("Normal but Layered Sandwich");
+                    break;
+                case 4:
+                    System.out.println("Multiple Toppings and Layered Sandwich");
+                    break;
+            }
+            if(sw.getIndicator() != 2 && sw.getIndicator() != 4){
+                System.out.printf("%d Layered Sandwich, with %s Bread, %s Meat, %s Topping, and %s Sauce.\n", sw.getLayers(), sw.getBread(), sw.getMeat(), sw.getToppings(), sw.getSauce());
+            }
+            else{
 
-        displayHeader();
+                StringBuilder userToppings = new StringBuilder();
+                for(int j = 0; j < getToppings.length; j++){
+                    userToppings.append(getToppings[j]);
+                    if(j < getToppings.length - 2){
+                        userToppings.append(", ");
+                    }
+                    else if(j == getToppings.length -2 ){
+                        userToppings.append(" and ");
+                    }
+                }
+//                System.out.printf("User Toppings: %s\n", userToppings);
+                System.out.printf("%d Layered Sandwich, with %s Bread, %s Meat, %s Toppings, and %s Sauce.\n", sw.getLayers(), sw.getBread(), sw.getMeat(), userToppings, sw.getSauce());
+
+            }
+
+        }
+
+//        displayHeader();
         
         
 
@@ -61,7 +98,7 @@ class Acitivity12 {
     }
     static void displayHeader(){
         System.out.print("\n**********************************************************************************\n");
-        System.out.printf("%-25s  %s\n", " ", "Overloaded Constructors, Setters and Getters");
+        System.out.printf("%-15s  %s\n", " ", "Overloaded Constructors, Setters and Getters");
         System.out.printf("%-26s  %s\n", " ", "Barral, Jacinth Cedric C.");
         System.out.printf("%-33s  %s\n", " ", "Activity 12");
         System.out.print("**********************************************************************************\n");
@@ -69,20 +106,83 @@ class Acitivity12 {
     static void initItems(Sandwich[] sandwich, Random rand ,String[][] ingred, int noOfSandwiches){
 
         int min = 0, max = ingred.length;
+        int[] randItems;
         for(int i =0; i < noOfSandwiches; i++){
+            int randGen = rand.nextInt(4)+1;
+
+            System.out.printf("%d: ", randGen);
             
             String bread = ingred[0][rand.nextInt(ingred[0].length)];
             String meat = ingred[1][rand.nextInt(ingred[1].length)];
             String topping = ingred[2][rand.nextInt(ingred[2].length)];
             String sauce = ingred[3][rand.nextInt(ingred[3].length)];
+            int noOfLayers = rand.nextInt((4-2)+1)+2;
+            int noOfToppings = rand.nextInt((4-2)+1)+2;
+            String[] multToppings = new String[noOfToppings];
 
-            sandwich[i] = new Sandwich(bread, meat, topping, sauce);
+            switch(randGen){
+                case 1:
+                    System.out.println("Normal Sandwich");
+                    sandwich[i] = new Sandwich(bread, meat, topping, sauce, randGen);
+                    break;
+                case 2:
+                    System.out.println("Multiple Toppings Sandwich");
+                    System.out.printf("No Of Toppings: %d\n", noOfToppings);
+                    randItems = determineUniqueRandNum(ingred, rand, noOfToppings);
+                    for(int j =0; j < noOfToppings; j++){
+                        multToppings[j] = ingred[2][randItems[j]];
+                    }
+                    System.out.println();
+                    sandwich[i] = new Sandwich(bread, meat, multToppings, sauce, noOfToppings, randGen);
 
-//            System.out.printf("\nAt Index: %d: %s, %s, %s, %s \n",i+1, bread, meat, topping, sauce);
+                    break;
+                case 3:
+                    System.out.println("Normal but Layered Sandwich");
+
+                    sandwich[i] = new Sandwich(bread, meat, topping, sauce, noOfLayers, randGen);
+
+                    break;
+                case 4:
+                    System.out.println("Multiple Toppings and Layered Sandwich");
+                    System.out.printf("No Of Toppings: %d\n", noOfToppings);
+
+                    randItems = determineUniqueRandNum(ingred, rand, noOfToppings);
+                    for(int j =0; j < noOfToppings; j++){
+                        multToppings[j] = ingred[2][randItems[j]];
+                    }
+
+                    sandwich[i] = new Sandwich(bread, meat, multToppings, sauce, noOfToppings, noOfLayers, randGen);
+                    break;
+                default:
+                    System.out.println("Catastrophc Failure!");
+                    break;
+            }
+
 
         }
 
 
+
+    }
+    static int[] determineUniqueRandNum(String[][] ingred, Random rand,int noOfToppings){
+        int[] randItems = new int[noOfToppings];
+        int count = 0;
+        while(count < noOfToppings){
+            int randNum = rand.nextInt(ingred[2].length);
+            boolean isUnique = true;
+            for(int j =0; j < count; j++){
+                if(randItems[j] == randNum){
+                    isUnique = false;
+                    break;
+                }
+            }
+            if(isUnique) {
+                randItems[count++] = randNum;
+            }
+
+        }
+
+        return randItems;
     }
     
 }
@@ -95,37 +195,43 @@ class Sandwich{
     private String sauce;
     private int layers = 1;
     private int noOfToppings = 1;
+    private int indicator;
 
     Sandwich(){
         
     }
-    Sandwich(String bread, String meat, String topping, String sauce){
+    Sandwich(String bread, String meat, String topping, String sauce, int indicator){
         this.setBread(bread);
         this.setMeat(meat);
         this.setToppings(topping);
         this.setSauce(sauce);
+        this.setIndicator(indicator);
     }
-    Sandwich(String bread, String meat, String[] toppings, String sauce, int noOfToppings){
+    Sandwich(String bread, String meat, String[] toppings, String sauce, int noOfToppings, int indicator){
         this.setBread(bread);
         this.setMeat(meat);
         this.setMultToppings(toppings);
         this.setSauce(sauce);
         this.setNoOfTopp(noOfToppings);
+        this.setIndicator(indicator);
     }
 
-    Sandwich(String bread, String meat, String topping, String sauce, int layers){
+    Sandwich(String bread, String meat, String topping, String sauce, int layers, int indicator){
         this.setBread(bread);
         this.setMeat(meat);
         this.setToppings(topping);
         this.setSauce(sauce);
         this.setLayers(layers);
+        this.setIndicator(indicator);
     }
-    Sandwich(String bread, String meat, String[] toppings, String sauce,int noOfToppings, int layers){
+    Sandwich(String bread, String meat, String[] toppings, String sauce,int noOfToppings, int layers, int indicator){
         this.setBread(bread);
         this.setMeat(meat);
         this.setMultToppings(toppings);
+        this.setNoOfTopp(noOfToppings);
         this.setSauce(sauce);
         this.setLayers(layers);
+        this.setIndicator(indicator);
     }
 
 
@@ -180,6 +286,13 @@ class Sandwich{
     }
     public int getNoOfTopp(){
         return this.noOfToppings;
+    }
+
+    public void setIndicator(int indicator){
+        this.indicator = indicator;
+    }
+    public int getIndicator(){
+        return this.indicator;
     }
 
 }

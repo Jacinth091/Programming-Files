@@ -1,6 +1,6 @@
 /*
  Name: Barral, Jacinth Cedric C.
- Date: May 16, 2024
+ Date: May 20, 2024
  Description: Using the object you have selected on our Prelim Lab.Act.#02 on Classes and Objects,
                 create a class of that object and implement a constructor (not less than 2 constructors).
                 Use the constructor to initialize the properties of the class (instance variables). 
@@ -32,16 +32,17 @@ class Activity12 {
         displayHeader();
         codeDescrip(sandwichTypes);
         mainLoop(in, sandwiches, rand, ingred, sandwichTypes, noOfSandwiches);
+        in.close();
 
     }
 
     /*---------------------------------------------- Main Logic Functions ----------------------------------------------*/
 
-    static void mainLoop(Scanner in, Sandwich[] sandwiches, Random rand, String[][] ingred, String[] sandwichTypes, int noOfSandwiches) {
+    static void mainLoop(Scanner in, Sandwich[] sandwiches, Random rand, String[][] ingred, String[] sandwichTypes,
+            int noOfSandwiches) {
         boolean exitLoop = false;
         char choice;
-        int count = 1;
-        int attempts = 0;
+        int attempts = 1;
 
         System.out.println();
         do {
@@ -50,15 +51,19 @@ class Activity12 {
             choice = in.next().toUpperCase().charAt(0);
 
             if (choice == 'Y') {
+                // Initialize Random Events/ Nums for the sandwiches
                 initItems(sandwiches, rand, ingred, noOfSandwiches);
                 System.out.println(
-                        "*****************************************************************************************************\n");
+                        "**********************************************************************************************************************************\n");
+                System.out.printf("Current attempt: %d\n", attempts);
+
+                // Prints the sandwiches by its category
                 printByType(sandwiches, sandwichTypes);
                 System.out.println(
-                        "*****************************************************************************************************\n");
+                        "**********************************************************************************************************************************\n");
 
-                attempts++;
-                if (count == 10) {
+
+                if (attempts == 10) {
                     System.out.printf("Attempts: %d\n", attempts);
                     System.out.println("You have reached the allowable limit.");
                     exitLoop = true;
@@ -71,8 +76,7 @@ class Activity12 {
                 System.out.println("\nInvalid Input, try again!\n");
                 continue;
             }
-
-            count++;
+            attempts++;
         } while (!exitLoop);
     }
 
@@ -172,9 +176,11 @@ class Activity12 {
             // boolean value that flags if the current category has any itmes or not
             boolean hasItems = false;
             System.out.println(
-                    "-----------------------------------------------------------------------------------------------------");
+                    "----------------------------------------------------------------------------------------------------------------------------------");
             // prints the title or header of each category
-            System.out.printf("%s\n\n", sandwichTypes[i]);
+            System.out.printf("(%-1d) -->| (%s)\n\n",
+                    (i+1),
+                    sandwichTypes[i]);
             for (Sandwich sw : sandwiches) {
                 // it checks if the current indicator matches the current iteration
                 if ((sw.getIndicator() - 1) == i) {
@@ -190,7 +196,7 @@ class Activity12 {
                 System.out.println("Out Of Order!");
             }
             System.out.println(
-                    "-----------------------------------------------------------------------------------------------------");
+                    "----------------------------------------------------------------------------------------------------------------------------------");
             System.out.println();
 
         }
@@ -205,14 +211,14 @@ class Activity12 {
             // Creates a string builder to concat all toppings
             StringBuilder toppingsList = new StringBuilder();
             for (int j = 0; j < getToppings.length; j++) {
-                // for every toppings in getToppings array, it will be concatenated in toppingList
+                // for every toppings in getToppings array, it will be concatenated in
+                // toppingList
                 toppingsList.append(getToppings[j]);
                 if (j < getToppings.length - 2) {
                     // adds a ", " separator
                     toppingsList.append(", ");
                 } else if (j == getToppings.length - 2) {
                     // adds a " and " separator
-
                     toppingsList.append(" and ");
 
                 }
@@ -237,9 +243,8 @@ class Activity12 {
     static void codeDescrip(String[] sandwichTypes) {
         System.out.println("This is a Random-Generator Sandwich Maker, where each ingredients are randomly picked.");
         System.out.println("There are only FOUR Categories of sandwiches, namely:");
-        int count = 1;
-        for (String type : sandwichTypes) {
-            System.out.printf("%-1d. %s\n", count++, type);
+        for (int i = 0; i < sandwichTypes.length; i++) {
+            System.out.printf("%-1d. %s\n", (i+1), sandwichTypes[i]);
         }
     }
 
@@ -249,7 +254,6 @@ class Sandwich {
     private String bread;
     private String meat;
     private String topping;
-
     private String[] toppings;
     private String sauce;
     private int layers = 1;
@@ -259,6 +263,7 @@ class Sandwich {
     Sandwich() {
 
     }
+
     // For Normal Sandwich
     Sandwich(String bread, String meat, String topping, String sauce, int indicator) {
         this.setBread(bread);

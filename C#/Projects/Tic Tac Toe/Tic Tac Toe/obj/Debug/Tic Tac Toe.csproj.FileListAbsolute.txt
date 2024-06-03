@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\bin\Debug\Tic Tac Toe.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\bin\Debug\Tic Tac Toe.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\bin\Debug\Tic Tac Toe.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.pdb

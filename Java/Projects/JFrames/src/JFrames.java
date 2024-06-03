@@ -10,7 +10,7 @@ public class JFrames extends JFrame {
         this.setVisible(true);
 
         // Sets the width and height of the frame
-        this.setSize(500, 500);
+        this.setSize(1080, 1920);
 
         // Sets the Title
         this.setTitle("JFrame Java Tutorial :D");

@@ -22,3 +22,5 @@
 *.json
 *.user
 .gitignore
+/Java/NetBeans GUI/nbproject/private/
+/Java/NetBeans GUI/build/

@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\bin\Debug\Simple Calculator.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\bin\Debug\Simple Calculator.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\bin\Debug\Simple Calculator.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\obj\Debug\Simple Calculator.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\obj\Debug\Simple Calculator.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\obj\Debug\Simple Calculator.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\Simple Calculator\Simple Calculator\obj\Debug\Simple Calculator.pdb

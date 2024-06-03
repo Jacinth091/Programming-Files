@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\bin\Debug\HelloWorld.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\bin\Debug\HelloWorld.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\bin\Debug\HelloWorld.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\obj\Debug\HelloWorld.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\obj\Debug\HelloWorld.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\obj\Debug\HelloWorld.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\HelloWorld\HelloWorld\obj\Debug\HelloWorld.pdb

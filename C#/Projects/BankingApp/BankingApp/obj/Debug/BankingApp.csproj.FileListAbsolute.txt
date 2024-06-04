@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\obj\Debug\BankingApp.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\obj\Debug\BankingApp.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\bin\Debug\BankingApp.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\bin\Debug\BankingApp.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\bin\Debug\BankingApp.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\obj\Debug\BankingApp.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Projects\BankingApp\BankingApp\obj\Debug\BankingApp.pdb

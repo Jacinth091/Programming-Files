@@ -1,0 +1,7 @@
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\bin\Debug\KeyboardMenuDemo.exe.config
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\bin\Debug\KeyboardMenuDemo.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\bin\Debug\KeyboardMenuDemo.pdb
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\obj\Debug\KeyboardMenuDemo.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\obj\Debug\KeyboardMenuDemo.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\obj\Debug\KeyboardMenuDemo.exe
+C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\KeyboardMenuDemo\KeyboardMenuDemo\obj\Debug\KeyboardMenuDemo.pdb

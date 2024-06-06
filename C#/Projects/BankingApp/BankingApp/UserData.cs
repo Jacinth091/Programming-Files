@@ -16,19 +16,21 @@ namespace BankingApp
         private string userAccNum;
         private int userId;
         private double userBal;
+        private bool isAdmin;
 
 
         public UserData()
         {
 
         }
-        public UserData(string userName, string userPass, double userBal)
+        public UserData(string userName, string userPass, bool isAdmin)
         {
             this.userName = userName;
             this.userPass = userPass;
-            this.userBal = userBal;
+            userBalData = setUserBal();
             userIdData = setUserId();
             userAccNumData = setUserAccNum();
+            this.isAdmin = isAdmin;
 
         }
 
@@ -62,10 +64,17 @@ namespace BankingApp
             set { this.userBal = value; }
         }
 
+        public bool isAdminData
+        {
+            get { return isAdmin; }
+            set { isAdmin = value; }
+        }
+
 
         public string setUserAccNum()
         {
-            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            //string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             char[] tempChar = new char[8];
             StringBuilder temp = new StringBuilder(8);
             rand = new Random();
@@ -89,7 +98,9 @@ namespace BankingApp
 
         public double setUserBal()
         {
-            return rand.NextDouble();
+            double min = 1000.00;
+            double max = 99999.00;
+            return min + (rand.NextDouble()) *(max -min);
         }
 
 

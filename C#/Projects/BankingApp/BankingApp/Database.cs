@@ -12,20 +12,28 @@ namespace BankingApp
     {
         UserData userData;
 
-        private List<UserData> users = new List<UserData>();
+        private List<UserData> users;
         private Random rand = new Random();
+        private string[] adminKeys = {"admin", "admin123"};
 
+        private List<string> userNameList;
+        private List<string> userPassList;
+        private List<string> userAccNumList;
+        private List<int> userIdList;
+        private List<double> userBalList;
 
-        private List<string> userName = new List<string>();
-        private List<string> userPass = new List<string>();
-        private List<string> userAccNum = new List<string>();
-        private List<int> userId = new List<int>();
-        private List<double> userBal = new List<double>();
 
 
         public Database()
         {
-            //users.Add(userData);
+            users = new List<UserData>();
+            userNameList = new List<string>();
+            userPassList = new List<string>();
+            userAccNumList = new List<string>();
+            userIdList = new List<int>();
+            userBalList = new List<double>();
+            initAdminKeys();
+            
         }
 
         public List<UserData> usersDB
@@ -35,7 +43,16 @@ namespace BankingApp
         
         }
 
+        public string[] adminKeysData
+        {
+            get { return adminKeys; }
+            set { adminKeys = value; }
+        }
 
+        private void initAdminKeys()
+        {
+            users.Add(new UserData(adminKeys[0], adminKeys[1], true));
+        }
         
 
         public void dispList()
@@ -44,7 +61,8 @@ namespace BankingApp
             string userName, userPass, userAccNum;
             int idNum;
             double userBal;
-            for(int i =0; i <users.Count; i++)
+            bool adminStat;
+            for (int i =0; i <users.Count; i++)
             {
                 UserData data = users[i];
                 userName = data.userNameData;
@@ -52,16 +70,58 @@ namespace BankingApp
                 userAccNum = data.userAccNumData;
                 idNum  = data.userIdData;
                 userBal = data.userBalData;
+                adminStat = data.isAdminData;
+
+
+                userNameList.Add(userName);
+                userPassList.Add(userPass);
+                userIdList.Add(idNum);
+                userAccNumList.Add(userAccNum);
+                userBalList.Add(userBal);
 
                 WriteLine();
-                WriteLine($@"Username: {userName},
+
+                if (!adminStat)
+                {
+                    WriteLine($@"Username: {userName},
 Password: {userPass},
 AccNum:   {userAccNum},
 ID num:   {idNum},
-Balance:  {userBal}"
-                             
-                             );
+Balance:  ${userBal:N2},
+Admin Status?: {adminStat}");
+                }
+                else
+                {
+                    WriteLine($@"Username: {userName}
+Password: {userPass}
+Admin Status?: {adminStat}");
+                }
+
                 
+            }
+        }
+
+        public void initDataList()
+        {
+            string userName, userPass, userAccNum;
+            int idNum;
+            double userBal;
+            for (int i = 0; i < users.Count; i++)
+            {
+                UserData data = users[i];
+                userName = data.userNameData;
+                userPass = data.userPassData;
+                userAccNum = data.userAccNumData;
+                idNum = data.userIdData;
+                userBal = data.userBalData;
+
+                userNameList.Add(userName);
+                userPassList.Add(userPass);
+                userIdList.Add(idNum);
+                userAccNumList.Add(userAccNum);
+                userBalList.Add(userBal);
+
+
             }
         }
 

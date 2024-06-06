@@ -21,7 +21,7 @@ namespace BankingApp
             selIndex = 0;
         }
 
-        public void runMenu()
+        public int runMenu()
         {
             do
             {
@@ -32,6 +32,22 @@ namespace BankingApp
 
             } while (keyPressed.Key != ConsoleKey.Enter);
 
+            return selIndex;
+
+        }
+
+        public int runMainApp()
+        {
+            do
+            {
+                Clear();
+                dispOpt();
+                getKeyPressed();
+
+
+            } while (keyPressed.Key != ConsoleKey.Enter);
+
+            return selIndex;
 
         }
 
@@ -39,6 +55,7 @@ namespace BankingApp
         {
             string selItem;
             string prefix;
+            WriteLine(dispPrompt + "\n");
             for (int i = 0; i < menuOpt.Length; i++)
             {
 

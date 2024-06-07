@@ -6,9 +6,8 @@ public class pipeScrollEvent : MonoBehaviour
 {
 
     public GameObject pipe;
-    public float spawnRate = 2;
-    public float timer = 0;
-    //private int deadArea = -40;
+    private int spawnRate = 5;
+    public float timer = 10;
     public int heightOffset = 10;
     //private float currentPosObj = transform.position.x;   
     // Start is called before the first frame update
@@ -21,6 +20,7 @@ public class pipeScrollEvent : MonoBehaviour
     void Update()
     {   
         spawnPipes();
+        //calcScoreArea();
     }
 
 
@@ -44,4 +44,21 @@ public class pipeScrollEvent : MonoBehaviour
             timer = 0;
         }
     }
+
+    public void spawnRateIncrease(int increase)
+    {
+        spawnRate = increase;
+    }
+    public void spawnRateDefault()
+    {
+        spawnRate = 5;
+    }
+    public float timerData
+    {
+        get { return timer; }
+        set { timer = value; }
+
+    }
+
+
 }

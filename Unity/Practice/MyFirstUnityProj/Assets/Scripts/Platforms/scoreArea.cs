@@ -17,7 +17,7 @@ public class scoreArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,8 +26,25 @@ public class scoreArea : MonoBehaviour
         if(collision.gameObject.layer == 3)
         {
             Debug.Log($"{gameObject.name}, has entered the area!");
-            logicCont.addPlayerScore();
             logicCont.gameEvent();
+            scoreMulti();
+        }
+    }
+
+    private void scoreMulti()
+    {
+
+        if (logicCont.plyrScore >= 50)
+        {
+            logicCont.addPlayerScore(5);
+        }
+        if (logicCont.plyrScore >= 30 && logicCont.plyrScore < 50)
+        {
+            logicCont.addPlayerScore(2);
+        }
+        else
+        {
+            logicCont.addPlayerScore(1);
         }
     }
 }

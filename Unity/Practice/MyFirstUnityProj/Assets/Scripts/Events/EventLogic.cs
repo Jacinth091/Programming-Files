@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EventLogic : MonoBehaviour
 {
 
     private int playerScore = 0;
     public Text scoreText;
-    //private EventLogic eventLogic;
-    //public PipeMoveScript pipeMove;
     public pipeScrollEvent pipeScroll;
+    public GameObject gameOverScreen;
+    private bool isPlayerAlive = true;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,12 +36,29 @@ public class EventLogic : MonoBehaviour
         int increase = 0;
 
 
-        if (currentScore >= 5)
+        if (currentScore >= 10 && currentScore < 30)
         {
             increase = 4;
             if (pipeScroll != null) { 
                 pipeScroll.spawnRateIncrease(increase);
-                pipeScroll.timerData += currentScore * Time.deltaTime;
+                pipeScroll.timerData += currentScore / Time.deltaTime;
+                //pipeMove.increaseScrollSpd(10);
+            }
+            else
+            {
+                Debug.Log("Null");
+            }
+
+            Debug.Log("This part should speed things up!!!");
+            Debug.Log($"{currentScore}");
+        }
+        else if(currentScore >= 30 && currentScore < 50)
+        {
+            increase = 3;
+            if (pipeScroll != null)
+            {
+                pipeScroll.spawnRateIncrease(increase);
+                pipeScroll.timerData += currentScore / Time.deltaTime;
                 //pipeMove.increaseScrollSpd(10);
             }
             else
@@ -50,13 +70,13 @@ public class EventLogic : MonoBehaviour
             Debug.Log("This part should speed things up!!!");
             Debug.Log($"{currentScore}");
         }
-        else if(currentScore >= 10)
+        else if (currentScore >= 50)
         {
-            increase = 3;
+            increase = 2;
             if (pipeScroll != null)
             {
                 pipeScroll.spawnRateIncrease(increase);
-                pipeScroll.timerData += currentScore * Time.deltaTime;
+                pipeScroll.timerData += (currentScore / Time.deltaTime) - 5;
                 //pipeMove.increaseScrollSpd(10);
             }
             else
@@ -70,15 +90,39 @@ public class EventLogic : MonoBehaviour
         }
         else
         {
-            pipeScroll.spawnRateDefault();
+            if (pipeScroll != null)
+            {
+                pipeScroll.spawnRateDefault();
+                //pipeScroll.spawnRateIncrease(increase);
+                pipeScroll.timerData += (currentScore / Time.deltaTime);
+                //pipeMove.increaseScrollSpd(10);
+            }
+            else
+            {
+                Debug.Log("Null");
+            }
             Debug.Log("Hopefull it is working?? HAHAHHA");
         }
 
     }
 
-    public void addPlayerScore()
+    public void restartScene()
     {
-        playerScore++;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        playerScore = 0;
+
+    }
+
+    public void gameOverScene() { 
+    
+
+        gameOverScreen.SetActive(true);
+
+    }
+
+    public void addPlayerScore(int scoreToAdd)
+    {
+        playerScore += scoreToAdd;
         scoreText.text = playerScore.ToString();
     }
 
@@ -86,5 +130,12 @@ public class EventLogic : MonoBehaviour
         get { return playerScore; }
         set { playerScore = value; }
 
+    }
+
+    public bool playerState
+    {
+        get { return isPlayerAlive; }
+        set { isPlayerAlive = value; }
+    
     }
 }

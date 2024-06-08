@@ -6,20 +6,28 @@ public class pipeScrollEvent : MonoBehaviour
 {
 
     public GameObject pipe;
-    private int spawnRate = 5;
-    public float timer = 10;
+    private int spawnRate;
+    public float timer = 0;
     public int heightOffset = 10;
+    private EventLogic eventLogic;
     //private float currentPosObj = transform.position.x;   
     // Start is called before the first frame update
     void Start()
     {
         //spawnPipes();
+        eventLogic = GameObject.FindGameObjectWithTag("EventCont").GetComponent<EventLogic>();
+        spawnRateDefault();
     }
 
     // Update is called once per frame
     void Update()
-    {   
-        spawnPipes();
+    {
+        if (eventLogic.playerState)
+        {
+            //spawnRateDefault();
+            spawnPipes();
+
+        }
         //calcScoreArea();
     }
 
@@ -30,7 +38,6 @@ public class pipeScrollEvent : MonoBehaviour
         //int currentPos = transform.position.x;
         float lowPoint = transform.position.y - heightOffset;
         float highPoint = transform.position.y + heightOffset;
-
 
         if (timer < spawnRate)
         {

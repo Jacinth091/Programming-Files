@@ -39,11 +39,11 @@ public class CollisionCheck : MonoBehaviour
 
         if (!collision.gameObject.CompareTag("BottomCollider") && !collision.gameObject.CompareTag("LeftCollider") && !collision.gameObject.CompareTag("RightCollider") && !collision.gameObject.CompareTag("defBall"))
         {
-            string collisionTag = collision.gameObject.tag;
+            string collisionTag = collision.gameObject.name.Substring(0, collision.gameObject.name.Length -7);
 
             if(collisionTag != null)
             {
-                ballHandlerEvent(collisionTag, collision);
+                ballHandlerEvent(collisionTag, gameObject);
             }
 
 
@@ -53,46 +53,99 @@ public class CollisionCheck : MonoBehaviour
 
  
     }
-    private void ballHandlerEvent(string collTag, Collision2D collision)
+    private void ballHandlerEvent(string collTag, GameObject obj)
     {
-        switch (collTag)
-        {
-            default:
-                break;
 
-            case "Tennis":
-                Debug.Log("Tennis");
-                Destroy(collision.gameObject);
-                break;
-            case "Basket":
-                Debug.Log("Basket");
 
-                break;
-            case "Beach":
-                Debug.Log("Beach");
+        string gameObjName = obj.name.Substring(0, obj.name.Length - 7);
+        Debug.LogWarning(collTag);
+        Debug.LogWarning(gameObjName);
+        if (collTag.Equals(gameObjName)) {
 
-                break;
-            case "Golf":
-                Debug.Log("Golf");
+            switch (collTag)
+            {
+                case "Tennis":
+                    Debug.Log("Tennis");
+                    //Destroy(collision.obj);
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    //Destroy(obj);
+                    break;
+                case "Basketball":
+                    Debug.Log("Basketball");
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    Debug.LogWarning("BASKET BALLLL!!!1");
+                    //Destroy(obj);
 
-                break;
-            case "Baseball":
-                Debug.Log("Baseball");
+                    break;
+                case "Beach":
+                    Debug.Log("Beach");
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    //Destroy(obj);
 
-                break;
-            case "Cricket":
-                Debug.Log("Cricket");
 
-                break;
-            case "Snooker":
-                Debug.Log("Snooker");
+                    break;
+                case "Golf":
+                    Debug.Log("Golf");
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    //Destroy(obj);
 
-                break;
-            case "Volley":
-                Debug.Log("Volley");
 
-                break;
+                    break;
+                case "Baseball":
+                    Debug.Log("Baseball");
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    //Destroy(obj);
+                    break;
+                case "Cricket":
+                    Debug.Log("Cricket");
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    //Destroy(obj);
+
+
+                    break;
+                case "Snooker":
+                    Debug.Log("Snooker");
+                    BallPoolManager.RemoveObjectsToPool(obj);
+                    //Destroy(obj);
+
+
+                    break;
+                case "Volley":
+                    Debug.Log("Volley");
+                    //Destroy(obj);
+                    BallPoolManager.RemoveObjectsToPool(obj);
+
+                    //BallPoolManager.RemoveObjectsToPool(obj);
+
+                    break;
+                case "Bowling":
+                    Debug.Log("Bowling Ball!!");
+                    //Destroy(obj);
+                    BallPoolManager.RemoveObjectsToPool(obj);
+
+                    //BallPoolManager.RemoveObjectsToPool(obj);
+
+                    break;
+                case "Football":
+                    Debug.Log("footBall!!");
+                    //Destroy(obj);
+                    BallPoolManager.RemoveObjectsToPool(obj);
+
+                    //BallPoolManager.RemoveObjectsToPool(obj);
+
+                    break;
+
+                default:
+                    Debug.LogWarning("Not Identified!");
+                    Debug.LogWarning(collTag);
+                    Debug.LogWarning(gameObjName);
+                    break;
+
+            }
+
 
         }
+
+
     }
 }

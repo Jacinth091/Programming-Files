@@ -19,6 +19,7 @@ TagManager:
   - Snooker
   - Golf
   - defBall
+  - BallQueueManager
   layers:
   - Default
   - TransparentFX

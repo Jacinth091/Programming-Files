@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BallSpawner ballSpawner;
-    private float moveSpd = 5f;
+    private float moveSpd = 4f;
     public PlayerInputActions moveAction;
     private Vector2 moveDirection = Vector2.zero;
 
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(rb != null)
         {
-            rb.velocity = new Vector2((moveDirection.x * moveSpd) + Time.deltaTime, 0);
+            rb.velocity = new Vector2((moveDirection.x  * moveSpd), 0);
 
         }
     }

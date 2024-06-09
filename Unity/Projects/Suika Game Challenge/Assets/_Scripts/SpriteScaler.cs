@@ -61,10 +61,10 @@ public class SpriteScaler : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (Mathf.Abs(rb.velocity.y) < 0.1f) // Check if the ball is on the surface (no significant vertical velocity)
-        {
-            rb.velocity = new Vector2(constantSpeed, 0f); // Maintain constant horizontal speed
-        }
+        //if (Mathf.Abs(rb.velocity.y) < 0.1f) // Check if the ball is on the surface (no significant vertical velocity)
+        //{
+        //    rb.velocity = new Vector2(constantSpeed, 0f); // Maintain constant horizontal speed
+        //}
 
     }
 }

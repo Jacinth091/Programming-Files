@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1708324021829030289}
   - component: {fileID: 8550372118181613224}
   - component: {fileID: 8302755387447019854}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Balls
   m_TagString: defBall
   m_Icon: {fileID: 0}
@@ -48,10 +48,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 2.5
   m_Material: {fileID: 6200000, guid: 4042e56eef004cd4a93b2e5876052a38, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -59,9 +59,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!58 &549354518492999504
 CircleCollider2D:
@@ -138,7 +138,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2a2824cd437efa64b87d08b1cb7e1ed2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd78fba4f9cbe748bd56a00a93377d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballPrefabManager: {fileID: 0}
 --- !u!114 &8302755387447019854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,3 +180,4 @@ MonoBehaviour:
   ballCollider: {fileID: 549354518492999504}
   rb: {fileID: 0}
   constantSpeed: 0.1
+  ballOrder: -1

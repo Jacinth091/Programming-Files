@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2272472884801181186
+--- !u!1001 &227531096308198112
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,35 +10,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1639309386544845594, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_Name
-      value: Football
+      value: 9_Basket
       objectReference: {fileID: 0}
     - target: {fileID: 1639309386544845594, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_TagString
-      value: Football
+      value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 1708324021829030289, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 70453a201ba123048abb9f46d1421d25, type: 3}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5.8331375
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -5.1307287
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.004761981
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalRotation.w
@@ -67,6 +63,18 @@ PrefabInstance:
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302755387447019854, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: sizeMult
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302755387447019854, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: ballOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302755387447019854, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

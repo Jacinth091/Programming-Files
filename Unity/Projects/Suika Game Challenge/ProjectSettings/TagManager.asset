@@ -5,30 +5,35 @@ TagManager:
   serializedVersion: 2
   tags:
   - BallSpawner
-  - Tennis
-  - Basket
   - BottomCollider
   - LeftCollider
   - RightCollider
-  - Volley
-  - Baseball
-  - Beach
-  - Bowling
-  - Cricket
-  - Football
-  - Snooker
-  - Golf
   - defBall
   - BallQueueManager
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - PlayerColl
+  - QueuedItem
+  - PlayerScore
+  - UIManager
+  - CurrentObj
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Wall
+  - Balls
   - 
   - 
   - 

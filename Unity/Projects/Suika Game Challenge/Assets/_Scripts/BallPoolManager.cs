@@ -106,6 +106,7 @@ public class BallPoolManager : MonoBehaviour
         {
             obj.SetActive(false);
             pool.InactiveObjects.Add(obj);
+            //Destroy(obj);
         }
     }
 

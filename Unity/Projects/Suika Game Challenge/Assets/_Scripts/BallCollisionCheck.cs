@@ -162,8 +162,10 @@ public class CollisionCheck : MonoBehaviour
     [SerializeField] private Collision2D ballCollider;
     [SerializeField] private BallPrefabManager ballPrefabManager;
     private UpdateManager updateManager;
+    private static Dictionary<string, List<GameObject>> collidingObjects = new Dictionary<string, List<GameObject>>();
 
     private int ID;
+    private int mergingCount = 2;
 
     private Vector3 pos1;
     private Vector3 pos2;
@@ -171,6 +173,7 @@ public class CollisionCheck : MonoBehaviour
     private GameObject objToSpawn = null;
 
     private bool merging = false;
+    private int merge = 0;
 
     private void Awake()
     {
@@ -182,45 +185,78 @@ public class CollisionCheck : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!merging && ShouldMergeWith(collision.gameObject))
+        if (ShouldMergeWith(collision.gameObject))
         {
+            string tag = gameObject.tag;
 
-            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
-            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
-            StartCoroutine(MergeWithDelay(collision.gameObject));
+            if (!collidingObjects.ContainsKey(tag))
+            {
+                collidingObjects[tag] = new List<GameObject>();
+            }
+
+            collidingObjects[tag].Add(gameObject);
+            collidingObjects[tag].Add(collision.gameObject);
+
+            if (collidingObjects[tag].Count == 2 && !merging)
+            {
+                merging = true;
+                StartCoroutine(MergeWithDelay(collision.gameObject));
+            }
+            else if (collidingObjects[tag].Count > 2)
+            {
+                collidingObjects[tag].Remove(collision.gameObject);
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (ShouldMergeWith(collision.gameObject))
+        {
+            string tag = gameObject.tag;
+
+            if (collidingObjects.ContainsKey(tag))
+            {
+                collidingObjects[tag].Remove(gameObject);
+                collidingObjects[tag].Remove(collision.gameObject);
+
+                if (collidingObjects[tag].Count == 0)
+                {
+                    collidingObjects.Remove(tag);
+                }
+            }
         }
     }
 
     private IEnumerator MergeWithDelay(GameObject other)
     {
-        merging = true;
-
-        yield return new WaitForSeconds(0.08f); // Adjust the delay time as needed
+        yield return new WaitForSeconds(0.1f); // Adjust the delay time as needed
 
         MergeObjects(other);
         merging = false;
+        string tag = gameObject.tag;
+        if (collidingObjects.ContainsKey(tag))
+        {
+            collidingObjects[tag].Clear();
+        }
     }
 
     private bool ShouldMergeWith(GameObject other)
     {
-        return !merging &&                                 // Prevent merging if already in merging process
+        return !merging &&                          // Prevent merging if already in merging process
                !other.CompareTag("BottomCollider") &&      // Prevent merging with specific tags
                !other.CompareTag("LeftCollider") &&
                !other.CompareTag("RightCollider") &&
                !other.CompareTag("defBall") &&
                other.CompareTag(gameObject.tag) &&        // Ensure same tag
                other.GetComponent<SpriteRenderer>().sprite == GetComponent<SpriteRenderer>().sprite && // Ensure same sprite
-               ID >= other.GetComponent<CollisionCheck>().ID; // Ensure not merging with a lower ID object
+               ID > other.GetComponent<CollisionCheck>().ID; // Ensure not merging with a lower ID object
     }
 
     private void MergeObjects(GameObject other)
     {
-        int score = 0;
-        if (gameObject.CompareTag("1"))
-        {
-            score = 2;
-            updateManager.PlayerScore(score);
-        }
+
+        Scoring();
 
         pos1 = other.transform.position;
         pos2 = transform.position;
@@ -231,7 +267,41 @@ public class CollisionCheck : MonoBehaviour
         BallPoolManager.RemoveObjectsToPool(other);
         BallPoolManager.RemoveObjectsToPool(gameObject);
     }
-
+    private void Scoring()
+    {
+        int score = 0;
+        switch (gameObject.tag)
+        {
+            case "0":
+                score = 1;
+                break;
+            case "1":
+                score = 2;
+                break;
+            case "2":
+                score = 3;
+                break;
+            case "3":
+                score = 5;
+                break;
+            case "4":
+                score = 7;
+                break;
+            case "5":
+                score = 13;
+                break;
+            case "6":
+                score = 15;
+                break;
+            case "7":
+                score = 17;
+                break;
+            case "8":
+                score = 23;
+                break;
+        }
+        updateManager.PlayerScore(score);
+    }
     private GameObject spawnBallsAfter(string objTag, Vector3 mergedPos)
     {
         GameObject obj = null;

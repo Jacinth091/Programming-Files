@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BallSpawner ballSpawner;
+    //private DropperManager dropper;
     private float moveSpd = 4f;
     public PlayerInputActions moveAction;
     private Vector2 moveDirection = Vector2.zero;
@@ -16,11 +17,15 @@ public class PlayerMovement : MonoBehaviour
     private InputAction plyrMove;
     private InputAction plyrFire;
 
+    private bool spawnedAnObject = false;
+    private float spawnCooldown = 1f;
+
 
     private void Awake()
     {
         moveAction = new PlayerInputActions();
         ballSpawner = GameObject.FindGameObjectWithTag("BallSpawner").GetComponent<BallSpawner>();
+        //dropper = GameObject.Find("Test").GetComponent<DropperManager>();
     }
     private void Start()
     {
@@ -49,7 +54,10 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = plyrMove.ReadValue<Vector2>();
 
-
+        if (spawnedAnObject)
+        {
+            
+        }
     }
 
     private void FixedUpdate()
@@ -64,9 +72,25 @@ public class PlayerMovement : MonoBehaviour
     private void Fire(InputAction.CallbackContext context)
     {
         Debug.Log("Balls!");
-        if(ballSpawner != null)
+        if(ballSpawner != null && spawnedAnObject != true)
         {
-            ballSpawner.SpawnBall();
+            ballSpawner.DropObject();
+            spawnedAnObject = true;
+            StartCoroutine(CooldownCoroutine());
+            //dropper.DropObject();
+
+
         }
+        else
+        {
+            Debug.Log("Cool DOWN!!!");
+        }
+    }
+
+    private IEnumerator CooldownCoroutine()
+    {
+        yield return new WaitForSeconds(spawnCooldown);
+        Debug.LogWarning("COOLDONWN!!!!");
+        spawnedAnObject = false;
     }
 }

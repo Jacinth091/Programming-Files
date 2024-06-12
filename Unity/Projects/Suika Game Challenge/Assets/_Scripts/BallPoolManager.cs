@@ -9,6 +9,7 @@ public class BallPoolManager : MonoBehaviour
     public static GameObject _objPoolEmptyHolder;
     public static GameObject _objPoolParticleSystem;
     public static GameObject _objBallObjects;
+    public static GameObject parentObj;
     public enum PoolType
     {
         ParticleSystem,
@@ -79,7 +80,7 @@ public class BallPoolManager : MonoBehaviour
         
         if(spawnableObj == null)
         {
-            GameObject parentObj = SetParentObject(poolType);
+            parentObj = SetParentObject(poolType);
             spawnableObj = Instantiate(objectToSpawn, objPos, objRota);
 
             if (parentObj != null) { 

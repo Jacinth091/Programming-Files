@@ -30,7 +30,7 @@ public class DropperManager : MonoBehaviour
         //}
 
         objectQueue = ballPrefab.ballQueueData;
-         prefab = objectQueue.Dequeue(); // Get the prefab from the queue
+        //prefab = objectQueue.Dequeue(); // Get the prefab from the queue
 
         // Show the next object in the UI
         UpdateNextObjectUI();
@@ -41,10 +41,9 @@ public class DropperManager : MonoBehaviour
 
     void Update()
     {
-        if (!isWaitingForInput && Input.GetMouseButtonDown(0))
-        {
-            DropObject();
-        }
+        //if (!isWaitingForInput && Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        //{
+        //}
     }
 
     void UpdateNextObjectUI()
@@ -54,6 +53,7 @@ public class DropperManager : MonoBehaviour
             GameObject nextObj = objectQueue.Peek();
             nextObjectUI.sprite = nextObj.GetComponent<SpriteRenderer>().sprite;
             nextObjectUI.gameObject.SetActive(true);
+            Debug.LogWarning($"NextObj is {nextObj.name}");
         }
         else
         {
@@ -68,6 +68,8 @@ public class DropperManager : MonoBehaviour
         if (prefab != null)
         {
             currentObject = Instantiate(prefab); // Instantiate a new instance
+            Debug.LogWarning($"Current Object is {currentObject.name}");
+
             currentObject.transform.SetParent(dropper.transform); // Make it a child of the dropper
             currentObject.transform.localPosition = Vector3.zero; // Ensure it appears at the dropper's position
             currentObject.SetActive(true);
@@ -77,7 +79,7 @@ public class DropperManager : MonoBehaviour
     }
 
 
-    void DropObject()
+    public void DropObject()
     {
         if (currentObject != null)
         {

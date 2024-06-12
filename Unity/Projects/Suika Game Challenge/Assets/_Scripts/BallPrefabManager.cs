@@ -66,7 +66,7 @@ public class BallPrefabManager : MonoBehaviour
                 // Select a random index and enqueue the ball
                 int randomIndex = Random.Range(0, ballList.Count - 6);
                 ballQueue.Enqueue(ballList[randomIndex]);
-                //ballQueue.Enqueue(ballList[4]);
+                //ballQueue.Enqueue(ballList[3]);
 
                 // Check if the queue has reached its capacity
                 if (ballQueue.Count == queueCapacity)

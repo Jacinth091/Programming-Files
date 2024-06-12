@@ -7,8 +7,8 @@ using UnityEngine.SocialPlatforms.Impl;
 public class UpdateManager : MonoBehaviour
 {
 
-    [SerializeField] private TextMeshProUGUI nextInQueue;
-    [SerializeField] private TextMeshProUGUI currentItem;
+/*    [SerializeField] private TextMeshProUGUI nextInQueue;
+    [SerializeField] private TextMeshProUGUI currentItem;*/
     [SerializeField] private TextMeshProUGUI playerScore;
     [SerializeField] private BallSpawner ballSpawner;
     private BallPrefabManager ballPrefab;
@@ -23,7 +23,7 @@ public class UpdateManager : MonoBehaviour
         //currentItem.text = string.Empty;
         playerScore.text = "0";
 
-        if (ballPrefab != null)
+/*        if (ballPrefab != null)
         {
             //ballPrefab.initBallQueue();
             if (ballSpawner != null)
@@ -54,7 +54,7 @@ public class UpdateManager : MonoBehaviour
 
 
             }
-        }
+        }*/
 
 
     }
@@ -99,14 +99,14 @@ public class UpdateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BallPrefabManager.isBallSpawned)
-        {
-            ballSpawner.setStagedParent(BallPrefabManager.stagedObject);
-        }
-        else
-        {
-            ballSpawner.setStagedParent(null);
-        }
+        //if (BallPrefabManager.isBallSpawned)
+        //{
+        //    ballSpawner.setStagedParent(BallPrefabManager.stagedObject);
+        //}
+        //else
+        //{
+        //    ballSpawner.setStagedParent(null);
+        //}
     }
 
     public void PlayerScore(int score)
@@ -123,7 +123,7 @@ public class UpdateManager : MonoBehaviour
         }
     }
 
-    public void NextInQueue(string objName)
+/*    public void NextInQueue(string objName)
     {
         string nextTemp = $@"Next
 {objName}";
@@ -149,5 +149,5 @@ public class UpdateManager : MonoBehaviour
         {
             currentItem.text = nextTemp;
         }
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -63,8 +63,6 @@ public class CollisionCheck : MonoBehaviour
                         updateManager.PlayerScore(score);
                         
                     }
-
-
                             Debug.Log($"SENDING MESSAGE FROM {gameObject.name}");
                     pos1 = collision.gameObject.transform.position;
                     pos2 = gameObject.transform.position;
@@ -83,12 +81,7 @@ public class CollisionCheck : MonoBehaviour
 
 
 
-
-
-
-
         }
-
 
 
 
@@ -96,110 +89,7 @@ public class CollisionCheck : MonoBehaviour
 
  
 
-/*
-    private void ballHandlerEvent(Collision2D collision, GameObject obj)
-    {
 
-
-        string gameObjName = obj.name.Substring(0, obj.name.Length - 7);
-        string collTag = collision.gameObject.name.Substring(0, collision.gameObject.name.Length - 7);
-
-        //Debug.LogWarning(collTag);
-        //Debug.LogWarning(gameObjName);
-        if (collTag.Equals(gameObjName))
-        {
-
-            switch (collTag)
-            {
-
-                case "0_Golf":
-                    Debug.Log("Golf");
-                    pos1 = collision.gameObject.transform.position;
-                    pos2 = gameObject.transform.position;
-                    mergedPos = (pos1 + pos2) / 2f;
-
-                    objToSpawn = spawnBallsAfter(collision.gameObject.tag, mergedPos);
-                    BallPoolManager.spawnObject(objToSpawn, mergedPos, Quaternion.identity, BallPoolManager.PoolType.BallObjects);
-                    //BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-                    //BallPoolManager.RemoveObjectsToPool(gameObject);
-                    break;
-
-                case "1_Snooker":
-                    Debug.Log("Snooker");
-                    pos1 = collision.gameObject.transform.position;
-                    pos2 = gameObject.transform.position;
-                    mergedPos = (pos1 + pos2) / 2f;
-
-                    objToSpawn = spawnBallsAfter(collision.gameObject.tag, mergedPos);
-                    BallPoolManager.spawnObject(objToSpawn, mergedPos, Quaternion.identity, BallPoolManager.PoolType.BallObjects);
-                    //BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-                    //BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    break;
-                case "2_Cricket":
-                
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-                    //BallPoolManager.RemoveObjectsToPool(ball2);
-                    break;
-                case "3_Tennis":
-                    Debug.Log("Tennis");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    break;
-                case "4_Soft":
-                    Debug.Log("Baseball");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    break;
-                case "5_Volley":
-                    Debug.Log("Volley");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    break;
-                case "6_Soccer":
-                    Debug.Log("footBall!!");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    break;
-                case "7_Bowling":
-                    Debug.Log("Bowling Ball!!");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    break;
-                case "8_Beach":
-                    Debug.Log("Beach");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
- 
-                    break;
-
-                case "9_Basket":
-                    Debug.Log("Basketball");
-
-                    BallPoolManager.RemoveObjectsToPool(collision.gameObject);
-
-                    Debug.LogWarning("BASKET BALLLL!!!1");
-                    break;
-
-                default:
-                    Debug.LogWarning("Not Identified!");
-                    Debug.LogWarning(collTag);
-                    Debug.LogWarning(gameObjName);
-                    break;
-
-            }
-
-
-        }
-
-
-    }
-*/
     private GameObject spawnBallsAfter(string objTag, Vector3 mergedPos)
     {
         GameObject obj = null;
@@ -223,7 +113,7 @@ public class CollisionCheck : MonoBehaviour
 
                     if (!colTag.Equals(objTag))
                     {
-                        Debug.LogWarning("notidentified" + $"{colTag}");
+                        Debug.LogWarning("notidentified" + $"   --->> {colTag}");
 
                     }
                     else
@@ -259,4 +149,127 @@ public class CollisionCheck : MonoBehaviour
 
     }
 
+}*/
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+public class CollisionCheck : MonoBehaviour
+{
+
+    [SerializeField] private Collision2D ballCollider;
+    [SerializeField] private BallPrefabManager ballPrefabManager;
+    private UpdateManager updateManager;
+
+    private int ID;
+
+    private Vector3 pos1;
+    private Vector3 pos2;
+    private Vector3 mergedPos;
+    private GameObject objToSpawn = null;
+
+    private bool merging = false;
+
+    private void Awake()
+    {
+        ballPrefabManager = GameObject.FindGameObjectWithTag("BallQueueManager").GetComponent<BallPrefabManager>();
+        updateManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UpdateManager>();
+
+        ID = GetInstanceID();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!merging && ShouldMergeWith(collision.gameObject))
+        {
+
+            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
+            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>(), true);
+            StartCoroutine(MergeWithDelay(collision.gameObject));
+        }
+    }
+
+    private IEnumerator MergeWithDelay(GameObject other)
+    {
+        merging = true;
+
+        yield return new WaitForSeconds(0.08f); // Adjust the delay time as needed
+
+        MergeObjects(other);
+        merging = false;
+    }
+
+    private bool ShouldMergeWith(GameObject other)
+    {
+        return !merging &&                                 // Prevent merging if already in merging process
+               !other.CompareTag("BottomCollider") &&      // Prevent merging with specific tags
+               !other.CompareTag("LeftCollider") &&
+               !other.CompareTag("RightCollider") &&
+               !other.CompareTag("defBall") &&
+               other.CompareTag(gameObject.tag) &&        // Ensure same tag
+               other.GetComponent<SpriteRenderer>().sprite == GetComponent<SpriteRenderer>().sprite && // Ensure same sprite
+               ID >= other.GetComponent<CollisionCheck>().ID; // Ensure not merging with a lower ID object
+    }
+
+    private void MergeObjects(GameObject other)
+    {
+        int score = 0;
+        if (gameObject.CompareTag("1"))
+        {
+            score = 2;
+            updateManager.PlayerScore(score);
+        }
+
+        pos1 = other.transform.position;
+        pos2 = transform.position;
+        mergedPos = (pos1 + pos2) / 2f;
+
+        objToSpawn = spawnBallsAfter(other.tag, mergedPos);
+        BallPoolManager.spawnObject(objToSpawn, mergedPos, Quaternion.identity, BallPoolManager.PoolType.BallObjects);
+        BallPoolManager.RemoveObjectsToPool(other);
+        BallPoolManager.RemoveObjectsToPool(gameObject);
+    }
+
+    private GameObject spawnBallsAfter(string objTag, Vector3 mergedPos)
+    {
+        GameObject obj = null;
+
+        if (objTag != null && ballPrefabManager != null)
+        {
+            int currentBallIndex = 0;
+
+            if (objTag.Equals("9"))
+            {
+                return obj;
+            }
+            else
+            {
+                for (int i = 0; i < ballPrefabManager.ballListData.Count; i++)
+                {
+                    GameObject currObj = ballPrefabManager.ballListData[i];
+                    string colTag = currObj.gameObject.tag;
+
+                    if (!colTag.Equals(objTag))
+                    {
+                        Debug.LogWarning("notidentified" + $"   --->> {colTag}");
+                    }
+                    else
+                    {
+                        currentBallIndex = i + 1;
+                        Debug.LogWarning("Entered!");
+                        break;
+                    }
+                }
+
+                if (currentBallIndex < ballPrefabManager.ballListData.Count)
+                {
+                    obj = ballPrefabManager.ballListData[currentBallIndex];
+                    obj.gameObject.transform.position = mergedPos;
+                }
+            }
+        }
+        return obj;
+    }
 }

@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
         moveAction = new PlayerInputActions();
         ballSpawner = GameObject.FindGameObjectWithTag("BallSpawner").GetComponent<BallSpawner>();
     }
+    private void Start()
+    {
+        //OnEnable();
+    }
     private void OnEnable()
     {
         plyrMove = moveAction.Player.Move;

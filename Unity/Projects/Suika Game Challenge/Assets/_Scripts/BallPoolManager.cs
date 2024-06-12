@@ -54,6 +54,11 @@ public class BallPoolManager : MonoBehaviour
             pool = new PooledObjectInfo() { LookUpString = objectToSpawn.name};
             objectPools.Add(pool);
         }
+/*        else
+        {
+            Debug.LogWarning("The object passed is null!");
+            return null;
+        }*/
 
         // Checks if there is any inactive gameobjects in the pool
 

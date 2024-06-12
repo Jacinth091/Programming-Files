@@ -6,9 +6,14 @@ public class BallPrefabManager : MonoBehaviour
 {
     // Start is called before the first frame update
     private List<GameObject> ballList;
-    private Queue<GameObject> ballQueue;
+    private Queue<GameObject> ballQueue = new Queue<GameObject>();
+    public static GameObject stagedObject;
+    public static GameObject nextInQueue;
+    //private GameObject currentObj;
+
     private int queueCapacity = 6;
     public bool isQueueAvailable;
+    public static bool isBallSpawned = false;
 
     //void Start()
     //{
@@ -16,43 +21,35 @@ public class BallPrefabManager : MonoBehaviour
     //}
     private void Awake()
     {
-        ballQueue = new Queue<GameObject>(queueCapacity);
         ballList = new List<GameObject>(Resources.LoadAll<GameObject>("Balls"));
+        initBallQueue();
+        //Debug.Log($"{ballQueue.Peek()}");
+
+        if (ballQueue.Count != 0)
+        {
+            stagedObject = getBallFromQueue();
+            isBallSpawned = true;
+            nextInQueue = peekNextBall();
+        }
+
+        //Debug.Log($"Current: {stagedObjData.name}");
+        //Debug.Log($"Next In Queue: {nextInQueue.name}");
 
     }
-
-    //public GameObject objToSpawn()
-    //{
-    //    int whichObj = Random.Range(0, ballList.Count -5);
-
-    //    return ballList[whichObj];
-    //}
 
 
     // Update is called once per frame
     void Update()
     {
-        //isQueueAvailable = initBallQueue();
-
-        //Debug.Log($"Queue is Available: {ballQueue.Count}");
-        //if(ballQueue.Count == 3)
-        //{
-
-        //}
-        //Debug.Log($"Queue Item Count: {ballQueue.Count}");
         if(ballQueue != null){
             if (!isQueueAvailable || ballQueue.Count < queueCapacity - 2)
             {
                 initBallQueue();
+                //stagedObject = getBallFromQueue();
                 Debug.Log($"Queue is Available: {ballQueue.Count}");
 
             }
         }
-
-        //else
-        //{
-        //    Debug.Log("The Queue is Available!");
-        //}
 
     }
 
@@ -67,8 +64,9 @@ public class BallPrefabManager : MonoBehaviour
             for (int i = 0; i < queueCapacity; i++)
             {
                 // Select a random index and enqueue the ball
-                int randomIndex = Random.Range(0, ballList.Count - 5);
+                int randomIndex = Random.Range(0, ballList.Count - 6);
                 ballQueue.Enqueue(ballList[randomIndex]);
+                //ballQueue.Enqueue(ballList[4]);
 
                 // Check if the queue has reached its capacity
                 if (ballQueue.Count == queueCapacity)
@@ -89,7 +87,7 @@ public class BallPrefabManager : MonoBehaviour
         }
 
         // Log the current count of the queue
-        Debug.Log($"Queue count: {ballQueue.Count}");
+        //Debug.Log($"Queue count: {ballQueue.Count}");
     }
 
 
@@ -110,16 +108,16 @@ public class BallPrefabManager : MonoBehaviour
 
     public GameObject peekNextBall()
     {
-        /*     if(ballQueue.Count != 0)
-             {
+        if (ballQueue.Count != 0)
+        {
+            return ballQueue.Peek();
 
-             }
-             else
-             {
-                 Debug.Log("Ball Queue is Empty!!");
-                 return null;
-             }*/
-        return ballQueue.Peek();
+        }
+        else
+        {
+            Debug.Log("Ball Queue is Empty!!");
+            return null;
+        }
     }
 
     public List<GameObject> ballListData
@@ -127,5 +125,15 @@ public class BallPrefabManager : MonoBehaviour
         get { return ballList; }
         set { ballList = value; }
     }
+    public Queue<GameObject> ballQueueData
+    {
+        get { return ballQueue; }
+        set { ballQueue = value; }
+    }
 
+/*    public GameObject stagedObjData
+    {
+        get { return stagedObject; }
+        set { stagedObject = value; }
+    }*/
 }

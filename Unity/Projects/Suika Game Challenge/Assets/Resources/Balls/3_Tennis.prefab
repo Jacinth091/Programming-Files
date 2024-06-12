@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.0769644
+      value: 2.058196
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9433904
+      value: -4.246831
       objectReference: {fileID: 0}
     - target: {fileID: 2873717538300580180, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83,6 +83,14 @@ PrefabInstance:
     - target: {fileID: 8302755387447019854, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
       propertyPath: ballOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509678928320126716, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: m_Mass
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509678928320126716, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: m_GravityScale
+      value: 2.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

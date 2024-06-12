@@ -72,6 +72,14 @@ PrefabInstance:
       propertyPath: ballOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8509678928320126716, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: m_Mass
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8509678928320126716, guid: 0668b1bf1ac808a47819379cd95ecdea, type: 3}
+      propertyPath: m_GravityScale
+      value: 3.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

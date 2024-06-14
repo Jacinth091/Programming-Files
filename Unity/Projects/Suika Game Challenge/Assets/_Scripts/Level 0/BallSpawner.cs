@@ -41,7 +41,8 @@ public class BallSpawner : MonoBehaviour
 
     private void UpdateSpawnArea()
     {
-        *//*        if (objectQueue.Count > 0)
+        */
+/*        if (objectQueue.Count > 0)
                 {
                     GameObject nextObj = objectQueue.Peek();
                     nextObjectUI.sprite = nextObj.GetComponent<SpriteRenderer>().sprite;
@@ -50,7 +51,8 @@ public class BallSpawner : MonoBehaviour
                 else
                 {
                     nextObjectUI.gameObject.SetActive(false);
-                }*//*
+                }*/
+/*
         stagedObject = BallPrefabManager.stagedObject;
 
 
@@ -67,7 +69,8 @@ public class BallSpawner : MonoBehaviour
             currentObject.SetActive(true);
             currentObject.GetComponent<Rigidbody2D>().simulated = false; // Disable physics until drop
             UpdateNextObjectUI();
-        }*//*
+        }*/
+/*
         if (stagedObjectTemp != null) { 
         
                
@@ -131,7 +134,8 @@ public class BallSpawner : MonoBehaviour
                     }
 
 
-                }*//*
+                }*/
+/*
 
 
         if (ballPrefabs != null) { 
@@ -221,6 +225,7 @@ public class BallSpawner : MonoBehaviour
     //[SerializeField] private UpdateManager textUpdate;
     [SerializeField] private GameObject spawnArea;
     [SerializeField] private SpriteRenderer nextObjectArea;
+    [SerializeField] private PlayerMovement playerMovement;
 
     
     private GameObject stagedObject;
@@ -228,8 +233,12 @@ public class BallSpawner : MonoBehaviour
     private GameObject currentObj;
     private GameObject nextBallToStage = null;
 
-    private float dropDelay = 0.5f;
+    private Vector3 playerMousePos;
+
+    private float dropDelay = .3f;
+    private float appearDelay = 1f;
     private bool isWaitingForInput= false;
+
 
     private void Awake()
     {
@@ -250,7 +259,7 @@ public class BallSpawner : MonoBehaviour
 
     private void Update()
     {
-        
+        playerMousePos = PlayerMovement.mousePosWorld;
     }
 
     void UpdateNextObjectUI()
@@ -275,9 +284,7 @@ public class BallSpawner : MonoBehaviour
         if (stagedObject != null)
         {
             //currentObj = Instantiate(prefab); // Instantiate a new instance
-
-            currentObj = BallPoolManager.spawnObject(stagedObject, transform.position, Quaternion.identity, BallPoolManager.PoolType.BallObjects);
-            Debug.LogWarning($"Current Object is {currentObj.name}");
+            StartCoroutine(spawnCurrentBall());
 
             currentObj.transform.SetParent(spawnArea.transform); // Make it a child of the dropper
             currentObj.transform.localPosition = Vector3.zero; // Ensure it appears at the dropper's position
@@ -296,11 +303,11 @@ public class BallSpawner : MonoBehaviour
     {
         if (currentObj != null)
         {
-            isWaitingForInput = true;
+            
 
             // Drop the object after the delay
-            //Invoke(nameof(PerformDrop), dropDelay);
-            PerformDrop();
+            StartCoroutine(StartSpawning());
+            //PerformDrop();
         }
     }
 
@@ -310,6 +317,7 @@ public class BallSpawner : MonoBehaviour
         {
             // Reparent to root so it drops independently
             currentObj.transform.SetParent(BallPoolManager.parentObj.transform);
+            //currentObj.transform.position = new Vector3(playerMousePos.x, transform.position.y, transform.position.z);
 
             // Simulate dropping logic
             Rigidbody2D rb = currentObj.GetComponent<Rigidbody2D>();
@@ -318,9 +326,28 @@ public class BallSpawner : MonoBehaviour
 
 
             // Prepare the next object for dropping
-            Invoke(nameof(PrepareNextObject), dropDelay);
-            isWaitingForInput = false;
+            StartCoroutine(prepareForNext());
 
         }
+    }
+    private IEnumerator StartSpawning()
+    {
+        isWaitingForInput = true;
+        yield return new WaitForSeconds(dropDelay);
+        PerformDrop();
+    }
+    private IEnumerator prepareForNext()
+    {
+        yield return new WaitForSeconds(appearDelay);
+        PrepareNextObject();
+        isWaitingForInput = false;
+    }
+
+    private IEnumerator spawnCurrentBall()
+    {
+
+        currentObj = BallPoolManager.spawnObject(stagedObject, transform.position, Quaternion.identity, BallPoolManager.PoolType.BallObjects);
+        Debug.LogWarning($"Current Object is {currentObj.name}");
+        yield return new WaitForSeconds(appearDelay);
     }
 }

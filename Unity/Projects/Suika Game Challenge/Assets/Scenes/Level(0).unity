@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &35547134
 RectTransform:
   m_ObjectHideFlags: 0
@@ -382,15 +382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f1cf7dfc8602c48b881943bc35645c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropper: {fileID: 898507542}
-  dropPosition: {fileID: 898507543}
-  objectPrefab: {fileID: 5216850168649110015, guid: 3ce380c9a4ad90942a81c9bf6cf1dff4, type: 3}
-  nextObjectUI: {fileID: 184275779}
-  ballPrefab: {fileID: 1767002068}
-  dropDelay: 0.5
-  currentObject: {fileID: 0}
-  isWaitingForInput: 0
-  prefab: {fileID: 0}
 --- !u!58 &184275783
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -664,7 +655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &568243034
 RectTransform:
   m_ObjectHideFlags: 0
@@ -966,7 +957,7 @@ Transform:
   m_GameObject: {fileID: 754785608}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -538.2467, y: -955.95184, z: 0.004761981}
+  m_LocalPosition: {x: -537.81, y: -955.59, z: 0.004761981}
   m_LocalScale: {x: 0.91701806, y: 0.8999627, z: 0.44465542}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1152,8 +1143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 290895c7fe080d54581f5eda2d8a49a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextInQueue: {fileID: 35547135}
-  currentItem: {fileID: 568243035}
   playerScore: {fileID: 1513168630}
   ballSpawner: {fileID: 0}
 --- !u!1 &1096057203
@@ -1334,7 +1323,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1363,7 +1352,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1.2733765, y: 0, z: 0.5954895, w: -1.0732422}
+  m_margin: {x: -1.2733765, y: 0, z: -113.926346, w: -1.0732422}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1390,6 +1379,7 @@ GameObject:
   - component: {fileID: 1587011696}
   - component: {fileID: 1587011695}
   - component: {fileID: 1587011692}
+  - component: {fileID: 1587011697}
   m_Layer: 0
   m_Name: Player
   m_TagString: PlayerColl
@@ -1543,6 +1533,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.32000002
+--- !u!114 &1587011697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587011691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8fcc1942c327443916969b8f79811b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objtToDrop: {fileID: 0}
 --- !u!1 &1744123925
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,6 +2027,7 @@ MonoBehaviour:
   ballPrefabs: {fileID: 0}
   spawnArea: {fileID: 898507542}
   nextObjectArea: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

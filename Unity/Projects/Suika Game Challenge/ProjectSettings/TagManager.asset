@@ -25,6 +25,7 @@ TagManager:
   - PlayerScore
   - UIManager
   - CurrentObj
+  - MainMenu
   layers:
   - Default
   - TransparentFX

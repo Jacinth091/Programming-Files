@@ -244,7 +244,7 @@ public class BallSpawner : MonoBehaviour
     {
         ballPrefabs = GameObject.FindGameObjectWithTag("BallQueueManager").GetComponent<BallPrefabManager>();
         //spawnArea  = GameObject.Find("SpawnArea").GetComponent<GameObject>();
-        nextObjectArea = GameObject.Find("NextObject").GetComponent<SpriteRenderer>();
+        nextObjectArea = GameObject.FindGameObjectWithTag("QueuedItem").GetComponent<SpriteRenderer>();
     }
 
     private void Start()

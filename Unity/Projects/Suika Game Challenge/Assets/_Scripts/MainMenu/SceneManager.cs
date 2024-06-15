@@ -5,20 +5,44 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public void OnLoadButtonPressed(int sceneName)
+ /*   ASyncLoader loader;
+
+    private void Start()
     {
-        if (ASyncLoader.Instance != null)
+        loader = ASyncLoader.Instance;
+        if (loader == null)
         {
-            ASyncLoader.Instance.LoadScene(sceneName);
-            //SceneManager.SetActiveScene()
+            Debug.LogWarning("ASyncLoader instance is null in MainMenu Start");
+        }
+        else
+        {
+            Debug.Log("ASyncLoader instance successfully assigned in MainMenu Start");
         }
     }
 
-    //public void PlayGame()
-    //{
-    //    SceneManager.LoadSceneAsync(2);
-    //}
+    public void OnLoadButtonPressed(int sceneName)
+    {
+        if (loader != null)
+        {
+            loader.LoadScene(sceneName);
+        }
+        else
+        {
+            Debug.LogWarning("Loader is null!!");
+        }
+    }*/
+
+    public void OnPress()
+    {
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.LoadGame();
+        }
+        else
+        {
+            Debug.Log("Game Manager Instance is Null!");
+        }
+    }
 
     public void QuitApplication()
     {

@@ -215,6 +215,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BallSpawner : MonoBehaviour
 {
@@ -224,7 +225,7 @@ public class BallSpawner : MonoBehaviour
     [SerializeField] private BallPrefabManager ballPrefabs;
     //[SerializeField] private UpdateManager textUpdate;
     [SerializeField] private GameObject spawnArea;
-    [SerializeField] private SpriteRenderer nextObjectArea;
+    [SerializeField] private Image nextObjectArea;
     [SerializeField] private PlayerMovement playerMovement;
 
     
@@ -244,7 +245,7 @@ public class BallSpawner : MonoBehaviour
     {
         ballPrefabs = GameObject.FindGameObjectWithTag("BallQueueManager").GetComponent<BallPrefabManager>();
         //spawnArea  = GameObject.Find("SpawnArea").GetComponent<GameObject>();
-        nextObjectArea = GameObject.FindGameObjectWithTag("QueuedItem").GetComponent<SpriteRenderer>();
+        nextObjectArea = GameObject.Find("QueueItem").GetComponent<Image>();
     }
 
     private void Start()
@@ -267,7 +268,8 @@ public class BallSpawner : MonoBehaviour
         if (ballPrefabs.ballQueueData.Count > 0)
         {
             GameObject nextObj = ballPrefabs.peekNextBall();
-            nextObjectArea.sprite = nextObj.GetComponent<SpriteRenderer>().sprite;
+            Sprite nextSprite = nextObj.GetComponent<SpriteRenderer>().sprite;
+            nextObjectArea.sprite = nextSprite;
             nextObjectArea.gameObject.SetActive(true);
             Debug.LogWarning($"NextObj is {nextObj.name}");
         }

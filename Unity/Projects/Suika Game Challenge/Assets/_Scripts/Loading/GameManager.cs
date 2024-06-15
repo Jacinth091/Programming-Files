@@ -5,6 +5,81 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 
+public class GameManager : MonoBehaviour
+{
+    public static GameManager instance;
+    public GameObject loadingScreen;
+    public Slider progressBar;
+
+    private void Awake()
+    {
+        instance = this;
+
+        SceneManager.LoadSceneAsync((int)SceneIndex.MAIN_MENU, LoadSceneMode.Additive);
+
+    }
+
+    List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
+    private float totalSceneProgress;
+    private float displayProgress;
+    public float progressSpeed = 1f;
+    public void LoadGame()
+    {
+        loadingScreen.gameObject.SetActive(true);
+        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndex.MAIN_MENU));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndex.GAME_lEVEL));
+        //SceneManager.LoadSceneAsync((int)SceneIndex.MAIN_MENU);
+        StartCoroutine(GetSceneProgress());
+
+    }
+
+    private IEnumerator GetSceneProgress()
+    {
+        // Initialize display progress
+        displayProgress = 0f;
+
+        for (int i = 0; i < scenesLoading.Count; i++)
+        {
+            while (!scenesLoading[i].isDone)
+            {
+                totalSceneProgress = 0f;
+                foreach (AsyncOperation operation in scenesLoading)
+                {
+                    totalSceneProgress += operation.progress;
+                }
+
+                totalSceneProgress = (totalSceneProgress / scenesLoading.Count) * 100f;
+
+                // Gradually increase the display progress to the actual progress
+                while (displayProgress < totalSceneProgress)
+                {
+                    displayProgress += progressSpeed;
+                    progressBar.value = Mathf.Clamp01(displayProgress / 100f);
+                    yield return new WaitForSeconds(0.02f); // Small delay to slow down the progress bar
+                }
+
+                yield return null;
+            }
+        }
+
+        // Ensure the progress bar is full at the end
+        progressBar.value = 1f;
+        loadingScreen.gameObject.SetActive(false);
+    }
+}
+
+
+
+
+
+
+/*using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
+
 public class ASyncLoader : MonoBehaviour
 {
     public static ASyncLoader Instance { get; private set; }
@@ -13,12 +88,13 @@ public class ASyncLoader : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
 
     [Header("Slider")]
-    [SerializeField] private Slider progressBar;
+    [SerializeField] private  Slider progressBar;
 
     //private AsyncOperation loadOperation;
 
     private void Awake()
     {
+        Debug.Log("ASyncLoader Awake called");
         if (Instance == null)
         {
             Instance = this;
@@ -70,7 +146,7 @@ public class ASyncLoader : MonoBehaviour
         //    obj.SetActive(false);
         //}
     }
-}
+}*/
 //IEnumerator loadLevelASync(string sceneName) {
 
 //    while (!loadOperation.isDone)

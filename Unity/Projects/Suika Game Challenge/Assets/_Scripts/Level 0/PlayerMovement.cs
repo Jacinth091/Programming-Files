@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool isLeftMouseButtonClicked = false;
     private bool isBallFalling = false;
     private bool isOnCooldown = false;
+    private bool isOnContainer = false;
     
 
 
@@ -74,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         moveDirection = plyrMove.ReadValue<Vector2>();
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame && !isMouseOverUI())
         {
             clickTimes++;
             Vector2 mousePos2D = Mouse.current.position.ReadValue();
@@ -83,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
             mousePosWorld = mainCam.ScreenToWorldPoint(mousePos);
             //mousePosWorld.z = transform.position.z;
             //posXToMove = mousePosWorld.x;
+
             isLeftMouseButtonClicked = true;
             ClampPlayerToCameraBounds();
 
@@ -104,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (isLeftMouseButtonClicked && !spawnedAnObject && !isOnCooldown)
+        if (isLeftMouseButtonClicked && !spawnedAnObject && !isOnCooldown && !isMouseOverUI())
         {
             BallDropAfterClick();
             Debug.Log("From FIXED UPDATE FUNCTION");
@@ -115,46 +118,16 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
+    private bool isMouseOverUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
+    }
 
     private void Fire(InputAction.CallbackContext context)
     {
-        //Debug.Log("Balls!");
 
-        /*        if(ballSpawner != null && spawnedAnObject != true)
-                {
-                    spawnedAnObject = true;
-                    //if (isBallFalling)
-                    //{
-                    //    isBallFalling= false;
-                    //}
-                    //ballSpawner.DropObject();
-                    transform.position = new Vector3(mousePosWorld.x, transform.position.y, transform.position.z);
-
-                    spawnedAnObject = false;
-
-                    // Move the player to the clicked position
-
-                    //StartCoroutine(CooldownCoroutine());
-                    //dropper.DropObject();
-
-
-                }
-                else
-                {
-                    Debug.Log("Cool DOWN!!!");
-                }*/
         bool isSpacePressed = context.control.name == "space";
         bool isRightBtnPressed = context.control.name == "rightButton";
-
-/*        // Determine which control triggered the action
-        if (isSpacePressed)
-        {
-            Debug.Log("Space key was pressed.");
-        }
-        else if (is)
-        {
-            Debug.Log("Right mouse button was pressed.");
-        }*/
 
 
         Debug.LogWarning($"times Clicked: {clickTimes}");

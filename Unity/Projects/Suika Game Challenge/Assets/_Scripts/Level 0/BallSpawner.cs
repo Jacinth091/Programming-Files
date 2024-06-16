@@ -225,8 +225,9 @@ public class BallSpawner : MonoBehaviour
     [SerializeField] private BallPrefabManager ballPrefabs;
     //[SerializeField] private UpdateManager textUpdate;
     [SerializeField] private GameObject spawnArea;
-    [SerializeField] private Image nextObjectArea;
-    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private SpriteRenderer nextObjectArea;
+    [SerializeField] private Transform nextObjTransform;
+    //[SerializeField] private PlayerMovement playerMovement;
 
     
     private GameObject stagedObject;
@@ -236,7 +237,7 @@ public class BallSpawner : MonoBehaviour
 
     private Vector3 playerMousePos;
 
-    private float dropDelay = .3f;
+    private float dropDelay = .5f;
     private float appearDelay = 1f;
     private bool isWaitingForInput= false;
 
@@ -245,7 +246,8 @@ public class BallSpawner : MonoBehaviour
     {
         ballPrefabs = GameObject.FindGameObjectWithTag("BallQueueManager").GetComponent<BallPrefabManager>();
         //spawnArea  = GameObject.Find("SpawnArea").GetComponent<GameObject>();
-        nextObjectArea = GameObject.Find("QueueItem").GetComponent<Image>();
+        nextObjectArea = GameObject.Find("The Player").GetComponent<SpriteRenderer>();
+        nextObjTransform = GameObject.Find("The Player").GetComponent<Transform>();
     }
 
     private void Start()
@@ -260,7 +262,7 @@ public class BallSpawner : MonoBehaviour
 
     private void Update()
     {
-        playerMousePos = PlayerMovement.mousePosWorld;
+        //playerMousePos = PlayerMovement.mousePosWorld;
     }
 
     void UpdateNextObjectUI()
@@ -268,8 +270,10 @@ public class BallSpawner : MonoBehaviour
         if (ballPrefabs.ballQueueData.Count > 0)
         {
             GameObject nextObj = ballPrefabs.peekNextBall();
+            Transform nextObjTrans = nextObj.transform;
             Sprite nextSprite = nextObj.GetComponent<SpriteRenderer>().sprite;
             nextObjectArea.sprite = nextSprite;
+            nextObjTransform = nextObjTrans;
             nextObjectArea.gameObject.SetActive(true);
             Debug.LogWarning($"NextObj is {nextObj.name}");
         }
@@ -334,8 +338,9 @@ public class BallSpawner : MonoBehaviour
     }
     private IEnumerator StartSpawning()
     {
+        float spawnDelay = 0f;
         isWaitingForInput = true;
-        yield return new WaitForSeconds(dropDelay);
+        yield return new WaitForSeconds(spawnDelay);
         PerformDrop();
     }
     private IEnumerator prepareForNext()

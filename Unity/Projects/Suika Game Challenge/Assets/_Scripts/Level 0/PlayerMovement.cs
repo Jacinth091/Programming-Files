@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,13 +24,14 @@ public class PlayerMovement : MonoBehaviour
     private float spawnCooldown = 1f;
 
     public static bool isLeftMouseButtonClicked = false;
-    private bool isBallFalling = false;
+    private bool signalToDrop = false;
     private bool isOnCooldown = false;
     private bool isOnContainer = false;
-    
+
 
 
     private Vector3 mousePos;
+    private Vector2 mousePos2D;
     public static Vector3 mousePosWorld;
     private Camera mainCam;
 
@@ -61,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         plyrFire.Enable();
         plyrFire.performed += Fire;
 
-        
+
     }
 
     private void OnDisable()
@@ -79,14 +81,14 @@ public class PlayerMovement : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame && !isMouseOverUI())
         {
             clickTimes++;
-            Vector2 mousePos2D = Mouse.current.position.ReadValue();
+            mousePos2D = Mouse.current.position.ReadValue();
 
             mousePos = new Vector3(mousePos2D.x, mousePos2D.y);
             mousePosWorld = mainCam.ScreenToWorldPoint(mousePos);
             //mousePosWorld.z = transform.position.z;
             //posXToMove = mousePosWorld.x;
 
-            isLeftMouseButtonClicked = true;
+            //isLeftMouseButtonClicked = true;
             ClampPlayerToCameraBounds();
 
             //BallDropAfterClick();
@@ -100,20 +102,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(rb != null)
+        if (rb != null)
         {
-            rb.velocity = new Vector2((moveDirection.x  * moveSpd), 0);
+            rb.velocity = new Vector2((moveDirection.x * moveSpd), 0);
 
         }
 
 
-        if (isLeftMouseButtonClicked && !spawnedAnObject && !isOnCooldown && !isMouseOverUI())
+        if (isLeftMouseButtonClicked   && !isMouseOverUI() && !isOnCooldown && !spawnedAnObject)
         {
+            //Debug.Log("From FIXED UPDATE FUNCTION");
+            setPlayerXPos();
+            Debug.LogWarning($"Spawn an Object? : {spawnedAnObject}");
+            Debug.LogWarning($"Is on coolDown? : {isOnCooldown}");
             BallDropAfterClick();
-            Debug.Log("From FIXED UPDATE FUNCTION");
+
+            //signalToDrop = true;
             //StartCoroutine(BallDropCoolDown());
         }
-   
+
 
 
 
@@ -123,48 +130,60 @@ public class PlayerMovement : MonoBehaviour
         return EventSystem.current.IsPointerOverGameObject();
     }
 
+    private void setPlayerXPos()
+    {
+        transform.position = new Vector3(mousePosWorld.x, transform.position.y, transform.position.z);
+    }
     private void Fire(InputAction.CallbackContext context)
     {
 
         bool isSpacePressed = context.control.name == "space";
         bool isRightBtnPressed = context.control.name == "rightButton";
+        bool isLeftBtnPressed = context.control.name == "leftButton";
 
 
         Debug.LogWarning($"times Clicked: {clickTimes}");
         //context.action.Equals(InputAction.space); 
-        if ( ballSpawner != null && !spawnedAnObject && !isOnCooldown)
+        if (ballSpawner != null && spawnedAnObject != true && isOnCooldown != true && !isMouseOverUI())
         {
-            if (isLeftMouseButtonClicked || isRightBtnPressed || isSpacePressed) {
+            if (isRightBtnPressed || isSpacePressed)
+            {
                 BallDropAfterClick();
                 Debug.Log("From FIRE FUNCTION");
+            }
+            else if (isLeftBtnPressed)
+            {
+                isLeftMouseButtonClicked = true;
+
+                Debug.Log("Left Button is Pressed!");
             }
 
 
         }
 
 
-        if(clickTimes > 1)
+        if (clickTimes != 0)
         {
             StartCoroutine(clickTimesCooldown());
-
         }
-  
-        
+
+
     }
 
     private IEnumerator CooldownCoroutine()
     {
+        float DropCooldown = 1f;
         isOnCooldown = true;
-        yield return new WaitForSeconds(spawnCooldown);
+        yield return new WaitForSeconds(DropCooldown);
         Debug.LogWarning("COOLDONWN!!!!");
-        spawnedAnObject = false;
         isOnCooldown = false;
+        spawnedAnObject = false;
 
 
     }
     private IEnumerator clickTimesCooldown()
     {
-        
+
         yield return new WaitForSeconds(spawnCooldown);
         clickTimes = 0;
 
@@ -172,13 +191,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void BallDropAfterClick()
     {
-        if (isLeftMouseButtonClicked) { 
-            transform.position = new Vector3(mousePosWorld.x, transform.position.y, transform.position.z);
-        }
+        isLeftMouseButtonClicked = false;
         spawnedAnObject = true;
         ballSpawner.DropObject();
-        isLeftMouseButtonClicked = false;
         StartCoroutine(CooldownCoroutine());
+
+
 
     }
     private void ClampPlayerToCameraBounds()

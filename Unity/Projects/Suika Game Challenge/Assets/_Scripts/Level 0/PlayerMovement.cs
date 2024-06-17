@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BallSpawner ballSpawner;
+    [SerializeField] private AudioClip soundFXClip;
     //private DropperManager dropper;
     private float moveSpd = 4f;
     public PlayerInputActions moveAction;
@@ -149,11 +150,15 @@ public class PlayerMovement : MonoBehaviour
             if (isRightBtnPressed || isSpacePressed)
             {
                 BallDropAfterClick();
+                SoundFXManager.instance.PlaySoundFXClip(soundFXClip, transform, 1f);
+
                 Debug.Log("From FIRE FUNCTION");
             }
             else if (isLeftBtnPressed)
             {
                 isLeftMouseButtonClicked = true;
+                SoundFXManager.instance.PlaySoundFXClip(soundFXClip, transform, 1f);
+
 
                 Debug.Log("Left Button is Pressed!");
             }
@@ -192,9 +197,10 @@ public class PlayerMovement : MonoBehaviour
     private void BallDropAfterClick()
     {
         isLeftMouseButtonClicked = false;
-        spawnedAnObject = true;
         ballSpawner.DropObject();
+        spawnedAnObject = true;
         StartCoroutine(CooldownCoroutine());
+
 
 
 

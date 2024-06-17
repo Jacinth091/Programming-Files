@@ -161,6 +161,7 @@ public class CollisionCheck : MonoBehaviour
 
     [SerializeField] private Collision2D ballCollider;
     [SerializeField] private BallPrefabManager ballPrefabManager;
+    [SerializeField] private AudioClip soundFXClip;
     private UpdateManager updateManager;
     private static Dictionary<string, List<GameObject>> collidingObjects = new Dictionary<string, List<GameObject>>();
 
@@ -205,7 +206,9 @@ public class CollisionCheck : MonoBehaviour
             else if (collidingObjects[tag].Count > 2)
             {
                 collidingObjects[tag].Remove(collision.gameObject);
+                Debug.Log("Removed Extra!");
             }
+           
         }
     }
 
@@ -264,6 +267,7 @@ public class CollisionCheck : MonoBehaviour
 
         objToSpawn = spawnBallsAfter(other.tag, mergedPos);
         BallPoolManager.spawnObject(objToSpawn, mergedPos, Quaternion.identity, BallPoolManager.PoolType.BallObjects);
+        SoundFXManager.instance.PlaySoundFXClip(soundFXClip, objToSpawn.transform, 1f);
         BallPoolManager.RemoveObjectsToPool(other);
         BallPoolManager.RemoveObjectsToPool(gameObject);
     }

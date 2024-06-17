@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballPrefabManager: {fileID: 0}
+  soundFXClip: {fileID: 8300000, guid: 6ee2a7c80377c8b42a4791a1f7f052ff, type: 3}
 --- !u!114 &8302755387447019854
 MonoBehaviour:
   m_ObjectHideFlags: 0

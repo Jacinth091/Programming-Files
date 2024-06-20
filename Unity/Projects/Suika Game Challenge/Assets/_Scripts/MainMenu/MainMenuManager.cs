@@ -32,30 +32,30 @@ public class MainMenuManager : MonoBehaviour
         }
     }*/
 
-    public void PlayButtonPress(string sceneToLoad)
+    public void PlayButtonPress(int SceneID)
     {
-        //if (GameManager.instance != null)
-        //{
-        //    //GameManager.instance.LoadGame( "MainMenu", "Level(0)");
-        //    GameManager.instance.LoadGame();
-        //}
-        //else
-        //{
-        //    Debug.Log("Game Manager Instance is Null!");
-        //}
-
-        if (LoadingScenes.instance != null)
+        if (GameManager.instance != null)
         {
             //GameManager.instance.LoadGame( "MainMenu", "Level(0)");
-            //LoadingScenes.instance.LoadScene((int)SceneIndex.GAME_lEVEL, "MainMenu");
-            string sceneToUnload = SceneManager.GetActiveScene().name;
-            LoadingScenes.instance.LoadGame(sceneToLoad, sceneToUnload);
-            Time.timeScale = 1f;
+            GameManager.instance.LoadGame();
         }
         else
         {
             Debug.Log("Game Manager Instance is Null!");
         }
+/*
+        if (LoadingScenes.instance != null)
+        {
+            //GameManager.instance.LoadGame( "MainMenu", "Level(0)");
+            //LoadingScenes.instance.LoadScene((int)SceneIndex.GAME_lEVEL, "MainMenu");
+            string sceneToUnload = SceneManager.GetActiveScene().name;
+            LoadingScenes.instance.LoadGame(sceneToLoad);
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Debug.Log("Game Manager Instance is Null!");
+        }*/
 
         //SceneManager.LoadScene(sceneName);
     

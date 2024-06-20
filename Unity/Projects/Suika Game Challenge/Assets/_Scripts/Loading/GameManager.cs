@@ -8,8 +8,20 @@ using System.Threading.Tasks;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public GameObject loadingScreen;
-    public Slider progressBar;
+
+    [Header("GamObjects")]
+    [SerializeField] private GameObject loadingScreen;
+    //[SerializeField] private GameObject mainMenu;
+
+    [Header("Slider")]
+    [SerializeField] private Image progressBar;
+
+    [Header("Progress Speed")]
+    [SerializeField] private float progressSpeed = 1f;
+    private float _targetProgress;
+
+    private AsyncOperation loadOperation;
+    private AsyncOperation unloadOperation;
 
     private void Awake()
     {
@@ -17,16 +29,10 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-            // Ensure the loadingScreen is not destroyed during scene transitions
-            if (loadingScreen != null)
-            {
-                DontDestroyOnLoad(loadingScreen);
-            }
-
+            //SceneManager.UnloadScene((int)SceneIndex.MANAGER);
             SceneManager.LoadSceneAsync((int)SceneIndex.MAIN_MENU, LoadSceneMode.Additive);
         }
-        else if (instance != this)
+        else
         {
             Destroy(gameObject);
         }
@@ -36,19 +42,23 @@ public class GameManager : MonoBehaviour
     List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
     private float totalSceneProgress;
     private float displayProgress;
-    public float progressSpeed = 1f;
+    //public float progressSpeed = 1f;
     public void LoadGame()
     {
 
-        if (progressBar == null)
-        {
-            Debug.LogError("Progress bar is not assigned!");
-            return;
-        }
 
         loadingScreen.gameObject.SetActive(true);
-        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndex.MAIN_MENU));
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndex.GAME_lEVEL));
+        //scenesLoading.Clear();
+
+        SceneManager.UnloadScene((int)SceneIndex.MAIN_MENU);
+
+
+        loadOperation = SceneManager.LoadSceneAsync((int)SceneIndex.GAME_lEVEL, LoadSceneMode.Additive);
+
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            SceneManager.UnloadSceneAsync((int)SceneIndex.MAIN_MENU);
+        }
         //SceneManager.LoadSceneAsync((int)SceneIndex.MAIN_MENU);
         //scenesLoading[1].allowSceneActivation = false;
 
@@ -56,19 +66,31 @@ public class GameManager : MonoBehaviour
 
 
     }
-
-    public void LoadMenu()
+    public void LoadToMenuFromGame()
     {
 
-        if (progressBar == null)
-        {
-            Debug.LogError("Progress bar is not assigned!");
-            return;
-        }
+        loadingScreen.SetActive(true);
+        //scenesLoading.Clear();
 
-        loadingScreen.gameObject.SetActive(true);
-        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndex.GAME_lEVEL));
-        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndex.MAIN_MENU));
+        SceneManager.UnloadSceneAsync((int)SceneIndex.GAME_lEVEL);
+        //SceneManager.UnloadSceneAsync((int)SceneIndex.MANAGER);
+        loadOperation = SceneManager.LoadSceneAsync((int)SceneIndex.MAIN_MENU, LoadSceneMode.Additive);
+        //scenesLoading[1].allowSceneActivation = false;
+
+        StartCoroutine(GetSceneProgress());
+
+
+
+    }
+
+    public void RestartScene()
+    {
+
+        loadingScreen.SetActive(true);
+        //scenesLoading.Clear();
+
+        SceneManager.UnloadSceneAsync((int)SceneIndex.GAME_lEVEL);
+        loadOperation = SceneManager.LoadSceneAsync((int)SceneIndex.GAME_lEVEL, LoadSceneMode.Additive);
         //scenesLoading[1].allowSceneActivation = false;
 
         StartCoroutine(GetSceneProgress());
@@ -79,43 +101,46 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GetSceneProgress()
     {
-        // Initialize display progress
+
         displayProgress = 0f;
+        _targetProgress = 0f;
+        progressBar.fillAmount = 0;
 
-        for (int i = 0; i < scenesLoading.Count; i++)
+
+
+        // Unload the current scene
+        // Unload the current scene if it is loaded
+        loadOperation.allowSceneActivation = false;
+
+
+
+        while (!loadOperation.isDone)
         {
-            while (!scenesLoading[i].isDone)
+            // Update the display progress based on actual loading progress
+            _targetProgress = Mathf.Clamp01(loadOperation.progress / 0.9f);
+
+
+            while (displayProgress < _targetProgress)
             {
-                totalSceneProgress = 0f;
-                foreach (AsyncOperation operation in scenesLoading)
-                {
-                    if (operation == null)
-                    {
-                        Debug.LogError("Operation is null!");
-                        continue;
-                    }
-                    totalSceneProgress += operation.progress;
-
-                }
-
-                totalSceneProgress = (totalSceneProgress / scenesLoading.Count) * 100f;
-
-                // Gradually increase the display progress to the actual progress
-                while (displayProgress < totalSceneProgress)
-                {
-                    displayProgress += progressSpeed;
-                    progressBar.value = Mathf.Clamp01(displayProgress / 100f);
-                    yield return new WaitForSeconds(0.02f); // Small delay to slow down the progress bar
-                }
-
-                yield return null;
+                displayProgress += progressSpeed * Time.deltaTime;
+                progressBar.fillAmount = Mathf.Clamp01(displayProgress);
+                yield return null; // Wait for the next frame
             }
+
+            // Allow scene activation if loading is complete
+            if (loadOperation.progress >= 0.9f && displayProgress >= 1f)
+            {
+                Debug.Log("Scene load progress: " + loadOperation.progress);
+                loadOperation.allowSceneActivation = true;
+            }
+
+            yield return null; // Wait for the next frame
         }
 
         // Ensure the progress bar is full at the end
-        progressBar.value = 1f;
-        scenesLoading[1].allowSceneActivation = true;
-        loadingScreen.gameObject.SetActive(false);
+        progressBar.fillAmount = 1f;
+        //scenesLoading[1].allowSceneActivation = true;
+        loadingScreen.SetActive(false);
     }
 }
 

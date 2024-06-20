@@ -7,25 +7,29 @@ public class PauseButtonEvents : MonoBehaviour
 {
 
     [SerializeField] GameObject pauseWindow;
-    public void MainMenuScreen(string sceneToLoad)
+    public void MainMenuScreen(int SceneID)
     {
-        /*        if (GameManager.instance != null)
-                {
-                    //GameManager.instance.LoadMenu("Level(0)", "MainMenu");
-                    GameManager.instance.LoadMenu();
-                }
-                else
-                {
-                    Debug.Log("Game Manager Instance is Null!");
-                }*/
+        if (GameManager.instance != null)
+        {
+            //GameManager.instance.LoadMenu("Level(0)", "MainMenu");
+            GameManager.instance.LoadToMenuFromGame();
 
-        if (LoadingScenes.instance != null)
+            Time.timeScale = 1f;
+            //pauseWindow.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Game Manager Instance is Null!");
+        }
+
+/*        if (LoadingScenes.instance != null)
         {
             //GameManager.instance.LoadGame( "MainMenu", "Level(0)");
             //LoadingScenes.instance.LoadMenu((int)SceneIndex.MAIN_MENU, "MainLevel");
+
             string sceneToUnload = SceneManager.GetActiveScene().name;
 
-            LoadingScenes.instance.LoadGame(sceneToLoad, sceneToUnload);
+            LoadingScenes.instance.LoadGame(sceneToLoad);
 
             Time.timeScale = 1f;
             pauseWindow.SetActive(false);
@@ -36,7 +40,7 @@ public class PauseButtonEvents : MonoBehaviour
         else
         {
             Debug.Log("Game Manager Instance is Null!");
-        }
+        }*/
 
         //SceneManager.LoadScene(sceneName);
 
@@ -44,22 +48,25 @@ public class PauseButtonEvents : MonoBehaviour
     }
     public void RestartGame(string sceneToLoad)
     {
-  /*      if (GameManager.instance != null)
+        if (GameManager.instance != null)
         {
             //GameManager.instance.RestartScene("Level(0)", "Level(0)");
+            GameManager.instance.RestartScene();
+            Time.timeScale = 1f;
+            //pauseWindow.SetActive(false);
         }
         else
         {
             Debug.Log("Game Manager Instance is Null!");
-        }*/
+        }
 
-        if (LoadingScenes.instance != null)
+/*        if (LoadingScenes.instance != null)
         {
             //GameManager.instance.LoadGame( "MainMenu", "Level(0)");
             //int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             //string sceneToUnload = "MainLevel";
             string sceneToUnload = SceneManager.GetActiveScene().name;
-            LoadingScenes.instance.LoadGame(sceneToLoad, sceneToUnload);
+            LoadingScenes.instance.LoadGame(sceneToLoad);
 
             Time.timeScale = 1f;
             pauseWindow.SetActive(false);
@@ -70,7 +77,7 @@ public class PauseButtonEvents : MonoBehaviour
         else
         {
             Debug.Log("Game Manager Instance is Null!");
-        }
+        }*/
     }
     public void PauseButton()
     {

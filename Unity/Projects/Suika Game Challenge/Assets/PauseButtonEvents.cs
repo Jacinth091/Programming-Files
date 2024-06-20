@@ -7,6 +7,8 @@ public class PauseButtonEvents : MonoBehaviour
 {
 
     [SerializeField] GameObject pauseWindow;
+
+    public static bool isGamePaused = false;
     public void MainMenuScreen(int SceneID)
     {
         if (GameManager.instance != null)
@@ -82,11 +84,13 @@ public class PauseButtonEvents : MonoBehaviour
     public void PauseButton()
     {
         pauseWindow.SetActive(true);
+        isGamePaused = true;
         Time.timeScale = 0f;
     }
     public void BackButton()
     {
         pauseWindow.SetActive(false);
+        isGamePaused = false;
         Time.timeScale = 1f;
     }
 }

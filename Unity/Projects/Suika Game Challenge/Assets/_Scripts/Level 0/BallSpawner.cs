@@ -52,16 +52,8 @@ public class BallSpawner : MonoBehaviour
                 {
                     nextObjectUI.gameObject.SetActive(false);
                 }*/
-/*
-        stagedObject = BallPrefabManager.stagedObject;
 
-
-    }
-    private void PrepareSpawnArea()
-    {
-        stagedObject = BallPrefabManager.stagedObject; // Get the prefab from the queue
-
-*//*        if (prefab != null)
+/*        if (prefab != null)
         {
             currentObject = Instantiate(prefab); // Instantiate a new instance
             currentObject.transform.SetParent(dropper.transform); // Make it a child of the dropper
@@ -89,7 +81,8 @@ public class BallSpawner : MonoBehaviour
         //Instantiate(tennis, transform.position, Quaternion.identity);
         //Instantiate(ball, transform.position, Quaternion.identity);
 
-        *//*        if (ballPrefabs != null)
+        */
+/*        if (ballPrefabs != null)
                 {
                     // Check and initialize the ball queue if it is not full
                     bool isQueueFull = ballPrefabs.isQueueAvailable;
@@ -181,7 +174,8 @@ public class BallSpawner : MonoBehaviour
 
 
 
-    *//*private void UpdateUIWithQueue()
+    */
+/*private void UpdateUIWithQueue()
     {
         if (ballPrefabs != null)
         {

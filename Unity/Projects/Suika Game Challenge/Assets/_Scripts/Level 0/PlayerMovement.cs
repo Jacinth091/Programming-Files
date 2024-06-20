@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.LogWarning($"times Clicked: {clickTimes}");
         //context.action.Equals(InputAction.space); 
-        if (ballSpawner != null && spawnedAnObject != true && isOnCooldown != true && !isMouseOverUI())
+        if (ballSpawner != null && spawnedAnObject != true && isOnCooldown != true && !isMouseOverUI() && !PauseButtonEvents.isGamePaused)
         {
             if (isRightBtnPressed || isSpacePressed)
             {
@@ -166,11 +166,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-
+/*
         if (clickTimes != 0)
         {
             StartCoroutine(clickTimesCooldown());
-        }
+        }*/
 
 
     }
@@ -180,17 +180,19 @@ public class PlayerMovement : MonoBehaviour
         float DropCooldown = 1f;
         isOnCooldown = true;
         yield return new WaitForSeconds(DropCooldown);
-        Debug.LogWarning("COOLDONWN!!!!");
-        isOnCooldown = false;
-        spawnedAnObject = false;
+        StartCoroutine(clickTimesCooldown());
+
 
 
     }
     private IEnumerator clickTimesCooldown()
     {
 
-        yield return new WaitForSeconds(spawnCooldown);
+        yield return new WaitForSeconds(.5f);
         clickTimes = 0;
+        Debug.LogWarning("COOLDONWN!!!!");
+        isOnCooldown = false;
+        spawnedAnObject = false;
 
 
     }

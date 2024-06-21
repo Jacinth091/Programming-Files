@@ -150,14 +150,13 @@ public class PlayerMovement : MonoBehaviour
             if (isRightBtnPressed || isSpacePressed)
             {
                 BallDropAfterClick();
-                SoundFXManager.instance.PlaySoundFXClip(soundFXClip, transform, 1f);
-
+                SoundFXManager.instance.PlaySoundFXClip(soundFXClip, transform, .5f);
                 Debug.Log("From FIRE FUNCTION");
             }
             else if (isLeftBtnPressed)
             {
                 isLeftMouseButtonClicked = true;
-                SoundFXManager.instance.PlaySoundFXClip(soundFXClip, transform, 1f);
+                SoundFXManager.instance.PlaySoundFXClip(soundFXClip, transform, .5f);
 
 
                 Debug.Log("Left Button is Pressed!");
@@ -188,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator clickTimesCooldown()
     {
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.2f);
         clickTimes = 0;
         Debug.LogWarning("COOLDONWN!!!!");
         isOnCooldown = false;

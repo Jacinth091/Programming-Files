@@ -233,7 +233,18 @@ public class BallSpawner : MonoBehaviour
 
     private float dropDelay = .5f;
     private float appearDelay = 1f;
+    private float r;
+    private float AngleRotation;
+
+
     private bool isWaitingForInput= false;
+
+
+    private string QueueLayer = "Queue";
+
+    private int TempLayer;
+    private int QueueLayerIndex;
+    private int TargetAngle;
 
 
     private void Awake()
@@ -242,6 +253,8 @@ public class BallSpawner : MonoBehaviour
         //spawnArea  = GameObject.Find("SpawnArea").GetComponent<GameObject>();
         nextObjectArea = GameObject.Find("The Player").GetComponent<SpriteRenderer>();
         nextObjTransform = GameObject.Find("The Player").GetComponent<Transform>();
+        QueueLayerIndex = LayerMask.NameToLayer(QueueLayer);
+
     }
 
     private void Start()
@@ -252,11 +265,13 @@ public class BallSpawner : MonoBehaviour
             PrepareNextObject();
         
         }
+
     }
 
     private void Update()
     {
         //playerMousePos = PlayerMovement.mousePosWorld;
+
     }
 
     void UpdateNextObjectUI()
@@ -266,6 +281,7 @@ public class BallSpawner : MonoBehaviour
             GameObject nextObj = ballPrefabs.peekNextBall();
             Transform nextObjTrans = nextObj.transform;
             Sprite nextSprite = nextObj.GetComponent<SpriteRenderer>().sprite;
+
             nextObjectArea.sprite = nextSprite;
             nextObjTransform = nextObjTrans;
             nextObjectArea.gameObject.SetActive(true);
@@ -289,7 +305,11 @@ public class BallSpawner : MonoBehaviour
             currentObj.transform.SetParent(spawnArea.transform); // Make it a child of the dropper
             currentObj.transform.localPosition = Vector3.zero; // Ensure it appears at the dropper's position
             currentObj.SetActive(true);
+
+            TempLayer = currentObj.layer;
             currentObj.GetComponent<Rigidbody2D>().simulated = false; // Disable physics until drop
+
+            currentObj.layer = QueueLayerIndex;
             UpdateNextObjectUI();
             
 
@@ -307,6 +327,10 @@ public class BallSpawner : MonoBehaviour
 
             // Drop the object after the delay
             StartCoroutine(StartSpawning());
+            Debug.LogWarning($"Object layer: {currentObj.layer}");
+            StartCoroutine(SetLayerToDef());
+            Debug.LogWarning($"Object layer: {currentObj.layer}");
+
             //PerformDrop();
         }
     }
@@ -317,18 +341,37 @@ public class BallSpawner : MonoBehaviour
         {
             // Reparent to root so it drops independently
             currentObj.transform.SetParent(BallPoolManager.parentObj.transform);
+            TargetAngle = 90;
+            AngleRotation = Mathf.SmoothDampAngle(currentObj.transform.rotation.z, TargetAngle, ref r, 0.1f);
+            currentObj.transform.rotation = Quaternion.Euler(0,0,AngleRotation);
             //currentObj.transform.position = new Vector3(playerMousePos.x, transform.position.y, transform.position.z);
 
             // Simulate dropping logic
             Rigidbody2D rb = currentObj.GetComponent<Rigidbody2D>();
             rb.simulated = true;  // Enable physics
-            rb.velocity = Vector2.zero; // Ensure no initial velocity
+            rb.velocity = Vector2.zero;// Ensure no initial velocity
 
 
             // Prepare the next object for dropping
             StartCoroutine(prepareForNext());
 
+
+
         }
+    }
+    private void setRandomRot()
+    {
+        TargetAngle = Random.Range(10, 45);
+
+
+        AngleRotation = Mathf.SmoothDampAngle(currentObj.transform.eulerAngles.z, TargetAngle, ref r, 0.3f);
+
+    }
+    private IEnumerator SetLayerToDef()
+    {
+        yield return new WaitForSeconds(.2f);
+        currentObj.layer = TempLayer;
+
     }
     private IEnumerator StartSpawning()
     {
@@ -336,6 +379,7 @@ public class BallSpawner : MonoBehaviour
         isWaitingForInput = true;
         yield return new WaitForSeconds(spawnDelay);
         PerformDrop();
+
     }
     private IEnumerator prepareForNext()
     {

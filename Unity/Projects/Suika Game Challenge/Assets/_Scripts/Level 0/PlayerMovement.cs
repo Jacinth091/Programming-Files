@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private bool spawnedAnObject = false;
     private float spawnCooldown = 1f;
 
+    private float DropCooldown = 1f;
+
     public static bool isLeftMouseButtonClicked = false;
     private bool signalToDrop = false;
     private bool isOnCooldown = false;
@@ -176,7 +178,6 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator CooldownCoroutine()
     {
-        float DropCooldown = 1f;
         isOnCooldown = true;
         yield return new WaitForSeconds(DropCooldown);
         StartCoroutine(clickTimesCooldown());
@@ -187,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator clickTimesCooldown()
     {
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.3f);
         clickTimes = 0;
         Debug.LogWarning("COOLDONWN!!!!");
         isOnCooldown = false;

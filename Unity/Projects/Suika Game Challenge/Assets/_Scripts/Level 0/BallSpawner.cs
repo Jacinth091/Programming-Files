@@ -210,7 +210,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class BallSpawner : MonoBehaviour
 {
 
@@ -229,22 +228,26 @@ public class BallSpawner : MonoBehaviour
     private GameObject currentObj;
     private GameObject nextBallToStage = null;
 
+    private Rigidbody2D rb;
+
     private Vector3 playerMousePos;
 
     private float dropDelay = .5f;
     private float appearDelay = 1f;
-    private float r;
+    private float rotationSpeed = 90f;
+    private float TargetAngle;
     private float AngleRotation;
 
 
     private bool isWaitingForInput= false;
+    private bool isDropping = false;
+    private bool isRotationComplete = false;
 
 
     private string QueueLayer = "Queue";
 
     private int TempLayer;
     private int QueueLayerIndex;
-    private int TargetAngle;
 
 
     private void Awake()
@@ -273,11 +276,36 @@ public class BallSpawner : MonoBehaviour
         //playerMousePos = PlayerMovement.mousePosWorld;
 
     }
+    private void FixedUpdate()
+    {
+        if (isDropping && currentObj != null)
+        {
+
+            // Smooth rotation
+            if (!isRotationComplete)
+            {
+                AngleRotation = Mathf.MoveTowardsAngle(currentObj.transform.eulerAngles.z, TargetAngle, rotationSpeed * Time.deltaTime);
+                rb.MoveRotation(AngleRotation);
+
+                // Check if rotation is complete
+                if (Mathf.Approximately(AngleRotation, TargetAngle))
+                {
+                    isRotationComplete = true;
+
+                }
+
+            }
+
+        }
+    }
+    
 
     void UpdateNextObjectUI()
     {
         if (ballPrefabs.ballQueueData.Count > 0)
         {
+            isDropping = false;
+
             GameObject nextObj = ballPrefabs.peekNextBall();
             Transform nextObjTrans = nextObj.transform;
             Sprite nextSprite = nextObj.GetComponent<SpriteRenderer>().sprite;
@@ -295,41 +323,52 @@ public class BallSpawner : MonoBehaviour
 
     void PrepareNextObject()
     {
-        stagedObject = ballPrefabs.getBallFromQueue(); // Get the prefab from the queue
-
-        if (stagedObject != null)
+        if(spawnArea.transform.childCount == 0)
         {
-            //currentObj = Instantiate(prefab); // Instantiate a new instance
-            StartCoroutine(spawnCurrentBall());
+            stagedObject = ballPrefabs.getBallFromQueue(); // Get the prefab from the queue
 
-            currentObj.transform.SetParent(spawnArea.transform); // Make it a child of the dropper
-            currentObj.transform.localPosition = Vector3.zero; // Ensure it appears at the dropper's position
-            currentObj.SetActive(true);
+            if (stagedObject != null)
+            {
+                //currentObj = Instantiate(prefab); // Instantiate a new instance
+                StartCoroutine(spawnCurrentBall());
 
-            TempLayer = currentObj.layer;
-            currentObj.GetComponent<Rigidbody2D>().simulated = false; // Disable physics until drop
+                currentObj.transform.SetParent(spawnArea.transform); // Make it a child of the dropper
+                currentObj.transform.localPosition = Vector3.zero; // Ensure it appears at the dropper's position
+                currentObj.SetActive(true);
 
-            currentObj.layer = QueueLayerIndex;
-            UpdateNextObjectUI();
-            
+                TempLayer = currentObj.layer;
+                currentObj.GetComponent<Rigidbody2D>().simulated = false; // Disable physics until drop
+
+                currentObj.layer = QueueLayerIndex;
+                UpdateNextObjectUI();
 
 
 
+
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Cannot add new object, parent already has more than one child.");
+            //DropObject();
         }
     }
 
 
     public void DropObject()
     {
-        if (currentObj != null)
+        if (currentObj != null && !isDropping)
         {
-            
 
+            //isWaitingForInput = true;
             // Drop the object after the delay
             StartCoroutine(StartSpawning());
+
             Debug.LogWarning($"Object layer: {currentObj.layer}");
             StartCoroutine(SetLayerToDef());
             Debug.LogWarning($"Object layer: {currentObj.layer}");
+
+
 
             //PerformDrop();
         }
@@ -341,32 +380,34 @@ public class BallSpawner : MonoBehaviour
         {
             // Reparent to root so it drops independently
             currentObj.transform.SetParent(BallPoolManager.parentObj.transform);
-            TargetAngle = 90;
-            AngleRotation = Mathf.SmoothDampAngle(currentObj.transform.rotation.z, TargetAngle, ref r, 0.1f);
-            currentObj.transform.rotation = Quaternion.Euler(0,0,AngleRotation);
+    
             //currentObj.transform.position = new Vector3(playerMousePos.x, transform.position.y, transform.position.z);
 
             // Simulate dropping logic
-            Rigidbody2D rb = currentObj.GetComponent<Rigidbody2D>();
+            rb = currentObj.GetComponent<Rigidbody2D>();
             rb.simulated = true;  // Enable physics
             rb.velocity = Vector2.zero;// Ensure no initial velocity
-
+/*            TargetAngle = 180;
+            AngleRotation = Mathf.SmoothDampAngle(rb.transform.localEulerAngles.z, TargetAngle, ref r, 0.3f);
+            rb.transform.rotation = Quaternion.Euler(Vector3.forward * AngleRotation);*/
+            
 
             // Prepare the next object for dropping
             StartCoroutine(prepareForNext());
 
 
 
+
         }
     }
-    private void setRandomRot()
+  /*  private void setRandomRot()
     {
         TargetAngle = Random.Range(10, 45);
 
 
         AngleRotation = Mathf.SmoothDampAngle(currentObj.transform.eulerAngles.z, TargetAngle, ref r, 0.3f);
 
-    }
+    }*/
     private IEnumerator SetLayerToDef()
     {
         yield return new WaitForSeconds(.2f);
@@ -376,16 +417,21 @@ public class BallSpawner : MonoBehaviour
     private IEnumerator StartSpawning()
     {
         float spawnDelay = 0f;
-        isWaitingForInput = true;
+        //isWaitingForInput = true;
         yield return new WaitForSeconds(spawnDelay);
         PerformDrop();
+        isDropping = true;
+        isRotationComplete = false;
+        TargetAngle = Random.Range(-90f, 90f);
+
+
 
     }
     private IEnumerator prepareForNext()
     {
         yield return new WaitForSeconds(appearDelay);
         PrepareNextObject();
-        isWaitingForInput = false;
+        //isWaitingForInput = false;
     }
 
     private IEnumerator spawnCurrentBall()

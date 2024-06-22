@@ -201,7 +201,7 @@ public class CollisionCheck : MonoBehaviour
             if (collidingObjects[tag].Count == 2 && !merging)
             {
                 merging = true;
-                //StartCoroutine(MergeWithDelay(collision.gameObject));
+                StartCoroutine(MergeWithDelay(collision.gameObject));
             }
             else if (collidingObjects[tag].Count > 2)
             {

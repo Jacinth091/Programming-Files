@@ -7,7 +7,7 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        window.setSize(300,300);
         window.setResizable(false);
-        window.setTitle("Encore's Adventure");
+        window.setTitle("Eric's Adventure");
 
         // Game Panel
         GamePanel gamePanel = new GamePanel();

@@ -63,7 +63,7 @@ public class Player extends Entity{
                 x += speed;
             }
             spriteCounter++;
-            if(spriteCounter > 12){
+            if(spriteCounter > 10){
                 if(spriteNum == 1){
                     spriteNum =2;
                 }

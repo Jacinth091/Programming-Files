@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             if(timer >= 1000000000){
-                System.out.println("x Pos: " + playerXPos + " y Pos: " + playerYPos);
+                System.out.println("x Pos: " + player.x + " y Pos: " + player.y);
 
 //                System.out.println("FPS: " + drawCount);
                 drawCount = 0;

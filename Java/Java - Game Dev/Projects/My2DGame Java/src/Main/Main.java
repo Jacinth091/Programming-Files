@@ -9,7 +9,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Eric's Adventure");
 
-        // Game Panel
+        // Game Panels
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         gamePanel.startGameThread();

@@ -17,6 +17,18 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
+
+    // MAX WORLD PARAMETERS SETTINGS
+
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
+
+
+
     // FPS (Frame Per Second) to run the game
 
     final int FPS =60;
@@ -29,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
     TileManager tileMan = new TileManager(this);
 
     // Player
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
 
     // Player Positions
 
@@ -116,7 +128,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             if(timer >= 1000000000){
-                System.out.println("x Pos: " + player.x + " y Pos: " + player.y);
+                System.out.println("x Pos: " + player.worldX + " y Pos: " + player.worldY);
 
 //                System.out.println("FPS: " + drawCount);
                 drawCount = 0;

@@ -1,5 +1,7 @@
 package Main;
 
+import Entity.Player;
+
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicTreeUI;
 import java.awt.*;
@@ -9,11 +11,11 @@ public class GameUpdate extends JPanel implements Runnable{
 
     final int FPS = 30;
     public final int ORIG_TILE_SIZE =16;
-    final int SCALE =1;
+    final int SCALE =3;
     public final int TILE_SIZE = ORIG_TILE_SIZE * SCALE; // 16 * 2 = 32 Tile Size
 
-    public final int MAX_SCREEN_COL = 30;
-    public final int MAX_SCREEN_ROW = 30;
+    public final int MAX_SCREEN_COL = 16;
+    public final int MAX_SCREEN_ROW = 16;
 
     public final int SCREEN_WIDTH = MAX_SCREEN_COL * TILE_SIZE; // 576 pixels
     public final int SCREEN_HEIGHT = MAX_SCREEN_ROW * TILE_SIZE; // 576 pixels
@@ -21,6 +23,15 @@ public class GameUpdate extends JPanel implements Runnable{
     private Thread gameThread;
 
     private InputManager input;
+
+    // Player
+
+    public Player player;
+
+
+    // DELTA TIME
+
+//    public double delta =0;
 
 
     // Test Variables
@@ -37,6 +48,8 @@ public class GameUpdate extends JPanel implements Runnable{
         input = new InputManager();
         this.addKeyListener(input);
         this.setFocusable(true);
+
+        player = new Player(this, input);
 
     }
 
@@ -95,25 +108,11 @@ public class GameUpdate extends JPanel implements Runnable{
 
     public void update(){
 
-    playerMovements();
+    player.update();
 
 
     }
-    public void playerMovements(){
-        if(input.upPressed){
-            playerY -= speed;
-        }
-        else if(input.downPressed){
-            playerY += speed;
-        }
-        else if(input.leftPressed){
-            playerX -= speed;
-        }
-        else if(input.rightPressed){
-            playerX += speed;
-        }
 
-    }
 
 //    @Override
     public void paintComponent(Graphics g){
@@ -121,8 +120,10 @@ public class GameUpdate extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.GREEN);
-        g2.fillRect(playerX,playerY, TILE_SIZE,TILE_SIZE);
+        player.drawSprite(g2);
+
+//        g2.setColor(Color.white);
+//        g2.fillRect((playerX + speed ) + (int)delta,(playerY + speed ) + (int)delta, TILE_SIZE, TILE_SIZE );
 
         g2.dispose();
 

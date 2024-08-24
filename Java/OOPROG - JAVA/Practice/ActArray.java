@@ -1,9 +1,8 @@
 /******************************************************************************
  * Name: Barral.Jacinth Cedric C.
- * Date: August 19 2024
+ * Date: August 24, 2024,
  * Description: Prelim-Lab.Act.#01 - Working with Arrays
  *
-
 *******************************************************************************/
 
 import java.util.Scanner;
@@ -13,53 +12,54 @@ class Main
 	public static void main(String[] args) {
 
 		int[] numArr = new int[5];
-		double ave =0;
-
-		int max = 0,
-				min =0,
-				num =0;
-
-		final int maxGrade =100,
-				minGrade =70;
-
 
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("This program will accept 5 grades, and will print the minimum, \nmaximum and the average grade.");
 
-		mainLoop(numArr, max, min, num, ave, minGrade, maxGrade, in);
+		mainLoop(numArr, in);
 		// Main Logic Loop
 
 		in.close();
 	}
 
-	public static void mainLoop(int[] numArr, int max, int min, int num, double ave, int minGrade, int maxGrade, Scanner in){
+	public static void mainLoop(int[] numArr, Scanner in){
 
 		boolean exitLoop = false;
 		int count =0;
 		do{
-			System.out.println("-------------------------------------------------------");
+			System.out.println("--------------------------------------------------------");
 
-			System.out.printf("\nYou have looped --%d--!\n", count++ );
+			if(count <= 0){
+				System.out.println("\n---------------------Welcome, user!---------------------\n");
+			}
+			else if(count >= 1){
+				System.out.println("\n------------------Welcome back, user!-------------------");
+
+				System.out.printf("\nYou have looped --%d-- time\\s!\n", count);
+			}
 
 			System.out.println("Student's Grades\n");
 
-			numArr = getGrades(numArr.length, minGrade, maxGrade, in);
+			numArr = getGrades(numArr.length, 70, 100, in);
 
 			// get Minimum value
-			min = getMin(numArr);
+			int min = getMin(numArr);
 
 			// get Maximum Value
-			max = getMax(numArr);
+			int max = getMax(numArr);
 
 			// get Average Grade
-			ave = getAverage(numArr);
+			double ave = getAverage(numArr);
 
 
 			displayResult(max, min, ave);
 
 			exitLoop = checkYesOrNo(in);
 
+			if(!exitLoop){
+				count++;
+			}
 
 		}while(!exitLoop);
 
@@ -88,7 +88,12 @@ class Main
 				break;
 			}
 			else{
+
+				System.out.println("\n-------------------------------------------------------\n");
+
 				System.out.println("Input only Y and N to function, try again.");
+
+				System.out.println("\n-------------------------------------------------------");
 			}
 
 		}while(true);

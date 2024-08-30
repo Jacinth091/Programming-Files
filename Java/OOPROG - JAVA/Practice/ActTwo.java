@@ -12,84 +12,83 @@ class ActTwo {
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         int arrSize = 0;
-        int[] gradeArr, sortArr;
+        // setting the default size to Two
+        int[] gradeArr = new int[2], sortArr = new int[2];
 
-        String[] opt = {"Compute Grades and use Bubble Sort",
-                "Compute Grades and use Selection Sort",
-                "Enable Sort Process",
-                "Disable Sort Process"};
+//        String[] opt = {"Compute Grades and use Bubble Sort",
+//                "Compute Grades and use Selection Sort",
+//                "Enable Sort Process",
+//                "Disable Sort Process"};
 //        System.out.printf("Sort Process: (%s)\n", sortProcess);
-
-
-
-
-
-
-
 
         System.out.println("This program will ask the user the number of to process, \n" +
                 "sort the array, prints the minimum, maximum and the average grade.");
 
-        arrSize = askForArraySize(in);
-        gradeArr = new int[arrSize];
-        sortArr = new int[arrSize];
-
-
-
+        mainLoop(in, gradeArr, sortArr, arrSize);
 
 
     }
 
-    public static void dispMenu(String[] items){
-
-        int dispCount =1;
-        for(int i=0; i < items.length; i ++){
-            if(!sortProcess){
-                if(i <= 2){
-                    System.out.printf("%d. %s.\n", (i+1), items[i]);
-                }
-            }
-            else{
-                if(i != 2){
-                    System.out.printf("%d. %s.\n", dispCount++, items[i]);
-                }
-            }
-        }
-    }
 
     public static void mainLoop(Scanner in, int[] gradeArr, int[] sortArr, int arrSize){
         boolean exitLoop =false;
-        int min =0, max =0;
+        int min =0, max =0, iterate = 0;
         double ave =0;
 
         do{
-            askForGrades(in, gradeArr, gradeArr.length);
-            System.out.print("\nUnsorted => ");
+            arrSize = askForArraySize(in);
+            gradeArr = new int[arrSize];
+            sortArr = new int[arrSize];
 
+
+            System.out.println("\n-------------------------------------------------------\n");
+            System.out.println("\nInput for Student's Grades: ");
+            askForGrades(in, gradeArr, gradeArr.length);
+
+            System.out.print("\nUnsorted -> ");
             dispArray(gradeArr);
             System.out.println();
 
+            if(iterate == 1){
+                System.out.println("Sorting using Selection Sort!.");
+                sortArr = selectSort(gradeArr);
 
-            sortArr = selectionSort(gradeArr);
+            }
+            else if (iterate ==0){
+                System.out.println("Sorting using Bubble Sort!.");
+                sortArr = bubbleSort(gradeArr);
+            }
 
-            System.out.print("\nSorted? => ");
+            System.out.print("\nSorted -> ");
             dispArray(sortArr);
 
             ave = getAverage(sortArr, arrSize);
             min = sortArr[0];
             max = sortArr[arrSize -1];
 
-            System.out.printf("Your Average: %.2f\n", ave );
+            System.out.println("\n-------------------------------------------------------\n");
+            System.out.printf("Your Average: %.2f \n", ave );
             System.out.printf("Minimum Grade: %d\n", min);
             System.out.printf("Maximum Grade: %d\n", max);
-        }while(exitLoop);
+            System.out.println("\n-------------------------------------------------------");
+
+
+
+            String msg = "\"Y\" to start again, \"N\" to exit the program.";
+
+            exitLoop = checkYesOrNo(in,msg );
+//          Assign a value to the iterate count
+            iterate = iterate == 0 ? 1 : 0;
+
+
+        }while(!exitLoop);
     }
 
-    public static boolean checkYesOrNo(Scanner in){
+    public static boolean checkYesOrNo(Scanner in, String msg){
         boolean value = false;
         do{
             char input;
-            System.out.println("\"Y\" to start again, \"N\" to exit the program.");
+            System.out.printf("%s.\n", msg);
             System.out.print("Your choice: ");
 
             input = in.next().toUpperCase().charAt(0);
@@ -102,11 +101,8 @@ class ActTwo {
                 break;
             }
             else{
-
                 System.out.println("\n-------------------------------------------------------\n");
-
                 System.out.println("Input only Y and N to function, try again.");
-
                 System.out.println("\n-------------------------------------------------------");
             }
 
@@ -228,7 +224,7 @@ class ActTwo {
 
     }
 
-    public static int[] selectionSort(int[] grdArr){
+    public static int[] selectSort(int[] grdArr){
         int minIndex =0;
         int n = grdArr.length;
 
@@ -259,6 +255,25 @@ class ActTwo {
 
         return grdArr;
     }
+
+    public static void dispMenu(String[] items){
+
+
+        int dispCount =1;
+        for(int i=0; i < items.length; i ++){
+            if(!sortProcess){
+                if(i <= 2){
+                    System.out.printf("%d. %s.\n", (i+1), items[i]);
+                }
+            }
+            else{
+                if(i != 2){
+                    System.out.printf("%d. %s.\n", dispCount++, items[i]);
+                }
+            }
+        }
+    }
+
 
 
 

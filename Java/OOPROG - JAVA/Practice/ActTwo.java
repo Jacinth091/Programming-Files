@@ -7,22 +7,19 @@
 import java.util.Scanner;
 class ActTwo {
 //    static int arrSize =5;
+    static boolean sortProcess = false;
+
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         int arrSize = 0;
         int[] gradeArr, sortArr;
 
-        boolean sortProcess = false;
         String[] opt = {"Compute Grades and use Bubble Sort",
-                "Compute Grades and use Selection Sort", "Enable Sort Process", "Disable Sort Process"};
-        System.out.printf("Sort Process: (%s)\n", sortProcess);
+                "Compute Grades and use Selection Sort",
+                "Enable Sort Process",
+                "Disable Sort Process"};
+//        System.out.printf("Sort Process: (%s)\n", sortProcess);
 
-        for(int i=0; i < opt.length; i ++){
-            if(!sortProcess){
-                System.out.printf("%d. %s.\n", (i+1), opt[i]);
-
-            }
-        }
 
 
 
@@ -41,6 +38,23 @@ class ActTwo {
 
 
 
+    }
+
+    public static void dispMenu(String[] items){
+
+        int dispCount =1;
+        for(int i=0; i < items.length; i ++){
+            if(!sortProcess){
+                if(i <= 2){
+                    System.out.printf("%d. %s.\n", (i+1), items[i]);
+                }
+            }
+            else{
+                if(i != 2){
+                    System.out.printf("%d. %s.\n", dispCount++, items[i]);
+                }
+            }
+        }
     }
 
     public static void mainLoop(Scanner in, int[] gradeArr, int[] sortArr, int arrSize){
@@ -109,10 +123,12 @@ class ActTwo {
         do{
             System.out.print("Input =>: ");
             tempSize = askForUserInput(in);
-            if(tempSize == -100)
+            if(tempSize == -100) {
                 System.out.println("\nInput only Integers only, try again!\n");
-            else if(tempSize < minIn || tempSize > maxIn)
+            }
+            else if(tempSize < minIn || tempSize > maxIn) {
                 System.out.printf("\nArray Size should be within range of %d - %d, try again!\n\n", minIn, maxIn);
+            }
             else
                 break;
         }while(true);
@@ -135,7 +151,6 @@ class ActTwo {
         if(!(in.hasNextInt())){
             in.next();
             numTemp = -100;
-
         }
         else{
             numTemp = in.nextInt();
@@ -162,8 +177,9 @@ class ActTwo {
         for(int i =0; i < size; i++){
             System.out.printf("Enter grade #%d: ", (i+1) );
             input = askForUserInput(in);
-            if(input >= minIn && input <= 100)
+            if(input >= minIn && input <= 100) {
                 grdArr[i] = input;
+            }
             else if(input == -100){
                 i--;
                 System.out.println("\nInput only Integers only, try again!\n");

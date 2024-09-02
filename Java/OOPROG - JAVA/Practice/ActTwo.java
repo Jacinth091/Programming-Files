@@ -11,9 +11,6 @@ class ActTwo {
 
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
-        // setting the default size to Two
-        int[] gradeArr = new int[2], sortArr = new int[2];
-
 
         System.out.println("This program will ask for grades, sort the array, and display the minimum, maximum, and average grade.");
         System.out.println("The program will iterate between Bubble and Selection Sorting after each loop has finished.");
@@ -27,17 +24,19 @@ class ActTwo {
         // The iteration of sorting algorithms
         // Displaying of the Unsorted and Sorted Arrays
         // Displaying of the Average, Minimum Value, and the Maximum Value
-        mainLoop(in, gradeArr, sortArr);
+        mainLoop(in);
 
         in.close();
 
 
     }
     // --------------------------------------- Main Function ---------------------------------------
-    public static void mainLoop(Scanner in, int[] gradeArr, int[] sortArr){
-        boolean exitLoop =false;
+    public static void mainLoop(Scanner in){
+        boolean exitLoop;
         int iterate = 0;
         String msg;
+
+        int[] gradeArr, sortArr;
 
         do{
             // Let the user toggle on or off the sort process
@@ -46,8 +45,8 @@ class ActTwo {
             // Asking for the size of the arrays
             // Setting the size to the arrays
             int arrSize = askForArraySize(in);
-            gradeArr = new int[arrSize];
-            sortArr = new int[arrSize];
+//            gradeArr = new int[arrSize];
+//            sortArr = new int[arrSize];
 
 
             // Asking the user for the grades for the students
@@ -63,7 +62,7 @@ class ActTwo {
             System.out.println();
 
             // Iterates between Bubble Sort to Selection Sort
-            sortArr = setSortedArray(gradeArr, arrSize, iterate);
+            sortArr = setSortedArray(gradeArr, iterate);
 
             System.out.print("\nSorted -> ");
             dispArray(sortArr);
@@ -74,10 +73,10 @@ class ActTwo {
             dispValues(sortArr, arrSize);
 
 
-            msg = "\"Y\" to start again, \"N\" to exit the program.";
+            msg = "'Y' to restart, 'N' to exit the program.";
             exitLoop = askYesOrNo(in,msg );
 
-            // Assign a value to the iterate count between 0 and 1
+            // Assign a value to the iterate count between 0 and 1 only
             iterate = iterate == 0 ? 1 : 0;
             System.out.println();
 
@@ -96,7 +95,7 @@ class ActTwo {
         System.out.println("Sort Process is now " + (sortProcess ? "Enabled\n" : "Disabled\n"));
     }
     public static boolean askYesOrNo(Scanner in, String msg){
-        boolean value = false;
+        boolean value;
         do{
             System.out.printf("%s.\n", msg);
             System.out.print("Your choice: ");
@@ -145,7 +144,7 @@ class ActTwo {
     }
     public static int[] askForGrades(Scanner in,  int size){
         int maxIn = 100, minIn = 70;
-        int input =0;
+        int input;
         int[] grdArr = new int[size];
         for(int i =0; i < size; i++){
             System.out.printf("Enter grade #%d: ", (i+1) );
@@ -155,7 +154,7 @@ class ActTwo {
             }
             else{
                 i--;
-                System.out.println("Invalid input! Please enter an integer value between 70 and 100.");
+                System.out.println("Invalid input! Enter grades between 70 and 100 only.");
             }
         }
 
@@ -191,7 +190,7 @@ class ActTwo {
 
     // --------------------------------------- Set and Get ---------------------------------------
 
-    public static int[] setSortedArray(int[] gradeArr,int arrSize, int iterate ){
+    public static int[] setSortedArray(int[] gradeArr, int iterate ){
         if (iterate == 1) {
             System.out.println("Sorting using Selection Sort.");
             return selectSort(gradeArr);
@@ -245,7 +244,7 @@ class ActTwo {
     }
 
     public static int[] selectSort(int[] grdArr){
-        int minIndex =0;
+        int minIndex;
         int n = grdArr.length;
 
         for(int  i=0; i < n -1; i++){
@@ -268,9 +267,6 @@ class ActTwo {
                 grdArr[i] = temp;
             }
 
-//            System.out.printf("After swapping: i=%d, minIndex=%d\n", i, minIndex);
-//            dispArray(grdArr);
-
 
 
         }
@@ -283,23 +279,6 @@ class ActTwo {
 
 
 
-    public static void dispMenu(String[] items){
-
-
-        int dispCount =1;
-        for(int i=0; i < items.length; i ++){
-            if(!sortProcess){
-                if(i <= 2){
-                    System.out.printf("%d. %s.\n", (i+1), items[i]);
-                }
-            }
-            else{
-                if(i != 2){
-                    System.out.printf("%d. %s.\n", dispCount++, items[i]);
-                }
-            }
-        }
-    }
 
 
 

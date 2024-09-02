@@ -1,6 +1,6 @@
 /*
 * Name: Jacinth Cedric C. Barral
-* Date: Sept 01, 2024
+* Date: Sept 02, 2024
 * Description: Prelim-Lab.Act.#02 - Working with arrays and sorting array elements
 *        Demonstrate the use of arrays, sorting arrays and traverse an array.
 * */
@@ -25,6 +25,8 @@ class ActTwo {
         // Displaying of the Unsorted and Sorted Arrays
         // Displaying of the Average, Minimum Value, and the Maximum Value
         mainLoop(in);
+
+        System.out.println("Goodbye, and thanks for using the program! :D");
 
         in.close();
 
@@ -124,7 +126,7 @@ class ActTwo {
 
         do{
             System.out.print("-->: ");
-            int tempSize = askForUserInput(in, "Try again, -->");
+            int tempSize = askForUserInput(in, "\n-->");
             if(tempSize >= minIn && tempSize <= maxIn) {
                 return tempSize;
             }

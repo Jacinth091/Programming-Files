@@ -337,6 +337,7 @@ class ActThreeOOP {
                 else{
                     j--;
                     System.out.println("\nNot the score we were expecting chef, let's try again.");
+                    System.out.println("\nOnly 1-100!");
                 }
             }
             System.out.println();

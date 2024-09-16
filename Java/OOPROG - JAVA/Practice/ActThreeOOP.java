@@ -1,47 +1,12 @@
 /*
  * Name: Jacinth Cedric C. Barral
- * Date: Sept 14, 2024
+ * Date: Sept 16, 2024
  * Description: Lab.Act.#03 - Working with 2D Arrays - The objective of this activity is to
  *                              reinforce understanding of 2D arrays in Java and practice basic array traversal
  *                              and searching algorithms. By completing this activity,
  *                              students will gain proficiency in iterating over 2D arrays, accessing elements,
  *                              and identifying the maximum element along with its position in the array.
  * */
-
-
-
-// 2d Array with 3 x 4 dimensions
-
-// Populate with 1 -100 (random) or user input
-
-// Find Maximum element (out of all arrays or in a single array, x3 maximum)
-
-// Print the row's and col's of the maximum element
-
-// Print the 3x4 arrays with the corresponding row and columns, much like a table
-
-// MUST HANDLE USER INPUT CORRECTLY
-// ARRAY ELEMENTS DATA TYPE (integer or floating point?)
-// IF USER IN, VALUE SHOULD BE IN A RANGE ( 1-100 OR 70 - 100)
-
-// Colored Text??
-//        System.out.printf("\n\033[1;36mElements of the array:\033[0m");
-
-
-// The program is about the user being a chef, and he/she has to judge the
-// dish based on the 4 categories
-// 4 categories for the dish is
-// Taste
-// Presentation
-// Texture
-// Creativity
-
-// The dishes are pre-written and stored in String array
-// The dishes should be randomized every loop so that it has a unique taste
-// Every dish has its own description, so that the user properly visualize and rate the dish
-// Every dish, user can take back the rating and start again from the very beginning
-
-
 
 import java.util.Random;
 import java.util.Scanner;
@@ -53,14 +18,15 @@ class ActThreeOOP {
     static int[] randomIndex;
     static String[][] perDishDescription;
     static DishAttributes dishAttributes = new DishAttributes();
+    // Dish Attribute Class = contains the attributes for the dishes
+    // The max scores, the location of row and col, the category names, and the dish's names
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         // a 3x4 array for dish Scores
         int[][] dishesScores = new int[numOfDishes][numOfCateg];
         perDishDescription = new String[numOfDishes][numOfCateg];
 
-        // Dish Attribute Class = contains the attributes for the dishes
-        // The max scores, the location of row and col, the category names, and the dish's names
+
 
         int[][] perDishAtt = new int[numOfDishes][numOfAttrib];
         // per Dish Att is the per Dish Attributes
@@ -82,16 +48,32 @@ class ActThreeOOP {
         };
         String[][] dialogs;
         String[] dishNames, categNames, maxRowCol ;
-        boolean exitLoop = false;
 
-        displayHeader();
+
 
         listOfAttributes = dishAttributes.getListOfAttributes(); // Initialize Value from dish Attributes class
         dialogs = dishAttributes.getDishDescription(); // Initialize Value from dish Attributes class
-
         dishNames = listOfAttributes[0]; // Initialize Value from dish Attributes class
         categNames = listOfAttributes[1]; // Initialize Value from dish Attributes class
         maxRowCol = listOfAttributes[2]; // Initialize Value from dish Attributes class
+
+        displayHeader();
+        // Handles all the logic and all other methods
+        mainLogicMethod(in, dishesScores, perDishAtt, overAllAttrib, dialogs, menuOptions, dishNames,
+                categNames, maxRowCol, exitKey);
+
+        System.out.println("Thank you for using the program, see you again! :D");
+
+        in.close();
+
+    }
+
+    // **************************************** Main Logic ****************************************
+    public static void mainLogicMethod(Scanner in, int[][] dishesScores, int[][] perDishAtt, int[] overAllAttrib,
+                                       String[][] dialogs, String[] menuOptions, String[] dishNames,
+                                       String[] categNames, String[] maxRowCol, String exitKey){
+
+        boolean exitLoop = false;
 
         do{
             dispTitle();
@@ -101,7 +83,7 @@ class ActThreeOOP {
             // initialize perDishDesc String array
             initDialogs(dialogs);
 
-            // initialize random Index for option 2
+            // initialize array of random index for option 2
             randomIndex = getRandomIndex(dishNames.length, 1, numOfAttrib);
 
 
@@ -111,35 +93,38 @@ class ActThreeOOP {
 
             System.out.print("-->: ");
             int choice = checkValidIn(in, "-->");
-            if(isInputvalid(in, menuOptions.length, choice)){
+            if(!isInputvalid(in, menuOptions.length, choice)){
                 continue;
             }
 
             // Switch Controller for Events
             dishesScores = eventController(in, dishesScores, dishNames, categNames, choice);
 
+            System.out.println("Current active: " + menuOptions[choice-1]);
+            System.out.print("*****************************************************************************************\n");
+
+            System.out.printf("%-28s  %s\n\n", " ", "The Table of Truth");
+            dispResults(dishesScores, dishNames, categNames);
             // initialize dishAttributes with values with already populated dishScores array
+
+
             dishAttributes = setAttributes(dishesScores);
 
             // Get the overall values ( max num, row Loc, and col Loc)
             overAllAttrib = dishAttributes.getOverAllAttrib();
-
             // Get the values per dish ( max num, row Loc, and col Loc)
             perDishAtt = dishAttributes.getPerDishAttrib();
 
-            System.out.println();
+
             dispAttribValue(overAllAttrib, perDishAtt, dishNames, maxRowCol);
+            System.out.print("*****************************************************************************************\n");
+
 
             String msg = "'Y' to restart, 'N' to exit the program.";
             exitLoop = askYesOrNo(in,msg );
 
 
         }while(!exitLoop);
-
-        System.out.println("Thank You!!");
-
-        in.close();
-
     }
 
 
@@ -150,9 +135,9 @@ class ActThreeOOP {
             System.out.println("Index number is not within the given options, try again!\n");
             System.out.print("Press ENTER key to continue...");
             in.nextLine();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     public static int checkValidIn(Scanner in, String alertMsg) {
         while (!in.hasNextInt()) {
@@ -219,7 +204,7 @@ class ActThreeOOP {
             }
             perDish[i][0] = LRow;
             perDish[i][1] = LCol;
-            perDish[i][perDish.length -1] = maxScore;
+            perDish[i][perDish[i].length -1] = maxScore;
         }
 
         maxScore = 0;
@@ -247,34 +232,31 @@ class ActThreeOOP {
 
     public static int[][] eventController(Scanner in, int[][] dishesScores,
                                        String[] dishNames, String[] categNames ,int choice){
-        int[][] tempArr = new int[numOfDishes][numOfCateg];
+//        int[][] tempArr = new int[numOfDishes][numOfCateg];
         switch(choice){
             case 1:
+                System.out.print("\n***************************************************************\n");
                 System.out.println("Instructions: You are the Main Chef/Judge,\n" +
                         "You now have the power to judge the dishes presented to you.\n");
-                System.out.println("Rate every dish to your liking, but only within (1-100)!\n\n");
+                System.out.println("Rate every dish to your liking, but only within (1-100)!");
+                System.out.print("***************************************************************\n");
 
-                tempArr = askForInput(in, dishNames, categNames);
-                System.out.println("\n");
-                dispResults(tempArr, dishNames, categNames);
-
+                dishesScores = askForInput(in, dishNames, categNames);
                 break;
-
             case 2:
-                tempArr = getRandomNum(dishesScores);
-                dispResults(tempArr,dishNames, categNames);
+                dishesScores = getRandomNum(dishesScores);
+//                dispResults(tempArr,dishNames, categNames);
                 break;
             case 3:
-                tempArr = initHardCode(dishesScores);
-                dispResults(tempArr,dishNames, categNames);
+                dishesScores = initHardCode(dishesScores);
+//                dispResults(tempArr,dishNames, categNames);
                 break;
-
             case 0:
                 System.out.println("\nThank you for using the program, come again :D!\n");
                 System.exit(0);
                 break;
         }
-        return  tempArr;
+        return  dishesScores;
     }
 
     // **************************************** Initialize ****************************************
@@ -292,7 +274,11 @@ class ActThreeOOP {
 
     }
     public static void initArray(int[][] dishesScores){
-        dishesScores = new int[numOfDishes][numOfCateg];
+        for (int i = 0; i < dishesScores.length; i++) {
+            for (int j = 0; j < dishesScores[i].length; j++) {
+                dishesScores[i][j] = 0; // Set default value or some initialization logic
+            }
+        }
     }
 
     public static int[][] initHardCode(int[][] dishesScores){
@@ -318,7 +304,6 @@ class ActThreeOOP {
 //        return dishesScores;
     }
 
-
     // **************************************** User Input ****************************************
     public static int[][] askForInput(Scanner in, String[] dishName, String[] categNames){
         // Max dishes value is a static
@@ -331,9 +316,13 @@ class ActThreeOOP {
             int inp =0;
 //            System.out.println("Dish number " + (i+1) + " ");
             System.out.printf("******************************* Dish #%-1d *******************************\n", (i+1));
-            System.out.printf("\n---- > %10s \n", dishName[randomIndex[i]]);
+            System.out.printf("\nCurrent Dish -> %10s \n", dishName[randomIndex[i]]);
 
             for(int j = 0; j < numOfCateg; j++){
+                if(j != 0){
+                    System.out.printf("\nCurrent Dish -> %10s \n", dishName[randomIndex[i]]);
+
+                }
                 System.out.print("\n---------------------------------------------------------------\n");
                 System.out.printf("%-10s  %s\n", " ", perDishDescription[i][j]);
                 System.out.print("---------------------------------------------------------------\n");
@@ -347,7 +336,7 @@ class ActThreeOOP {
                 }
                 else{
                     j--;
-                    System.out.println("\nNot the score we were expecting chef, let's try again.\n");
+                    System.out.println("\nNot the score we were expecting chef, let's try again.");
                 }
             }
             System.out.println();
@@ -379,23 +368,20 @@ class ActThreeOOP {
 
     }
 
-
     // **************************************** Display ****************************************
 
     public static void dispAttribValue(int[] overAllAttrib, int[][] perDishAtt,
                                        String[] dishNames, String[] attribNames){
-
-
 //     Getting and setting the overAllAttrib array from DishAttributes Class
-        System.out.println("\n");
+        System.out.println("Overall:");
         System.out.printf("Overall Dish's Max Score: %d\n", overAllAttrib[overAllAttrib.length-1]);
         System.out.printf("Row Location: %d\n", overAllAttrib[0]);
         System.out.printf("Column Location: %d\n", overAllAttrib[1]);
 
         // Getting and setting the perDishAttrib array from DishAttributes Class
-        System.out.println("\n");
+        System.out.print("*****************************************************************************************\n");
+        System.out.printf("%-20s  %s\n\n", " ", "Per Dish's MAX Scores and row and col Location");
         dispResults(perDishAtt, dishNames, attribNames);
-
     }
 
     public static void displayOptions(String[] array, String exitKey){

@@ -27,6 +27,7 @@
  // Average grade for Student 1: 86.80
  
  
+import java.util.Random;
 import java.util.Scanner;
 class ActFourOOP{
     
@@ -35,27 +36,49 @@ class ActFourOOP{
     static int numOfStud = 3, numOfGrd = 5;
     
     public static void main(String[] args){
-        
         Scanner in = new Scanner(System.in);
-        int[][] numArr = new int[numOfStud][numOfGrd];
         int[][] arr= new int[][] {
             {90, 79, 89, 70, 78, 100, 81},
             {70, 81, 91, 85, 80, 91, 78},
             {99, 96, 87, 90, 84, 80, 91},
         };
+        String[][] studAtt = {
+                {
+                    "Juan", "Jose", "Maria", "Andres", "Ana",
+                    "Luz", "Pedro", "Aling Nena", "Rizal", "Karla",
+                    "Diego", "Liza", "Lourdes", "Carlos", "Isabel",
+                    "Ninoy", "Emilio", "Gloria", "Fernando", "Bong",
+                    "Pia", "Lito", "Tomas", "Mylene", "Vicente"
+                },
+                {
+                    "BSIT", "BSCS", "BSECE", "BSME", "BSN",
+                    "BSA", "BSEd", "BSBA", "BSHRM", "BSM",
+                    "BSArch", "BSAcT", "BSMT", "BSCE", "BSTM"
+                }
+        };
+        StudentData studData = new StudentData(numOfStud, numOfGrd, studAtt);
+//        studData.genStudAttrib();
+
+//
+//        System.out.println(studData.genIdNum());
+//        System.out.println(studData.genIdNum());
+//        System.out.println(studData.genIdNum());
+
+        for(String[] student : studData.studAttributes){
+            for(String studAtts : student){
+                System.out.print(studAtts + " ");
+            }
+            System.out.println();
+        }
 
 
-//        sortingAlgo(arr);
+//        dispArray(studData.studGrds);
 
+//
+//        getStudentGrades(in, numArr);
+//        sortingAlgo(numArr);
 //        System.out.println();
-
-//        dispArray(arr);
-
-
-        getStudentGrades(in, numArr);
-        sortingAlgo(numArr);
-        System.out.println();
-        dispArray(numArr);
+//        dispArray(numArr);
         
     }
     
@@ -159,4 +182,62 @@ class ActFourOOP{
         
     }
     
+}
+
+class StudentData{
+    private final int maxIdNum = 9;
+    private Random rand;
+    private int[][] studGrds;
+     String[][] studAttributes;
+    private double[] studAve;
+
+    public StudentData(int numOfStud, int numOfGrd, String[][] studAttributes){
+        rand = new Random();
+        studGrds = new int[numOfStud][numOfGrd];
+//        studIdNum = new String[numOfStud];
+//        studName = new String[numOfStud];
+//        studCourse = new String[numOfStud];
+        this.studAttributes = new String[numOfStud][3];
+        studAve = new double[numOfStud];
+
+        genStudAttrib(studAttributes);
+    }
+
+
+    public String genIdNum(){
+        StringBuilder sb = new StringBuilder();
+
+
+//        while(sb.length() < maxIdNum){
+//            sb.append(rand.nextInt(9) +1);
+//        }
+
+        for(int i =0; i < maxIdNum; i++){
+
+            sb.append(i == 0 ? rand.nextInt(2)+1 :
+                    i == 1 ? rand.nextInt(9)+1 :
+                    i ==2 ? "-"
+                    : rand.nextInt(9)+1);
+        }
+
+        return sb.toString();
+    }
+
+    public void genStudAttrib(String[][] studAttributes){
+
+        int numOfNames = studAttributes[0].length;
+        int numOfCourses = studAttributes[1].length;
+
+        for(int i =0; i< this.studAttributes.length; i++){
+            for(int j =0; j < this.studAttributes[i].length; j++){
+
+                this.studAttributes[i][0] = studAttributes[0][rand.nextInt(numOfNames)];
+                this.studAttributes[i][1] = studAttributes[1][rand.nextInt(numOfCourses)];
+                this.studAttributes[i][2] = genIdNum();
+
+            }
+        }
+
+    }
+
 }

@@ -38,20 +38,16 @@ class ActFourOOP{
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
         int[][] debugData = new int[][] {
-            {90, 79, 89, 73, 78, 84, 81},
-            {81, 81, 91, 95, 80, 91, 78},
             {99, 96, 87, 90, 84, 70, 91},
             {89, 96, 73, 71, 80, 70, 91},
             {89, 96, 73, 71, 80, 70, 91},
             {79, 76, 93, 80, 80, 95, 83},
-
-
         };
         String[][] studAtt = {
                 {
                     "Juan", "Jose", "Maria", "Andres", "Ana",
                     "Luz", "Jinshi", "Aling Nena", "Rizal", "Changli",
-                    "Diego", "Jacinth Gwapo", "Lourdes", "Carlos", "Kanding",
+                    "Diego", "Jacinth", "Lourdes", "Carlos", "Kanding",
                     "Raiden Mei", "Emilio", "Raiden Ei", "Fernando", "Bong",
                     "Pia", "Lito", "Tomas", "Mylene", "Vicente"
                 },
@@ -172,11 +168,11 @@ class ActFourOOP{
 
     // **************************************** Output / Display ****************************************
     public static void displayHeader(){
-        System.out.print("\n\t**********************************************************************************\n");
-        System.out.printf("%-32s  %s\n", " ", "Enhanced For Loop and 2D Arrays");
-        System.out.printf("%-31s  %s\n", " ", "Barral, Jacinth Cedric C.");
-        System.out.printf("%-35s  %s\n", " ", "Lab - Activity 4");
-        System.out.print("\t**********************************************************************************\n");
+        System.out.print("\n**********************************************************************************\n");
+        System.out.printf("%-23s  %s\n", " ", "Enhanced For Loop and 2D Arrays");
+        System.out.printf("%-26s  %s\n", " ", "Barral, Jacinth Cedric C.");
+        System.out.printf("%-30s  %s\n", " ", "Lab - Activity 4");
+        System.out.print("**********************************************************************************\n");
 
 
 

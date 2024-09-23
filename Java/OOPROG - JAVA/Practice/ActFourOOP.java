@@ -65,7 +65,7 @@ class ActFourOOP{
         String[] menuOpt = {"Input Grades", "Debug Mode (Hard Coded Data)", "Random Data","Exit Program"};
         StudentData studData = new StudentData();
 
-
+        displayHeader();
         mainLoop(studData, studAtt, debugData, menuOpt, in);
 
         System.out.println("Thank you for using the program, see you again! :D");

@@ -33,7 +33,7 @@ class ActFourOOP{
     
     final static int minGrade = 70;
     final static int maxGrade = 100;
-    static int numOfStud = 3, numOfGrd = 5;
+    static int numOfStud = 3, numOfGrd = 5, numOfAttrib =5;
     
     public static void main(String[] args){
         Scanner in = new Scanner(System.in);
@@ -41,12 +41,17 @@ class ActFourOOP{
             {90, 79, 89, 73, 78, 84, 81},
             {81, 81, 91, 95, 80, 91, 78},
             {99, 96, 87, 90, 84, 70, 91},
+            {89, 96, 73, 71, 80, 70, 91},
+            {89, 96, 73, 71, 80, 70, 91},
+            {79, 76, 93, 80, 80, 95, 83},
+
+
         };
         String[][] studAtt = {
                 {
                     "Juan", "Jose", "Maria", "Andres", "Ana",
                     "Luz", "Jinshi", "Aling Nena", "Rizal", "Changli",
-                    "Diego", "Liza", "Lourdes", "Carlos", "Isabel",
+                    "Diego", "Jacinth Gwapo", "Lourdes", "Carlos", "Kanding",
                     "Raiden Mei", "Emilio", "Raiden Ei", "Fernando", "Bong",
                     "Pia", "Lito", "Tomas", "Mylene", "Vicente"
                 },
@@ -55,26 +60,17 @@ class ActFourOOP{
                     "BSA", "BSEd", "BSBA", "BSHRM", "BSM",
                     "BSArch", "BSAcT", "BSMT", "BSCE", "BSTM"
                 },
-                {}
+
         };
-        String[] menuOpt = {"Input Grades", "Debug Mode (Hard Coded Data)", "Exit Program"};
+        String[] menuOpt = {"Input Grades", "Debug Mode (Hard Coded Data)", "Random Data","Exit Program"};
         StudentData studData = new StudentData();
 
 
         mainLoop(studData, studAtt, debugData, menuOpt, in);
 
         System.out.println("Thank you for using the program, see you again! :D");
-//        debugMode(studData,studAtt,debugData,in);
         in.close();
     }
-
-
-
-
-
-
-
-
 
     // **************************************** Main Loop ****************************************
     public static void mainLoop(StudentData studData, String[][] studAtt, int[][] debugData,
@@ -82,9 +78,9 @@ class ActFourOOP{
 
         boolean exitLoop = false;
         int attempts =1;
-        String frmt;
+        String frmt; // formatting
         do{
-            frmt = attempts == 1 ? "First Attempt, " : "Attempts:";
+            frmt = attempts == 1 ? "First Attempt, " : "  Attempts:";
             System.out.print("\n******************************************************\n");
             System.out.printf("\t\t\t   %s No. %d\n",frmt, attempts);
             System.out.println("******************************************************");
@@ -99,19 +95,28 @@ class ActFourOOP{
                 continue;
             }
 
-
-
+            // setting StudentData attirbutes, to what option is picked
             studData = eventCont(studData, studAtt, debugData, choice,in);
 
+            // Start Using Sorting algo to sort the grades, Selection Sort
             sortingAlgo(studData.getStudGrds());
 
+            // Getting the averages of each students and setting them in the StudentData, ave Array
             setStudAve(studData);
+            // Determining Student Rank
+            studData.determineStudRank(studData.getStudAve());
+            // Setting rank titles to studAttribute Array in StudentData class
+            studData.setTitlesToArray();
 
+
+
+            System.out.println();
+            // Displays the sorted, the grades, and the average
             System.out.print("******************************************************\n");
             dispArray(studData);
             System.out.print("******************************************************\n");
 
-
+            // displays the list of students and their student info
             System.out.println("\t\t\t  List Of Current Students");
             System.out.print("******************************************************\n\n");
             dispStudentInfo(studData);
@@ -168,9 +173,9 @@ class ActFourOOP{
     // **************************************** Output / Display ****************************************
     public static void displayHeader(){
         System.out.print("\n\t**********************************************************************************\n");
-        System.out.printf("%-32s  %s\n", " ", "Working with 2D Arrays ");
+        System.out.printf("%-32s  %s\n", " ", "Enhanced For Loop and 2D Arrays");
         System.out.printf("%-31s  %s\n", " ", "Barral, Jacinth Cedric C.");
-        System.out.printf("%-35s  %s\n", " ", "Lab - Activity 3");
+        System.out.printf("%-35s  %s\n", " ", "Lab - Activity 4");
         System.out.print("\t**********************************************************************************\n");
 
 
@@ -208,9 +213,9 @@ class ActFourOOP{
         for(int i =0; i < studAtts.length; i++){
             finalLen = nameLen > courseLen ? nameLen + 2 : courseLen + 2;
 //            System.out.println(finalLen);
-            System.out.printf("\t\tName: %-"+ (finalLen)+"s   Section: TBA\n", studAtts[i][0].trim());
-            System.out.printf("\t\tCourse: %-"+(finalLen)+"s ID No. %s\n", studAtts[i][1].trim(), studAtts[i][2].trim());
-            System.out.printf("\t\tAverage: %-"+(finalLen)+".2fRanking: TBA\n", studAve[i]);
+            System.out.printf("\t\tName: %-"+ (finalLen)+"s   ID No. %s\n", studAtts[i][0].trim(), studAtts[i][3].trim());
+            System.out.printf("\t\tCourse: %-"+(finalLen)+"s Section: %s\n", studAtts[i][1].trim(), studAtts[i][2].trim());
+            System.out.printf("\t\tAverage: %-"+(finalLen)+".2fRanking: %s\n", studAve[i], studAtts[i][4].trim());
             System.out.println();
         }
     }
@@ -230,16 +235,22 @@ class ActFourOOP{
 
     // **************************************** Event Switch & Algorithm ****************************************
     public static StudentData eventCont(StudentData studData, String[][] studAtt, int[][] debugData, int choice, Scanner in){
+        studData = initStudData(numOfStud, numOfGrd, numOfAttrib,studAtt);
+
+
         switch(choice){
             case 1:
-                studData = new StudentData(numOfStud, numOfGrd, studAtt);
                 getStudentGrades(in, studData.getStudGrds(), studData.getStudAttributes());
 
                 break;
             case 2:
-                studData = new StudentData(numOfStud, numOfGrd, studAtt);
+                studData = initStudData(debugData.length, debugData[0].length,numOfAttrib, studAtt);
                 studData.setStudGrds(debugData);
                 break;
+            case 3:
+                studData.setStudGrds(getRandomGrades());
+                break;
+
 
             case 0:
                 System.out.println("\nThank you for using the program, come again :D!\n");
@@ -271,6 +282,22 @@ class ActFourOOP{
                 }
             }
         }
+    }
+
+    // ******************* HELPER METHOD
+    public static StudentData initStudData(int numOfStud, int numOfGrd,int numOfAttrib, String[][] studAtt){
+        return new StudentData(numOfStud, numOfGrd, numOfAttrib, studAtt);
+    }
+
+    public static int[][] getRandomGrades(){
+        Random rand = new Random();
+        int[][] studGrades = new int[numOfStud][numOfGrd];
+        for(int i =0 ; i < numOfStud; i++){
+            for(int j =0; j < numOfGrd; j++){
+                studGrades[i][j] = rand.nextInt(31)+70;
+            }
+        }
+        return studGrades;
     }
 
     // **************************************** Get and Set Data ****************************************
@@ -355,63 +382,25 @@ class ActFourOOP{
 
     }
 
-    public static void debugMode(StudentData studData, String[][] studAtt, int[][] codedArr, Scanner in){
-
-        boolean exitLoop = false;
-        int attempts =1;
-        String frmt;
-        do{
-            frmt = attempts == 1 ? "First Attempt, " : "Attempts:";
-            System.out.print("\n******************************************************\n");
-            System.out.printf("\t\t%s No. %d\n",frmt, attempts);
-            System.out.print("******************************************************\n");
-
-            studData = new StudentData(numOfStud, numOfGrd, studAtt);
-
-
-//            getStudentGrades(in, studData.getStudGrds(), studData.getStudAttributes());
-
-            studData.setStudGrds(codedArr);
-            sortingAlgo(studData.getStudGrds());
-
-            setStudAve(studData);
-            System.out.print("******************************************************\n");
-            dispArray(studData);
-            System.out.print("******************************************************\n");
-
-
-            System.out.println("\t\t\t  List Of Current Students");
-            System.out.print("******************************************************\n\n");
-            dispStudentInfo(studData);
-            System.out.print("******************************************************\n");
-
-
-            String msg = "'Y' to restart, 'N' to exit the program.";
-            exitLoop = askYesOrNo(in,msg );
-            System.out.println();
-            attempts++;
-        }while(!exitLoop);
-
-
-    }
-
 }
 
 class StudentData{
-    private final int maxIdNum = 9;
     private Random rand;
     private int[][] studGrds;
     private String[][] studAttributes;
     private double[] studAve;
+    private int[] ranking;
 
-    public StudentData(int numOfStud, int numOfGrd, String[][] studAttributes){
+
+    public StudentData(int numOfStud, int numOfGrd, int numOfAttrib, String[][] studAttributes){
         rand = new Random();
         studGrds = new int[numOfStud][numOfGrd];
 //        studIdNum = new String[numOfStud];
 //        studName = new String[numOfStud];
 //        studCourse = new String[numOfStud];
-        this.studAttributes = new String[numOfStud][3];
+        this.studAttributes = new String[numOfStud][numOfAttrib];
         studAve = new double[numOfStud];
+        ranking = new int[numOfStud];
 
         genStudAttrib(studAttributes);
     }
@@ -421,12 +410,7 @@ class StudentData{
     }
     public String genIdNum(){
         StringBuilder sb = new StringBuilder();
-
-
-//        while(sb.length() < maxIdNum){
-//            sb.append(rand.nextInt(9) +1);
-//        }
-
+        final int maxIdNum = 9;
         for(int i =0; i < maxIdNum; i++){
 
             sb.append(i == 0 ? rand.nextInt(2)+1 :
@@ -434,7 +418,6 @@ class StudentData{
                     i ==2 ? "-"
                     : rand.nextInt(9)+1);
         }
-
         return sb.toString();
     }
 
@@ -446,11 +429,87 @@ class StudentData{
         for(int i =0; i< this.studAttributes.length; i++){
             this.studAttributes[i][0] = studAttributes[0][rand.nextInt(numOfNames)];
             this.studAttributes[i][1] = studAttributes[1][rand.nextInt(numOfCourses)];
-            this.studAttributes[i][2] = genIdNum();
+            this.studAttributes[i][2] = genStudSection(this.studAttributes[i][1]);
+            this.studAttributes[i][3] = genIdNum();
+        }
+    }
+    public String genStudSection(String sectStr){
+        StringBuilder sect = new StringBuilder();
+        sect.append(sectStr + "-" + (rand.nextInt(4)+1));
+//        System.out.println(sect.toString());
+        return sect.toString();
+    }
+
+    public void determineStudRank(double[] studAveList){
+        boolean[] flagged = new boolean[studAveList.length];
+        int n = studAveList.length;
+        int currRank =1;
+
+        while(currRank <= n){
+            int maxIndex = -1;
+            for (int i = 0; i < n; i++) {
+                if(!flagged[i] && (maxIndex == -1 || studAveList[i] > studAveList[maxIndex])){
+                    maxIndex = i;
+                }
+            }
+            for (int i = 0; i < n; i++) {
+//                System.out.println(studAveList[i] == studAveList[maxIndex]);
+                if(!flagged[i] && studAveList[i] == studAveList[maxIndex]){
+                    ranking[i] = currRank;
+                    flagged[i] = true;
+                }
+            }
+
+            // Move to the next rank, accounting for the number of students tied
+            int tiedStud = 0; // counter for students with the same average
+            for (int i = 0; i < n; i++) {
+                if (ranking[i] == currRank) {
+                    tiedStud++;
+                }
+            }
+            currRank += tiedStud; // Skip the ranks for tied students
+
         }
 
     }
 
+
+
+    public String genRankTitle(int rank) {
+        String[] sufx = {"th", "st", "nd", "rd"};
+        int mod100 = rank % 100; // Getting the last two digit
+        // FOr numbers that ends with 11, 12, 13, 14, etc
+        if (mod100 >= 11 && mod100 <= 13) {
+            return rank + sufx[0];
+        }
+
+        //if not, get the last digit for normal purposes, 21st, 22nd, etc
+        int mod10 = rank % 10;
+        switch (mod10) {
+            case 1:
+                return rank + sufx[1];
+            case 2:
+                return rank + sufx[2];
+            case 3:
+                return rank + sufx[3];
+            default:
+                return rank + sufx[0];
+        }
+    }
+
+    public void setTitlesToArray(){
+        for(int i =0; i< this.studAttributes.length; i++){
+
+            this.studAttributes[i][4] = genRankTitle(ranking[i]);
+        }
+    }
+
+
+
+
+
+
+    // **************************************** Setters And Getters ****************************************
 
 
     public void setStudAve(double studAve, int index){

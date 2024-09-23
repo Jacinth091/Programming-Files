@@ -78,7 +78,7 @@ class ActFourOOP{
         do{
             frmt = attempts == 1 ? "First Attempt, " : "  Attempts:";
             System.out.print("\n******************************************************\n");
-            System.out.printf("\t\t\t   %s No. %d\n",frmt, attempts);
+            System.out.printf("%15s%s No. %d\n"," ",frmt, attempts);
             System.out.println("******************************************************");
 
             System.out.printf("\nEnter # (1 - %d) to continue, 0 to EXIT. \n", (menuOpt.length -1));
@@ -87,7 +87,7 @@ class ActFourOOP{
 
             System.out.print("\n-->: ");
             int choice = checkValidIn(in, "-->");
-            if(!isInputvalid(in, menuOpt.length, choice)){
+            if(!isInputvalid(in, menuOpt.length-1, choice)){
                 continue;
             }
 
@@ -113,7 +113,7 @@ class ActFourOOP{
             System.out.print("******************************************************\n");
 
             // displays the list of students and their student info
-            System.out.println("\t\t\t  List Of Current Students");
+            System.out.printf("%15sList Of Current Students\n", " ");
             System.out.print("******************************************************\n\n");
             dispStudentInfo(studData);
             System.out.print("******************************************************\n");
@@ -161,6 +161,7 @@ class ActFourOOP{
             System.out.print("Press ENTER key to continue...");
             in.nextLine();
             return false;
+
         }
         return true;
     }
@@ -209,9 +210,9 @@ class ActFourOOP{
         for(int i =0; i < studAtts.length; i++){
             finalLen = nameLen > courseLen ? nameLen + 2 : courseLen + 2;
 //            System.out.println(finalLen);
-            System.out.printf("\t\tName: %-"+ (finalLen)+"s   ID No. %s\n", studAtts[i][0].trim(), studAtts[i][3].trim());
-            System.out.printf("\t\tCourse: %-"+(finalLen)+"s Section: %s\n", studAtts[i][1].trim(), studAtts[i][2].trim());
-            System.out.printf("\t\tAverage: %-"+(finalLen)+".2fRanking: %s\n", studAve[i], studAtts[i][4].trim());
+            System.out.printf("%8sName: %-"+ (finalLen)+"s   ID No. %s\n"," ", studAtts[i][0].trim(), studAtts[i][3].trim());
+            System.out.printf("%8sCourse: %-"+(finalLen)+"s Section: %s\n"," ", studAtts[i][1].trim(), studAtts[i][2].trim());
+            System.out.printf("%8sAverage: %-"+(finalLen)+".2fRanking: %s\n"," ", studAve[i], studAtts[i][4].trim());
             System.out.println();
         }
     }

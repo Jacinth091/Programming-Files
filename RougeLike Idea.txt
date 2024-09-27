@@ -1,0 +1,17 @@
+Soul Knight esque rpg rouge-like
+
+I think the most important aspect of Roguelikes is permadeath.
+
+Other important aspects IMO are passive items, carry over progression, skippable levels (Curse of the Necrodancer).
+
+roguelikes are "turn-based, grid-based dungeon crawlers with permadeath and procedural generation", or "meaningless term of loosely related design decisions used as a buzzword to generate more traffic",
+
+Core Gameplay
+
+Player will traverse to the dungeon, as the player traverse , he will unlock something of use 
+(player movement = sprint ability ) or his ability to use skills, inventory 
+Basically all his necessities are unlock through exploration. He should be able to explore the floors to survive and unlock his basic necessities.
+
+
+In order to survive, TBA.....
+

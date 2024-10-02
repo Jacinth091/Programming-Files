@@ -14,36 +14,44 @@ class ActFiveOOP
      
      
      
-     getAttrib();
-      
-     
+      getAttrib();
+//       
+//       dispAttrib(0);
+//       dispAttrib(1);
+//       dispAttrib(2);
+    }
+    
+    
+    public static String dispAttrib(int index){
+       String tmp;
    
-         
+      for(int i = 0; i < charData.charAttrib[index].length; i++){
+         String attrib = charData.charAttrib[index][i];
+
+         System.out.printf("%d. %s\n", (i+1), attrib);
+      }
+      return null;
+    }
    
-   }
    
-   
-   public static void getAttrib(){
+   public static String[] getAttrib(){
+      String[] attribName = {"Race", "Gender", "Class"};
+      // String[] userAttrib = {};
 
       for(int i =0; i < charData.charAttrib.length; i++){
          String tmp;
-      
-         for(int j =0; j < charData.charAttrib[i].length; j++){
-            
          
-//             System.out.printf("%s\n", charData.charAttrib[i][j]); 
-
-         System.out.println("");
-
-
+         System.out.printf("Choose %s\n\n", attribName[i]);
          
+         dispAttrib(i);
+         System.out.println();
          
-         }
-         System.out.println(); 
-      
+        
+               
       }
       
-   
+      return null;
+      
    }
    
    public static void setInstance(){

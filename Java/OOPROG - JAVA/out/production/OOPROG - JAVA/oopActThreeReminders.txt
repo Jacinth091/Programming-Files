@@ -1,0 +1,36 @@
+OOP Act 3 reminders
+
+
+
+// 2d Array with 3 x 4 dimensions
+
+// Populate with 1 -100 (random) or user input
+
+// Find Maximum element (out of all arrays or in a single array, x3 maximum)
+
+// Print the row's and col's of the maximum element
+
+// Print the 3x4 arrays with the corresponding row and columns, much like a table
+
+// MUST HANDLE USER INPUT CORRECTLY
+// ARRAY ELEMENTS DATA TYPE (integer or floating point?)
+// IF USER IN, VALUE SHOULD BE IN A RANGE ( 1-100 OR 70 - 100)
+
+// Colored Text??
+//        System.out.printf("\n\033[1;36mElements of the array:\033[0m");
+
+
+// The program is about the user being a chef, and he/she has to judge the
+// dish based on the 4 categories
+// 4 categories for the dish is
+// Taste
+// Presentation
+// Texture
+// Creativity
+
+// The dishes are pre-written and stored in String array
+// The dishes should be randomized every loop so that it has a unique taste
+// Every dish has its own description, so that the user properly visualize and rate the dish
+// Every dish, user can take back the rating and start again from the very beginning
+
+

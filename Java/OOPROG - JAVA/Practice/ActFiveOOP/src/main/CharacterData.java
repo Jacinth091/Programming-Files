@@ -1,17 +1,18 @@
+package src.main;
 class CharacterData{
    
    private static CharacterData charData;
    
    
             
-   String[][] charAttrib = {
+   private String[][] charAttrib = {
       {"Elf", "Dwarf", "Human", "Vampire", "Demon", "Angel"}, // race
       {"Male", "Female"}, // Gender
       {"Magician", "Fighter", "Rangers", "Rogue", "Clerics", "Rare"}, // class
    };
    
       
-   String[][] charJobAttrib = {{"Light Mage", "Dark Mage", "Summoner"}, // job = Magician
+   private String[][] jobAttrib = {{"Light Mage", "Dark Mage", "Summoner"}, // job = Magician
             {"Holy Knight", "Warrior"}, // job = Fighter
             {"Archer"}, // job = Ranger
             {"Assassin", "Ninja"}, // job = Rogue
@@ -42,6 +43,13 @@ class CharacterData{
    
    }
    
+   public String[][] getCharAttrib(){
 
+      return charAttrib;
+   }
+   public String[][] getJobAttrib(){
+
+      return jobAttrib;
+   }
 
 }

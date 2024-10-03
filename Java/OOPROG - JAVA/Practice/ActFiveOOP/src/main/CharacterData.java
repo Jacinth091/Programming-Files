@@ -1,4 +1,4 @@
-package ActFiveOOP.src.main;
+package src.main;
 class CharacterData{
    
    private static CharacterData charData;

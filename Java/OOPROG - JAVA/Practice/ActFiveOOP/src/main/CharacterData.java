@@ -11,11 +11,16 @@ class CharacterData{
                    "Thalindor’s Crest",
                    "Stormreach Hollow",
                    "Shadowfen Expanse",
-                   "Crystalfall Caverns"
+                   "Crystalfall Caverns",
+                   "Raiden Ei",
+                   "Raiden Mei",
+                   "Bosenmori",
+                   "Shorekeeper",
+                   "Arlecchino"
            },
       {"Elf", "Dwarf", "Human", "Vampire", "Demon", "Angel"}, // race
       {"Male", "Female"}, // Gender
-      {"Magician", "Fighter", "Rangers", "Rogue", "Cleric", "Rare"}, // class
+      {"Magician", "Fighter", "Ranger", "Rogue", "Cleric", "Rare"}, // class
    };
    
       

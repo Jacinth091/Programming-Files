@@ -16,7 +16,7 @@ class ActFiveOOP
 {
    static CharacterData charData;
    static Character[] players;
-   static Random rand;
+//   static Random rand;
    public static void main(String[] args){
        setInstance();
        Scanner in = new Scanner(System.in);
@@ -102,7 +102,7 @@ class ActFiveOOP
         for(int i = 0; i<arrayLength; i++) {
             if(array[i].equals(exitKey)){ // checks if the current iteration of the menu is "Exit" String
                 System.out.println();
-                System.out.printf("%-1d. %s.\n", (arrayLength - i) - 1, array[i]); // it will display 0, an indication to exit
+                System.out.printf("%-1d. %s.\n", 0, array[i]); // it will display 0, an indication to exit
             }
             else{// if the current iteration of the menu is not "Exit" String
                 System.out.printf("%-1d. %s.\n", (i+1), array[i]);
@@ -152,7 +152,7 @@ class ActFiveOOP
             players[i] = charRandomizer();
         }
     }
-    public static Character charRandomizer(){
+ /*   public static Character charRandomizer(){
         String[][] attribOptions = {
                 charData.getCharAttrib()[0],
                 charData.getCharAttrib()[1], // For Race options
@@ -191,8 +191,23 @@ class ActFiveOOP
 
 
         return new Character(name, race, gender, charClass, job);
+    }*/
+
+    public static Character charRandomizer() {
+        String[][] attribOptions = {
+                charData.getCharAttrib()[0], // Name options
+                charData.getCharAttrib()[1], // Race options
+                charData.getCharAttrib()[2], // Gender options
+                charData.getCharAttrib()[3], // Class options
+        };
+
+        Character player = new Character();
+        player.randomizeCharacterAttributes(attribOptions, charData);
+
+        return player;
     }
-    public static String getRandJobByClass(String[][] jobArray, String pickedClass){
+
+/*    public static String getRandJobByClass(String[][] jobArray, String pickedClass){
         String[] classList = charData.getCharAttrib()[charData.getCharAttrib().length-1];
         String job = "";
 
@@ -204,7 +219,7 @@ class ActFiveOOP
             }
         }
         return job;
-    }
+    }*/
     public static int getValidatedNum(Scanner in,String msg, int max, int min){
         int choice =0;
         do {
@@ -218,6 +233,7 @@ class ActFiveOOP
 //               in.nextLine();
                 continue;
             }
+//            in.nextLine();
             break;
         }while(true);
 
@@ -267,11 +283,11 @@ class ActFiveOOP
 
     // **************************************** Generate / Create ****************************************
 
-    public static int genRandNum(int max){
-        rand = new Random();
-        return rand.nextInt(max);
-
-    }
+//    public static int genRandNum(int max){
+//        rand = new Random();
+//        return rand.nextInt(max);
+//
+//    }
     public static Character createCharacter(Scanner in){
 
         Character player;

@@ -7,8 +7,6 @@
 *
 * */
 
-
-
 package ActFiveOOP.src.main;
 
 import java.util.Scanner;
@@ -16,33 +14,102 @@ import java.util.Scanner;
 class ActFiveOOP
 {
    static CharacterData charData;
+   static Character[] players;
    public static void main(String[] args){
        setInstance();
        Scanner in = new Scanner(System.in);
-//       Character player1 = createCharacter(in);
-//       player1.dispAttrib();
+       String[] opt = {"Enter Character Attributes", "Character Randomizer"};
+       displayHeader();
 
-//       System.out.println("Welcome to Character Creation Program!");
 
-//       displayHeader();
-//
-//       String msg = "Press 'Y' to start, 'N' to exit";
-//       if(!askYesOrNo(in, msg)){
-//
-//
-//
-//
-//
-//       }
 
-        createCharacter(in);
 
+       mainLoop(in);
 
 
 
        in.close();
 
     }
+    public static void charRandomizer(){
+
+
+
+
+
+    }
+    public static void mainLoop(Scanner in){
+       boolean exitLoop = false;
+
+       do{
+           System.out.println("Welcome to Character Creator!\n");
+           System.out.println("\nHow many characters do you want to create?");
+           System.out.print("--> : ");
+           int choice = checkValidIn(in, "--> ");
+           boolean isValid = checkInputRange(choice, 3, 1);
+           if(!isValid){
+               System.out.printf("Maximum characters is %d, try again!", 3);
+               continue;
+           }
+//           in.nextLine();
+
+           players = new Character[choice];
+
+//           System.out.println();
+
+           createPlayerArray(in);
+
+           System.out.print("----------------------------------------------------------------------------------\n");
+
+           dispPlayersAttrib();
+
+            System.out.println();
+           String msg = "'Y' to restart, 'N' to exit the program.";
+           exitLoop = askYesOrNo(in, msg);
+           System.out.println();
+
+       }while(!exitLoop);
+
+
+    }
+    public static void createPlayerArray(Scanner in){
+
+        for(int i = 0; i < players.length; i++){
+            in.nextLine();
+            players[i] = new Character();
+            System.out.println("\n----------------------------------------------------------------------------------");
+            System.out.printf("For Character number #%d.\n\n", i+1);
+            players[i] = createCharacter(in);
+
+
+            System.out.print("----------------------------------------------------------------------------------\n");
+            players[i].dispAttrib();
+            System.out.print("----------------------------------------------------------------------------------\n");
+
+            String msg = "Press 'Y' to confirm, 'N' to discard all.";
+            if(askYesOrNo(in, msg)){
+                System.out.println("\n\nDiscarding all, re-enter attributes.");
+                System.out.println("Press any key to continue...");
+                in.nextLine();
+                i--;
+                continue;
+            }
+
+
+        }
+    }
+    public static void dispPlayersAttrib(){
+        System.out.println("\n\nYour Created Character Attributes");
+        int charCount =1;
+        for(Character player : players){
+            System.out.print("----------------------------------------------------------------------------------\n");
+            System.out.printf("Character #%d\n\n", charCount);
+            player.dispAttrib();
+            System.out.print("----------------------------------------------------------------------------------\n");
+            charCount++;
+        }
+    }
+
     public static boolean askYesOrNo(Scanner in, String msg){
         boolean value;
         do{
@@ -66,6 +133,9 @@ class ActFiveOOP
 
         return value;
 
+    }
+    public static boolean checkInputRange(int num, int max, int min){
+        return num >= min && num <= max;
     }
 
     public static void displayHeader(){

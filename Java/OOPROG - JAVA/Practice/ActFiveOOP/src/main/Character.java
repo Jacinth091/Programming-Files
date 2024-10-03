@@ -4,7 +4,7 @@ class Character{
     private String name, race, charClass, job, gender;
 
     public Character(){}
-    public Character(String name, String race, String charClass, String job, String gender){
+    public Character(String name, String race, String gender, String charClass, String job){
 
         setName(name);
         setRace(race);
@@ -12,17 +12,19 @@ class Character{
         setJob(job);
         setGender(gender);
     }
-    
-    public void dispAttrib(){
-     
-     
-     
-     
-     
-     
+
+    public void dispAttrib() {
+        System.out.println("Character Attributes:");
+        System.out.println("Name: " + name);
+        System.out.println("Race: " + race);
+        System.out.println("Gender: " + gender);
+        System.out.println("Class: " + charClass);
+        System.out.println("Job: " + job);
     }
     public void setName(String name){
-        this.name = name;
+        if(name != null){
+            this.name = name;
+        }
     }
 
     public void setRace(String race){

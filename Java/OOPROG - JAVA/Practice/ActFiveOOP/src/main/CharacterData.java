@@ -18,7 +18,9 @@ class CharacterData{
             {"Assassin", "Ninja"}, // job = Rogue
             {"Healer", "Priest"}, // job = Clerics
             {"Spell-Weaver", "Beast-Tamer", "Bard"} // job = Rare
-   };  
+   };
+
+   private String[] attribNames = {"Name", "Race", "Gender", "Class", "Job"};
    
    private CharacterData(){
    
@@ -50,6 +52,10 @@ class CharacterData{
    public String[][] getJobAttrib(){
 
       return jobAttrib;
+   }
+   public String[] getAttribNames(){
+
+      return attribNames;
    }
 
 }

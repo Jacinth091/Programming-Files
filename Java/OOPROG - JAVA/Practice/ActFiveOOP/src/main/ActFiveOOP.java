@@ -1,3 +1,14 @@
+/*
+* Name: Barral, Jacinth Cedric C.
+* Date: October 3, 2024
+* Description: Lab.Act.#05 - Classes and Objects (Encapsulation and Abstraction) Part 1
+*
+*
+*
+* */
+
+
+
 package ActFiveOOP.src.main;
 
 import java.util.Scanner;
@@ -7,22 +18,70 @@ class ActFiveOOP
    static CharacterData charData;
    public static void main(String[] args){
        setInstance();
+       Scanner in = new Scanner(System.in);
+//       Character player1 = createCharacter(in);
+//       player1.dispAttrib();
 
+//       System.out.println("Welcome to Character Creation Program!");
 
-     Scanner in = new Scanner(System.in);
-//     String[] attribTmp = getAttrib(in);
-     Character player1 = new Character();
-     Character player2 = new Character();
-     
+//       displayHeader();
+//
+//       String msg = "Press 'Y' to start, 'N' to exit";
+//       if(!askYesOrNo(in, msg)){
+//
+//
+//
+//
+//
+//       }
 
         createCharacter(in);
 
 
 
+
+       in.close();
+
+    }
+    public static boolean askYesOrNo(Scanner in, String msg){
+        boolean value;
+        do{
+            System.out.printf("%s.\n", msg);
+            System.out.print("Your choice: ");
+            char input = in.next().toUpperCase().charAt(0);
+
+            if(input == 'Y' || input == 'N'){
+                value = input == 'N';
+                break;
+            }
+            else{
+                System.out.println("\n-------------------------------------------------------");
+                System.out.println("Invalid input! Please enter 'Y' or 'N'.");
+                System.out.println("-------------------------------------------------------");
+            }
+
+
+        }while(true);
+
+
+        return value;
+
     }
 
+    public static void displayHeader(){
+        System.out.print("\n**********************************************************************************\n");
+        System.out.printf("%-13s  %s\n", " ", "Classes and Objects (Encapsulation and Abstraction)");
+        System.out.printf("%-26s  %s\n", " ", "Barral, Jacinth Cedric C.");
+        System.out.printf("%-28s  %s\n", " ", "Lab.Act.#05 - Part 1");
+        System.out.print("**********************************************************************************\n");
 
+        System.out.print("\n----------------------------------------------------------------------------------\n");
+        System.out.printf("%-20s  %s\n", " ", "Welcome to Character Creation Program");
+        System.out.printf("%-22s  %s\n", " ", "Simple character creator program.");
+        System.out.printf("%-33s  %s\n", " ", "Version 2");
+        System.out.print("----------------------------------------------------------------------------------\n");
 
+    }
 
 
 
@@ -31,11 +90,8 @@ class ActFiveOOP
    
       for(int i = 0; i < charAtt.length ; i++){
          String attrib = charAtt[i];
-
          System.out.printf("%-5s%d. %s\n"," ", (i+1), attrib);
 
-         
-         
       }
     }
 
@@ -43,26 +99,23 @@ class ActFiveOOP
    public static Character createCharacter(Scanner in){
 
        Character player;
-       String[] attribNames = {"Name", "Race", "Gender", "Class", "Job"};
        String[][] attribOptions = {
                {}, // For Name
                charData.getCharAttrib()[0], // For Race options
                charData.getCharAttrib()[1], // For Gender options
                charData.getCharAttrib()[2], // For Class options
-               {}  // For Job, base on the picked Class
+               {}, // For Job
        };
        String[] userAttrib = new String[5];
-       String name = "", race = "", gender = "", job = "", charClass = "";
        int lastIndex = userAttrib.length-1;
 
-       for(int i=0; i < attribOptions.length; i++){
-           System.out.println(i);
-            String attribName = attribNames[i];
+       for(int i=0; i < attribOptions.length -1; i++){
+//           System.out.println(i);
+            String attribName = charData.getAttribNames()[i];
 
             if(attribName.equals("Name")){
                 System.out.print("Enter your character's name: ");
-                name = in.nextLine();
-                userAttrib[i] = name;
+                userAttrib[i] = in.nextLine();
                 continue;
 
             }
@@ -84,80 +137,29 @@ class ActFiveOOP
            System.out.printf("You have picked \"%s\" as your \"%s\".\n",attribOptions[i][choice-1], attribName);
            userAttrib[i] = attribOptions[i][choice -1];
 
-           if(i == 4){
-
-               charClass = userAttrib[3];
+           if(attribName.equals("Class")){
                System.out.printf("\nNow pick a job base on your %s class.\n\n", userAttrib[3]);
                userAttrib[lastIndex] = getJobByClass(in, attribOptions[3], charData.getJobAttrib(), userAttrib[3]);
-               job = userAttrib[lastIndex];
-               System.out.printf("\nYou have picked \"%s\" as your \"%s\".\n",job, attribNames[lastIndex]);
-
+               System.out.printf("\nYou have picked \"%s\" as your \"%s\".\n",userAttrib[lastIndex], charData.getAttribNames()[lastIndex]);
            }
-
-
            System.out.println();
-
-
-           System.out.println(i);
 
 
        }
 
-//       for(String attrib : userAttrib){
-//           System.out.println(attrib);
-//       }
+       String name = userAttrib[0],
+               race = userAttrib[1],
+               gender = userAttrib[2],
+               charClass = userAttrib[3],
+               job = userAttrib[4];
 
-        player = new Character();
+        player = new Character(name, race, gender, charClass, job);
 
 
 
 
        return player;
    }
-   public static String[] getAttrib(Scanner in){
-      String[] attribName = {"Race", "Gender", "Class", "Job"};
-      String[] userAttrib = new String[4];
-      String[] charAtt;
-      int lastIndex = userAttrib.length-1;
-
-      String race, gender, charClass, job;
-
-      for(int i =0; i < charData.getCharAttrib().length; i++){
-         charAtt = charData.getCharAttrib()[i];
-         System.out.printf("Choose %s\n\n", attribName[i]);
-         
-         dispAttrib(charData.getCharAttrib()[i]);
-         
-         System.out.print("\nInput number of your choosing: ");
-
-         int choice = checkValidIn(in, "Input again!, ");
-         if(!isInputvalid(in, charAtt.length, choice)){
-            i--;
-            continue;
-        }
-
-        System.out.println();
-
-        System.out.printf("You have picked \"%s\" as your \"%s\".\n",charData.getCharAttrib()[i][choice-1], attribName[i]);
-        userAttrib[i] = charData.getCharAttrib()[i][choice -1];
-
-
-        if(i == charData.getCharAttrib().length -1){
-            charClass = userAttrib[2];
-            job = userAttrib[lastIndex];
-            System.out.printf("\nNow pick a job base on your %s class.\n\n", charClass);
-            userAttrib[lastIndex] = getJobByClass(in, charAtt, charData.getJobAttrib(), userAttrib[i]);
-            System.out.printf("\nYou have picked \"%s\" as your \"%s\".\n",userAttrib[lastIndex], attribName[lastIndex]);
-
-        }
-
-         System.out.println();
-      }
-      
-      return userAttrib;
-      
-   }
-
    public static String getJobByClass(Scanner in, String[] classAttrib, String[][] jobArray, String jobByClass){
       String jobTemp = " ";
 
@@ -205,17 +207,6 @@ class ActFiveOOP
       return true;
   }
 
-   public static boolean checkInputRange(int num){
-
-      //        if(num >= minGrade && num <= maxGrade){
-      //            return true;
-      //        }
-      //        return false;
-      
-            //   return num >= minGrade && num <= maxGrade;
-            return false;
-      
-   }
    public static int checkValidIn(Scanner in, String alert){
       while(!in.hasNextInt()){
          System.out.println("Input only integers, try again!");
@@ -229,14 +220,9 @@ class ActFiveOOP
    }
    
    public static void setInstance(){
-   
-   
       charData = CharacterData.getInstance();
 //       charData.sayHello();
-   
-   
-   
-   
+
    }
 
 }

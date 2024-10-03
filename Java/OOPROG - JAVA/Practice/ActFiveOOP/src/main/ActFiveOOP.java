@@ -9,66 +9,175 @@
 
 package ActFiveOOP.src.main;
 
+import java.util.Random;
 import java.util.Scanner;
 
 class ActFiveOOP
 {
    static CharacterData charData;
    static Character[] players;
+   static Random rand;
    public static void main(String[] args){
        setInstance();
        Scanner in = new Scanner(System.in);
-       String[] opt = {"Enter Character Attributes", "Character Randomizer"};
+       String[] opt = {"Enter Character Attributes", "Character Randomizer", "Exit Program"};
        displayHeader();
 
+//       boolean exitLoop = false;
+//
+//       do{
+//
+//
+//
+//
+//       }while(!exitLoop);
 
+//        userInputAttributes(in);
 
-
-       mainLoop(in);
+       randomizePlayerArray(in, 5);
+//       mainLoop(in);
 
 
 
        in.close();
 
     }
-    public static void charRandomizer(){
+
+    public static void randomizePlayerArray(Scanner in, int size){
+        players = new Character[size];
+        for(int i = 0; i < players.length; i++){
+
+            players[i] = new Character();
+            System.out.println("\n----------------------------------------------------------------------------------");
+            System.out.printf("For Character number #%d.\n\n", i+1);
+            players[i] = charRandomizer();
 
 
+            System.out.print("----------------------------------------------------------------------------------\n");
+            players[i].dispAttrib();
+            System.out.print("----------------------------------------------------------------------------------\n");
+
+            String msg = "Press 'Y' to confirm, 'N' to discard all.";
+            if(askYesOrNo(in, msg)){
+                System.out.println("\n\nDiscarding all, re-enter attributes.");
+                System.out.println("Press any key to continue...");
+                in.nextLine();
+                i--;
+                continue;
+            }
 
 
+        }
+    }
+    public static Character charRandomizer(){
+        String[][] attribOptions = {
+                charData.getCharAttrib()[0],
+                charData.getCharAttrib()[1], // For Race options
+                charData.getCharAttrib()[2], // For Gender options
+                charData.getCharAttrib()[3], // For Class options
+                {}, // For Job
+        };
+        String name = "", race = "", gender = "", charClass = "", job = "";
+
+        for(int i =0; i< attribOptions.length; i++){
+            String attribName = charData.getAttribNames()[i];
+            switch(attribName){
+                case "Name":
+                    name = attribOptions[i][genRandNum(attribOptions[i].length-1)];
+                    break;
+                case "Race":
+                    race = attribOptions[i][genRandNum(attribOptions[i].length-1)];
+                    break;
+                case "Gender":
+                    gender = attribOptions[i][genRandNum(attribOptions[i].length-1)];
+                    break;
+                case "Class":
+                    charClass = attribOptions[i][genRandNum(attribOptions[i].length-1)];
+//                    System.out.println(charClass);
+                    job = getRandJobByClass(charData.getJobAttrib(), charClass);
+                    break;
+
+            }
+        }
+
+//        System.out.printf("%s\n", name);
+//        System.out.printf("%s\n", race);
+//        System.out.printf("%s\n", gender);
+//        System.out.printf("%s\n", charClass);
+//        System.out.printf("%s\n", job);
+
+
+        return new Character(name, race, gender, charClass, job);
+    }
+    public static String getRandJobByClass(String[][] jobArray, String pickedClass){
+        String[] classList = charData.getCharAttrib()[charData.getCharAttrib().length-1];
+        String job = "";
+
+        for (int i = 0; i < classList.length; i++) {
+            if (classList[i].equals(pickedClass)) {
+                String[] jobsForClass = jobArray[i];
+                job = jobsForClass[genRandNum(jobsForClass.length) - 1]; // Pick a random job from the matching class
+                break;
+            }
+        }
+        return job;
+    }
+
+    public static int genRandNum(int max){
+        rand = new Random();
+//        if(max <= 0){
+//            int newMax =1;
+//            return rand.nextInt(newMax)+1;
+//        }
+       return rand.nextInt(max)+1;
 
     }
-    public static void mainLoop(Scanner in){
-       boolean exitLoop = false;
 
-       do{
-           System.out.println("Welcome to Character Creator!\n");
+    public static void dispOpts(String[] array, String exitKey){
+
+        System.out.printf("\nEnter # (1 - %d) to continue, 0 to EXIT. \n", (array.length -1));
+        int arrayLength = array.length;
+        for(int i = 0; i<arrayLength; i++) {
+            if(array[i].equals(exitKey)){ // checks if the current iteration of the menu is "Exit" String
+                System.out.println();
+                System.out.printf("%-1d. %s.\n", (arrayLength - i) - 1, array[i]); // it will display 0, an indication to exit
+            }
+            else{// if the current iteration of the menu is not "Exit" String
+                System.out.printf("%-1d. %s.\n", (i+1), array[i]);
+            }
+        }
+    }
+    public static void userInputAttributes(Scanner in){
+        int max =3, min =1;
+        int choice = 0;
+
+       System.out.println("Welcome to Character Creator!\n");
+
+
+       do {
            System.out.println("\nHow many characters do you want to create?");
            System.out.print("--> : ");
-           int choice = checkValidIn(in, "--> ");
-           boolean isValid = checkInputRange(choice, 3, 1);
-           if(!isValid){
-               System.out.printf("Maximum characters is %d, try again!", 3);
-               continue;
+           choice = checkValidIn(in, "--> ");
+           boolean isValid = checkInputRange(choice, max, min); // returns true if valid, false if not
+
+           if (!isValid) {
+               System.out.printf("Maximum characters is %d, try again!", max);
+//               in.nextLine();
+                continue;
            }
-//           in.nextLine();
+           break;
+       }while(true);
 
-           players = new Character[choice];
+       players = new Character[choice];
 
-//           System.out.println();
 
-           createPlayerArray(in);
+       createPlayerArray(in);
 
-           System.out.print("----------------------------------------------------------------------------------\n");
+       System.out.print("----------------------------------------------------------------------------------\n");
 
-           dispPlayersAttrib();
+       dispPlayersAttrib();
 
-            System.out.println();
-           String msg = "'Y' to restart, 'N' to exit the program.";
-           exitLoop = askYesOrNo(in, msg);
-           System.out.println();
-
-       }while(!exitLoop);
+        System.out.println();
 
 
     }
@@ -171,9 +280,9 @@ class ActFiveOOP
        Character player;
        String[][] attribOptions = {
                {}, // For Name
-               charData.getCharAttrib()[0], // For Race options
-               charData.getCharAttrib()[1], // For Gender options
-               charData.getCharAttrib()[2], // For Class options
+               charData.getCharAttrib()[1], // For Race options
+               charData.getCharAttrib()[2], // For Gender options
+               charData.getCharAttrib()[3], // For Class options
                {}, // For Job
        };
        String[] userAttrib = new String[5];
@@ -230,11 +339,11 @@ class ActFiveOOP
 
        return player;
    }
-   public static String getJobByClass(Scanner in, String[] classAttrib, String[][] jobArray, String jobByClass){
+   public static String getJobByClass(Scanner in, String[] classAttrib, String[][] jobArray, String pickedClass){
       String jobTemp = " ";
 
       for (int i = 0; i < classAttrib.length; i++) {
-         if (classAttrib[i].equals(jobByClass)) {
+         if (classAttrib[i].equals(pickedClass)) {
 
             dispAttrib(jobArray[i]);
              System.out.print("\nInput number of your choosing: ");

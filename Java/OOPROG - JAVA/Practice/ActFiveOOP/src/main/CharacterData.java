@@ -6,9 +6,16 @@ class CharacterData{
    
             
    private String[][] charAttrib = {
+           {
+                   "Eldermoor Vale",
+                   "Thalindor’s Crest",
+                   "Stormreach Hollow",
+                   "Shadowfen Expanse",
+                   "Crystalfall Caverns"
+           },
       {"Elf", "Dwarf", "Human", "Vampire", "Demon", "Angel"}, // race
       {"Male", "Female"}, // Gender
-      {"Magician", "Fighter", "Rangers", "Rogue", "Clerics", "Rare"}, // class
+      {"Magician", "Fighter", "Rangers", "Rogue", "Cleric", "Rare"}, // class
    };
    
       

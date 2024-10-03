@@ -1,4 +1,4 @@
-package ActFiveOOP.src.main;
+package src.main;
 class Character{
    
     private String name, race, charClass, job, gender;

@@ -1,6 +1,7 @@
-package ActivityFiveOOP.src;
+package ActivityFiveOOP;
+
 import java.util.Random;
-class Character {
+public class Character {
     private String name, race, charClass, job, gender;
 
     public Character() {}

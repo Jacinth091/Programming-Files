@@ -1,6 +1,6 @@
-package ActivityFiveOOP.src;
+package ActivityFiveOOP;
 
-class CharacterData{
+public class CharacterData{
    
    private static CharacterData charData;
 

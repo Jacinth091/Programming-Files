@@ -1,13 +1,13 @@
 /*
 * Name: Barral, Jacinth Cedric C.
-* Date: October 3, 2024
+* Date: October 4, 2024
 * Description: Lab.Act.#05 - Classes and Objects (Encapsulation and Abstraction) Part 1
 *
 *
 *
 * */
 
-package ActivityFiveOOP.src;
+package ActivityFiveOOP;
 
 import java.util.Scanner;
 

@@ -53,7 +53,8 @@ public class VehicleData {
 
     // Example of double attributes (if needed)
     private final double[] doubleVhAttrib = {4.5, 5.0, 6.0}; // Length (Buses/Trucks in meters)};
-    private final int objectSize = 20;
+    private final int vehicleMultp = 3;
+    private final int objectSize = vehicleTypes.length * vehicleMultp;
 
     private VehicleData(){}
 

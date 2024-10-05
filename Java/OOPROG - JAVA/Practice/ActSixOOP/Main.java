@@ -9,7 +9,7 @@ class Main{
 
         RentalManager rManager = new RentalManager();
 
-
+        rManager.displayAvailableVehicles();
 
 
 

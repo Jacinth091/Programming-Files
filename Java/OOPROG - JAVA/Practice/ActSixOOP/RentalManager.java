@@ -7,9 +7,9 @@ public class RentalManager {
 
     private VehicleData vhDB = VehicleData.getInstance();
     private Customer[] customerRentalList;
-    private Vehicle[] availableVehicles;
+    private Vehicle[] listOfVehicles;
     private Vehicle[] rentedVehicles;
-    private VehicleManager[] vhManager;
+    private VehicleManager[] availableVehicles;
 
     private Car[] cars;
     private Bus[] busses;
@@ -22,12 +22,17 @@ public class RentalManager {
     private double totalCost = 0.0;
     private double rentalRate = 10.0;
 
+    private String[] rentStatusTitles = {"Type", "Model", "Rent Status", "Remaining Days", "Date Rented"};
+    private String[] vehicleStatusTitles = {"Model","Type", "Vehicle Status"};
+
+
     // Constructor
     public RentalManager() {
         // Initialize the lists
         customerRentalList = new Customer[vhDB.getObjectSize()];
-        availableVehicles = new Vehicle[vhDB.getObjectSize()];
+        availableVehicles = new VehicleManager[vhDB.getObjectSize()];
         rentedVehicles = new Vehicle[vhDB.getObjectSize()];
+        listOfVehicles = new Vehicle[vhDB.getObjectSize()];
         initVehicles();
         initAvailableVehicles();
     }
@@ -36,6 +41,8 @@ public class RentalManager {
 
     public void initVehicles(){
         int size = vhDB.getObjectSize() / vhDB.getVehicleTypes().length;
+        System.out.println(size);
+        System.out.println(vhDB.getObjectSize());
         cars = new Car[size];
         busses = new Bus[size];
         trucks = new Truck[size];
@@ -93,24 +100,33 @@ public class RentalManager {
 
         for(Car car : cars){
             if(car != null){
-                availableVehicles[index++] = car;
+                availableVehicles[index++] = new VehicleManager(car, true);
             }
         }
+
         for(Bus bus : busses){
             if(bus != null){
-                availableVehicles[index++] = bus;
+                availableVehicles[index++] = new VehicleManager(bus, true);
             }
         }
         for(Truck truck : trucks){
             if(truck != null){
-                availableVehicles[index++] = truck;
+                availableVehicles[index++] = new VehicleManager(truck, true);
             }
         }
         for(Bicycle bicycle : bicycles){
             if(bicycle != null){
-                availableVehicles[index++] = bicycle;
+                availableVehicles[index++] = new VehicleManager(bicycle, true);
             }
         }
+
+
+
+
+    }
+
+    public void initVehicleToManager(){
+
 
 
 
@@ -120,14 +136,31 @@ public class RentalManager {
 
     public void displayAvailableVehicles(){
 
-        int modelLen = getStrLen(availableVehicles);
+        int spacerLen = getStrLen(availableVehicles);
 
+        for(String title : vehicleStatusTitles){
+            if(title.equals("Model")){
+                System.out.printf("%-" +(spacerLen + 5)+"s", title);
 
-        for(Vehicle vh : availableVehicles){
+            }
+            else{
+                System.out.printf("%-" +(spacerLen)+"s", title);
+
+            }
+        }
+
+        System.out.println("\n");
+
+        for(VehicleManager vhMan : availableVehicles){
+            Vehicle vh = vhMan.getVehicle();
             String modelName = vh.getVehicleModel();
             String vhType = vh.getVehicleType();
+            String isAvailable = vhMan.isAvailable() ? "Available" : "Not Available";
 
+
+            System.out.printf("%-" +(spacerLen + 5)+"s%-" +(spacerLen)+ "s%-" +(spacerLen)+ "s", modelName.trim(), vhType.trim(), isAvailable.trim());
             System.out.println();
+
         }
 
 
@@ -144,6 +177,26 @@ public class RentalManager {
 
         return len;
     }
+
+    public int getStrLen(VehicleManager[] vhMan){
+        int len = 0;
+        for(VehicleManager vhM : vhMan){
+            if(vhM != null){
+                Vehicle vh = vhM.getVehicle();
+                String vhStr = vh.getVehicleModel();
+                if(vhStr != null && vhStr.length() > len){
+                    len = vhStr.length();
+                }
+            }
+            else{
+                System.out.println("Vehicle Manager is NULL!!");
+            }
+
+        }
+
+        return len;
+    }
+
 
 
     public Car[] getCars() {
@@ -162,7 +215,7 @@ public class RentalManager {
         return bicycles;
     }
 
-    public Vehicle[] getAvailableVehicles(){
+    public VehicleManager[] getAvailableVehicles(){
         return availableVehicles;
     }
 }

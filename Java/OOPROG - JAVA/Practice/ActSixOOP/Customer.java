@@ -20,83 +20,66 @@ public class Customer {
         this.name = name;
         this.occupation = occupation;
         this.loyaltyStatus = loyaltyStatus;
-        this.rentedVehicles = new VehicleManager[vhDB.getObjectSize()];
-        this.rentalDuration = 0;
-        this.totalRentalCost = 0.0;
+
+    }
+    public Customer(String name, String occupation, String loyaltyStatus, int rentalDuration,VehicleManager[] rentedVehicles ,double totalRentalCost){
+        this.name = name;
+        this.occupation = occupation;
+        this.loyaltyStatus = loyaltyStatus;
+        this.rentedVehicles = rentedVehicles;
+        this.rentalDuration = rentalDuration;
+        this.totalRentalCost = totalRentalCost;
+    }
+    public Customer(){
+
     }
 
 
     public void viewCustomerStatus(){
+        System.out.println("Your Profile Information");
+        System.out.printf("Name: %s\n", name);
+        System.out.printf("Occupation: %s\n", occupation);
+        System.out.printf("Loyalty Status: %s\n", loyaltyStatus);
 
+        System.out.println("Your Rent Vehicle History\n\n");
 
-
+        viewVehicleHistory();
 
     }
 
-/*    public void viewVehicleHistory(){
+    public void viewVehicleHistory(){
 
+        int spacerLen = vhDB.getStrLen(rentedVehicles);
 
+        for(String title : vhDB.getVehicleStatusTitles()){
+            if(title.equals("Model")){
+                System.out.printf("%-" +(spacerLen + 5)+"s", title);
 
-        if(rentedVehicles == null){
-            System.out.println("Rented Vehicles List is NULL!");
-        }
-        else{
-            String[] columnHeader = {"Type", "Model", "Rent Status", "Remaining Days", "Date Rented"};
-
-            for(VehicleManager vhManager : rentedVehicles){
-                int vehicleTypeLen = getStrLen(vhManager));
-                int vehicleModelLen = getStrLen(vhManager.getVehicleModel());
-
-
-
-
+            }
+            else{
+                System.out.printf("%-" +(spacerLen)+"s", title);
 
             }
         }
 
+        System.out.println("\n");
 
-    }*/
-
-//    public static void dispStudentInfo(StudentData studentData){
-//        String[][] studAtts = studentData.getStudAttributes();
-//        double[] studAve = studentData.getStudAve();
-//
-//        int courseLen = getStrLen(studAtts[1]);
-//        int nameLen = getStrLen(studAtts[0]);
-//        int finalLen;
-//
-//        for(int i =0; i < studAtts.length; i++){
-//            finalLen = nameLen > courseLen ? nameLen + 2 : courseLen + 2;
-////            System.out.println(finalLen);
-//            System.out.printf("%8sName: %-"+ (finalLen)+"s   ID No. %s\n"," ", studAtts[i][0].trim(), studAtts[i][3].trim());
-//            System.out.printf("%8sCourse: %-"+(finalLen)+"s Section: %s\n"," ", studAtts[i][1].trim(), studAtts[i][2].trim());
-//            System.out.printf("%8sAverage: %-"+(finalLen)+".2fRanking: %s\n"," ", studAve[i], studAtts[i][4].trim());
-//            System.out.println();
-//        }
-//    }
+        for(VehicleManager vhMan : vhDB.getAvailableVehicles()){
+            Vehicle vh = vhMan.getVehicle();
+            String modelName = vh.getVehicleModel();
+            String vhType = vh.getVehicleType();
+            String isAvailable = vhMan.getIsAvailable() ? "Available" : "Not Available";
 
 
+            System.out.printf("%-" +(spacerLen + 5)+"s%-" +(spacerLen)+ "s%-" +(spacerLen)+ "s", modelName.trim(), vhType.trim(), isAvailable.trim());
+            System.out.println();
 
-    public int getStrLen(List<String> orgStr){
-        int len = 0;
-        for(String str : orgStr){
-            if(str.length() > len){
-                len = str.length();
-            }
         }
 
-        return len;
+
     }
 
-    public int getStrLen(String orgStr){
-        int len = 0;
 
-        if(orgStr.length() > len){
-            len = orgStr.length();
-        }
-
-        return len;
-    }
 
 
 

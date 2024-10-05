@@ -9,6 +9,7 @@ public class Vehicle {
         this.vehicleType =vehicleType;
     }
 
+    public Vehicle(){}
 
     public Vehicle(String vehicleModel,String vehicleType, int maxSpeed) {
         this.vehicleModel = vehicleModel;

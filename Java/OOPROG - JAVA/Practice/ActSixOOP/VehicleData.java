@@ -6,6 +6,13 @@ public class VehicleData {
 
     public static VehicleData vhDataInstance;
 
+    private Car[] cars;
+    private Bus[] busses;
+    private Truck[] trucks;
+    private Bicycle[] bicycles;
+
+    private VehicleManager[] availableVehicles;
+    private VehicleManager[] rentedVehicles;
 
     private final Random rand = new Random();
     private final String[][] vehicleNames = {
@@ -25,16 +32,15 @@ public class VehicleData {
             {"Disc", "Rim"}                    // Brake Type = Bicycle
     };
 
+    private String[] rentStatusTitles = {"Type", "Model", "Rent Status", "Remaining Days", "Date Rented"};
+    private String[] vehicleStatusTitles = {"Model","Type", "Vehicle Status"};
+
     private final int[][] intVhAttrib = {
             {2, 4, 5},       // Number of Doors (Cars)
-
             {10, 20, 50},    // Passenger Capacity (Buses)
-
             {15, 30, 50},    // Cargo Capacity (Trucks)
             {1000, 2000, 3000}, // Towing Capacity (Trucks)
-
             {1, 7, 21}       // Number of Gears (Bicycles)
-
     };
     private final int[][] vhMaxSpeedHighLow = {
             {350, 180}, // Cars
@@ -43,12 +49,6 @@ public class VehicleData {
             {70,  30}  // Bicycles
     };
 
-    private int[] vehicleMaxSpeeds = {
-            genRandNum(vhMaxSpeedHighLow[0][0], vhMaxSpeedHighLow[0][1]), // cars
-            genRandNum(vhMaxSpeedHighLow[1][0], vhMaxSpeedHighLow[1][1]), // Bus
-            genRandNum(vhMaxSpeedHighLow[2][0], vhMaxSpeedHighLow[2][1]), // Trucks
-            genRandNum(vhMaxSpeedHighLow[3][0], vhMaxSpeedHighLow[3][1]), // Bicycles
-    };
 
 
     // Example of double attributes (if needed)
@@ -56,7 +56,140 @@ public class VehicleData {
     private final int vehicleMultp = 3;
     private final int objectSize = vehicleTypes.length * vehicleMultp;
 
+
     private VehicleData(){}
+
+
+    public void initObjects(){
+        availableVehicles = new VehicleManager[objectSize];
+        rentedVehicles = new VehicleManager[objectSize];
+        initVehicles();
+        initAvailableVehicles();
+    }
+
+
+
+
+    public void initVehicles(){
+        int size = objectSize / vehicleTypes.length;
+//        System.out.println(size);
+//        System.out.println(objectSize);
+        cars = new Car[size];
+        busses = new Bus[size];
+        trucks = new Truck[size];
+        bicycles = new Bicycle[size];
+
+        String[][] modelName = {
+                vehicleNames[0], // cars
+                vehicleNames[1], // bus
+                vehicleNames[2], // trucks
+                vehicleNames[3], // Bicycles
+        };
+
+        for(int i =0; i < size; i++){
+
+//            System.out.println(vhDB.getVehicleMaxSpeeds()[i]);
+
+            cars[i] = new Car(modelName[0][genRandNum(modelName[0].length)],
+                    vehicleTypes[0],
+                    genRandNum(vhMaxSpeedHighLow[0][0], vhMaxSpeedHighLow[0][1]),
+                    intVhAttrib[0][genRandNum(intVhAttrib[0].length)],
+                    stringVhAttrib[1][genRandNum(stringVhAttrib[1].length)],
+                    stringVhAttrib[0][genRandNum(stringVhAttrib[0].length)]);
+
+
+            busses[i] = new Bus(modelName[1][genRandNum(modelName[1].length)],
+                    vehicleTypes[1],
+                    genRandNum(vhMaxSpeedHighLow[1][0], vhMaxSpeedHighLow[1][1]),
+                    intVhAttrib[1][genRandNum(intVhAttrib[1].length)],
+                    doubleVhAttrib[genRandNum(doubleVhAttrib.length)],
+                    stringVhAttrib[0][genRandNum(stringVhAttrib[0].length)]);
+
+            trucks[i] = new Truck(modelName[2][genRandNum(modelName[2].length)],
+                    vehicleTypes[2],
+                    genRandNum(vhMaxSpeedHighLow[2][0], vhMaxSpeedHighLow[2][1]),
+                    intVhAttrib[2][genRandNum(intVhAttrib[2].length)],
+                    intVhAttrib[3][genRandNum(intVhAttrib[3].length)],
+                    stringVhAttrib[0][genRandNum(stringVhAttrib[0].length)]);
+
+            bicycles[i] = new Bicycle(modelName[3][genRandNum(modelName[3].length)],
+                    vehicleTypes[3],
+                    genRandNum(vhMaxSpeedHighLow[3][0], vhMaxSpeedHighLow[3][1]),
+                    intVhAttrib[4][genRandNum(intVhAttrib[4].length)],
+                    stringVhAttrib[2][genRandNum(stringVhAttrib[2].length)],
+                    stringVhAttrib[3][genRandNum(stringVhAttrib[3].length)]);
+        }
+
+
+
+
+    }
+
+    public void initAvailableVehicles(){
+
+        int index = 0;
+
+        for(Car car : cars){
+            if(car != null){
+                availableVehicles[index++] = new VehicleManager(car, true);
+            }
+        }
+
+        for(Bus bus : busses){
+            if(bus != null){
+                availableVehicles[index++] = new VehicleManager(bus, true);
+            }
+        }
+        for(Truck truck : trucks){
+            if(truck != null){
+                availableVehicles[index++] = new VehicleManager(truck, true);
+            }
+        }
+        for(Bicycle bicycle : bicycles){
+            if(bicycle != null){
+                availableVehicles[index++] = new VehicleManager(bicycle, true);
+            }
+        }
+
+
+
+
+    }
+
+
+
+    public int getStrLen(Vehicle[] vehicles){
+        int len = 0;
+        for(Vehicle vh : vehicles){
+            String vhStr = vh.getVehicleModel();
+            if(vhStr != null && vhStr.length() > len){
+                len = vhStr.length();
+            }
+        }
+
+        return len;
+    }
+
+    public int getStrLen(VehicleManager[] vhMan){
+        int len = 0;
+        for(VehicleManager vhM : vhMan){
+            if(vhM != null){
+                Vehicle vh = vhM.getVehicle();
+                String vhStr = vh.getVehicleModel();
+                if(vhStr != null && vhStr.length() > len){
+                    len = vhStr.length();
+                }
+            }
+            else{
+                System.out.println("Vehicle Manager is NULL!!");
+            }
+
+        }
+
+        return len;
+    }
+
+
 
     public static VehicleData getInstance(){
 
@@ -68,10 +201,6 @@ public class VehicleData {
     }
 
 
-
-
-
-
     public  int genRandNum(int max) {
         return rand.nextInt(max);
     }
@@ -79,9 +208,6 @@ public class VehicleData {
     public  int genRandNum(int max, int min) {
         return rand.nextInt(max - min) + min;
     }
-
-
-
 
 
     public void echo(){
@@ -117,11 +243,27 @@ public class VehicleData {
         return doubleVhAttrib;
     }
 
-    public int[] getVehicleMaxSpeeds() {
-        return vehicleMaxSpeeds;
-    }
 
     public int[][] getVhMaxSpeedHighLow() {
         return vhMaxSpeedHighLow;
+    }
+
+    public String[] getRentStatusTitles() {
+        return rentStatusTitles;
+    }
+
+    public String[] getVehicleStatusTitles() {
+        return vehicleStatusTitles;
+    }
+
+
+    public VehicleManager[] getAvailableVehicles(){return availableVehicles;}
+
+    public VehicleManager[] getRentedVehicles() {
+        return rentedVehicles;
+    }
+
+    public static VehicleData getVhDataInstance() {
+        return vhDataInstance;
     }
 }

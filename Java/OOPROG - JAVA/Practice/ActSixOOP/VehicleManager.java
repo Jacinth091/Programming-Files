@@ -17,6 +17,7 @@ public class VehicleManager{
         this.rentRemainingDays = rentRemainingDays;
         this.rentalDuration = rentalDuration;
         this.rentStatus = rentStatus;
+//        this.isAvailable = isAvailable;
     }
 
     public VehicleManager(Vehicle vehicle, boolean isAvailable) {
@@ -32,12 +33,19 @@ public class VehicleManager{
         return dateRented;
     }
 
-    public boolean isAvailable() {
+    public boolean getIsAvailable() {
         return isAvailable;
+    }
+
+    public void setIsAvailable(boolean isAvailable){
+        this.isAvailable = isAvailable;
     }
 
     public boolean isRentStatus() {
         return rentStatus;
+    }
+    public void setRentStatus(boolean rentStatus){
+        this.rentStatus = rentStatus;
     }
 
     public int getRentRemainingDays() {
@@ -46,5 +54,21 @@ public class VehicleManager{
 
     public int getRentalDuration() {
         return rentalDuration;
+    }
+
+    public void setDateRented(String dateRented) {
+        this.dateRented = dateRented;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public void setRentRemainingDays(int rentRemainingDays) {
+        this.rentRemainingDays = rentRemainingDays;
+    }
+
+    public void setRentalDuration(int rentalDuration) {
+        this.rentalDuration = rentalDuration;
     }
 }

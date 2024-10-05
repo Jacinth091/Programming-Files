@@ -87,8 +87,6 @@ public class RentalManager {
 
     }
 
-
-
     public void initAvailableVehicles(){
 
         int index = 0;
@@ -122,7 +120,13 @@ public class RentalManager {
 
     public void displayAvailableVehicles(){
 
+        int modelLen = getStrLen(availableVehicles);
+
+
         for(Vehicle vh : availableVehicles){
+            String modelName = vh.getVehicleModel();
+            String vhType = vh.getVehicleType();
+
             System.out.println();
         }
 
@@ -132,12 +136,10 @@ public class RentalManager {
     public int getStrLen(Vehicle[] vehicles){
         int len = 0;
         for(Vehicle vh : vehicles){
-//            String vhStr = vh.
-//
-//
-//            if(str.length() > len){
-//                len = str.length();
-//            }
+            String vhStr = vh.getVehicleModel();
+            if(vhStr != null && vhStr.length() > len){
+               len = vhStr.length();
+           }
         }
 
         return len;

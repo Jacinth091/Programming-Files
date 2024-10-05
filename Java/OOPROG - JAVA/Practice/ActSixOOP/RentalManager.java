@@ -58,6 +58,39 @@ public class RentalManager {
 
     }
 
+    public void dispAvailableVehicles(VehicleManager[] vhManager){
+
+        int spacerLen = vhDB.getStrLen(vhManager);
+        System.out.printf("%-" +(spacerLen - 5)+"s", "No.");
+        for(String title : vhDB.getVehicleStatusTitles()){
+            if(title.equals("Model")){
+                System.out.printf("%-" +(spacerLen + 5)+"s", title);
+
+            }
+            else{
+                System.out.printf("%-" +(spacerLen)+"s", title);
+
+            }
+        }
+
+        System.out.println("\n");
+        int index =0;
+        for(VehicleManager vhMan : vhManager){
+            Vehicle vh = vhMan.getVehicle();
+            String modelName = vh.getVehicleModel();
+            String vhType = vh.getVehicleType();
+            String isAvailable = vhMan.getIsAvailable() ? "Available" : "Not Available";
+
+
+            System.out.printf("%-"+(spacerLen -5)+"d%-" +(spacerLen + 5)+"s%-" +(spacerLen)+ "s%-" +(spacerLen)+ "s",index+1, modelName.trim(), vhType.trim(), isAvailable.trim());
+            System.out.println();
+            index++;
+
+        }
+
+
+    }
+
     public void dispVehicleAttributes(Vehicle vh){
 //        int spacerLen = vhDB.getStrLen(vh);
         vh.displayInfo();

@@ -11,9 +11,12 @@ public class Customer {
     private String loyaltyStatus;
     private boolean hasRentedAVehicle = false;
 
-    private VehicleManager[] rentedVehicles;
+    private VehicleManager[] rentHistory;
+    private VehicleManager[] currentRentedVehicles
     private int rentalDuration;
     private double totalRentalCost;
+
+    private int currentIndex =0;
 
     // Constructor
     public Customer(String name, String occupation, String loyaltyStatus) {
@@ -22,11 +25,12 @@ public class Customer {
         this.loyaltyStatus = loyaltyStatus;
 
     }
-    public Customer(String name, String occupation, String loyaltyStatus, int rentalDuration,VehicleManager[] rentedVehicles ,double totalRentalCost){
+    public Customer(String name, String occupation, String loyaltyStatus, int rentalDuration, double totalRentalCost){
         this.name = name;
         this.occupation = occupation;
         this.loyaltyStatus = loyaltyStatus;
-        this.rentedVehicles = rentedVehicles;
+        this.rentHistory = new VehicleManager[vhDB.getObjectSize()*2];
+        this.currentRentedVehicles = new VehicleManager[vhDB.getObjectSize()];
         this.rentalDuration = rentalDuration;
         this.totalRentalCost = totalRentalCost;
     }
@@ -77,6 +81,34 @@ public class Customer {
         }
 
 
+    }
+
+    public void addVehicle(VehicleManager vhM){
+
+        if(currentIndex == currentRentedVehicles.length ){
+            System.out.println("Current Vehicle List is Full, Complete any rents to make space!");
+        }
+        else{
+            currentRentedVehicles[currentIndex] = vhM;
+            currentIndex++;
+
+        }
+    }
+
+    public void removeVehicle(Vehicle vehicle){
+        int len = currentRentedVehicles.length;
+        for(int i =0; i < len; i++){
+            VehicleManager vhMan =currentRentedVehicles[i];
+            if(vhMan != null){
+                Vehicle vh = vhMan.getVehicle();
+
+                if(vh != null && vh.equals(vehicle)){
+                    vhMan = null;
+                }
+
+            }
+
+        }
     }
 
 

@@ -11,7 +11,7 @@ class Main{
     public static void main(String[] args) {
         setInstance();
         Scanner in = new Scanner(System.in);
-        String[] opt = {"View Available Vehicles", "View Rented Vehicles","Account Profile", "Exit Program"};
+        String[] opt = {"View Available Vehicles", "View Your Rented Vehicles","Account Profile", "Exit Program"};
 
 
 //        for(VehicleManager vhM : vhData.getAvailableVehicles()){
@@ -83,6 +83,7 @@ class Main{
                     do{
                         System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
                         rManager.dispAvailableVehicles();
+
                         dispOpts(subOptOne,subOptOne[subOptOne.length-1]);
                         System.out.print("\n-->: ");
                         choice = checkValidIn(in, "-->");
@@ -92,50 +93,7 @@ class Main{
                         }
 
                         if(choice == 1){
-                            do{
-                                Vehicle vh;
-                                System.out.println("renting vehicle....");
-                                System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
-                                rManager.dispAvailableVehicles();
-                                System.out.println();
-                                choice = getValidatedNum(in, "Pick a vehicle, the details will display after.", vhData.getAvailableVehicles().length, 1);
-                                vh = rManager.searchVehicle(choice-1);
-                                in.nextLine();
-
-                                if(vh == null){
-                                    System.out.println("Pick another vehicle! Current vehicle is Not Available at the moment.");
-                                    System.out.println("Press any key to continue...");
-                                    in.nextLine();
-                                    continue;
-                                }
-                                System.out.println("\n-------------------------------------------------------------------------\n");
-                                rManager.dispVehicleAttributes(vh);
-                                System.out.println("\n-------------------------------------------------------------------------\n");
-
-
-                                String msg = "Press 'Y' to confirm vehicle, Press 'N' to Go Back.";
-                                if(askYesOrNo(in,msg)){
-                                    System.out.println("Pick a vehicle you want to rent.");
-                                    continue;
-                                }
-                                System.out.println();
-
-                                System.out.println("You have confirmed the vehicle.");
-
-                                System.out.println();
-                                choice = getValidatedNum(in, "For how many days you want to rent the vehicle? (Maximum = 30 days)", rManager.getMaxRentalDuration(), 1);
-                                int rentDuration = choice;
-                                rManager.rentVehicle(customer1,vh, rentDuration);
-                                rManager.dispAvailableVehicles();
-
-
-
-
-                                msg = "'Y' to restart, 'N' to exit the program.";
-                                exitLoop = askYesOrNo(in,msg );
-                                System.out.println();
-
-                            }while(!exitLoop);
+                            userRentingVehicle(in, choice);
                         }
 
 
@@ -147,7 +105,7 @@ class Main{
                     break;
 
                 case 2:
-                    String[] subOptTwo = {"Check Status", "Check Vehicle Full Details", "Go Back"};
+                    String[] subOptTwo = {"Check Status", "Complete Rented Vehicle", "Go Back"};
                     do{
                         dispOpts(subOptTwo,subOptTwo[subOptTwo.length-1]);
                         System.out.print("\n-->: ");
@@ -157,6 +115,17 @@ class Main{
                             continue;
 
                         }
+
+                        if(choice == 1){
+
+
+                        }
+                        else if(choice == 2){
+
+
+                        }
+
+
 
                         value = true;
 
@@ -168,6 +137,11 @@ class Main{
 
                     break;
                 case 3:
+
+
+
+
+
                     System.out.println("Accounts Profile");
                     break;
                 case 0:
@@ -177,12 +151,92 @@ class Main{
 
             }
 
-//        System.out.println("1"+value);
-//
-//        System.out.println("2"+value);
-
         return value;
     }
+
+    public static void checkRentedStatus(Customer customer){
+
+
+
+    }
+
+
+
+    public static void userRentingVehicle(Scanner in,int choice){
+        boolean exitLoop = false;
+        do{
+            Vehicle vh;
+            System.out.println("renting vehicle....");
+
+            vh = getUserVehicleIndex(in, choice);
+
+            if(vh == null){
+                System.out.println("Pick another vehicle! Current vehicle is Not Available at the moment.");
+                System.out.println("Press any key to continue...");
+                in.nextLine();
+                continue;
+            }
+
+
+            System.out.println("\n-------------------------------------------------------------------------\n");
+            rManager.dispVehicleAttributes(vh);
+            System.out.println("\n-------------------------------------------------------------------------\n");
+
+
+            String msg = "Press 'Y' to confirm vehicle, Press 'N' to Go Back.";
+            if(askYesOrNo(in,msg)){
+                System.out.println("Pick a vehicle you want to rent.");
+                continue;
+            }
+
+
+            System.out.println();
+
+            System.out.println("You have confirmed the vehicle.");
+
+            userVHRentConfirmed(in, choice, vh);
+
+
+
+            msg = "Press 'Y' to rent other vehicles, Press 'N' to stop.";
+            exitLoop = askYesOrNo(in,msg);
+            System.out.println();
+
+        }while(!exitLoop);
+
+
+
+
+    }
+
+    public static Vehicle getUserVehicleIndex(Scanner in, int choice){
+        Vehicle vh;
+
+        System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
+        rManager.dispAvailableVehicles();
+
+        System.out.println();
+        choice = getValidatedNum(in, "Pick a vehicle, the details will display after.", vhData.getAvailableVehicles().length, 1);
+        vh = rManager.searchVehicle(choice-1);
+        in.nextLine();
+
+        return vh;
+
+    }
+
+    public static void userVHRentConfirmed(Scanner in, int choice, Vehicle vh){
+        System.out.println();
+        choice = getValidatedNum(in, "For how many days you want to rent the vehicle? (Maximum = 30 days)", rManager.getMaxRentalDuration(), 1);
+        int rentDuration = choice;
+        rManager.rentVehicle(customer1,vh, rentDuration);
+        rManager.dispAvailableVehicles();
+        System.out.println();
+    }
+
+
+
+
+
     public static void dispOpts(String[] array, String exitKey){
 
         System.out.printf("\nEnter # (1 - %d) to continue, 0 to EXIT. \n", (array.length -1));

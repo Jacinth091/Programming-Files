@@ -9,6 +9,8 @@ public class VehicleManager{
     private int rentRemainingDays;
     private int rentalDuration;
 
+    private double totalRentalCost;
+
 
 
     public VehicleManager(Vehicle vehicle, String dateRented, int rentRemainingDays, int rentalDuration, boolean rentStatus) {
@@ -70,5 +72,9 @@ public class VehicleManager{
 
     public void setRentalDuration(int rentalDuration) {
         this.rentalDuration = rentalDuration;
+    }
+
+    public double getTotalRentalCost() {
+        return totalRentalCost;
     }
 }

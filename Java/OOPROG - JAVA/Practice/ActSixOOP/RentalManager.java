@@ -58,7 +58,11 @@ public class RentalManager {
 
     }
 
+    public void dispVehicleAttributes(Vehicle vh){
+//        int spacerLen = vhDB.getStrLen(vh);
+        vh.displayInfo();
 
+    }
     public void rentVehicle(Customer customer, Vehicle vehicle, int days){
 
         for(int i =0; i < vhDB.getAvailableVehicles().length; i++){
@@ -78,8 +82,10 @@ public class RentalManager {
                     vhDB.getRentedVehicles()[i] = vhMan;
                     vhMan.setIsAvailable(false);
                     vhMan = new VehicleManager(vh, yyddmm, remainingDays, days, true);
+
+                    //TODO: create a function in calculating total cost of the rented vehicle with right discount and right classifictaions
                 }
-                System.out.println("Agoi");
+//                System.out.println("Agoi");
 
             }
 
@@ -93,11 +99,34 @@ public class RentalManager {
         for(int i =0; i< len; i++){
             VehicleManager vhMan = vhDB.getAvailableVehicles()[i];
             if(i == index){
-                vh = vhMan.getVehicle();
+                if(!vhMan.getIsAvailable()){
+                    return  null;
+                }
+                else{
+                    vh = vhMan.getVehicle();
+                }
             }
         }
         return vh;
     }
 
+    public int getMaxRentalDuration() {
+        return maxRentalDuration;
+    }
 
+    public double getDiscountRate() {
+        return discountRate;
+    }
+
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public double getRentalRate() {
+        return rentalRate;
+    }
 }

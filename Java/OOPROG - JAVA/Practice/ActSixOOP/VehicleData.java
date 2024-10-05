@@ -169,6 +169,16 @@ public class VehicleData {
 
         return len;
     }
+    public int getStrLen(Vehicle vh){
+        int len = 0;
+        String vhStr = vh.getVehicleModel();
+        if(vhStr != null && vhStr.length() > len){
+            len = vhStr.length();
+        }
+
+
+        return len;
+    }
 
     public int getStrLen(VehicleManager[] vhMan){
         int len = 0;

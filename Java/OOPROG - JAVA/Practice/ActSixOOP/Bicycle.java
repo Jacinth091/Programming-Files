@@ -1,20 +1,17 @@
-package Vehicles;
+package ActSixOOP;
 
 public class Bicycle extends Vehicle{
 
     private int numberOfGears;
     private String frameMaterial;
     private String brakeType;
-    private String tireType;
 
 
-    public Bicycle(String name, int maxSpeed, int numberOfGears, String frameMaterial, String brakeType, String tireType) {
-        super(name, maxSpeed);
+    public Bicycle(String vehicleModel, String vehicleType, int maxSpeed, int numberOfGears, String frameMaterial, String brakeType) {
+        super(vehicleModel, vehicleType, maxSpeed);
         this.numberOfGears = numberOfGears;
         this.frameMaterial = frameMaterial;
         this.brakeType = brakeType;
-        this.tireType = tireType;
-
     }
 
 
@@ -24,6 +21,5 @@ public class Bicycle extends Vehicle{
         System.out.println("Number of Gears: " + numberOfGears + ".");
         System.out.println("Frame Material: " + frameMaterial + ".");
         System.out.println("Brake Type: " + brakeType + ".");
-        System.out.println("Tire Type: " + tireType + ".");
     }
 }

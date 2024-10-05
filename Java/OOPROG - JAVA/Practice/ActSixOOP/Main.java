@@ -1,12 +1,25 @@
-package Main;
-import DB.VehicleData;
-import Vehicles.*;
+package ActSixOOP;
+
 class Main{
 
     static VehicleData vhData;
 
     public static void main(String[] args) {
         setInstance();
+
+        RentalManager rManager = new RentalManager();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -17,5 +30,8 @@ class Main{
         vhData.echo();
 
     }
+
+
+
 
 }

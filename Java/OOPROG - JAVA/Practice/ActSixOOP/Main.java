@@ -71,7 +71,7 @@ class Main{
         boolean exitLoop = false;
         switch(choice){
             case 1:
-                String[] subOptOne = {"Rent a Vehicle", "Go Back"};
+                String[] subOptOne = {"Rent a Vehicle", "Check All Details","Go Back"};
                 do{
                     System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
                     rManager.dispAvailableVehicles(false);
@@ -99,6 +99,10 @@ class Main{
                         else{
                             userRentingVehicle(in, choice);
                         }
+                    }
+                    else if(choice ==2){
+                        rManager.dispVehicleAttributes(vhData.getAvailableVehicles());
+                        pressKeytoCont(in);
                     }
 //                    System.out.println("Eyyy");
                     value = true;
@@ -283,21 +287,24 @@ class Main{
     }
 
     public static void displayHeader(){
-        System.out.print("\n**********************************************************************************\n");
-        System.out.printf("%-13s  %s\n", " ", "Classes and Objects (Inheritance and Polymorphism)");
-        System.out.printf("%-26s  %s\n", " ", "Barral, Jacinth Cedric C.");
-        System.out.printf("%-28s  %s\n", " ", "Lab.Act.#06 - Part 1");
-        System.out.print("**********************************************************************************\n");
+        System.out.println("\n*************************************************************************");
+        System.out.printf("%-9s  %s\n", " ", "Classes and Objects (Inheritance and Polymorphism)");
+        System.out.printf("%-20s  %s\n", " ", "Barral, Jacinth Cedric C.");
+        System.out.printf("%-22s  %s\n", " ", "Lab.Act.#06 - Part 1");
+        System.out.println("*************************************************************************\n");
+
 
 
     }
 
     public static void dispTitle(){
-        System.out.print("\n----------------------------------------------------------------------------------\n");
-        System.out.printf("%-20s  %s\n", " ", "Welcome to Vehicle Renting System!");
-        System.out.printf("%-22s  %s\n", " ", "Simple Vehicle Renting System");
-        System.out.printf("%-33s  %s\n", " ", "Version 1");
-        System.out.print("----------------------------------------------------------------------------------\n");
+        System.out.println("\n-------------------------------------------------------------------------");
+
+        System.out.printf("%-17s  %s\n", " ", "Welcome to Vehicle Renting System!");
+        System.out.printf("%-20s  %s\n", " ", "Simple Vehicle Renting System");
+        System.out.printf("%-30s  %s\n", " ", "Version 1");
+        System.out.println("-------------------------------------------------------------------------\n");
+
     }
 
 

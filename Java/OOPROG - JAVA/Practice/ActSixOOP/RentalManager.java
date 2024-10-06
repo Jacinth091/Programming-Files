@@ -69,6 +69,17 @@ public class RentalManager {
         vh.displayInfo();
     }
 
+    public void dispVehicleAttributes(VehicleManager[] vhMan){
+        for(VehicleManager vhM : vhMan){
+            if(vhM != null){
+                System.out.println("-------------------------------------------------------------------------");
+                vhM.getVehicle().displayInfo();
+                System.out.println("-------------------------------------------------------------------------");
+
+            }
+        }
+    }
+
     // --------------------------------------- "Rent Vehicle" ------------------------------
     public void rentVehicle(Customer customer, Vehicle vehicle, int days) {
         for (int i = 0; i < vhDB.getAvailableVehicles().length; i++) {

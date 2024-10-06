@@ -1,7 +1,5 @@
 package ActSixOOP;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class RentalManager {
 

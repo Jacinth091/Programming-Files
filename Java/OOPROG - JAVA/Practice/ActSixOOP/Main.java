@@ -1,5 +1,4 @@
 package ActSixOOP;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 class Main{
 
@@ -9,9 +8,11 @@ class Main{
 
 
     public static void main(String[] args) {
+
         setInstance();
         Scanner in = new Scanner(System.in);
         String[] opt = {"View Available Vehicles", "View Your Rented Vehicles", "Exit Program"};
+
 
         mainLogic(in, opt);
 
@@ -65,6 +66,8 @@ class Main{
                 do{
                     System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
                     rManager.dispAvailableVehicles(false);
+
+                    System.out.println("-------------------------------------------------------------------------");
                     dispOpts(subOptOne,subOptOne[subOptOne.length-1]);
                     System.out.print("\n-->: ");
                     choice = checkValidIn(in, "-->");
@@ -72,15 +75,24 @@ class Main{
 //                            System.out.println("Agoi");
                         continue;
                     }
+                    System.out.println("-------------------------------------------------------------------------");
+
 
                     if(choice == 1){
                         customer1.setHasRentedAVehicle(true);
-                        userRentingVehicle(in, choice);
+                        if(checkFullList(vhData.getAvailableVehicles())){
+                            System.out.println("-------------------------------------------------------------------------");
+                            System.out.println("You have rented all the vehicles on the list!");
+                            System.out.println("-------------------------------------------------------------------------");
+
+                            value = true;
+                        }
+                        else{
+                            userRentingVehicle(in, choice);
+                        }
                     }
-                    System.out.println("Eyyy");
-
+//                    System.out.println("Eyyy");
                     value = true;
-
                 }while(!value);
 
 
@@ -136,6 +148,8 @@ class Main{
 
     public static void userRentingVehicle(Scanner in,int choice){
         boolean exitLoop = false;
+
+
         do{
             Vehicle vh;
             System.out.println("renting vehicle....");
@@ -148,6 +162,7 @@ class Main{
                 in.nextLine();
                 continue;
             }
+
 
 
             System.out.println("\n-------------------------------------------------------------------------\n");
@@ -170,14 +185,24 @@ class Main{
             userVHRentConfirmed(in, choice, vh);
 
 
-            System.out.println("-------------------------------------------------------------------------");
-            msg = "Press 'Y' to rent other vehicles, Press 'N' to stop.";
-            exitLoop = askYesOrNo(in,msg);
-            System.out.println("-------------------------------------------------------------------------\n");
+            if(checkFullList(vhData.getAvailableVehicles())) {
+                System.out.println("You have rented all the vehicles on the list!");
+                exitLoop = true;
+            }
+            else{
+                System.out.println("-------------------------------------------------------------------------");
+                msg = "Press 'Y' to rent other vehicles, Press 'N' to stop.";
+                exitLoop = askYesOrNo(in,msg);
+                System.out.println("-------------------------------------------------------------------------\n");
+
+            }
+
 
             System.out.println();
 
         }while(!exitLoop);
+
+
 
 
 
@@ -204,15 +229,10 @@ class Main{
         choice = getValidatedNum(in, "For how many days you want to rent the vehicle? (Maximum = 30 days)", rManager.getMaxRentalDuration(), 1);
         int rentDuration = choice;
 
-
-
         rManager.rentVehicle(customer1,vh, rentDuration);
         System.out.printf("%-20s\n\n", "\nHere are your Current Rented Vehicles");
         rManager.dispAvailableVehicles(true);
-
         rManager.dispCostAndTotal(customer1.getLoyaltyStatus(), vh.getVehicleType(), vh.getVehicleModel());
-
-        System.out.println();
     }
 
 
@@ -289,7 +309,26 @@ class Main{
 
 
 
-    // ------------------------------------------------ User Input ------------------------------------------------
+    // ------------------------------------------------ User Input and Check ------------------------------------------------
+
+    public static boolean checkFullList(VehicleManager[] vhMan){
+        boolean flag = false;
+        int counter =0;
+        for(VehicleManager vhM : vhMan){
+            if(vhM != null ){
+                if(!vhM.getIsAvailable()){
+                    counter++;
+                }
+                if(counter == vhMan.length){
+                    flag = true;
+                }
+            }
+
+        }
+
+        return flag;
+    }
+
     public static void pressKeytoCont(Scanner in){
         System.out.println("Press any key to continue...");
         in.nextLine();
@@ -344,5 +383,16 @@ class Main{
         return num >= min && num <= max;
     }
 
+    public static void debugMakeAvailableToFalse(){
+        for(int i =0; i < vhData.getAvailableVehicles().length; i++){
 
+            if( i == 11){
+                break;
+            }
+            else{
+                vhData.getAvailableVehicles()[i].setIsAvailable(false);
+            }
+
+        }
+    }
 }

@@ -1,7 +1,5 @@
 package ActSixOOP;
 
-import java.util.List;
-import java.util.ArrayList;
 
 public class Customer {
     private VehicleData vhDB = VehicleData.getInstance();

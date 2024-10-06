@@ -14,11 +14,14 @@ class Main{
         String[] opt = {"View Available Vehicles", "View Your Rented Vehicles","Account Profile", "Exit Program"};
 
 
-//        for(VehicleManager vhM : vhData.getAvailableVehicles()){
-//            Vehicle vh = vhM.getVehicle();
-//            System.out.println();
-//            vh.displayInfo();
-//            System.out.println();
+//        for(VehicleManager vhM : customer1.getCurrentRentedVehicles()){
+////            Vehicle vh = vhM.getVehicle();
+////            System.out.println();
+////            vh.displayInfo();
+////            System.out.println();
+//            if(vhM != null){
+//                vhM.displayVhManagerInfo(20);
+//            }
 //        }
 
 
@@ -83,7 +86,6 @@ class Main{
                     do{
                         System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
                         rManager.dispAvailableVehicles();
-
                         dispOpts(subOptOne,subOptOne[subOptOne.length-1]);
                         System.out.print("\n-->: ");
                         choice = checkValidIn(in, "-->");
@@ -117,7 +119,7 @@ class Main{
                         }
 
                         if(choice == 1){
-
+                            checkRentedStatus(customer1);
 
                         }
                         else if(choice == 2){
@@ -130,10 +132,6 @@ class Main{
                         value = true;
 
                     }while(!value);
-
-                    if(choice == 1){
-                        System.out.println("renting vehicle....");
-                    }
 
                     break;
                 case 3:
@@ -156,7 +154,8 @@ class Main{
 
     public static void checkRentedStatus(Customer customer){
 
-
+        System.out.printf("%-20s\n\n", "\nHere are your Current Rented Vehicles");
+        customer.viewVehicleStatus(customer.getCurrentRentedVehicles());
 
     }
 

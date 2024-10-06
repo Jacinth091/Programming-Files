@@ -32,7 +32,7 @@ public class VehicleData {
             {"Disc", "Rim"}                    // Brake Type = Bicycle
     };
 
-    private String[] rentStatusTitles = {"Type", "Model", "Rent Status", "Remaining Days", "Date Rented"};
+    private String[] rentStatusTitles = {"Model", "Type","Rent Cost", "Rent Status", "Remaining Days", "Rent Duration", "Date Rented"};
     private String[] vehicleStatusTitles = {"Model","Type", "Vehicle Status"};
 
     private final int[][] intVhAttrib = {
@@ -47,6 +47,13 @@ public class VehicleData {
             {120, 80},  // Bus
             {140, 100}, // Trucks
             {70,  30}  // Bicycles
+    };
+
+    private int[] vhBaseRate = {
+            150, // Bicycle
+            700, // Truck
+            500, // Bus
+            250, // Car
     };
 
 
@@ -156,7 +163,16 @@ public class VehicleData {
 
     }
 
+    public int getStrLen(String[] orgStr){
+        int len = 0;
+        for(String str : orgStr){
+            if(str.length() > len){
+                len = str.length();
+            }
+        }
 
+        return len;
+    }
 
     public int getStrLen(Vehicle[] vehicles){
         int len = 0;
@@ -182,19 +198,21 @@ public class VehicleData {
 
     public int getStrLen(VehicleManager[] vhMan){
         int len = 0;
-        for(VehicleManager vhM : vhMan){
-            if(vhM != null){
-                Vehicle vh = vhM.getVehicle();
-                String vhStr = vh.getVehicleModel();
-                if(vhStr != null && vhStr.length() > len){
-                    len = vhStr.length();
+        if(vhMan == null){
+            System.out.println("Vehicle Manager is Null!");
+        }
+        else{
+            for(VehicleManager vhM : vhMan){
+                if(vhM != null){
+                    Vehicle vh = vhM.getVehicle();
+                    String vhStr = vh.getVehicleModel();
+                    if(vhStr != null && vhStr.length() > len){
+                        len = vhStr.length();
+                    }
                 }
             }
-            else{
-                System.out.println("Vehicle Manager is NULL!!");
-            }
-
         }
+
 
         return len;
     }
@@ -219,51 +237,46 @@ public class VehicleData {
         return rand.nextInt(max - min) + min;
     }
 
+    public int getVhBaseRate(String vhType){
+        int baseRate =0;
+        switch(vhType){
+            case "Bicycle":
+                baseRate = 150;
+                break;
+            case "Truck":
+                baseRate = 700;
+                break;
+            case "Bus":
+                baseRate = 500;
+                break;
+            case "Car":
+                baseRate = 250;
+                break;
+            default:
+                System.out.println("Invalid Vehicle Type!");
+                break;
+        }
+        return baseRate;
+    }
+
+
 
     public void echo(){
         System.out.println("Hi!, Hello!");
     }
 
-    public String[][] getVehicleNames() {
-        return vehicleNames;
-    }
-
-    public String[] getVehicleTypes() {
-        return vehicleTypes;
-    }
-
-    public Random getRand() {
-        return rand;
-    }
 
     public int getObjectSize() {
         return objectSize;
     }
 
 
-    public String[][] getStringVhAttrib() {
-        return stringVhAttrib;
-    }
-
-    public int[][] getIntVhAttrib() {
-        return intVhAttrib;
-    }
-
-    public double[] getDoubleVhAttrib() {
-        return doubleVhAttrib;
-    }
-
-
-    public int[][] getVhMaxSpeedHighLow() {
-        return vhMaxSpeedHighLow;
-    }
-
-    public String[] getRentStatusTitles() {
-        return rentStatusTitles;
-    }
-
     public String[] getVehicleStatusTitles() {
         return vehicleStatusTitles;
+    }
+
+    public String[] getRentStatusTitles(){
+        return rentStatusTitles;
     }
 
 
@@ -273,7 +286,4 @@ public class VehicleData {
         return rentedVehicles;
     }
 
-    public static VehicleData getVhDataInstance() {
-        return vhDataInstance;
-    }
 }

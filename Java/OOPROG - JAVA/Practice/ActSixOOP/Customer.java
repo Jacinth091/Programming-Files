@@ -11,12 +11,13 @@ public class Customer {
     private String loyaltyStatus;
     private boolean hasRentedAVehicle = false;
 
-    private VehicleManager[] rentHistory;
-    private VehicleManager[] currentRentedVehicles
+    private VehicleManager[] rentHistory = new VehicleManager[vhDB.getObjectSize()*2];
+    private VehicleManager[] currentRentedVehicles = new VehicleManager[vhDB.getObjectSize()];
     private int rentalDuration;
     private double totalRentalCost;
 
     private int currentIndex =0;
+    private int currentHistoryIndex =0;
 
     // Constructor
     public Customer(String name, String occupation, String loyaltyStatus) {
@@ -24,13 +25,10 @@ public class Customer {
         this.occupation = occupation;
         this.loyaltyStatus = loyaltyStatus;
 
+
+
     }
-    public Customer(String name, String occupation, String loyaltyStatus, int rentalDuration, double totalRentalCost){
-        this.name = name;
-        this.occupation = occupation;
-        this.loyaltyStatus = loyaltyStatus;
-        this.rentHistory = new VehicleManager[vhDB.getObjectSize()*2];
-        this.currentRentedVehicles = new VehicleManager[vhDB.getObjectSize()];
+    public Customer(int rentalDuration, double totalRentalCost){
         this.rentalDuration = rentalDuration;
         this.totalRentalCost = totalRentalCost;
     }
@@ -47,43 +45,60 @@ public class Customer {
 
         System.out.println("Your Rent Vehicle History\n\n");
 
-        viewVehicleHistory();
+        viewVehicleStatus();
 
     }
 
-    public void viewVehicleHistory(){
+    public void viewVehicleStatus(VehicleManager[] vhManager){
+        int spacerLen = vhDB.getStrLen(vhManager);
+        int headerSpacer = vhDB.getStrLen(vhDB.getRentStatusTitles());
 
-        int spacerLen = vhDB.getStrLen(rentedVehicles);
+        int finalLen = spacerLen > headerSpacer ? spacerLen : headerSpacer;
+        finalLen += 5;
+        for(String title : vhDB.getRentStatusTitles()){
+            if(title.equals("Model")){
+                System.out.printf("%-" +(finalLen)+"s", title);
+            }
+            else{
+                System.out.printf("%-" +(finalLen)+"s", title);
+            }
+        }
+        System.out.println("\n");
+        for(VehicleManager vhMan : vhManager){
+            if (vhMan != null) {  // Check if vhMan is not null
+                vhMan.displayVhManagerInfo(finalLen);
+            } else {
+                System.out.println("Null");
+            }
+        }
+    }
+    public void viewVehicleStatus(){
+        int spacerLen = vhDB.getStrLen(rentHistory);
 
         for(String title : vhDB.getVehicleStatusTitles()){
             if(title.equals("Model")){
                 System.out.printf("%-" +(spacerLen + 5)+"s", title);
-
             }
             else{
                 System.out.printf("%-" +(spacerLen)+"s", title);
-
             }
         }
-
-        System.out.println("\n");
-
-        for(VehicleManager vhMan : vhDB.getAvailableVehicles()){
-            Vehicle vh = vhMan.getVehicle();
-            String modelName = vh.getVehicleModel();
-            String vhType = vh.getVehicleType();
-            String isAvailable = vhMan.getIsAvailable() ? "Available" : "Not Available";
-
-
-            System.out.printf("%-" +(spacerLen + 5)+"s%-" +(spacerLen)+ "s%-" +(spacerLen)+ "s", modelName.trim(), vhType.trim(), isAvailable.trim());
-            System.out.println();
-
+        for(VehicleManager vhMan : rentHistory){
+            vhMan.displayVhManagerInfo(spacerLen);
         }
+
+
 
 
     }
-
     public void addVehicle(VehicleManager vhM){
+        if (vhM == null) {
+            System.out.println("Error: Attempted to add a null vehicle.");
+            return;
+        }
+        else{
+            System.out.println("Adding vehicle to currentRentedVehicles: " + vhM.getVehicle().getVehicleModel());
+        }
 
         if(currentIndex == currentRentedVehicles.length ){
             System.out.println("Current Vehicle List is Full, Complete any rents to make space!");
@@ -93,6 +108,26 @@ public class Customer {
             currentIndex++;
 
         }
+    }
+
+    public void addVehicleToHistory(VehicleManager vhM){
+
+        if (vhM == null) {
+            System.out.println("Error: Attempted to add a null vehicle.");
+            return;
+        }else{
+            System.out.println("Adding vehicle to rentHistory: " + vhM.getVehicle().getVehicleModel());
+        }
+
+        if(currentHistoryIndex == rentHistory.length ){
+            System.out.println("Current Vehicle List is Full, Complete any rents to make space!");
+        }
+        else{
+            rentHistory[currentHistoryIndex] = vhM;
+            currentHistoryIndex++;
+
+        }
+
     }
 
     public void removeVehicle(Vehicle vehicle){
@@ -111,10 +146,27 @@ public class Customer {
         }
     }
 
+    public String getLoyaltyStatus() {
+        return loyaltyStatus;
+    }
 
+    public void setLoyaltyStatus(String loyaltyStatus) {
+        this.loyaltyStatus = loyaltyStatus;
+    }
 
+    public double getTotalRentalCost() {
+        return totalRentalCost;
+    }
 
+    public void setTotalRentalCost(double totalRentalCost) {
+        this.totalRentalCost = totalRentalCost;
+    }
 
+    public VehicleManager[] getRentHistory() {
+        return rentHistory;
+    }
 
-
+    public VehicleManager[] getCurrentRentedVehicles() {
+        return currentRentedVehicles;
+    }
 }

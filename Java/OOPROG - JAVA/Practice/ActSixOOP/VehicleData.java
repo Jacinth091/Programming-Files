@@ -57,15 +57,14 @@ public class VehicleData {
     };
 
 
-
-    // Example of double attributes (if needed)
     private final double[] doubleVhAttrib = {4.5, 5.0, 6.0}; // Length (Buses/Trucks in meters)};
-    private final int vehicleMultp = 3;
-    private final int objectSize = vehicleTypes.length * vehicleMultp;
+    private final int vehicleMultp = 3; // size you want per vehicle i.e 3 cars, 3 bus ...
+    private final int objectSize = vehicleTypes.length * vehicleMultp;  // how many vehicles times by the amount per vehicle 4 * 3 = 12
 
 
     private VehicleData(){}
 
+    // --------------------------------------- Initialization of Objects ------------------------------
 
     public void initObjects(){
         availableVehicles = new VehicleManager[objectSize];
@@ -73,9 +72,6 @@ public class VehicleData {
         initVehicles();
         initAvailableVehicles();
     }
-
-
-
 
     public void initVehicles(){
         int size = objectSize / vehicleTypes.length;
@@ -94,8 +90,6 @@ public class VehicleData {
         };
 
         for(int i =0; i < size; i++){
-
-//            System.out.println(vhDB.getVehicleMaxSpeeds()[i]);
 
             cars[i] = new Car(modelName[0][genRandNum(modelName[0].length)],
                     vehicleTypes[0],
@@ -126,9 +120,6 @@ public class VehicleData {
                     stringVhAttrib[2][genRandNum(stringVhAttrib[2].length)],
                     stringVhAttrib[3][genRandNum(stringVhAttrib[3].length)]);
         }
-
-
-
 
     }
 
@@ -162,6 +153,8 @@ public class VehicleData {
 
 
     }
+
+    // --------------------------------------- Helper Methods ------------------------------
 
     public int getStrLen(String[] orgStr){
         int len = 0;
@@ -218,17 +211,6 @@ public class VehicleData {
     }
 
 
-
-    public static VehicleData getInstance(){
-
-        if(vhDataInstance == null){
-            vhDataInstance = new VehicleData();
-        }
-
-        return vhDataInstance;
-    }
-
-
     public  int genRandNum(int max) {
         return rand.nextInt(max);
     }
@@ -237,6 +219,8 @@ public class VehicleData {
         return rand.nextInt(max - min) + min;
     }
 
+
+    // --------------------------------------- Base Rate Identifier ------------------------------
     public int getVhBaseRate(String vhType){
         int baseRate =0;
         switch(vhType){
@@ -266,6 +250,11 @@ public class VehicleData {
     }
 
 
+
+
+
+
+    // --------------------------------------- Getters ------------------------------
     public int getObjectSize() {
         return objectSize;
     }
@@ -286,4 +275,12 @@ public class VehicleData {
         return rentedVehicles;
     }
 
+    public static VehicleData getInstance(){
+
+        if(vhDataInstance == null){
+            vhDataInstance = new VehicleData();
+        }
+
+        return vhDataInstance;
+    }
 }

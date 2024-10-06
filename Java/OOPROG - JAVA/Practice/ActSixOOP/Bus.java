@@ -16,9 +16,9 @@ public class Bus extends Vehicle{
     @Override
     public void displayInfo(){
         super.displayInfo();
-        System.out.println("Passenger Capacity: " + passengerCapacity + ".");
-        System.out.println("Bus Length: " + length + ".");
-        System.out.println("Fuel Type: " + fuelType + ".");
+        System.out.println("Passenger Capacity: " + passengerCapacity + " passengers.");
+        System.out.println("Bus Length: " + length + " meters");
+        System.out.println("Fuel Type: " + fuelType + "");
     }
 
 

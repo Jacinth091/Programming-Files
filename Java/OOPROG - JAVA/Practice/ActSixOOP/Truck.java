@@ -17,9 +17,9 @@ public class Truck extends Vehicle{
     @Override
     public void displayInfo(){
         super.displayInfo();
-        System.out.println("Cargo Capacity: " + cargoCapacity + ".");
-        System.out.println("Towing Capacity: " + towingCapacity + ".");
-        System.out.println("Fuel Type: " + fuelType + ".");
+        System.out.println("Cargo Capacity: " + cargoCapacity + " units");
+        System.out.println("Towing Capacity: " + towingCapacity + " tons");
+        System.out.println("Fuel Type: " + fuelType);
     }
 
 

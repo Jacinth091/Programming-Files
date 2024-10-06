@@ -18,8 +18,8 @@ public class Bicycle extends Vehicle{
     @Override
     public void displayInfo(){
         super.displayInfo();
-        System.out.println("Number of Gears: " + numberOfGears + ".");
-        System.out.println("Frame Material: " + frameMaterial + ".");
-        System.out.println("Brake Type: " + brakeType + ".");
+        System.out.println("Number of Gears: " + numberOfGears + " gears");
+        System.out.println("Frame Material: " + frameMaterial);
+        System.out.println("Brake Type: " + brakeType + " brakes");
     }
 }

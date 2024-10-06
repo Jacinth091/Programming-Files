@@ -1,3 +1,9 @@
+/*
+    Name: Barral, Jacinth Cedric C.
+    Date: October 6, 2024
+    Description: Midterm - Lab.Act.#06 - Classes and Objects (Inheritance and Polymorphism) Part 2
+* */
+
 package ActSixOOP;
 import java.util.Scanner;
 class Main{
@@ -13,6 +19,7 @@ class Main{
         Scanner in = new Scanner(System.in);
         String[] opt = {"View Available Vehicles", "View Your Rented Vehicles", "Exit Program"};
 
+        displayHeader();
 
         mainLogic(in, opt);
 
@@ -28,15 +35,17 @@ class Main{
 
         do{
             int choice =0;
+            dispTitle();
 
-            System.out.println("\nWelcome to Vehicle Renting System!!\n\n");
             dispOpts(opt,opt[opt.length-1]);
+
             System.out.print("\n-->: ");
             choice = checkValidIn(in, "-->");
             if(!isInputvalid(in, opt.length-1,0, choice)){
                 in.nextLine();
                 continue;
             }
+
             if(choice == 2){
                 if(!customer1.isHasRentedAVehicle()){
                     System.out.println("There is no Rented Vehicles on your list.");
@@ -169,19 +178,16 @@ class Main{
             rManager.dispVehicleAttributes(vh);
             System.out.println("\n-------------------------------------------------------------------------\n");
 
-            System.out.println("\n-------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------------");
             String msg = "Press 'Y' to confirm vehicle, Press 'N' to Go Back.";
             if(askYesOrNo(in,msg)){
                 System.out.println("Pick a vehicle you want to rent.");
                 continue;
             }
-            System.out.println("-------------------------------------------------------------------------\n");
-
-
-            System.out.println();
+            System.out.println("-------------------------------------------------------------------------");
 
             System.out.println("\n-------------------------------------------------------------------------");
-            System.out.println("You have confirmed the vehicle.");
+            System.out.println("You have confirmed the vehicle.\n");
             userVHRentConfirmed(in, choice, vh);
 
 
@@ -225,7 +231,6 @@ class Main{
     }
 
     public static void userVHRentConfirmed(Scanner in, int choice, Vehicle vh){
-        System.out.println();
         choice = getValidatedNum(in, "For how many days you want to rent the vehicle? (Maximum = 30 days)", rManager.getMaxRentalDuration(), 1);
         int rentDuration = choice;
 
@@ -275,6 +280,24 @@ class Main{
                 System.out.printf("%-1d. %s.\n", (i+1), array[i]);
             }
         }
+    }
+
+    public static void displayHeader(){
+        System.out.print("\n**********************************************************************************\n");
+        System.out.printf("%-13s  %s\n", " ", "Classes and Objects (Inheritance and Polymorphism)");
+        System.out.printf("%-26s  %s\n", " ", "Barral, Jacinth Cedric C.");
+        System.out.printf("%-28s  %s\n", " ", "Lab.Act.#06 - Part 1");
+        System.out.print("**********************************************************************************\n");
+
+
+    }
+
+    public static void dispTitle(){
+        System.out.print("\n----------------------------------------------------------------------------------\n");
+        System.out.printf("%-20s  %s\n", " ", "Welcome to Vehicle Renting System!");
+        System.out.printf("%-22s  %s\n", " ", "Simple Vehicle Renting System");
+        System.out.printf("%-33s  %s\n", " ", "Version 1");
+        System.out.print("----------------------------------------------------------------------------------\n");
     }
 
 

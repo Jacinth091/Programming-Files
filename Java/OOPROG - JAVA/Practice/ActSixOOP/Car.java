@@ -16,8 +16,8 @@ public class Car extends Vehicle{
     @Override
     public void displayInfo(){
         super.displayInfo();
-        System.out.println("Number of Doors: " + numberOfDoors + ".");
-        System.out.println("Transmission Type: " + transmissionType + ".");
-        System.out.println("Fuel Type: " + fuelType + ".");
+        System.out.println("Number of Doors: " + numberOfDoors + " doors");
+        System.out.println("Transmission Type: " + transmissionType + " transmission");
+        System.out.println("Fuel Type: " + fuelType);
     }
 }

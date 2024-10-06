@@ -3,6 +3,8 @@ package ActSixOOP;
 public class VehicleManager{
 
     private VehicleData vhDB = VehicleData.getInstance();
+
+    // attrib
     private Vehicle vehicle;
     private String dateRented;
     private boolean isAvailable;
@@ -13,14 +15,13 @@ public class VehicleManager{
 
 
 
-    public VehicleManager(Vehicle vehicle, String dateRented, int rentRemainingDays, int rentalDuration,double rentCost, boolean rentStatus) {
+    public VehicleManager(Vehicle vehicle, String dateRented, int rentRemainingDays, int rentalDuration, double rentCost, boolean rentStatus) {
         this.vehicle = vehicle;
         this.dateRented = dateRented;
         this.rentRemainingDays = rentRemainingDays;
         this.rentalDuration = rentalDuration;
         this.rentCost = rentCost;
         this.rentStatus = rentStatus;
-//        this.isAvailable = isAvailable;
     }
 
     public VehicleManager(Vehicle vehicle, boolean isAvailable) {
@@ -28,8 +29,11 @@ public class VehicleManager{
         this.isAvailable = isAvailable;
     }
 
-    public void displayVhManagerInfo(int spacerLen){
-        if (vehicle != null) {  // Check if vehicle is not null
+
+    // --------------------------------------- Display Methods ------------------------------
+
+    public void displayVhManagerInfo(int spacerLen) {
+        if (vehicle != null) {  // Check if vehicle is not null Debugging
             String modelName = vehicle.getVehicleModel();
             String vhType = vehicle.getVehicleType();
             String rentStatus = getRentStatus() ? "Active" : "Completed";
@@ -44,86 +48,46 @@ public class VehicleManager{
                     rentalDuration,           // Rental duration (Rent Duration)
                     dateRented.trim()         // Date rented (Date Rented)
             );
-
             System.out.println();
         } else {
             System.out.println("Vehicle information is missing.");
         }
-
     }
-    public void dispVHAvailStatus(int spacerLen){
+
+    public void dispVHAvailStatus(int spacerLen) {
         if (vehicle != null) {  // Check if vehicle is not null
             String modelName = vehicle.getVehicleModel();
             String vhType = vehicle.getVehicleType();
-            String rentStatus = getRentStatus() ? "Active" : "Completed";
             String isAvailable = getIsAvailable() ? "Available" : "Not Available";
+
             System.out.printf(
                     "%-" + (spacerLen) + "s%-" + (spacerLen) + "s%-" + (spacerLen) + "s\n",
                     modelName.trim(),     // Vehicle model name (Model)
                     vhType.trim(),        // Vehicle type (Type)
-                    isAvailable.trim()     // Rent status (Vehicle Status, Active/Completed)
+                    isAvailable.trim()    // Availability status
             );
         } else {
             System.out.println("Vehicle information is missing.");
         }
-
     }
 
+
+    // --------------------------------------- Getters and Setters ------------------------------
 
     public Vehicle getVehicle() {
         return vehicle;
-    }
-
-    public String getDateRented() {
-        return dateRented;
     }
 
     public boolean getIsAvailable() {
         return isAvailable;
     }
 
-    public void setIsAvailable(boolean isAvailable){
+    public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
     public boolean getRentStatus() {
         return rentStatus;
     }
-    public void setRentStatus(boolean rentStatus){
-        this.rentStatus = rentStatus;
-    }
 
-    public int getRentRemainingDays() {
-        return rentRemainingDays;
-    }
-
-    public int getRentalDuration() {
-        return rentalDuration;
-    }
-
-    public void setDateRented(String dateRented) {
-        this.dateRented = dateRented;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-
-
-    public void setRentRemainingDays(int rentRemainingDays) {
-        this.rentRemainingDays = rentRemainingDays;
-    }
-
-    public void setRentalDuration(int rentalDuration) {
-        this.rentalDuration = rentalDuration;
-    }
-
-    public double getRentCost() {
-        return rentCost;
-    }
-
-    public void setRentCost(double rentCost){
-        this.rentCost = rentCost;
-    }
 }

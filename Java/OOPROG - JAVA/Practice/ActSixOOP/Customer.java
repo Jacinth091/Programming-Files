@@ -10,11 +10,11 @@ public class Customer {
     private String occupation;
     private String loyaltyStatus;
     private boolean hasRentedAVehicle = false;
-
     private VehicleManager[] rentHistory = new VehicleManager[vhDB.getObjectSize()*2];
     private VehicleManager[] currentRentedVehicles = new VehicleManager[vhDB.getObjectSize()];
     private int rentalDuration;
     private double totalRentalCost;
+    private double rentCost;
 
     private int currentIndex =0;
     private int currentHistoryIndex =0;
@@ -28,9 +28,9 @@ public class Customer {
 
 
     }
-    public Customer(int rentalDuration, double totalRentalCost){
+    public Customer(int rentalDuration, double rentCost){
         this.rentalDuration = rentalDuration;
-        this.totalRentalCost = totalRentalCost;
+        this.rentCost = rentCost;
     }
     public Customer(){
 
@@ -64,11 +64,9 @@ public class Customer {
             }
         }
         System.out.println("\n");
-        for(VehicleManager vhMan : vhManager){
-            if (vhMan != null) {  // Check if vhMan is not null
-                vhMan.displayVhManagerInfo(finalLen);
-            } else {
-                System.out.println("Null");
+        for(int i =0; i < vhManager.length; i++){
+            if (vhManager[i] != null) {  // Check if vhMan is not null
+                vhManager[i].displayVhManagerInfo(finalLen);
             }
         }
     }
@@ -96,9 +94,9 @@ public class Customer {
             System.out.println("Error: Attempted to add a null vehicle.");
             return;
         }
-        else{
+ /*       else{
             System.out.println("Adding vehicle to currentRentedVehicles: " + vhM.getVehicle().getVehicleModel());
-        }
+        }*/
 
         if(currentIndex == currentRentedVehicles.length ){
             System.out.println("Current Vehicle List is Full, Complete any rents to make space!");
@@ -109,15 +107,14 @@ public class Customer {
 
         }
     }
-
     public void addVehicleToHistory(VehicleManager vhM){
 
         if (vhM == null) {
             System.out.println("Error: Attempted to add a null vehicle.");
             return;
-        }else{
+        }/*else{
             System.out.println("Adding vehicle to rentHistory: " + vhM.getVehicle().getVehicleModel());
-        }
+        }*/
 
         if(currentHistoryIndex == rentHistory.length ){
             System.out.println("Current Vehicle List is Full, Complete any rents to make space!");
@@ -162,11 +159,27 @@ public class Customer {
         this.totalRentalCost = totalRentalCost;
     }
 
+    public double getRentCost() {
+        return rentCost;
+    }
+
+    public void setRentCost(double rentCost) {
+        this.rentCost = rentCost;
+    }
+
     public VehicleManager[] getRentHistory() {
         return rentHistory;
     }
 
     public VehicleManager[] getCurrentRentedVehicles() {
         return currentRentedVehicles;
+    }
+
+    public boolean isHasRentedAVehicle() {
+        return hasRentedAVehicle;
+    }
+
+    public void setHasRentedAVehicle(boolean hasRentedAVehicle) {
+        this.hasRentedAVehicle = hasRentedAVehicle;
     }
 }

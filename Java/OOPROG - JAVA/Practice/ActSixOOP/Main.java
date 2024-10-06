@@ -11,25 +11,22 @@ class Main{
     public static void main(String[] args) {
         setInstance();
         Scanner in = new Scanner(System.in);
-        String[] opt = {"View Available Vehicles", "View Your Rented Vehicles","Account Profile", "Exit Program"};
+        String[] opt = {"View Available Vehicles", "View Your Rented Vehicles", "Exit Program"};
+
+        mainLogic(in, opt);
 
 
-//        for(VehicleManager vhM : customer1.getCurrentRentedVehicles()){
-////            Vehicle vh = vhM.getVehicle();
-////            System.out.println();
-////            vh.displayInfo();
-////            System.out.println();
-//            if(vhM != null){
-//                vhM.displayVhManagerInfo(20);
-//            }
-//        }
+        in.close();
 
+    }
 
+    // ------------------------------------------------ Main Logic && Event Controller ------------------------------------------------
+    public static void mainLogic(Scanner in, String[] opt){
 
         boolean exitLoop = false;
 
         do{
-        int choice =0;
+            int choice =0;
 
             System.out.println("\nWelcome to Vehicle Renting System!!\n\n");
             dispOpts(opt,opt[opt.length-1]);
@@ -39,7 +36,12 @@ class Main{
                 in.nextLine();
                 continue;
             }
-
+            if(choice == 2){
+                if(!customer1.isHasRentedAVehicle()){
+                    System.out.println("There is no Rented Vehicles on your list.");
+                    continue;
+                }
+            }
             if(eventController(in, choice)){
                 in.nextLine();
                 continue;
@@ -53,113 +55,84 @@ class Main{
 
 
         }while(!exitLoop);
-
-
-
-
-
-
-
-
-
-
-/*        rManager.dispAvailableVehicles();
-        System.out.println("Pick a vehicle to Rent.");
-//        System.out.print("--> : ");
-        int choice = getValidatedNum(in, "-->", vhData.getAvailableVehicles().length, 1);
-
-
-        rManager.rentVehicle(customer1, rManager.searchVehicle(choice-1), 20);
-
-        rManager.dispAvailableVehicles();*/
-
-
-
-
     }
     public static boolean eventController(Scanner in, int choice){
         boolean value = false;
         boolean exitLoop = false;
-            switch(choice){
-                case 1:
-                    String[] subOptOne = {"Rent a Vehicle", "Go Back"};
-                    do{
-                        System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
-                        rManager.dispAvailableVehicles();
-                        dispOpts(subOptOne,subOptOne[subOptOne.length-1]);
-                        System.out.print("\n-->: ");
-                        choice = checkValidIn(in, "-->");
-                        if(!isInputvalid(in, subOptOne.length-1,0, choice)){
+        switch(choice){
+            case 1:
+                String[] subOptOne = {"Rent a Vehicle", "Go Back"};
+                do{
+                    System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
+                    rManager.dispAvailableVehicles(false);
+                    dispOpts(subOptOne,subOptOne[subOptOne.length-1]);
+                    System.out.print("\n-->: ");
+                    choice = checkValidIn(in, "-->");
+                    if(!isInputvalid(in, subOptOne.length-1,0, choice)){
 //                            System.out.println("Agoi");
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        if(choice == 1){
-                            userRentingVehicle(in, choice);
-                        }
+                    if(choice == 1){
+                        customer1.setHasRentedAVehicle(true);
+                        userRentingVehicle(in, choice);
+                    }
+                    System.out.println("Eyyy");
 
+                    value = true;
 
-                        value = true;
-
-                    }while(!value);
-
-
-                    break;
-
-                case 2:
-                    String[] subOptTwo = {"Check Status", "Complete Rented Vehicle", "Go Back"};
-                    do{
-                        dispOpts(subOptTwo,subOptTwo[subOptTwo.length-1]);
-                        System.out.print("\n-->: ");
-                        choice = checkValidIn(in, "-->");
-                        if(!isInputvalid(in, subOptTwo.length-1,0, choice)){
-                            System.out.println("Agoi");
-                            continue;
-
-                        }
-
-                        if(choice == 1){
-                            checkRentedStatus(customer1);
-
-                        }
-                        else if(choice == 2){
+                }while(!value);
 
 
-                        }
+                break;
 
+            case 2:
+                String[] subOptTwo = {"Check Status", "Go Back"};
+                do{
+                    System.out.printf("%-20s\n\n", "\nYour Rented Vehicle Details");
+                    viewRentedVehicles(customer1.getCurrentRentedVehicles());
 
+                    dispOpts(subOptTwo,subOptTwo[subOptTwo.length-1]);
+                    System.out.print("\n-->: ");
+                    choice = checkValidIn(in, "-->");
 
-                        value = true;
+                    if(!isInputvalid(in, subOptTwo.length-1,0, choice)){
+                        System.out.println("Agoi");
+                        continue;
 
-                    }while(!value);
+                    }
 
-                    break;
-                case 3:
+                    if(choice == 1){
+                        checkRentedStatus(customer1);
+
+                    }
+
+                    pressKeytoCont(in);
+                    value = true;
+
+                }while(!value);
+
+                break;
+    /*            case 3:
 
 
 
 
 
                     System.out.println("Accounts Profile");
-                    break;
-                case 0:
-                    System.out.println("Thank you for using the program, Goodbye!\n");
-                    System.exit(0);
-                    break;
+                    break;*/
+            case 0:
+                System.out.println("Thank you for using the program, Goodbye!\n");
+                System.exit(0);
+                break;
 
-            }
+        }
 
         return value;
     }
 
-    public static void checkRentedStatus(Customer customer){
 
-        System.out.printf("%-20s\n\n", "\nHere are your Current Rented Vehicles");
-        customer.viewVehicleStatus(customer.getCurrentRentedVehicles());
-
-    }
-
-
+    // ------------------------------------------------ Option 1 Functions ------------------------------------------------
 
     public static void userRentingVehicle(Scanner in,int choice){
         boolean exitLoop = false;
@@ -181,24 +154,27 @@ class Main{
             rManager.dispVehicleAttributes(vh);
             System.out.println("\n-------------------------------------------------------------------------\n");
 
-
+            System.out.println("\n-------------------------------------------------------------------------");
             String msg = "Press 'Y' to confirm vehicle, Press 'N' to Go Back.";
             if(askYesOrNo(in,msg)){
                 System.out.println("Pick a vehicle you want to rent.");
                 continue;
             }
+            System.out.println("-------------------------------------------------------------------------\n");
 
 
             System.out.println();
 
+            System.out.println("\n-------------------------------------------------------------------------");
             System.out.println("You have confirmed the vehicle.");
-
             userVHRentConfirmed(in, choice, vh);
 
 
-
+            System.out.println("-------------------------------------------------------------------------");
             msg = "Press 'Y' to rent other vehicles, Press 'N' to stop.";
             exitLoop = askYesOrNo(in,msg);
+            System.out.println("-------------------------------------------------------------------------\n");
+
             System.out.println();
 
         }while(!exitLoop);
@@ -212,7 +188,7 @@ class Main{
         Vehicle vh;
 
         System.out.printf("%-20s\n\n", "\nHere are the current Available Vehicles");
-        rManager.dispAvailableVehicles();
+        rManager.dispAvailableVehicles(true);
 
         System.out.println();
         choice = getValidatedNum(in, "Pick a vehicle, the details will display after.", vhData.getAvailableVehicles().length, 1);
@@ -227,14 +203,44 @@ class Main{
         System.out.println();
         choice = getValidatedNum(in, "For how many days you want to rent the vehicle? (Maximum = 30 days)", rManager.getMaxRentalDuration(), 1);
         int rentDuration = choice;
+
+
+
         rManager.rentVehicle(customer1,vh, rentDuration);
-        rManager.dispAvailableVehicles();
+        System.out.printf("%-20s\n\n", "\nHere are your Current Rented Vehicles");
+        rManager.dispAvailableVehicles(true);
+
+        rManager.dispCostAndTotal(customer1.getLoyaltyStatus(), vh.getVehicleType(), vh.getVehicleModel());
+
         System.out.println();
     }
 
 
+    // ------------------------------------------------ Option 2 Functions ------------------------------------------------
+    public static void viewRentedVehicles(VehicleManager[] vhMan){
+        for(VehicleManager vhM : vhMan){
+            if(vhM != null && vhM.getVehicle() != null){
+                System.out.println("\n-------------------------------------------------------------------------");
+                rManager.dispVehicleAttributes(vhM.getVehicle());
+                System.out.println("-------------------------------------------------------------------------\n");
+            }
+        }
+
+    }
+    public static void checkRentedStatus(Customer customer){
+
+        System.out.printf("%-20s\n\n", "\nHere are your Current Rented Vehicles");
+        customer.viewVehicleStatus(customer.getCurrentRentedVehicles());
+
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("Total Rent cost for all rented vehicles : $%.2f\n", customer.getTotalRentalCost());
+        System.out.println("-------------------------------------------------------------------------\n");
 
 
+    }
+
+
+    // ------------------------------------------------ Display / View ------------------------------------------------
 
     public static void dispOpts(String[] array, String exitKey){
 
@@ -251,6 +257,15 @@ class Main{
         }
     }
 
+
+    // ------------------------------------------------ get && set ------------------------------------------------
+
+    public static void setInstance(){
+        vhData = VehicleData.getInstance();
+        // Test
+//        vhData.echo();
+
+    }
     public static int getValidatedNum(Scanner in,String msg, int max, int min){
         int choice =0;
         do {
@@ -272,8 +287,13 @@ class Main{
 
     }
 
-    public static boolean checkInputRange(int num, int max, int min){
-        return num >= min && num <= max;
+
+
+    // ------------------------------------------------ User Input ------------------------------------------------
+    public static void pressKeytoCont(Scanner in){
+        System.out.println("Press any key to continue...");
+        in.nextLine();
+
     }
 
     public static boolean isInputvalid(Scanner in, int size, int min, int choice){
@@ -320,15 +340,9 @@ class Main{
         return value;
 
     }
-
-    public static void setInstance(){
-        vhData = VehicleData.getInstance();
-        // Test
-//        vhData.echo();
-
+    public static boolean checkInputRange(int num, int max, int min){
+        return num >= min && num <= max;
     }
-
-
 
 
 }

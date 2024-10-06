@@ -38,7 +38,7 @@ public class VehicleManager{
                     "%-" + (spacerLen) + "s%-" + (spacerLen) + "s%-" + (spacerLen) + ".2f%-" + (spacerLen) + "s%-" + (spacerLen) + "d%-" + (spacerLen) + "d%-" + (spacerLen) + "s\n",
                     modelName.trim(),         // Vehicle model name (Model)
                     vhType.trim(),            // Vehicle type (Type)
-                    rentCost,                // Total cost (Rent Cost, formatted to 2 decimal places)
+                    rentCost,                // Total cost (Rent Cost,  2 decimal places)
                     rentStatus,               // Rent status (Active/Completed)
                     rentRemainingDays,        // Remaining days (Remaining Days)
                     rentalDuration,           // Rental duration (Rent Duration)
@@ -51,7 +51,23 @@ public class VehicleManager{
         }
 
     }
+    public void dispVHAvailStatus(int spacerLen){
+        if (vehicle != null) {  // Check if vehicle is not null
+            String modelName = vehicle.getVehicleModel();
+            String vhType = vehicle.getVehicleType();
+            String rentStatus = getRentStatus() ? "Active" : "Completed";
+            String isAvailable = getIsAvailable() ? "Available" : "Not Available";
+            System.out.printf(
+                    "%-" + (spacerLen) + "s%-" + (spacerLen) + "s%-" + (spacerLen) + "s\n",
+                    modelName.trim(),     // Vehicle model name (Model)
+                    vhType.trim(),        // Vehicle type (Type)
+                    isAvailable.trim()     // Rent status (Vehicle Status, Active/Completed)
+            );
+        } else {
+            System.out.println("Vehicle information is missing.");
+        }
 
+    }
 
 
     public Vehicle getVehicle() {

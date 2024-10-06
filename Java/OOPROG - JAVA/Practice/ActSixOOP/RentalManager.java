@@ -12,10 +12,8 @@ public class RentalManager {
 
     private int maxRentalDuration = 30;  // in days
     private double discountRate = 0.1; // will be adjusted according to Customer's loyaltyStatus
-    private double totalRevenue = 0.0;
     private double totalCost = 0.0;
     private double totalRentCost = 0.0;
-    private double rentalRate = 10.0;
 
 
 
@@ -27,33 +25,45 @@ public class RentalManager {
 
     }
 
-    public void dispAvailableVehicles(){
+    public void dispAvailableVehicles(boolean flag){
 
         int spacerLen = vhDB.getStrLen(vhDB.getAvailableVehicles());
-        System.out.printf("%-" +(spacerLen - 5)+"s", "No.");
+        int headerSpacer = vhDB.getStrLen(vhDB.getVehicleStatusTitles());
+        int finalLen = spacerLen > headerSpacer ? spacerLen : headerSpacer;
+        finalLen += 5;
+
+        if(flag){
+            System.out.printf("%-" +(spacerLen-5)+"s", "No.");
+        }
+
         for(String title : vhDB.getVehicleStatusTitles()){
             if(title.equals("Model")){
-                System.out.printf("%-" +(spacerLen + 5)+"s", title);
+                System.out.printf("%-" +(finalLen)+"s", title);
 
             }
             else{
-                System.out.printf("%-" +(spacerLen)+"s", title);
+                System.out.printf("%-" +(finalLen)+"s", title);
 
             }
         }
 
         System.out.println("\n");
         int index =0;
-        for(VehicleManager vhMan : vhDB.getAvailableVehicles()){
-            Vehicle vh = vhMan.getVehicle();
-            String modelName = vh.getVehicleModel();
-            String vhType = vh.getVehicleType();
-            String isAvailable = vhMan.getIsAvailable() ? "Available" : "Not Available";
-
-
-            System.out.printf("%-"+(spacerLen -5)+"d%-" +(spacerLen + 5)+"s%-" +(spacerLen)+ "s%-" +(spacerLen)+ "s",index+1, modelName.trim(), vhType.trim(), isAvailable.trim());
-            System.out.println();
-            index++;
+        for(int i =0; i < vhDB.getAvailableVehicles().length; i++){
+            VehicleManager[] vhMan = vhDB.getAvailableVehicles();
+            if(flag){
+                System.out.printf("%-"+(spacerLen-5)+"d", i+1);
+            }
+            vhMan[i].dispVHAvailStatus(finalLen);
+//            Vehicle vh = vhMan.getVehicle();
+//            String modelName = vh.getVehicleModel();
+//            String vhType = vh.getVehicleType();
+//            String isAvailable = vhMan.getIsAvailable() ? "Available" : "Not Available";
+//
+//
+//            System.out.printf((spacerLen + 5)+"s%-" +(spacerLen)+ "s%-" +(spacerLen)+ "s", modelName.trim(), vhType.trim(), isAvailable.trim());
+//            System.out.println();
+////            index++;
 
         }
 
@@ -107,16 +117,12 @@ public class RentalManager {
                 if(vh != null && vh.equals(vehicle)){
 //                    System.out.println("Entered!");
 
-                    //TODO: create a function in calculating total cost of the rented vehicle with right discount and right classifictaions
-
+//                  TODO: create a function in calculating total cost of the rented vehicle with right discount and right classifictaions
                     totalCost = calculateTotalRentCost(customer.getLoyaltyStatus(), vh.getVehicleType(), days, discountRate);
                     vhMan = setAttributes(vhMan, vh, i, days, totalCost);
-
-                    System.out.printf("Total Cost for %s -> %s: $%.2f\n",vh.getVehicleType(),vh.getVehicleModel(), totalCost);
                     totalRentCost += totalCost;
-                    System.out.printf("Your total Rent Cost: $%.2f\n", totalRentCost);
-
-                    customer = setCustomerSideAttributes(customer, vhMan, days, totalRentCost);
+                    customer = setCustomerSideAttributes(customer, vhMan, days, totalCost, totalRentCost);
+//                    System.out.println("Total Rental Cost: " + customer.getTotalRentalCost());
 
 
                 }
@@ -127,7 +133,18 @@ public class RentalManager {
         }
 
     }
+    public void dispCostAndTotal(String lStatus, String vhType, String vhModel){
 
+        System.out.println("\n-------------------------------------------------------------------------");
+        System.out.println("Loyalty Status: " + lStatus+ ".");
+        System.out.println("Vehicle Type: " + vhType + ".");
+        System.out.println("-------------------------------------------------------------------------");
+
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("Total Cost for %s -> %s: $%.2f\n",vhType,vhModel, totalCost);
+        System.out.printf("Your total Rent Cost: $%.2f\n", totalRentCost);
+        System.out.println("-------------------------------------------------------------------------\n");
+    }
     public double calculateTotalRentCost(String loyaltyStatus, String vhType, int days, double discountRate){
         // loyalty status indicates the right discounted amount to the total cost,
         // Loyalty Status = Bronze, Silver, Gold, Platinum, Diamond
@@ -147,8 +164,6 @@ public class RentalManager {
         int baseRate = 0;
         double totalCost = 0.0;
         final double taxPercentage = 0.12;
-        System.out.println("\nLoyalty Status: " + loyaltyStatus + ".");
-        System.out.println("Vehicle Type: " + vhType + ".\n");
 
         discountRate = getCustomerDiscount(loyaltyStatus);
         baseRate = vhDB.getVhBaseRate(vhType);
@@ -188,13 +203,12 @@ public class RentalManager {
         return discount;
     }
 
-    public Customer setCustomerSideAttributes(Customer customer, VehicleManager vhMan, int days, double totalRentCost){
+    public Customer setCustomerSideAttributes(Customer customer, VehicleManager vhMan, int days, double rentCost, double totalRentCost){
         // Putting the vhManager to the customer side list of current Rented Vehicles and rent History;
         customer.addVehicle(vhMan);
         customer.addVehicleToHistory(vhMan);
-
-
-        return new Customer(days, totalRentCost);
+        customer.setTotalRentalCost(totalRentCost);
+            return new Customer(days, rentCost);
     }
 
 
@@ -208,7 +222,7 @@ public class RentalManager {
         vhDB.getRentedVehicles()[i] = vhMan;
         vhMan.setIsAvailable(false);
 
-        return new VehicleManager(vh, yyddmm, remainingDays, days,rentCost, true);
+        return new VehicleManager(vh, yyddmm, remainingDays, days, rentCost, true);
     }
 
     public Vehicle searchVehicle(int index){
@@ -236,15 +250,9 @@ public class RentalManager {
         return discountRate;
     }
 
-    public double getTotalRevenue() {
-        return totalRevenue;
-    }
 
     public double getTotalCost() {
         return totalCost;
     }
 
-    public double getRentalRate() {
-        return rentalRate;
-    }
 }

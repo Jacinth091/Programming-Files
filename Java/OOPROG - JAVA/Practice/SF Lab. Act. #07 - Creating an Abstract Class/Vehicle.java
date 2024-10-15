@@ -5,10 +5,8 @@ public abstract class Vehicle{
    protected int price;
   
    
-   // public abstract void display(); 
-   
+   // public abstract void display();
    public Vehicle(String powerSource, int wheels){
-      
       setPowerSource(powerSource);
       setWheels(wheels);
       setPrice();

@@ -9,24 +9,6 @@ import javax.swing.JOptionPane;
 
 public class Main{
    public static void main(String[] args){
-
-//     Vehicle vh = new SailBoat();
-//     JOptionPane.showMessageDialog(null, vh.toString());
-//     
-//        
-//     Vehicle vh2 = new Bicycle();
-//     JOptionPane.showMessageDialog(null, vh2.toString());
-//
-//
-//      SailBoat aBoat = new SailBoat();
-//      Bicycle aBike = new Bicycle();
-//
-//
-//      JOptionPane.showMessageDialog(null, "\nVehicle Descriptions:\n" +
-//                                           aBoat.toString() + "\n" + aBike.toString());
-
-
-
       Vehicle[] vhs = {
               new Sailboat(),
               new Bicycle()
@@ -46,8 +28,6 @@ public class Main{
 
       JOptionPane.showMessageDialog(null, "\nVehicle Descriptions:\n" +
                                            sb);
-
-   
    }
    
 

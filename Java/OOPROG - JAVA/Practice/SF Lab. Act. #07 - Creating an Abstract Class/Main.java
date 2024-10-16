@@ -20,10 +20,10 @@ public class Main{
          sb.append(vh.toString() + "\n");
       }*/
 
-      String sb = " ";
+      String sb = "";
 
       for(Vehicle vh : vhs){
-         sb = sb + (vh.toString() + "\n");
+         sb += (vh.toString() + "\n");
       }
 
       JOptionPane.showMessageDialog(null, "\nVehicle Descriptions:\n" +

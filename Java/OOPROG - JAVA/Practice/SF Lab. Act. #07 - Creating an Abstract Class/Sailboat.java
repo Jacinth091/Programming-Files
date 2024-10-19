@@ -22,7 +22,6 @@ public class Sailboat extends Vehicle{
   
    @Override
    public void setPrice(){
-      String input;
       final int MAX = 100000;
 //       
 //       input = JOptionPane.showInputDialog(null, "Enter sailboat price: ");

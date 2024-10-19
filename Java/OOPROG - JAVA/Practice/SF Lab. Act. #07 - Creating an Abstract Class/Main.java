@@ -81,7 +81,7 @@ public class Main{
          sb.append(vh.toString() + "\n");
       }
 
-      JOptionPane.showMessageDialog(null, "Vehicle Descriptions:\n" + sb, "Vehicle Rental Program v.1", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(null, "Vehicle Descriptions:\n" + sb, "Vehicle Information System v1.0", JOptionPane.INFORMATION_MESSAGE);
 
    }
 }

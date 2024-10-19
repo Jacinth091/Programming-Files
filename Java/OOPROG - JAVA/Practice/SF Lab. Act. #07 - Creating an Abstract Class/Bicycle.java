@@ -24,7 +24,8 @@ public class Bicycle extends Vehicle{
               getPowerSource() + " it has " +
               getWheels() + " wheels and costs $" +
               getPrice();
-      String varIsZero =  "The user didn't want to buy a Bicycle";
+      String varIsZero =  "The user didn't provide enough information for the Bicycle";
+
 
 
       return (price == 0) ? varIsZero : notZero;

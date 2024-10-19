@@ -41,10 +41,11 @@ public class Sailboat extends Vehicle{
               getPowerSource() + " it has " +
               getWheels() + " wheels and costs $" +
               getPrice();
-      String varIsZero =  "The user didn't want to buy a Sailboat";
+      String varIsZero =  "The user didn't provide enough information for the Sailboat";
 
 
-      return (length ==0 || price ==0) ? varIsZero : notZero;
+
+       return (length ==0 || price ==0) ? varIsZero : notZero;
    
    }
 

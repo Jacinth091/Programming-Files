@@ -16,7 +16,6 @@ public class Bicycle extends Vehicle{
 //       price = Integer.parseInt(input);
       
       price = getValidInput("Enter bicycle price: ", "Invalid input for price!", "Input Bicycle Price");
-      
       if(price > MAX){
          price = MAX;
       }   
@@ -28,10 +27,10 @@ public class Bicycle extends Vehicle{
               getPowerSource() + " it has " +
               getWheels() + " wheels and costs $" +
               getPrice();
-      String varIsZero =  "The user didn't want to buy a Bicycle\n";
+      String varIsZero =  "The user didn't want to buy a Bicycle";
 
 
-      return (price ==0) ? varIsZero : notZero;
+      return (price == 0) ? varIsZero : notZero;
 
    }
 
@@ -40,8 +39,6 @@ public class Bicycle extends Vehicle{
 
       while(true){
          String input = JOptionPane.showInputDialog(null, showMsg, paneTitle, JOptionPane.QUESTION_MESSAGE);
-
-
          if(input == null){
             JOptionPane.showMessageDialog(null, "Option Pane Exited", "Warning", JOptionPane.WARNING_MESSAGE);
             break;
@@ -51,8 +48,6 @@ public class Bicycle extends Vehicle{
             JOptionPane.showMessageDialog(null, "Input a number to continue!", "Warning", JOptionPane.WARNING_MESSAGE);
             continue;
          }
-
-
 
          try{
             temp = Integer.parseInt(input);

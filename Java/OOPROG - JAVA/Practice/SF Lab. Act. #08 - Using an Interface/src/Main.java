@@ -79,7 +79,7 @@ public class Main{
       StringBuilder sb = new StringBuilder();
 
       for(Vehicle vh : vhs){
-         sb.append(vh.toString() + "\n");
+         sb.append(vh.toString()).append("\n");
       }
 
       JOptionPane.showMessageDialog(null, "Vehicle Descriptions:\n" + sb, "Vehicle Information System v1.1", JOptionPane.INFORMATION_MESSAGE);

@@ -1,11 +1,11 @@
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
-public class InsuredCar extends Vehicle implements Insured{
+public class InsuredBicycle extends Vehicle implements Insured{
 
     private int coverage;
 
-    public InsuredCar(){
-        super("gas", 4);
+    public InsuredBicycle(){
+        super("a person", 2);
         setCoverage();
     }
     public int getValidInput(String showMsg, String showAlert, String paneTitle){
@@ -56,9 +56,9 @@ public class InsuredCar extends Vehicle implements Insured{
     @Override
     public void setPrice() {
         final int MAX = 60000;
-        price = getValidInput("Enter car price: ",
-                "Invalid input for car!",
-                "Input Car Price");
+        price = getValidInput("Enter Bicycle price: ",
+                "Invalid input for Bicycle!",
+                "Input Bicycle Price");
 
         if(price > MAX){
             price = MAX;
@@ -68,12 +68,12 @@ public class InsuredCar extends Vehicle implements Insured{
 
     @Override
     public String toString(){
-        String notZero = "The Insured Car is powered by " +
+        String notZero = "The Insured Bicycle is powered by " +
                 getPowerSource() + " it has " +
                 getWheels() + " wheels, costs $" +
                 getPrice()
                 + " and is insured for $" + getCoverage();
-        String varIsZero =  "The user didn't provide enough information for the Car";
+        String varIsZero =  "The user didn't provide enough information for the Bicycle";
 
 
         return (price == 0) ? varIsZero : notZero;

@@ -1,15 +1,15 @@
 /*
    Name: Barral, Jacinth Cedric C.
    Date: October 19, 2024
-   Description: SF Lab. Act. #08 - Creating an Interface
+   Description: SF Lab. Act. #07 - Creating an Abstract Class
 
 */
 import javax.swing.JOptionPane;
 
-public class Main{
+public class DemoVehicles{
    public static void main(String[] args){
 
-      displayHeader("Creating an Interface", "Barral, Jacinth Cedric C.", "SF Lab. Act. #08", 73);
+      displayHeader("Creating an Abstract Class", "Barral, Jacinth Cedric C.", "SF Lab. Act. #07", 73);
 
       // Event Controller (Switch)
       // getAndSetVehicleDetails function (book activity)
@@ -18,9 +18,32 @@ public class Main{
    }
 
    public static void mainLogic(){
-      String msg = "Press \"Yes\" to Proceed, \"No\" to Exit program";
+
+      int code =0;
+      String msg   = "Press \"Yes\" to Proceed, \"No\" to Exit program";
       int actionFlag = JOptionPane.showConfirmDialog(null, msg, "Confirm Action", JOptionPane.YES_NO_OPTION);
 
+
+      do{
+         code = eventCont(actionFlag);
+         if(code ==0){
+            getAndSetVehicleDetails();
+         }
+
+
+         msg = "Press \"Yes\" to Restart, \"No\" to Exit program";
+         actionFlag = JOptionPane.showConfirmDialog(null, msg, "Confirm Action", JOptionPane.YES_NO_OPTION);
+         code = eventCont(actionFlag);
+
+      }while(code == JOptionPane.YES_OPTION);
+
+      msg = "Thank you for using the program :D!";
+      JOptionPane.showMessageDialog(null, msg, "Thank You <3", JOptionPane.INFORMATION_MESSAGE);
+   }
+
+   public static int eventCont(int actionFlag){
+      String msg = "";
+      int code =0;
       switch (actionFlag){
          case -1:
          case 1: // No
@@ -29,15 +52,15 @@ public class Main{
             System.exit(0);
             break;
          case 0: // Yes
-            getAndSetVehicleDetails();
-            msg = "Thank you for using the program :D!";
-            JOptionPane.showMessageDialog(null, msg, "Thank You <3", JOptionPane.INFORMATION_MESSAGE);
+            code =0;
             break;
          default:
             System.out.println("Error!?");
             break;
       }
+      return code;
    }
+
    public static String centerText(String text, int headerLineLen){
       int padding = (headerLineLen - text.length()) / 2;
       StringBuilder sb = new StringBuilder();
@@ -71,18 +94,16 @@ public class Main{
 
    public static void getAndSetVehicleDetails(){
       Vehicle[] vhs = {
-              new InsuredCar(),
               new Sailboat(),
               new Bicycle()
       };
 
       StringBuilder sb = new StringBuilder();
-
       for(Vehicle vh : vhs){
-         sb.append(vh.toString()).append("\n");
+         sb.append(vh.toString() + "\n");
       }
 
-      JOptionPane.showMessageDialog(null, "Vehicle Descriptions:\n" + sb, "Vehicle Information System v1.1", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(null, "Vehicle Descriptions:\n" + sb, "Vehicle Information System v1.0", JOptionPane.INFORMATION_MESSAGE);
 
    }
 }

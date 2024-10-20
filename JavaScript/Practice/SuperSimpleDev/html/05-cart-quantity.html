@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Quantity</title>
+</head>
+<body>
+    <h1>Cart Quantity : <span id="number"></span></h1>
+    <button onclick="showQuantity()">Show Quantity</button>
+    <button onclick="addToCart()">Add to Cart</button>
+    <button onclick="addTwo()">+ 2</button>
+    <button onclick="addThree()">+ 3</button>
+    <button onclick="resetCart()">Reset Cart</button>
+
+
+    <script>
+     let cartQuantity = 0;
+     
+     function showQuantity() {
+        console.log(`Cart Quantity: ${cartQuantity}`);
+        document.getElementById('number').innerHTML = cartQuantity;
+     }
+     function addToCart() {
+        cartQuantity++;
+        console.log(`Added to Cart: ${cartQuantity} item(s)`);
+        document.getElementById('number').innerHTML = cartQuantity;
+     }
+     function addTwo() {
+        cartQuantity+=2;
+        console.log(`Added to Cart: ${cartQuantity} item(s)`);
+        document.getElementById('number').innerHTML = cartQuantity;
+     }
+     function addThree() {
+        cartQuantity+=3;
+        console.log(`Added to Cart: ${cartQuantity} item(s)`);
+        document.getElementById('number').innerHTML = cartQuantity;
+     }
+     function resetCart() {
+        cartQuantity = 0;
+        console.log(`Cart has been reset: ${cartQuantity} item(s)`);
+        document.getElementById('number').innerHTML = cartQuantity;
+     }
+    </script>
+</body>
+</html>

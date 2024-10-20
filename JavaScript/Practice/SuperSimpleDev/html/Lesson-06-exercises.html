@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lesson - 6 Exercises</title>
+    </head>
+    <body>
+        
+
+
+        <script>
+           /* //6a, 6b & 6c - Exercises
+
+            let hour = 9;
+            let name = 'Jacinth';
+
+            if (hour >= 6 && hour <= 12) {
+                document.write(`Good Morning ${name}!`);
+            }
+            else if ( hour >= 13 && hour <= 17) {
+                document.write(`Good Afternoon ${name}! `);
+            }
+            else {
+                document.write(`Good Night ${name}!`);
+            }*/
+
+            // 6d & 6e - Exercise
+            /*
+            let age = 65;
+            const isHoliday = false;
+
+            if (age <= 6 || age >= 65 && (!isHoliday) ) {
+                document.write("\nYou can have a Discount!");
+            }
+            else {
+                document.write("\nSorry, you can't have a discount");
+            }*/
+
+            // COIN FLIP
+
+        </script>
+        
+        <div class="coin-flip">
+            <div class="button">
+                <label for="'button">Press the Button!</label>
+                <button id="button" onclick=" 
+                    const flipChance = Math.random();
+                    let flipResult = '';
+
+                    if (flipChance === 0 || flipChance <= 0.5 ) {
+                        flipResult = 'Heads';
+                        alert(`You flipped ${flipResult}!`);
+                        console.log(flipChance, flipResult);
+                    }
+                    else if (flipChance >= 0.6 || flipChance <= 1) {
+                        flipResult = 'Tails';
+                        alert(`You flipped ${flipResult}!`);
+                        console.log(flipChance,flipResult);
+                    }
+                    
+                    
+                    
+                    ">Flip the Coin</button>
+                <h1 id="display">
+                    
+                </h1>
+            </div>
+        </div>
+
+    </body>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .coin-flip {
+            margin: auto;
+            border-radius: 10px;
+            width: 200px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            
+
+        }
+        .button label {
+            font-size: 30px;
+            font-weight: 700;
+
+        }
+        button {
+            padding: 20px 30px;
+            border: none;
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: 2px 5px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+
+
+
+        }
+        button:active {
+            position: relative;
+            top: 5px;
+            left: 2px;
+            box-shadow: none;
+
+        }
+    </style>
+</html>

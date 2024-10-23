@@ -9,13 +9,13 @@ import java.awt.*;
 public class MainPanel extends JPanel implements Runnable{
 
     final int origTileSize = 16; // 16x16 tile
-    final int scale =3;
+    final int scale =2;
 
     final public int tileSize = origTileSize * scale; // 48x48 tile size displayed on screen
 
     // 4 x 3 screen size
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
+    public final int maxScreenCol = 20;
+    public final int maxScreenRow = 10;
 
 
     // Screen Width and Height Settings

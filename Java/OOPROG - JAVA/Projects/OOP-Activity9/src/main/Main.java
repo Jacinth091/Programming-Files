@@ -1,30 +1,63 @@
 package main;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 
 public class Main {
 
 
     public static void main(String[ ]args){
-        JFrame app = new JFrame();
+/*        JFrame app = new JFrame();
 
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        app.setResizable(false);
+        app.setResizable(true);
         app.setTitle("Activity 9???");
+        app.setPreferredSize(new Dimension(500,500));
 
         MainPanel mainPanel = new MainPanel();
-        app.add(mainPanel);
+        JPanel jp = new JPanel();
+        jp.setPreferredSize(new Dimension(150,150));
+
+
+
+        jp.add(mainPanel);
+        app.add(jp);
         app.pack();
 
 
         app.setLocationRelativeTo(null);
         app.setVisible(true);
 
-        mainPanel.startThread();
+        mainPanel.startThread();*/
 
+        JFrame app = new MainFrame();
+        MainPanel mp = new MainPanel();
+        JPanel panel = new JPanel();
+
+        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        app.setResizable(true);
+        app.setTitle("Activity 9???");
+        app.setPreferredSize(new Dimension(mp.screenWidth,mp.screenHeight + (mp.screenHeight /2)));
+
+
+        System.out.println(mp.screenHeight);
+        System.out.println(mp.screenWidth);
+        panel.setPreferredSize(new Dimension(150,150));
+        panel.add(mp);
+
+        app.add(panel);
+        app.pack();
+
+
+        app.setLocationRelativeTo(null);
+        app.setVisible(true);
+
+        mp.startThread();
 
 
     }
+
+
 
 }

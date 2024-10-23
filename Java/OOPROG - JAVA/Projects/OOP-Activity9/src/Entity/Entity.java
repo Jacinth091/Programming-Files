@@ -2,7 +2,7 @@ package Entity;
 
 import java.awt.image.BufferedImage;
 
-public class Entity {
+public abstract class Entity {
 
     protected int worldXPos;
     protected int worldYPos;

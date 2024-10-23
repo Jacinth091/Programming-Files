@@ -32,8 +32,8 @@ public class Player extends Entity{
 
 
     public void setPlayerDefaults(){
-        worldXPos = 100;
-        worldYPos = 100;
+        worldXPos = (mp.screenWidth/ 2) - (mp.tileSize/2);
+        worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) + (mp.screenHeight / 3);
         walkSpd = 5;
         runSpd =0;
         direction = "up";
@@ -65,6 +65,38 @@ public class Player extends Entity{
 
         return  sprite;
     }*/
+
+    public boolean checkBorder(){
+        boolean isPlayerInside = true;
+
+        // Check if the player is outside the right or left boundary
+        if(worldXPos >= mp.screenWidth){
+            System.out.println("You are out of the border! x axis");
+            worldXPos = mp.screenWidth - 1; // Prevent player from moving out on the right
+            isPlayerInside = false;
+        }
+        else if(worldXPos <= 0){
+            System.out.println("You are out of the border! x axis");
+            worldXPos = 1; // Prevent player from moving out on the left
+            isPlayerInside = false;
+        }
+
+        // Check if the player is outside the bottom or top boundary
+        if(worldYPos >= mp.screenHeight){
+            System.out.println("You are out of the border! y axis");
+            worldYPos = mp.screenHeight - 1; // Prevent player from moving out on the bottom
+            isPlayerInside = false;
+        }
+        else if(worldYPos <= 0){
+            System.out.println("You are out of the border! y axis");
+            worldYPos = 1; // Prevent player from moving out on the top
+            isPlayerInside = false;
+        }
+
+        return isPlayerInside;
+    }
+
+
 
     public void getPlayerSprites(){
 
@@ -155,8 +187,7 @@ public class Player extends Entity{
 
     public void update(){
         if(isKeyPressed()){
-
-            playerMove();
+                playerMove();
 //            System.out.println("Player x: " + worldXPos);
 //            System.out.println("Player x: " + worldYPos);
 

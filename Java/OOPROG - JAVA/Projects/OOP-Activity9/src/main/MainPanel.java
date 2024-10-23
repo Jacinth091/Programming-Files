@@ -1,15 +1,26 @@
 package main;
 
+import Entity.Player;
+import Events.KeyInput;
+
 import javax.swing.JPanel;
 import java.awt.*;
 
 public class MainPanel extends JPanel implements Runnable{
 
-    public int orgTileSize = 16;
-    public final int tileSize = orgTileSize * 2;
+    final int origTileSize = 16; // 16x16 tile
+    final int scale =3;
 
-    public final int screenWidth = tileSize * 20;
-    public final int screenHeight = tileSize *10;
+    final public int tileSize = origTileSize * scale; // 48x48 tile size displayed on screen
+
+    // 4 x 3 screen size
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+
+
+    // Screen Width and Height Settings
+    public final int screenWidth = tileSize * maxScreenCol; // 48 * 16 = 768 screen width
+    public final int screenHeight = tileSize * maxScreenRow; // 48 * 12 = 576 screen height
 
     private Thread mainThread;
 
@@ -17,18 +28,22 @@ public class MainPanel extends JPanel implements Runnable{
 
     private int FPS = 30;
 
+    private KeyInput kPut = new KeyInput();
+    private Player player = new Player(kPut, this);
+
+
     public MainPanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
-//        this.addKeyListener(keyH);
+        this.addKeyListener(kPut);
         this.setFocusable(true);
     }
 
 
     @Override
     public void run() {
-//        deltaTimeFPS();
+        deltaTimeFPS();
     }
 
     public void startThread(){
@@ -38,18 +53,21 @@ public class MainPanel extends JPanel implements Runnable{
 
 
     public void update(){
+        player.update();
+//        System.out.println("Player x: " + player.worldXPos);
+//        System.out.println("Player y: " + player.worldYPos);
 
     }
+
+
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-//        g2.drawImage(null, 0, 0 ,tileSize, tileSize, null);
-        g2.setColor(Color.white);
-        g2.setBackground(Color.white);
-//        g2.fill(100, 100, tileSize, tileSize);
-        g2.fillRect(100, 100, tileSize, tileSize);
+
+
+        player.draw(g2);
 
 
         g2.dispose();

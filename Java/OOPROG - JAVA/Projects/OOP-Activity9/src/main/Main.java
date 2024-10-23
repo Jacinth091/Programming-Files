@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.JFrame;
 
+
 public class Main {
 
 
@@ -21,6 +22,7 @@ public class Main {
         app.setVisible(true);
 
         mainPanel.startThread();
+
 
 
     }

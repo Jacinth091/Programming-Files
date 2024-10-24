@@ -8,29 +8,6 @@ public class Main {
 
 
     public static void main(String[ ]args){
-/*        JFrame app = new JFrame();
-
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        app.setResizable(true);
-        app.setTitle("Activity 9???");
-        app.setPreferredSize(new Dimension(500,500));
-
-        MainPanel mainPanel = new MainPanel();
-        JPanel jp = new JPanel();
-        jp.setPreferredSize(new Dimension(150,150));
-
-
-
-        jp.add(mainPanel);
-        app.add(jp);
-        app.pack();
-
-
-        app.setLocationRelativeTo(null);
-        app.setVisible(true);
-
-        mainPanel.startThread();*/
-
         JFrame app = new MainFrame();
         MainPanel mp = new MainPanel();
         JPanel panel = new JPanel();

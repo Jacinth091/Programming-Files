@@ -4,6 +4,6 @@ public interface CollisionCheck {
 
     void objectEntered();
 
-
+    void checkOutOfBounds();
 
 }

@@ -1,5 +1,6 @@
 package Entity;
 import Events.KeyInput;
+import Events.MouseInput;
 import main.MainPanel;
 
 import javax.imageio.ImageIO;
@@ -8,39 +9,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Player extends Entity{
+public class Student extends Entity{
 
-
-    protected KeyInput kPut;
-    protected MainPanel mp;
     private int animSpeed = 12;
 
     private final String ws_Res = " ";
 
-//
-//    public int screenPosX;
-//    public int screenPosX;
 
-    public Player(KeyInput kPut, MainPanel mp){
-
-        this.kPut = kPut;
-        this.mp = mp;
-
-
-        setPlayerDefaults();
+    public Student(MainPanel mp, MouseInput mI, KeyInput kI){
+        super(mp, mI, kI);
+        setDefaults();
     }
 
-
-    public void setPlayerDefaults(){
-        worldXPos = (mp.screenWidth/ 2) - (mp.tileSize/2);
-        worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) + (mp.screenHeight / 3);
-        plyVelocity = 10;
-        runSpd =0;
-        direction = "up";
-        dirX =0;
-        dirY = 0;
-
-    }
 
 /*    public BufferedImage playerSprite(){
 
@@ -68,7 +48,6 @@ public class Player extends Entity{
         return  sprite;
     }*/
 
-
     public void update(){
         if(isKeyPressed()){
             entityMove();
@@ -89,9 +68,20 @@ public class Player extends Entity{
     }
 
 
+    public void setDefaults(){
+        worldXPos = (mp.screenWidth/ 2) - (mp.tileSize/2);
+        worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) + (mp.screenHeight / 3);
+        velocity = 10;
+        runSpd =0;
+        direction = "up";
+        dirX =0;
+        dirY = 0;
+
+    }
+
     @Override
     public void getCoordinates(){
-        System.out.println("X: " + worldXPos + " Ydsds: " + worldYPos);
+        System.out.println("X: " + worldXPos + " Y: " + worldYPos);
         System.out.println();
     }
 
@@ -152,30 +142,30 @@ public class Player extends Entity{
 
     @Override
     public void entityMove(){
-        if(kPut.upPressed){
+        if(kI.upPressed){
             direction = "up";
             dirY = -1;
-            worldYPos -= plyVelocity;
+            worldYPos -= velocity;
 //            System.out.println("UP");
         }
-        else if(kPut.leftPressed){
+        else if(kI.leftPressed){
             direction = "left";
             dirX = -1;
-            worldXPos -= plyVelocity;
+            worldXPos -= velocity;
 //            System.out.println("left");
 
         }
-        else if(kPut.downPressed){
+        else if(kI.downPressed){
             direction = "down";
-            worldYPos += plyVelocity;
+            worldYPos += velocity;
             dirY = 1;
 //            System.out.println("down");
 
         }
-        else if(kPut.rightPressed){
+        else if(kI.rightPressed){
             direction = "right";
             dirX = 1;
-            worldXPos += plyVelocity;
+            worldXPos += velocity;
 //            System.out.println("right");
 
         }
@@ -185,7 +175,7 @@ public class Player extends Entity{
 
 
     public boolean isKeyPressed(){
-        return kPut.upPressed || kPut.leftPressed || kPut.rightPressed || kPut.downPressed;
+        return kI.upPressed || kI.leftPressed || kI.rightPressed || kI.downPressed;
     }
 
 

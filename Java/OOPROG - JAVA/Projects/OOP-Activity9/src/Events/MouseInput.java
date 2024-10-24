@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 public class MouseInput implements MouseListener {
 
+    protected int mouseX, mouseY;
 
 
 

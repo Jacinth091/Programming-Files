@@ -34,9 +34,11 @@ public class Player extends Entity{
     public void setPlayerDefaults(){
         worldXPos = (mp.screenWidth/ 2) - (mp.tileSize/2);
         worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) + (mp.screenHeight / 3);
-        walkSpd = 5;
+        plyVelocity = 10;
         runSpd =0;
         direction = "up";
+        dirX =0;
+        dirY = 0;
 
     }
 
@@ -66,39 +68,55 @@ public class Player extends Entity{
         return  sprite;
     }*/
 
-    public boolean checkBorder(){
-        boolean isPlayerInside = true;
 
-        // Check if the player is outside the right or left boundary
-        if(worldXPos >= mp.screenWidth){
-            System.out.println("You are out of the border! x axis");
-            worldXPos = mp.screenWidth - 1; // Prevent player from moving out on the right
-            isPlayerInside = false;
-        }
-        else if(worldXPos <= 0){
-            System.out.println("You are out of the border! x axis");
-            worldXPos = 1; // Prevent player from moving out on the left
-            isPlayerInside = false;
-        }
+    public void update(){
+        if(isKeyPressed()){
+            entityMove();
+            checkOutOfBounds();
+            getCoordinates();
 
-        // Check if the player is outside the bottom or top boundary
-        if(worldYPos >= mp.screenHeight){
-            System.out.println("You are out of the border! y axis");
-            worldYPos = mp.screenHeight - 1; // Prevent player from moving out on the bottom
-            isPlayerInside = false;
         }
-        else if(worldYPos <= 0){
-            System.out.println("You are out of the border! y axis");
-            worldYPos = 1; // Prevent player from moving out on the top
-            isPlayerInside = false;
-        }
+    }
 
-        return isPlayerInside;
+    public void draw(Graphics2D g2){
+
+//        g2.drawImage();
+//        g2.drawImage(null, 0, 0 ,tileSize, tileSize, null);
+        g2.setColor(Color.white);
+        g2.fillRect(worldXPos, worldYPos, mp.tileSize, mp.tileSize);
+
+
     }
 
 
+    @Override
+    public void getCoordinates(){
+        System.out.println("X: " + worldXPos + " Ydsds: " + worldYPos);
+        System.out.println();
+    }
 
-    public void getPlayerSprites(){
+
+    @Override
+    public void checkOutOfBounds() {
+        // Correct for left and right boundaries
+        if (worldXPos <= 0) {
+            worldXPos = 0; // Prevent player from moving out on the left
+        }
+        else if (worldXPos + mp.tileSize >= mp.screenWidth) {
+            worldXPos = mp.screenWidth - mp.tileSize; // Prevent player from moving out on the right
+        }
+
+        // Correct for top and bottom boundaries
+        if (worldYPos <= 0) {
+            worldYPos = 0; // Prevent player from moving out on the top
+        }
+        else if (worldYPos + mp.tileSize >= mp.screenHeight) {
+            worldYPos = mp.screenHeight - mp.tileSize; // Prevent player from moving out on the bottom
+        }
+    }
+
+    @Override
+    public void getSprites(){
 
         File path = new File(ws_Res); // Getting the path of all player sprites
         File[] allSprites = path.listFiles(); // Listing individual files inside the folder path
@@ -130,6 +148,59 @@ public class Player extends Entity{
         }
 
     }
+
+
+    @Override
+    public void entityMove(){
+        if(kPut.upPressed){
+            direction = "up";
+            dirY = -1;
+            worldYPos -= plyVelocity;
+//            System.out.println("UP");
+        }
+        else if(kPut.leftPressed){
+            direction = "left";
+            dirX = -1;
+            worldXPos -= plyVelocity;
+//            System.out.println("left");
+
+        }
+        else if(kPut.downPressed){
+            direction = "down";
+            worldYPos += plyVelocity;
+            dirY = 1;
+//            System.out.println("down");
+
+        }
+        else if(kPut.rightPressed){
+            direction = "right";
+            dirX = 1;
+            worldXPos += plyVelocity;
+//            System.out.println("right");
+
+        }
+
+    }
+
+
+
+    public boolean isKeyPressed(){
+        return kPut.upPressed || kPut.leftPressed || kPut.rightPressed || kPut.downPressed;
+    }
+
+
+    public boolean changeSprite(){
+        boolean value = false;
+        if(spriteNum ==1){
+            value = true;
+        }
+        else if( spriteNum ==2){
+            value = false;
+        }
+        return value;
+    }
+
+
     public void spriteAnimationManager(){
         spriteCounter++;
 
@@ -143,68 +214,6 @@ public class Player extends Entity{
             spriteCounter =0;
         }
     }
-    public void playerMove(){
-        if(kPut.upPressed){
-            direction = "up";
-            worldYPos -= walkSpd;
-//            System.out.println("UP");
-        }
-        else if(kPut.leftPressed){
-            direction = "left";
-            worldXPos -= walkSpd;
-//            System.out.println("left");
-
-        }
-        else if(kPut.downPressed){
-            direction = "down";
-            worldYPos += walkSpd;
-//            System.out.println("down");
-
-        }
-        else if(kPut.rightPressed){
-            direction = "right";
-            worldXPos += walkSpd;
-//            System.out.println("right");
-
-        }
-
-    }
-    public boolean isKeyPressed(){
-        return kPut.upPressed || kPut.leftPressed || kPut.rightPressed || kPut.downPressed;
-    }
-    public boolean changeSprite(){
-        boolean value = false;
-        if(spriteNum ==1){
-            value = true;
-        }
-        else if( spriteNum ==2){
-            value = false;
-        }
-        return value;
-    }
-
-
-
-    public void update(){
-        if(isKeyPressed()){
-                playerMove();
-//            System.out.println("Player x: " + worldXPos);
-//            System.out.println("Player x: " + worldYPos);
-
-        }
-    }
-
-    public void draw(Graphics2D g2){
-
-//        g2.drawImage();
-//        g2.drawImage(null, 0, 0 ,tileSize, tileSize, null);
-        g2.setColor(Color.white);
-        g2.fillRect(worldXPos, worldYPos, mp.tileSize, mp.tileSize);
-
-
-    }
-
-
 
 
 }

@@ -38,6 +38,7 @@ public class MainPanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(kPut);
         this.setFocusable(true);
+        startThread();
     }
 
 
@@ -52,14 +53,13 @@ public class MainPanel extends JPanel implements Runnable{
     }
 
 
+
+
+
     public void update(){
         player.update();
-//        System.out.println("Player x: " + player.worldXPos);
-//        System.out.println("Player y: " + player.worldYPos);
 
     }
-
-
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);

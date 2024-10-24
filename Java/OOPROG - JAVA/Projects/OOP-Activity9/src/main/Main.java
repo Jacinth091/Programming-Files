@@ -38,7 +38,7 @@ public class Main {
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.setResizable(true);
         app.setTitle("Activity 9???");
-        app.setPreferredSize(new Dimension(mp.screenWidth,mp.screenHeight + (mp.screenHeight /2)));
+        app.setPreferredSize(new Dimension(mp.screenWidth+100,mp.screenHeight + (mp.screenHeight /2)));
 
 
         System.out.println(mp.screenHeight);
@@ -53,7 +53,7 @@ public class Main {
         app.setLocationRelativeTo(null);
         app.setVisible(true);
 
-        mp.startThread();
+//        mp.startThread();
 
 
     }

@@ -62,7 +62,7 @@ public class App extends JFrame {
 
         bodySectionPanels = new JPanel[2];
         for(int i = 0; i < bodySectionPanels.length; i++){
-            bodySectionPanels[i] = createPanel(Color.lightGray, setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
+            bodySectionPanels[i] = createPanel(Color.lightGray, setBorderLayout(10,10), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
             bodySectionPanels[i].setBorder(createEmptyBorder(5,5,5,5));
         }
         bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 100));
@@ -74,7 +74,8 @@ public class App extends JFrame {
             bodyPanels[i] = createPanel(Color.white, setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
             bodyPanels[i].setBorder(createEmptyBorder(5,5,5,5));
         }
-        bodyPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 100));
+        bodyPanels[0].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
+        bodyPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 400));
 
 
 
@@ -83,11 +84,12 @@ public class App extends JFrame {
         // Adding of Components
 
         addComponent(bodySectionPanels[0], bodyPanels[0], BorderLayout.NORTH);
-
+        addComponent(bodySectionPanels[0], bodyPanels[1], BorderLayout.CENTER);
 
 
         addComponent(sectionPanels[1], bodySectionPanels[0], BorderLayout.CENTER);
         addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);
+
 
         addComponent(parentPanel, sectionPanels[0], BorderLayout.NORTH);
         addComponent(parentPanel, sectionPanels[1], BorderLayout.CENTER);

@@ -32,7 +32,6 @@ public class Jeepney extends entity implements Vehicle {
         worldXPos = (mp.screenWidth/2) - (mp.tileSize/2);
         worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) - (mp.screenHeight / 3);
         collider = new Rectangle(worldXPos,worldYPos,mp.tileSize, mp.tileSize);
-
         velocity = 10;
         runSpd =0;
         direction = "up";

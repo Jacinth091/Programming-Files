@@ -113,7 +113,6 @@ public class MainPanel extends JPanel implements Runnable{
 
         mouseIn.draw(g2);
 
-
         g2.dispose();
     }
 
@@ -123,17 +122,12 @@ public class MainPanel extends JPanel implements Runnable{
 
     public void drawVehicle(Graphics2D g2) {
         int numVehicles = vhObjs.length;
-//        System.out.println(numVehicles);
-        int totalPadding = 20; // Optional padding between vehicles
         int sectionWidth = screenWidth / numVehicles; // Divide screen width into equal sections
-
         // Fixed Y-position (same for all vehicles, adjust as needed)
         int yPosition = ((screenHeight / 2) - (tileSize / 2)) - (screenHeight / 3);
-
         for (int i = 0; i < vhObjs.length; i++) {
             // Calculate X position for each vehicle
             int xPosition = (sectionWidth * i) + (sectionWidth / 2) - (tileSize / 2);
-
             // Set vehicle's worldXPos and worldYPos
             vhObjs[i].setLocation(xPosition, yPosition);
 

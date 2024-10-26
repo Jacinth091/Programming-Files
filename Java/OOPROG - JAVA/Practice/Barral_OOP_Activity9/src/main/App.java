@@ -1,12 +1,22 @@
 package main;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class App extends JFrame {
 
-    private JPanel outerPanel;
+//    private Color foreground = new Color(new Color());
+
+
+
+    private JPanel parentPanel;
+    private JPanel[] sectionPanels;
+    private JPanel[] bodySectionPanels;
+
+    private JPanel[] bodyPanels;
+    private JLabel[] bodyLabels;
 
 
 
@@ -23,11 +33,10 @@ public class App extends JFrame {
 
         this.setLayout(layout);
 
-        // Call pack() to size the frame to fit the preferred size
-        this.pack();
 
-        // Set visibility last to ensure everything is set up correctly
-        this.setVisible(isVisible);
+
+
+        initGui();
     }
 
 
@@ -35,19 +44,114 @@ public class App extends JFrame {
     public void initGui(){
 
 
+        parentPanel = createPanel(Color.white, setBorderLayout(5,5),true);
+        parentPanel.setBorder(createCompoundBorder(Color.white, 5, 5,5,5,5));
+
+
+        sectionPanels = new JPanel[3];
+        for(int i = 0; i < sectionPanels.length; i++){
+            sectionPanels[i] = createPanel(Color.white, null, true); // Now each element in the array is set to a new JPanel
+            sectionPanels[i].setBorder(null);
+        }
+        sectionPanels[0].setPreferredSize(new Dimension(parentPanel.getWidth(),100));
+        sectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(),200));
+        sectionPanels[1].setLayout(setBorderLayout(10,10));
+        sectionPanels[2].setPreferredSize(new Dimension(parentPanel.getWidth(),100));
 
 
 
+        bodySectionPanels = new JPanel[2];
+        for(int i = 0; i < bodySectionPanels.length; i++){
+            bodySectionPanels[i] = createPanel(Color.lightGray, setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
+            bodySectionPanels[i].setBorder(createEmptyBorder(5,5,5,5));
+        }
+        bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 100));
+
+
+
+        bodyPanels = new JPanel[2];
+        for(int i = 0; i < bodyPanels.length; i++){
+            bodyPanels[i] = createPanel(Color.white, setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
+            bodyPanels[i].setBorder(createEmptyBorder(5,5,5,5));
+        }
+        bodyPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 100));
+
+
+
+
+
+        // Adding of Components
+
+        addComponent(bodySectionPanels[0], bodyPanels[0], BorderLayout.NORTH);
+
+
+
+        addComponent(sectionPanels[1], bodySectionPanels[0], BorderLayout.CENTER);
+        addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);
+
+        addComponent(parentPanel, sectionPanels[0], BorderLayout.NORTH);
+        addComponent(parentPanel, sectionPanels[1], BorderLayout.CENTER);
+        addComponent(parentPanel, sectionPanels[2], BorderLayout.SOUTH);
+
+
+        addComponentToFrame(parentPanel, BorderLayout.CENTER);
 
     }
 
 
 
 
+    private void addComponentToFrame(JComponent comp){
+        this.add(comp);
+    }
+    private void addComponentToFrame(JComponent comp, String constraint){
+        this.add(comp, constraint);
+    }
+
+    private void addComponent(JComponent container, JComponent comp){
+        container.add(comp);
+    }
+    private void addComponent(JComponent container, JComponent comp, String constraint){
+        JComponent cont = container;
+        cont.add(comp, constraint);
+    }
+
+    private void addComponent(JComponent container, JComponent comp, GridBagConstraints gbc){
+        container.add(comp, gbc);
+    }
+
+    private BorderLayout setBorderLayout(int vGap, int hGap){
+        return new BorderLayout(vGap, hGap);
+    }
+    private BorderLayout setBorderLayout(){
+        return new BorderLayout();
+    }
 
 
 
+    private Border createLineBorder(Color lineColor, int thickness){
+        return BorderFactory.createLineBorder(lineColor, thickness);
+    }
 
+
+    private Border createEmptyBorder(int top, int left, int bottom, int right){
+        return BorderFactory.createEmptyBorder(top, left, bottom, right);
+    }
+
+
+    private static Border createCompoundBorder(Color lineColor, int thickness, int top, int left, int bottom, int right) {
+        Border lineBorder = BorderFactory.createLineBorder(lineColor, thickness);
+        Border emptyBorder = BorderFactory.createEmptyBorder(top, left, bottom, right);
+        return BorderFactory.createCompoundBorder(lineBorder, emptyBorder);
+    }
+
+    private JPanel createPanel(Color backgroundColor, LayoutManager layout, boolean opaque) {
+        JPanel panel = new JPanel();
+        panel.setBackground(backgroundColor);
+        panel.setLayout(layout);
+        panel.setOpaque(opaque);
+        return panel;
+    }
 
 
     private JPanel createPanel(Color backgroundColor, LayoutManager layout, Dimension preferredSize, boolean opaque) {

@@ -32,10 +32,16 @@ public class MainPanel extends JPanel implements Runnable{
     private KeyInput kPut = new KeyInput();
     private MouseInput mouseIn = new MouseInput(this);
 
-    private Student student = new Student(this, mouseIn, kPut);
-    private Vehicle jeepney = new Jeepney(this, mouseIn, kPut);
+    private Student student = new Student(this, mouseIn, kPut, "player");
+/*    private Vehicle jeepney = new Jeepney(this, mouseIn, kPut);
     private Vehicle motorcycle = new Motorcycle(this, mouseIn, kPut);
-    private Vehicle heli = new Helicopter(this, mouseIn, kPut);
+    private Vehicle heli = new Helicopter(this, mouseIn, kPut);*/
+
+    private Vehicle[] vhObjs ={
+            new Jeepney(this, mouseIn, kPut, "jeepney"),
+            new Motorcycle(this, mouseIn, kPut,"jeepney"),
+            new Helicopter(this, mouseIn, kPut, "jeepney")
+    };
 
 
     public MainPanel(){
@@ -102,7 +108,7 @@ public class MainPanel extends JPanel implements Runnable{
 
 
 
-//        drawVehicle(g2);
+        drawVehicle(g2);
         student.draw(g2);
 
         mouseIn.draw(g2);
@@ -111,8 +117,12 @@ public class MainPanel extends JPanel implements Runnable{
         g2.dispose();
     }
 
-   /* public void drawVehicle(Graphics2D g2) {
-        int numVehicles = vhs.length;
+
+
+
+
+    public void drawVehicle(Graphics2D g2) {
+        int numVehicles = vhObjs.length;
 //        System.out.println(numVehicles);
         int totalPadding = 20; // Optional padding between vehicles
         int sectionWidth = screenWidth / numVehicles; // Divide screen width into equal sections
@@ -120,17 +130,17 @@ public class MainPanel extends JPanel implements Runnable{
         // Fixed Y-position (same for all vehicles, adjust as needed)
         int yPosition = ((screenHeight / 2) - (tileSize / 2)) - (screenHeight / 3);
 
-        for (int i = 0; i < vhs.length; i++) {
+        for (int i = 0; i < vhObjs.length; i++) {
             // Calculate X position for each vehicle
             int xPosition = (sectionWidth * i) + (sectionWidth / 2) - (tileSize / 2);
 
             // Set vehicle's worldXPos and worldYPos
-            vhs[i].setLocation(xPosition, yPosition);
+            vhObjs[i].setLocation(xPosition, yPosition);
 
             // Draw the vehicle at the calculated position
-            vhs[i].draw(g2);
+            vhObjs[i].draw(g2);
         }
-    }*/
+    }
 
 
 

@@ -7,7 +7,7 @@ import main.MainPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Vehicles extends Entity{
+public abstract class Vehicles extends entity {
     protected String vehicleType;
     protected BufferedImage vhSprite;
     protected int vehicleSpeed;

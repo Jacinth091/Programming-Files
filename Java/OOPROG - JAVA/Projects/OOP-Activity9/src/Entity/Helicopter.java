@@ -6,16 +6,17 @@ import main.MainPanel;
 
 import java.awt.*;
 
-public class Helicopter extends Entity implements Vehicle {
-    public Helicopter(MainPanel mp, MouseInput mI, KeyInput kI){
-        super(mp, mI, kI);
-
+public class Helicopter extends entity implements Vehicle {
+    public Helicopter(MainPanel mp, MouseInput mI, KeyInput kI, String entityName){
+        super(mp, mI, kI, entityName);
 
         setDefaults();
     }
     public void setDefaults(){
         worldXPos = (mp.screenWidth/2) - (mp.tileSize/2);
         worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) - (mp.screenHeight / 3);
+        collider = new Rectangle(worldXPos,worldYPos,mp.tileSize, mp.tileSize);
+
         velocity = 10;
         runSpd =0;
         direction = "up";

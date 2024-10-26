@@ -39,35 +39,32 @@ public class Main {
         appStart();
 
     }
-
-
-    public static void appStart(){
-        Border greyBorder = BorderFactory.createLineBorder(Color.gray, 20);
+    public static void appStart() {
+        Border greyBorder = BorderFactory.createLineBorder(Color.GRAY,20);
         JFrame app = new JFrame();
-//        app.setSize(width, height);
+        MainPanel mp = new MainPanel();
         app.setTitle("SF Lab. Act. #09");
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.setResizable(false);
-        app.setLayout(new GridLayout(1,1));
+        app.setLayout(new GridLayout(1, 1));
+//        app.setPreferredSize(new Dimension(mp.screenWidth + 100, mp.screenHeight + (mp.screenHeight / 3)));
 
 
-
-
-        MainPanel mp = new MainPanel();
-
-        app.setPreferredSize(new Dimension(mp.screenWidth + 100,mp.screenHeight + (mp.screenHeight/3)));
         JPanel container = new JPanel();
         container.setBorder(greyBorder);
 
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
 
-        container.setLayout(new BorderLayout());
-        container.add(mp, BorderLayout.CENTER);
+        container.add(mp, gbc);
 
         app.add(container);
         app.pack();
-
         app.setLocationRelativeTo(null);
         app.setVisible(true);
-
     }
+
 }

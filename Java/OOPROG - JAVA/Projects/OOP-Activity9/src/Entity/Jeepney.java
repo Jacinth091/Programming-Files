@@ -6,16 +6,19 @@ import main.MainPanel;
 
 import java.awt.*;
 
-public class Jeepney extends Entity implements Vehicle {
-    public Jeepney(MainPanel mp, MouseInput mI, KeyInput kI){
-        super(mp, mI, kI);
+public class Jeepney extends entity implements Vehicle {
+
+
+
+    public Jeepney(MainPanel mp, MouseInput mI, KeyInput kI, String entityName){
+        super(mp, mI, kI, entityName);
         setDefaults();
     }
 
 
     @Override
     public void travel(String destination) {
-        System.out.println("Travelling to " +destination+ " by Jeepney");
+        System.out.println("Travelling to " +destination+ " by " + entityName);
     }
 
     @Override
@@ -25,8 +28,11 @@ public class Jeepney extends Entity implements Vehicle {
     }
 
     public void setDefaults(){
+
         worldXPos = (mp.screenWidth/2) - (mp.tileSize/2);
         worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) - (mp.screenHeight / 3);
+        collider = new Rectangle(worldXPos,worldYPos,mp.tileSize, mp.tileSize);
+
         velocity = 10;
         runSpd =0;
         direction = "up";

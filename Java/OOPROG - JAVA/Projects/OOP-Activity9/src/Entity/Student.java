@@ -9,15 +9,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Student extends Entity{
+public class Student extends entity {
 
     private int animSpeed = 12;
 
     private final String ws_Res = " ";
 
 
-    public Student(MainPanel mp, MouseInput mI, KeyInput kI){
-        super(mp, mI, kI);
+    public Student(MainPanel mp, MouseInput mI, KeyInput kI, String entityName){
+        super(mp, mI, kI, entityName);
         setDefaults();
     }
 
@@ -69,8 +69,11 @@ public class Student extends Entity{
 
 
     public void setDefaults(){
+        entityName = "player";
         worldXPos = (mp.screenWidth/ 2) - (mp.tileSize/2);
         worldYPos = ((mp.screenHeight / 2) - (mp.tileSize/2)) + (mp.screenHeight / 3);
+        collider = new Rectangle(worldXPos,worldYPos,mp.tileSize, mp.tileSize);
+
         velocity = 10;
         runSpd =0;
         direction = "up";
@@ -205,5 +208,9 @@ public class Student extends Entity{
         }
     }
 
+
+    public void objectInWorld(){
+
+    }
 
 }

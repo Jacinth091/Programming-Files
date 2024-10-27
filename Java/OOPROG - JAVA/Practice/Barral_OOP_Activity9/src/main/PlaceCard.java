@@ -21,7 +21,7 @@ public class PlaceCard extends JPanel{
     private String suggestedVehicle;
 
     public PlaceCard(){
-        initCard();
+
     }
 
     public PlaceCard(String placeTitle, String placeAddress, String placeDesc, String placeType, String suggestedVehicle, ImageIcon pc_Image) {
@@ -31,10 +31,10 @@ public class PlaceCard extends JPanel{
         this.placeDesc = placeDesc;
         this.placeTitle = placeTitle;
         this.pc_Image = pc_Image;
-        initCard();
+//        initScrollCardElements();
     }
 
-    public void initCard(){
+    public void initScrollCardElements(){
 //        setBackground(Color.pink);
         setOpaque(true);
         setVisible(true);
@@ -79,6 +79,54 @@ public class PlaceCard extends JPanel{
 
     }
 
+    public void initDisplayCardElement(){
+
+        System.out.println("Helllo");
+
+
+        setBackground(Color.pink);
+        setOpaque(true);
+        setVisible(true);
+        setToolTipText("Item Card Parent Cont");
+        setPreferredSize(new Dimension(200, 100));
+        setLayout(new OverlayLayout(this));
+
+
+        pc_Container = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(this.getWidth(),200), true);
+        pc_Container.setBorder(helper.createLineBorder(Color.WHITE, 5));
+
+
+
+        pc_Butt= helper.createButton("0",null, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        pc_Butt.setLayout(new BorderLayout());
+        pc_Butt.setFocusable(false);
+
+
+        pc_ImgLabel = helper.createLabel(null);
+        pc_ImgLabel.setIcon(pc_Image);
+        pc_ImgLabel.setForeground(Color.WHITE);
+        pc_ImgLabel.setHorizontalAlignment(JLabel.CENTER);
+        pc_ImgLabel.setPreferredSize(new Dimension(100, pc_Butt.getHeight()));
+        pc_ImgLabel.setBorder(helper.createEmptyBorder(5,5,5,5));
+
+
+        pc_Label = helper.createLabel(placeTitle, placeAddress, placeType, Color.WHITE, Color.black, "left", 10);
+        pc_Label.setBorder(helper.createEmptyBorder(5,15,5,5));
+
+
+
+
+
+
+
+        pc_Container.add(pc_Butt, BorderLayout.CENTER);
+
+        pc_Butt.add(pc_ImgLabel, BorderLayout.NORTH);
+        pc_Butt.add(pc_Label, BorderLayout.SOUTH);
+
+
+        add(pc_Container);
+    }
     @Override
     public void setBorder(Border border) {
         if (pc_Butt != null) {
@@ -89,7 +137,7 @@ public class PlaceCard extends JPanel{
     @Override
     public String toString() {
         return String.format(
-                "Place: %s%n" +        // Place name
+                "\nPlace: %s%n" +        // Place name
                         "Address: %s%n" +      // Address
                         "Type: %s%n" +         // Type
                         "Description: %s%n" +  // Description

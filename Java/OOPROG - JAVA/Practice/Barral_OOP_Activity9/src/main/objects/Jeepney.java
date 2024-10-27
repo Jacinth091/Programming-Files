@@ -17,7 +17,7 @@ public class Jeepney extends Vh implements Vehicle{
 
     @Override
     public void travelTo(String destination) {
-
+        System.out.println("Travelling to " +destination+ " by " + super.getVhName());
     }
 
 
@@ -25,5 +25,7 @@ public class Jeepney extends Vh implements Vehicle{
     public void getVehicleImage() {
 
     }
+
+
 
 }

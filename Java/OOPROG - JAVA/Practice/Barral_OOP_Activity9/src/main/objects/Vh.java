@@ -1,11 +1,12 @@
 package main.objects;
 
-import java.awt.image.BufferedImage;
+//import javax.swing.*;
+import javax.swing.ImageIcon;
 
 public abstract class Vh {
     private String vhName;
     private String vhType;
-    private BufferedImage vhSprite;
+    private ImageIcon vhIcon;
     private int vhSpeed;
     private int vhCapacity;
 
@@ -19,4 +20,25 @@ public abstract class Vh {
 
 
     public abstract void getVehicleImage();
+
+
+    public String getVhName() {
+        return vhName;
+    }
+
+    public String getVhType() {
+        return vhType;
+    }
+
+    public ImageIcon getVhIcon() {
+        return vhIcon;
+    }
+
+    public int getVhSpeed() {
+        return vhSpeed;
+    }
+
+    public int getVhCapacity() {
+        return vhCapacity;
+    }
 }

@@ -1,0 +1,60 @@
+Tourist Spots
+Magellan’s Cross
+Description: A historic landmark symbolizing the arrival of Christianity in the Philippines, brought by Ferdinand Magellan in 1521.
+Type: Historical Site
+Address: Magallanes Street, Cebu City
+Suggested Transportation: Jeepney, Tricycle, Motorcycle Taxi
+
+2. Basilica del Santo Niño
+Description: The oldest Roman Catholic Church in the Philippines, housing the famous Santo Niño statue.
+Type: Church / Historical Site
+Address: Osmeña Boulevard, Cebu City
+Suggested Transportation: Jeepney, Pedicab, Motorcycle Taxi
+
+3. Fort San Pedro
+Description: A military defense structure from the Spanish era, now serving as a museum and park.
+Type: Historical Fort
+Address: Plaza Independencia, Cebu City
+Suggested Transportation: Jeepney, Tricycle, Bicycle
+
+4. Temple of Leah
+Description: A grand Roman-style temple dedicated to Leah Villa Albino-Adarna, showcasing scenic views and statues.
+Type: Temple / Viewpoint
+Address: Cebu Transcentral Highway, Busay, Cebu City
+Suggested Transportation: Motorcycle Taxi, Private Car, Jeepney
+
+5. Sirao Flower Garden
+Description: Known as the "Little Amsterdam" of Cebu, this vibrant flower garden is a popular photography spot.
+Type: Garden / Nature Spot
+Address: Sirao, Busay, Cebu City
+Suggested Transportation: Jeepney, Motorcycle Taxi, Private Car
+
+6. Tops Lookout
+Description: A hilltop viewpoint offering panoramic views of Cebu City, especially beautiful at sunset.
+Type: Scenic Viewpoint
+Address: Cebu Transcentral Highway, Busay, Cebu City
+Suggested Transportation: Motorcycle Taxi, Jeepney, Private Car
+
+7. Cebu Taoist Temple
+Description: A beautiful temple offering insights into Chinese Taoism with traditional architecture and scenic views.
+Type: Temple
+Address: Beverly Hills Subdivision, Lahug, Cebu City
+Suggested Transportation: Jeepney, Motorcycle Taxi, Private Car
+
+8. Casa Gorordo Museum
+Description: A well-preserved Spanish colonial house, now a museum showcasing Cebuano lifestyle and heritage.
+Type: Museum / Historical House
+Address: Lopez Jaena Street, Parian, Cebu City
+Suggested Transportation: Jeepney, Bicycle, Motorcycle Taxi
+
+9. Cebu Heritage Monument
+Description: An impressive monument depicting significant historical events and figures of Cebu.
+Type: Monument / Historical Site
+Address: Colon Street, Parian, Cebu City
+Suggested Transportation: Jeepney, Bicycle, Pedicab
+
+10. Mountain View Nature Park
+Description: A nature park offering camping grounds, swimming pools, and scenic views of the mountains and city.
+Type: Nature Park
+Address: Busay, Cebu City
+Suggested Transportation: Private Car, Motorcycle Taxi, Jeepney

@@ -13,7 +13,7 @@ public class Sailboat extends Vh implements Vehicle{
 
     @Override
     public void travelTo(String destination) {
-
+        System.out.println("Travelling to " +destination+ " by " + super.getVhName());
     }
 
 

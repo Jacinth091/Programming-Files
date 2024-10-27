@@ -85,6 +85,19 @@ public class PlaceCard extends JPanel{
             pc_Butt.setBorder(border);
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Place: %s%n" +        // Place name
+                        "Address: %s%n" +      // Address
+                        "Type: %s%n" +         // Type
+                        "Description: %s%n" +  // Description
+                        "Suggested Vehicle: %s", // Suggested Vehicle
+                placeTitle, placeAddress, placeType, placeDesc, suggestedVehicle
+        );
+    }
+
     public void setActionCommand(String command) {
         pc_Butt.setActionCommand(command);
     }

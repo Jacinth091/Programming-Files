@@ -12,6 +12,7 @@ public class App extends JFrame implements ActionListener {
     private Helper helper = new Helper(); // HelperMethod Class
     private PlaceData plData = PlaceData.getInstance();
 
+    private GridBagConstraints gbc;
 
 
     private JPanel parentPanel;
@@ -27,9 +28,11 @@ public class App extends JFrame implements ActionListener {
     private PlaceCard testCard;
     private PlaceCard[] touristSpotCard;
     private int selectedIndex = -1;
+    private int index;
 
+    private JPanel bookLabelPanel, bookBtnPanel;
     private JLabel bookBtnLabel;
-    private JButton bookBtn;
+    private JButton bookBtn, cancelBookBtn;
 
 
     public App(){
@@ -76,29 +79,46 @@ public class App extends JFrame implements ActionListener {
         // Body Section Panels ( Body Center, Body Footer)
         bodySectionPanels = new JPanel[2];
         for(int i = 0; i < bodySectionPanels.length; i++){
-            bodySectionPanels[i] = helper.createPanel(Color.lightGray, helper.setBorderLayout(5,5), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
+            bodySectionPanels[i] = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
 //            bodySectionPanels[i].setBorder(helper.createEmptyBorder(5,5,5,5));
         }
         bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
 
 
-        // Body Center (BC Header, BC Body)
-        BC_Panels = new JPanel[2];
-        for(int i = 0; i < BC_Panels.length; i++){
-            BC_Panels[i] = helper.createPanel(Color.white, helper.setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-//            BC_Panels[i].setBorder(helper.createLineBorder(Color.BLACK, 5));
-        }
-        BC_Panels[0].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
-        BC_Panels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 400));
+
+            // Body Center (BC Header, BC Body)
+            BC_Panels = new JPanel[2];
+            for(int i = 0; i < BC_Panels.length; i++){
+                BC_Panels[i] = helper.createPanel(Color.white, helper.setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
+            }
+            BC_Panels[0].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
+            BC_Panels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 400));
+
+            // BC Body (tourist Spots Card Component)
+            // Putting data from the Place Data to the Place Card Component
+            initalizeDataToCard();
 
 
+            // BC Footer (Book Location Button)
+//            System.out.println(bodySectionPanels[1].getWidth() + " " +bodySectionPanels[1].getHeight() );
+            bookBtnPanel = helper.createPanel(Color.pink,new GridLayout(1,2), true);
 
-        // BC Body (tourist Spots Card Component)
-        // Putting data from the Place Data to the Place Card Component
-        initalizeDataToCard();
+            bookLabelPanel = helper.createPanel(Color.blue,new BorderLayout(), true);
+
+            bookBtnLabel = helper.createLabel("Book Now: ", Color.WHITE, Color.BLACK,15, true, "left");
+            bookBtnLabel.setPreferredSize(new Dimension(100,20));
+
+            bookBtnLabel.setHorizontalAlignment(JLabel.CENTER);
+
+            bookBtn = helper.createButton(Color.GREEN, Color.WHITE, this, "book");
+            bookBtn.setText(helper.formatText("Book",Color.WHITE, 13,true,"center"));
+            bookBtn.setPreferredSize(new Dimension(100,50));
 
 
-        // BC Footer (Book Location Button)
+            cancelBookBtn = helper.createButton( Color.RED, Color.WHITE, this, "cancelBook");
+            cancelBookBtn.setText(helper.formatText("Cancel Book",Color.WHITE, 13,true,"center"));
+            cancelBookBtn.setPreferredSize(new Dimension(100,50));
+
 
 
 
@@ -115,9 +135,21 @@ public class App extends JFrame implements ActionListener {
 
         // Adding of Components
 
+            // Adding of buttons to bodySectionPanels[1] south part
+            addComponent(bookLabelPanel, bookBtnLabel);
+
+            addComponent(bookBtnPanel, bookBtn);
+
+            addComponent(bookBtnPanel, cancelBookBtn);
+
+
+
+        addComponent(bodySectionPanels[1], bookBtnPanel, BorderLayout.EAST);
+        addComponent(bodySectionPanels[1], bookLabelPanel, BorderLayout.CENTER);
+
+
             // BC Body
             addComponent(BC_Panels[1], touristSpotScroll);
-
 
         addComponent(bodySectionPanels[0], BC_Panels[0], BorderLayout.NORTH);
         addComponent(bodySectionPanels[0], BC_Panels[1], BorderLayout.CENTER);
@@ -136,6 +168,7 @@ public class App extends JFrame implements ActionListener {
 
 
     }
+
 
     private void initalizeDataToCard(){
         int n = plData.getTouristSpots().length;
@@ -213,11 +246,35 @@ public class App extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String actionCmd = e.getActionCommand();
+
         if(actionCmd.contains("place")){
-            int index = Integer.parseInt(actionCmd.split("place ")[1]);
+            index = Integer.parseInt(actionCmd.split("place ")[1]);
             System.out.println(index);
             selectItem(index);
 
+        }
+        else if(actionCmd.contains("book")){
+
+            if(selectedIndex != -1){
+                PlaceCard temp;
+
+                temp= touristSpotCard[index];
+
+
+                System.out.println(temp.toString());
+
+                setDefaultBorder();
+                selectedIndex = -1;
+            }
+
+        }
+        else if(actionCmd.contains("cancelBook")){
+            if(selectedIndex != -1){
+
+                setDefaultBorder();
+
+                selectedIndex = -1;
+            }
         }
 
     }
@@ -226,7 +283,7 @@ public class App extends JFrame implements ActionListener {
     private void selectItem(int index) {
 
         if (selectedIndex != -1) {
-            touristSpotCard[selectedIndex].getPc_Container().setBorder(helper.createLineBorder(Color.WHITE, 5)); // Reset previously selected button border
+            setDefaultBorder();
         }
         selectedIndex = index;
         touristSpotCard[selectedIndex].getPc_Container().setBorder(helper.createLineBorder(Color.YELLOW, 5));
@@ -237,6 +294,10 @@ public class App extends JFrame implements ActionListener {
 
     }
 
+
+    public void setDefaultBorder(){
+        touristSpotCard[selectedIndex].getPc_Container().setBorder(helper.defaultBorder);
+    }
 
     public void startImageLoad(Runnable callback) {
         Thread imageLoader = new Thread(() -> {

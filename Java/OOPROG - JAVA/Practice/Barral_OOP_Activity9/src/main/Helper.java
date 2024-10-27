@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 
 public class Helper {
 
+    protected Border defaultBorder = createLineBorder(Color.WHITE, 5);
+
+
     public Helper(){
 
     }
@@ -75,8 +78,8 @@ public class Helper {
 
 
     // Base method for creating a JButton
-    public JButton createButton(String text, Color backgroundColor, Color foregroundColor, ActionListener actionListener, String actionCommand) {
-        JButton button = new JButton(text);
+    public JButton createButton(Color backgroundColor, Color foregroundColor, ActionListener actionListener, String actionCommand) {
+        JButton button = new JButton();
         button.setBackground(backgroundColor);
         button.setForeground(foregroundColor);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -96,9 +99,9 @@ public class Helper {
         return label;
     }
     // Base method for creating a JLabel
-    public JLabel createLabel(String text, Color backgroundColor, Color textColor, int fontSize, boolean isBold) {
+    public JLabel createLabel(String text, Color backgroundColor, Color textColor, int fontSize, boolean isBold, String position) {
         JLabel label = new JLabel();
-        label.setText("<html><p style='color: " + toHexColor(textColor) + "; font-weight: " + (isBold ? "bold" : "normal") + "; font-size: " + fontSize + "px; text-align: center;'>" + text + "</p></html>");
+        label.setText("<html><p style='color: " + toHexColor(textColor) + "; font-weight: " + (isBold ? "bold" : "normal") + "; font-size: " + fontSize + "px;  text-align: " + position + ";'>" + text + "</p></html>");
         label.setOpaque(true);
         label.setBackground(backgroundColor);
         return label;
@@ -187,7 +190,10 @@ public class Helper {
         return new BorderLayout();
     }
 
+    public String formatText( String text, Color textColor, int fontSize, boolean isBold, String position){
 
+        return ("<html><p style='color: " + toHexColor(textColor) + "; font-weight: " + (isBold ? "bold" : "normal") + "; font-size: " + fontSize + "px;  text-align: " + position + ";'>" + text + "</p></html>");
+    }
 
 
 }

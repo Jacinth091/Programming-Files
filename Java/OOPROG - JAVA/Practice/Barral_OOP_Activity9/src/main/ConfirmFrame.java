@@ -92,114 +92,18 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
 
         //------------------------------------ BODY ------------------------------------
-        // Body Section Panels ( Body Center, Body Footer)
-/*
-        bodySectionPanels = new JPanel[2];
-        for(int i = 0; i < bodySectionPanels.length; i++){
-            bodySectionPanels[i] = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-//            bodySectionPanels[i].setBorder(helper.createEmptyBorder(5,5,5,5));
-        }
-        bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
+
+        initConfirmPanel();
 
 
-
-        // Body Center (BC Header, BC Body)
-        BC_Panels = new JPanel[2];
-        for(int i = 0; i < BC_Panels.length; i++){
-            BC_Panels[i] = helper.createPanel(Color.white, helper.setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-        }
-        BC_Panels[0].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
-        BC_Panels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 400));
-
-        // BC Body (tourist Spots Card Component)
-        // Putting data from the Place Data to the Place Card Component
-        initalizeDataToCard();
+        //------------------------------------ Adding of Components ------------------------------------
 
 
-        // BC Footer (Book Location Button)
-        initBookBtns();
-*/
-
-
-        confirmPanel = helper.createPanel(null, true, true);
-        confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
-
-        confirmPanelElements = new JPanel[3];
-        for(int i =0; i < confirmPanelElements.length; i++){
-            confirmPanelElements[i] = helper.createPanel(Color.blue, helper.setBorderLayout(), true);
-        }
-        confirmPanelElements[0].setPreferredSize(new Dimension(100, 350));
-        confirmPanelElements[1].setPreferredSize(new Dimension(100, 100));
-        confirmPanelElements[2].setPreferredSize(new Dimension(100, 50));
-        confirmPanelElements[2].setLayout(new GridLayout(1,2,5,5));
-        confirmPanelElements[2].setBorder(helper.createEmptyBorder(5,5,5,5));
-
-        displayCard = initPlaceCardData(index);
-
-
-        confirmBtn = helper.createButton(helper.formatText("Confirm",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        confirmBtn.addActionListener(e -> {
-
-            this.setVisible(false);
-
-
-        });
-
-
-        backBtn = helper.createButton(helper.formatText("Back",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        backBtn.addActionListener(e -> {
-            mainWindow.setVisible(true);
-            resetIndex();
-            this.setVisible(false);
-
-
-
-        });
-
-
-
-
-        confirmPanel.revalidate();
-        confirmPanel.repaint();
-
-
-
-        confirmPanelElements[1].revalidate();
-        confirmPanelElements[1].repaint();
-
-
-
-
-        // Adding of Components
-
- /*       // Adding of buttons to bodySectionPanels[1] south part
-        addComponent(bookLabelPanel, bookBtnLabel);
-
-        addComponent(bookBtnPanel, bookBtn);
-
-        addComponent(bookBtnPanel, cancelBookBtn);
-
-
-
-        addComponent(bodySectionPanels[1], bookBtnPanel, BorderLayout.EAST);
-        addComponent(bodySectionPanels[1], bookLabelPanel, BorderLayout.CENTER);
-
-
-        // BC Body
-        addComponent(BC_Panels[1], touristSpotScroll);
-
-        addComponent(bodySectionPanels[0], BC_Panels[0], BorderLayout.NORTH);
-        addComponent(bodySectionPanels[0], BC_Panels[1], BorderLayout.CENTER);
-
-
-        addComponent(sectionPanels[1], bodySectionPanels[0], BorderLayout.CENTER);
-        addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);*/
-//        confirmPanelElements[2].add(confirmBtn);
         addComponent(confirmPanelElements[0], displayCard, BorderLayout.CENTER);
         addComponent(confirmPanelElements[2], confirmBtn, BorderLayout.WEST);
         addComponent(confirmPanelElements[2], backBtn, BorderLayout.EAST);
-//
-//
+
+
         for (JPanel panel : confirmPanelElements) {
             confirmPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Adds spacing
 
@@ -221,70 +125,56 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     }
 
 
-    private void initalizeDataToCard(){
-        int n = plData.getTouristSpots().length;
-        touristSpotCard = new PlaceCard[n];
+  private void initConfirmPanel(){
 
-        touristSpotCont = helper.createPanel(null, null, true);
-        touristSpotCont.setLayout(new BoxLayout(touristSpotCont, BoxLayout.Y_AXIS));
+      confirmPanel = helper.createPanel(null, true, true);
+      confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
 
-        touristSpotCont.add(Box.createRigidArea(new Dimension(0, 10))); // Adds spacing
-        // Adding PlaceCards with spacing
-        for (int i = 0; i < n; i++) {
-            String placeTitle = plData.getTouristSpots()[i][0];
-            String placeAddress = plData.getTouristSpots()[i][1];
-            String placeDesc = plData.getTouristSpots()[i][2];
-            String placeType = plData.getTouristSpots()[i][3];
-            String suggestedVehicle = plData.getTouristSpots()[i][4];
-            ImageIcon placeImage = helper.resizeImageIcon(plData.getTouristSpotImages()[i], 100,100);
+      confirmPanelElements = new JPanel[3];
+      for(int i =0; i < confirmPanelElements.length; i++){
+          confirmPanelElements[i] = helper.createPanel(Color.blue, helper.setBorderLayout(), true);
+      }
+      confirmPanelElements[0].setPreferredSize(new Dimension(100, 350));
+      confirmPanelElements[1].setPreferredSize(new Dimension(100, 100));
+      confirmPanelElements[2].setPreferredSize(new Dimension(100, 50));
+      confirmPanelElements[2].setLayout(new GridLayout(1,2,5,5));
+      confirmPanelElements[2].setBorder(helper.createEmptyBorder(5,5,5,5));
 
-            touristSpotCard[i] = new PlaceCard(placeTitle, placeAddress, placeDesc, placeType, suggestedVehicle, placeImage);
-            touristSpotCard[i].initScrollCardElements();
-            touristSpotCard[i].addActionListener(this);
-            touristSpotCard[i].setActionCommand("place " + i);
-            touristSpotCont.add(touristSpotCard[i]);
-            touristSpotCont.add(Box.createRigidArea(new Dimension(0, 5))); // Adds spacing
-
-            touristSpotCard[i].repaint();
-            touristSpotCard[i].revalidate();
-        }
-
-        // After adding all cards, call revalidate and repaint on touristSpotCont
-        touristSpotCont.revalidate();
-        touristSpotCont.repaint();
-
-        // Set the preferred size of the panel based on the number of cards and spacing
-        touristSpotCont.setPreferredSize(new Dimension(400, n * 110)); // Adjusted for spacing
-        touristSpotCont.setMaximumSize(new Dimension(400, n * 110)); // Adjusted for spacing
-
-        // Scroll Pane
-        touristSpotScroll = new JScrollPane(touristSpotCont);
-        touristSpotScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        touristSpotScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        touristSpotScroll.setViewportView(touristSpotCont);
-
-    }
+      displayCard = initPlaceCardData(index);
 
 
-    private void initBookBtns(){
-        bookBtnPanel = helper.createPanel(Color.pink,new GridLayout(1,2), true);
+      confirmBtn = helper.createButton(helper.formatText("Confirm",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+      confirmBtn.addActionListener(e -> {
 
-        bookLabelPanel = helper.createPanel(Color.blue,new BorderLayout(), true);
-
-        bookBtnLabel = helper.createLabel("Book Now: ", Color.WHITE, Color.BLACK,15, true, "left");
-        bookBtnLabel.setPreferredSize(new Dimension(100,20));
-
-        bookBtnLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        bookBtn = helper.createButton(Color.GREEN, Color.WHITE, this, "book");
-        bookBtn.setText(helper.formatText("Book",Color.WHITE, 13,true,"center"));
-        bookBtn.setPreferredSize(new Dimension(100,50));
+          this.setVisible(false);
+          this.dispose();
 
 
-        cancelBookBtn = helper.createButton( Color.RED, Color.WHITE, this, "cancelBook");
-        cancelBookBtn.setText(helper.formatText("Cancel Book",Color.WHITE, 13,true,"center"));
-        cancelBookBtn.setPreferredSize(new Dimension(100,50));
-    }
+      });
+
+
+      backBtn = helper.createButton(helper.formatText("Back",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+      backBtn.addActionListener(e -> {
+          mainWindow.setVisible(true);
+          resetIndex();
+          this.setVisible(false);
+
+
+
+      });
+
+
+
+
+      confirmPanel.revalidate();
+      confirmPanel.repaint();
+
+
+
+      confirmPanelElements[1].revalidate();
+      confirmPanelElements[1].repaint();
+
+  }
 
     private PlaceCard initPlaceCardData(int i){
         int n = plData.getTouristSpots().length;

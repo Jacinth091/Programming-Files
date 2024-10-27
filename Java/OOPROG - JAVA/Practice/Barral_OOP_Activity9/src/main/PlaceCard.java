@@ -35,40 +35,34 @@ public class PlaceCard extends JPanel{
     }
 
     public void initCard(){
-        setBackground(Color.pink);
+//        setBackground(Color.pink);
         setOpaque(true);
         setVisible(true);
         setToolTipText("Item Card Parent Cont");
-        setPreferredSize(new Dimension(395, 100));
+        setPreferredSize(new Dimension(200, 100));
         setLayout(new OverlayLayout(this));
 
 
         pc_Container = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(this.getWidth(),200), true);
-//        pc_Container.setBorder(helper.createLineBorder(Color.BLACK, 1));
+        pc_Container.setBorder(helper.createLineBorder(Color.WHITE, 5));
 
-        pc_Butt= helper.createButton("0",Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-//        pc_Butt.setBorder(helper.createEmptyBorder(5,5,5,5));
+
+
+        pc_Butt= helper.createButton("0",null, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         pc_Butt.setLayout(new BorderLayout());
+        pc_Butt.setFocusable(false);
 
 
-        pc_ImgLabel = helper.createLabel(Color.BLACK);
-        pc_ImgLabel.setText("Image");
+        pc_ImgLabel = helper.createLabel(null);
         pc_ImgLabel.setIcon(pc_Image);
-        System.out.println(pc_Image);
         pc_ImgLabel.setForeground(Color.WHITE);
-//        pc_ImgLabel.setBorder(helper.createLineBorder(Color.green, 5));
         pc_ImgLabel.setHorizontalAlignment(JLabel.CENTER);
         pc_ImgLabel.setPreferredSize(new Dimension(100, pc_Butt.getHeight()));
+        pc_ImgLabel.setBorder(helper.createEmptyBorder(5,5,5,5));
 
-        // Test
-//        String name = "University of Cebu Main Campus", address = "Sanciangko St, Cebu City, 6000 Cebu", type = "School";
 
         pc_Label = helper.createLabel(placeTitle, placeAddress, placeType, Color.WHITE, Color.black, "left", 10);
-        pc_Label.setBorder(helper.createEmptyBorder(5,5,5,5));
-
-
-
-
+        pc_Label.setBorder(helper.createEmptyBorder(5,15,5,5));
 
 
 
@@ -80,9 +74,6 @@ public class PlaceCard extends JPanel{
 
 
         add(pc_Container);
-
-
-
 
 
 
@@ -102,5 +93,7 @@ public class PlaceCard extends JPanel{
         pc_Butt.addActionListener(listener);
     }
 
-
+    public JPanel getPc_Container() {
+        return pc_Container;
+    }
 }

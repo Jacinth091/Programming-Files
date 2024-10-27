@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         App window = new App(500,700,"SF Lab. Act. #09",true,true, new BorderLayout(), JFrame.EXIT_ON_CLOSE);
+        window.initGui();
         // Call pack() to size the frame to fit the preferred size
         window.pack();
 
@@ -32,4 +33,6 @@ public class Main {
         student.travelTo("Mars");
 
     }
+
+
 }

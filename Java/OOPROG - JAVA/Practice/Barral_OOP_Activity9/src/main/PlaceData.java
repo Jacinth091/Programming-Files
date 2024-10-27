@@ -7,11 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class PlaceData {
+public class PlaceData{
 
     public static PlaceData pDInstance;
-
-
 
     final String imgPathLoc = "src/assets/places";
     private ImageIcon[] touristSpotImages;
@@ -167,10 +165,7 @@ public class PlaceData {
         }
         System.out.println();
 
-/*        for(int i =0; i< touristSpotImages.length; i++){
-            String pth = touristSpotImages[i].getDescription();
-            System.out.println(pth);
-        }*/
+
     }
 
 
@@ -193,4 +188,7 @@ public class PlaceData {
     public String[][] getTouristSpots() {
         return touristSpots;
     }
+
+
+
 }

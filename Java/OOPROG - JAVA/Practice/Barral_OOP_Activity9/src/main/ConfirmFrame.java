@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class App extends JFrame implements ActionListener {
+public class ConfirmFrame extends JFrame implements ActionListener {
 
 //    private Color foreground = new Color(new Color());
-    private ConfirmFrame confirmWindow;
+    private App mainWindow;
     private Helper helper = new Helper(); // HelperMethod Class
     private PlaceData plData = PlaceData.getInstance();
 
@@ -37,19 +37,14 @@ public class App extends JFrame implements ActionListener {
     private JButton bookBtn, cancelBookBtn;
 
 
-    public App(){
+    public ConfirmFrame(){
 
     }
-    public App(int width, int height, String title, boolean isVisible, boolean isResizable, LayoutManager layout, int defCloseOper) {
-        this.setPreferredSize(new Dimension(width, height));
-        this.setTitle(title);
-        this.setResizable(isResizable);
-        this.setDefaultCloseOperation(defCloseOper);
+    public ConfirmFrame(App mainWindow) {
+        this.mainWindow = mainWindow;
 
-        this.setLayout(layout);
-        loadImgs();
-        initMain();
-
+//        initMain(new App( mainWindow.getWidth(), mainWindow.getWidth(),  mainWindow.getTitle(), mainWindow.isVisible(),  mainWindow.isResizable(), mainWindow.getLayout(), mainWindow.getDefaultCloseOperation()));
+        initMain(mainWindow);
 
     }
     public void loadImgs()
@@ -58,95 +53,7 @@ public class App extends JFrame implements ActionListener {
     }
 
 
-    public void initMain(){
-
-        // Parent Panle
-        parentPanel = helper.createPanel(Color.white, helper.setBorderLayout(5,5),true);
-        parentPanel.setBorder(helper.createEmptyBorder(5,5,5,5));
-
-        // Section Panels (Head,Body, Footer)
-        sectionPanels = new JPanel[2];
-        for(int i = 0; i < sectionPanels.length; i++){
-            sectionPanels[i] = helper.createPanel(Color.white, null, true); // Now each element in the array is set to a new JPanel
-            sectionPanels[i].setBorder(helper.createLineBorder(Color.BLACK, 5));
-        }
-        sectionPanels[0].setPreferredSize(new Dimension(parentPanel.getWidth(),70));
-        sectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(),200));
-        sectionPanels[1].setLayout(helper.setBorderLayout(5,5));
-        //------------------------------------ Header ------------------------------------
-
-
-
-
-
-
-
-        //------------------------------------ BODY ------------------------------------
-        // Body Section Panels ( Body Center, Body Footer)
-        bodySectionPanels = new JPanel[2];
-        for(int i = 0; i < bodySectionPanels.length; i++){
-            bodySectionPanels[i] = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-//            bodySectionPanels[i].setBorder(helper.createEmptyBorder(5,5,5,5));
-        }
-        bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
-
-
-
-            // Body Center (BC Header, BC Body)
-            BC_Panels = new JPanel[2];
-            for(int i = 0; i < BC_Panels.length; i++){
-                BC_Panels[i] = helper.createPanel(Color.white, helper.setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-            }
-            BC_Panels[0].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
-            BC_Panels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 400));
-
-            // BC Body (tourist Spots Card Component)
-            // Putting data from the Place Data to the Place Card Component
-            initalizeDataToCard();
-
-
-            // BC Footer (Book Location Button)
-            initBookBtns();
-
-
-
-        // Adding of Components
-
-            // Adding of buttons to bodySectionPanels[1] south part
-            addComponent(bookLabelPanel, bookBtnLabel);
-
-            addComponent(bookBtnPanel, bookBtn);
-
-            addComponent(bookBtnPanel, cancelBookBtn);
-
-
-
-        addComponent(bodySectionPanels[1], bookBtnPanel, BorderLayout.EAST);
-        addComponent(bodySectionPanels[1], bookLabelPanel, BorderLayout.CENTER);
-
-
-            // BC Body
-            addComponent(BC_Panels[1], touristSpotScroll);
-
-        addComponent(bodySectionPanels[0], BC_Panels[0], BorderLayout.NORTH);
-        addComponent(bodySectionPanels[0], BC_Panels[1], BorderLayout.CENTER);
-
-
-        addComponent(sectionPanels[1], bodySectionPanels[0], BorderLayout.CENTER);
-        addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);
-
-
-        addComponent(parentPanel, sectionPanels[0], BorderLayout.NORTH);
-        addComponent(parentPanel, sectionPanels[1], BorderLayout.CENTER);
-
-
-        addComponentToFrame(parentPanel, BorderLayout.CENTER);
-
-
-    }
-
-
-    public void initConfirmPanel(){
+    public void initMain(JFrame frame){
 
         // Parent Panle
         parentPanel = helper.createPanel(Color.white, helper.setBorderLayout(5,5),true);
@@ -325,15 +232,8 @@ public class App extends JFrame implements ActionListener {
 
                         temp= touristSpotCard[index];
 
+
                         System.out.println(temp.toString());
-
-                        if (confirmWindow == null) {
-                            confirmWindow = new ConfirmFrame(this); // Pass the main frame to the second frame
-                        }
-                        confirmWindow.setVisible(true); // Show the second frame
-                        this.setVisible(false); // Hide the main frame
-
-
 
                         setDefaultBorder();
                         selectedIndex = -1;

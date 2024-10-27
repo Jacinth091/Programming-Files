@@ -120,6 +120,21 @@ public class Helper {
         label.setBackground(backgroundColor);
         return label;
     }
+    public JLabel createLabel(String placeTitle,String placeAddress, String placeDesc, String placeType, Color backgroundColor, Color textColor, String position, int fontSize) {
+        JLabel label = new JLabel();
+        label.setText(    "<html>" +
+                "<p style='color: " + textColor + "; font-weight: normal; font-size: " + fontSize + "px; text-align: " +position+";'>" +
+                "<span style='font-weight: bold;'>" + placeTitle + "</span> <span> - </span><span style='font-weight: bold;'>" + placeType + "</span><br>" +
+                placeDesc + "<br><br>" +
+                placeAddress + "<br>" +
+                "</p>" +
+                "</html>");
+        label.setOpaque(true);
+        label.setBackground(backgroundColor);
+        return label;
+    }
+
+
 
     // Helper method to convert Color to hex string
     public String toHexColor(Color color) {

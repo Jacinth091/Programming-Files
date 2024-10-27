@@ -10,11 +10,27 @@ public class Main {
 
         App window = new App(500, 700, "SF Lab. Act. #09", true, true, new BorderLayout(), JFrame.EXIT_ON_CLOSE);
         // Call pack() to size the frame to fit the preferred size
-        window.pack();
+//        window.pack();
+//
+//        // Set visibility last to ensure everything is set up correctly
+//        window.setVisible(true);
+//        window.setLocationRelativeTo(null);
 
-        // Set visibility last to ensure everything is set up correctly
-        window.setVisible(true);
-        window.setLocationRelativeTo(null);
+//        ConfirmFrame cf = new ConfirmFrame();
+//        cf.setLayout(new BorderLayout());
+//        cf.setPreferredSize(new Dimension(500,700));
+//        cf.setVisible(true);
+//        cf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        cf.initMain();
+//
+//
+//        cf.pack();
+//        cf.validate();
+//        cf.setLocationRelativeTo(null);
+
+
+
+
 
 
         Vehicle[] vhObjs = {

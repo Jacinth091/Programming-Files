@@ -12,39 +12,54 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     private Helper helper = new Helper(); // HelperMethod Class
     private PlaceData plData = PlaceData.getInstance();
 
-    private GridBagConstraints gbc;
-
 
     private JPanel parentPanel;
     private JPanel[] sectionPanels;
 
-    private JPanel[] bodySectionPanels;
-    private JPanel[] BC_Panels;
-    private JLabel[] bodyCenterLabels;
-
 
     private JPanel touristSpotCont;
     private JScrollPane touristSpotScroll;
-    private PlaceCard testCard;
     private PlaceCard[] touristSpotCard;
     private int selectedIndex = -1;
     private int index;
-
-
 
     private JPanel bookLabelPanel, bookBtnPanel;
     private JLabel bookBtnLabel;
     private JButton bookBtn, cancelBookBtn;
 
 
-    public ConfirmFrame(){
 
+
+    private PlaceCard teest2;
+    private PlaceCard displayCard;
+
+    private JPanel confirmPanel;
+    private JPanel[] confirmPanelElements;
+
+
+    private JLabel confirmLabel;
+    private JButton confirmBtn, backBtn;
+
+
+
+    public ConfirmFrame(){
+//        loadImgs();
     }
-    public ConfirmFrame(App mainWindow) {
+    public ConfirmFrame(App mainWindow, int index) {
         this.mainWindow = mainWindow;
+        this.index = index;
+        this.setPreferredSize(new Dimension(mainWindow.getWidth(), mainWindow.getHeight()));
+        this.setTitle(mainWindow.getTitle());
+        this.setResizable(mainWindow.isResizable());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.setLayout(mainWindow.getLayout());
 
 //        initMain(new App( mainWindow.getWidth(), mainWindow.getWidth(),  mainWindow.getTitle(), mainWindow.isVisible(),  mainWindow.isResizable(), mainWindow.getLayout(), mainWindow.getDefaultCloseOperation()));
         initMain(mainWindow);
+        pack();
+        validate();
+        setLocationRelativeTo(null);
 
     }
     public void loadImgs()
@@ -53,7 +68,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     }
 
 
-    public void initMain(JFrame frame){
+    public void initMain(JFrame mainWindow){
 
         // Parent Panle
         parentPanel = helper.createPanel(Color.white, helper.setBorderLayout(5,5),true);
@@ -78,6 +93,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
         //------------------------------------ BODY ------------------------------------
         // Body Section Panels ( Body Center, Body Footer)
+/*
         bodySectionPanels = new JPanel[2];
         for(int i = 0; i < bodySectionPanels.length; i++){
             bodySectionPanels[i] = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
@@ -102,12 +118,61 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
         // BC Footer (Book Location Button)
         initBookBtns();
+*/
+
+
+        confirmPanel = helper.createPanel(null, true, true);
+        confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
+
+        confirmPanelElements = new JPanel[3];
+        for(int i =0; i < confirmPanelElements.length; i++){
+            confirmPanelElements[i] = helper.createPanel(Color.blue, helper.setBorderLayout(), true);
+        }
+        confirmPanelElements[0].setPreferredSize(new Dimension(100, 350));
+        confirmPanelElements[1].setPreferredSize(new Dimension(100, 100));
+        confirmPanelElements[2].setPreferredSize(new Dimension(100, 50));
+        confirmPanelElements[2].setLayout(new GridLayout(1,2,5,5));
+        confirmPanelElements[2].setBorder(helper.createEmptyBorder(5,5,5,5));
+
+        displayCard = initPlaceCardData(index);
+
+
+        confirmBtn = helper.createButton(helper.formatText("Confirm",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        confirmBtn.addActionListener(e -> {
+
+            this.setVisible(false);
+
+
+        });
+
+
+        backBtn = helper.createButton(helper.formatText("Back",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backBtn.addActionListener(e -> {
+            mainWindow.setVisible(true);
+            resetIndex();
+            this.setVisible(false);
+
+
+
+        });
+
+
+
+
+        confirmPanel.revalidate();
+        confirmPanel.repaint();
+
+
+
+        confirmPanelElements[1].revalidate();
+        confirmPanelElements[1].repaint();
+
 
 
 
         // Adding of Components
 
-        // Adding of buttons to bodySectionPanels[1] south part
+ /*       // Adding of buttons to bodySectionPanels[1] south part
         addComponent(bookLabelPanel, bookBtnLabel);
 
         addComponent(bookBtnPanel, bookBtn);
@@ -128,7 +193,22 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
 
         addComponent(sectionPanels[1], bodySectionPanels[0], BorderLayout.CENTER);
-        addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);
+        addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);*/
+//        confirmPanelElements[2].add(confirmBtn);
+        addComponent(confirmPanelElements[0], displayCard, BorderLayout.CENTER);
+        addComponent(confirmPanelElements[2], confirmBtn, BorderLayout.WEST);
+        addComponent(confirmPanelElements[2], backBtn, BorderLayout.EAST);
+//
+//
+        for (JPanel panel : confirmPanelElements) {
+            confirmPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Adds spacing
+
+            addComponent(confirmPanel, panel);
+        }
+        confirmPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Adds spacing
+
+
+        addComponent(sectionPanels[1], confirmPanel, BorderLayout.CENTER);
 
 
         addComponent(parentPanel, sectionPanels[0], BorderLayout.NORTH);
@@ -206,7 +286,27 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         cancelBookBtn.setPreferredSize(new Dimension(100,50));
     }
 
+    private PlaceCard initPlaceCardData(int i){
+        int n = plData.getTouristSpots().length;
+        PlaceCard temp = new PlaceCard();
 
+
+        String placeTitle = plData.getTouristSpots()[i][0];
+        String placeAddress = plData.getTouristSpots()[i][1];
+        String placeDesc = plData.getTouristSpots()[i][2];
+        String placeType = plData.getTouristSpots()[i][3];
+        String suggestedVehicle = plData.getTouristSpots()[i][4];
+        ImageIcon placeImage = placeImage = helper.resizeImageIcon(plData.getTouristSpotImages()[i], 455,300);;
+
+
+        temp = new PlaceCard(placeTitle, placeAddress, placeDesc, placeType, suggestedVehicle, placeImage);
+
+        temp.initDisplayCardElement();
+//        temp.addActionListener(this);
+//        temp.setActionCommand("place " + i);
+
+        return temp;
+    }
 
 
     @Override
@@ -290,6 +390,15 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
         // Now, invoke the callback on the EDT after images are loaded
         SwingUtilities.invokeLater(callback);
+    }
+
+
+    public void updateIndex(){
+        this.index = mainWindow.getIndex();
+    }
+
+    public void resetIndex(){
+       index = -1;
     }
 
 

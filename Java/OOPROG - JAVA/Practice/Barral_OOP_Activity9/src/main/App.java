@@ -45,10 +45,17 @@ public class App extends JFrame implements ActionListener {
         this.setTitle(title);
         this.setResizable(isResizable);
         this.setDefaultCloseOperation(defCloseOper);
-
         this.setLayout(layout);
-        loadImgs();
+//        loadImgs();
+
+
         initMain();
+
+        validate();
+        pack();
+
+        this.setVisible(isVisible);
+        setLocationRelativeTo(null);
 
 
     }
@@ -141,6 +148,7 @@ public class App extends JFrame implements ActionListener {
 
 
         addComponentToFrame(parentPanel, BorderLayout.CENTER);
+
 
 
     }
@@ -327,10 +335,10 @@ public class App extends JFrame implements ActionListener {
 
                         System.out.println(temp.toString());
 
-                        if (confirmWindow == null) {
-                            confirmWindow = new ConfirmFrame(this); // Pass the main frame to the second frame
-                        }
+                        System.out.println("Heloooo");
+                        confirmWindow = new ConfirmFrame(this, index); // Pass the main frame to the second frame
                         confirmWindow.setVisible(true); // Show the second frame
+//                        confirmWindow.updateIndex(in);
                         this.setVisible(false); // Hide the main frame
 
 
@@ -415,5 +423,9 @@ public class App extends JFrame implements ActionListener {
 
     private void addComponent(JComponent container, JComponent comp, GridBagConstraints gbc){
         container.add(comp, gbc);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

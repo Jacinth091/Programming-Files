@@ -175,6 +175,7 @@ public class PlaceData{
 
         if(pDInstance == null){
             pDInstance = new PlaceData();
+            pDInstance.initImages();
 
         }
 

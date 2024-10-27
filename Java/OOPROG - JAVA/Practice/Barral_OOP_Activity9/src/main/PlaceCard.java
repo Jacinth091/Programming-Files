@@ -109,8 +109,8 @@ public class PlaceCard extends JPanel{
         pc_ImgLabel.setPreferredSize(new Dimension(100, pc_Butt.getHeight()));
         pc_ImgLabel.setBorder(helper.createEmptyBorder(5,5,5,5));
 
-
-        pc_Label = helper.createLabel(placeTitle, placeAddress, placeType, Color.WHITE, Color.black, "left", 10);
+        pc_Label= helper.createLabel(placeTitle, placeAddress, placeDesc, placeType,Color.WHITE, Color.black, "left", 12);
+//        pc_Label = helper.createLabel(placeTitle, placeAddress, placeType, Color.WHITE, Color.black, "left", 10);
         pc_Label.setBorder(helper.createEmptyBorder(5,15,5,5));
 
 
@@ -121,7 +121,7 @@ public class PlaceCard extends JPanel{
 
         pc_Container.add(pc_Butt, BorderLayout.CENTER);
 
-        pc_Butt.add(pc_ImgLabel, BorderLayout.NORTH);
+        pc_Butt.add(pc_ImgLabel, BorderLayout.CENTER);
         pc_Butt.add(pc_Label, BorderLayout.SOUTH);
 
 

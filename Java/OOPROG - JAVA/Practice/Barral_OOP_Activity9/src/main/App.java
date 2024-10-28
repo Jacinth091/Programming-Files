@@ -54,7 +54,6 @@ public class App extends JFrame implements ActionListener {
     }
 
 
-
     public void initMain() {
 
         // Parent Panle
@@ -231,7 +230,7 @@ public class App extends JFrame implements ActionListener {
 
         if (command.contains("place")) {
             index = Integer.parseInt(command.split("place ")[1]);
-            System.out.println(index);
+
             selectItem(index);
 
         } else {
@@ -242,14 +241,11 @@ public class App extends JFrame implements ActionListener {
 
                         temp = touristSpotCard[index];
 
-                        System.out.println(temp.toString());
+                        System.out.println(temp.toString() + "\n");
 
-                        System.out.println("Heloooo");
-                        confirmWindow = new ConfirmFrame(this,student, index); // Pass the main frame to the second frame
+                        confirmWindow = new ConfirmFrame(this, student, index); // Pass the main frame to the second frame
                         confirmWindow.setVisible(true); // Show the second frame
-                        //                        confirmWindow.updateIndex(in);
                         this.setVisible(false); // Hide the main frame
-
 
                         setDefaultBorder();
                         selectedIndex = -1;
@@ -290,31 +286,18 @@ public class App extends JFrame implements ActionListener {
         touristSpotCard[selectedIndex].getPc_Container().setBorder(helper.defaultBorder);
     }
 
-    public void getUsername(String userName){
+    public void getUsername(String userName) {
         this.userName = userName;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return userName;
     }
 
 
-    public void setStudentClass(Student student){
+    public void setStudentClass(Student student) {
         this.student = student;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private void addComponentToFrame(JComponent comp) {

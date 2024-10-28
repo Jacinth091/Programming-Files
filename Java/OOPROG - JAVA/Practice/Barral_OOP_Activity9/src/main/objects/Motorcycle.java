@@ -3,18 +3,25 @@ package main.objects;
 public class Motorcycle extends Vh implements Vehicle{
 
 
-    public Motorcycle(String vhName, String vhType, int vhSpeed, int vhCapacity) {
-        super(vhName, vhType, vhSpeed, vhCapacity);
+    public Motorcycle(String vhName, String vhType) {
+        super(vhName, vhType);
     }
 
 
     // OVERRIDES!!
+    @Override
+    public String bookingTravelDestination(String destination) {
+        return ("<html>" +
+                "<p style='font-size: 14px; padding: 10px; word-wrap: break-word;'>" +
+                "<span style='font-weight: bold;'>Booking Travel Destination to <br>" +destination+ " by " + super.getVhName() + "</span>" +
+                "</html>");
+    }
 
     @Override
     public void travelTo(String destination) {
         System.out.println("Travelling to " +destination+ " by " + super.getVhName());
-    }
 
+    }
 
     @Override
     public String getVhName() {
@@ -26,13 +33,4 @@ public class Motorcycle extends Vh implements Vehicle{
         return super.getVhType();
     }
 
-    @Override
-    public int getVhSpeed() {
-        return super.getVhSpeed();
-    }
-
-    @Override
-    public int getVhCapacity() {
-        return super.getVhCapacity();
-    }
 }

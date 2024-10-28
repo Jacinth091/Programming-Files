@@ -76,7 +76,6 @@ public class PlaceCard extends JPanel {
 
     public void initDisplayCardElement() {
 
-        System.out.println("Display Card Element");
         setOpaque(true);
         setVisible(true);
         setToolTipText("Item Card Parent Cont");
@@ -142,8 +141,6 @@ public class PlaceCard extends JPanel {
     public JPanel getPc_Container() {
         return pc_Container;
     }
-
-
 
 
 }

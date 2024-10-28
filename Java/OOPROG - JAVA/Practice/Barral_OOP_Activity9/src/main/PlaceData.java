@@ -136,11 +136,11 @@ public class PlaceData {
     };
 
     private Vehicle[] vhObjs = {
-            new Jeepney("Jeepney", "Land", 40, 20),
-            new Motorcycle("Motorcycle", "Land", 80, 2),
-            new Helicopter("Helicopter", "Air", 200, 5),
-            new Sailboat("Sailboat", "Water", 30, 15),
-            new Bicycle("Bicycle", "Land", 15, 1)
+            new Jeepney("Jeepney", "Land"),
+            new Motorcycle("Motorcycle", "Land"),
+            new Helicopter("Helicopter", "Air"),
+            new Sailboat("Sailboat", "Water"),
+            new Bicycle("Bicycle", "Land")
     };
 
 
@@ -200,14 +200,6 @@ public class PlaceData {
     }
 
     public void initVehicleNames(){
-        // JCombo Box
-        Vehicle[] vhObjs = {
-                new Jeepney("Jeepney", "Land", 40, 20),
-                new Motorcycle("Motorcycle", "Land", 80, 2),
-                new Helicopter("Helicopter", "Air", 200, 5),
-                new Sailboat("Sailboat", "Water", 30, 15),
-                new Bicycle("Bicycle", "Land", 15, 1)
-        };
 
         vehicleNames = new String[vhObjs.length];
 

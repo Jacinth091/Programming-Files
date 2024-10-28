@@ -20,12 +20,13 @@ public class BookStatusFrame  {
     private String selPlaceName;
     private String selPlaceAddress;
     private String selVhItem;
+    private String selVhType;
     private int selVhIndex;
 
     public BookStatusFrame() {
 
     }
-    public BookStatusFrame(Student student , int index, int selVhIndex, String selVhItem, String selPlaceAddress, String selPlaceName, String userName) {
+    public BookStatusFrame(Student student , int index, int selVhIndex, String selVhItem,String selVhType, String selPlaceAddress, String selPlaceName, String userName) {
         this.student =student;
         this.index = index;
 
@@ -33,6 +34,7 @@ public class BookStatusFrame  {
         setSelPlaceAddress(selPlaceAddress);
         setUserName(userName);
         setSelVhItem(selVhItem);
+        setSelVhType(selVhType);
         setSelVhIndex(selVhIndex);
 
 
@@ -40,27 +42,31 @@ public class BookStatusFrame  {
 
     public void displayBookingDetails(){
         String mainInfo = ("<html>" +
-                "<p style='font-size: 14px;'>" +
-                "Studdent Name: <span style='font-weight: bold;'>" + userName + "</span><br><br>" +
+                "<p style='font-size: 14px; padding: 10px; word-wrap: break-word;'>" +
+                "Student Name: <span style='font-weight: bold;'>" + userName + "</span><br><br>" +
                 "Place: <span style='font-weight: bold;'>" + selPlaceName + "</span><br>" +
-                "Address: <span style='font-weight: bold;'>" + selPlaceAddress + "</span><br><br>" +
-                "Selected Vehicle: <span style='font-weight: bold;'>" + selVhItem + "</span>" +
+                "Address: <span style='font-weight: bold; word-wrap: break-word;'>" + selPlaceAddress + "</span><br><br>" +
+                "Vehicle: <span style='font-weight: bold;'>" + selVhItem + "</span><br>" +
+                "Type: <span style='font-weight: bold;'>" + selVhType + " based vehicle</span>" +
                 "</p>" +
                 "</html>");
-//        mainInfoLabel =helper.createLabel(Color.WHITE);
-
-        JOptionPane.showMessageDialog(null, new JLabel(mainInfo), "Booking Status", JOptionPane.INFORMATION_MESSAGE);
-
-
-    }
-
-
-
-    public void test(){
+        JLabel mainInfoLabel =helper.createLabel(null);
+        mainInfoLabel.setText(mainInfo);
 
         student.getVehicle(plData.getVhArray()[selVhIndex]);
         student.travelTo(selPlaceName);
+
+        JOptionPane.showMessageDialog(null, mainInfoLabel, "Booking Status", JOptionPane.INFORMATION_MESSAGE);
+        String bookStatus = student.bookingTravelDestination(selPlaceName);
+
+        mainInfoLabel.setText(bookStatus);
+
+        JOptionPane.showMessageDialog(null, bookStatus, "Booking", JOptionPane.INFORMATION_MESSAGE);
+
+
     }
+
+
 
     public void setSelVhIndex(int selVhIndex) {
         this.selVhIndex = selVhIndex;
@@ -82,4 +88,7 @@ public class BookStatusFrame  {
         this.selVhItem = selVhItem;
     }
 
+    public void setSelVhType(String selVhType) {
+        this.selVhType = selVhType;
+    }
 }

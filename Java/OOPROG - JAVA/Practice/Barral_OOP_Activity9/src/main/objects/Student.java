@@ -20,18 +20,16 @@ public class Student {
     }
 
     public void travelTo(String destination){
+
         rideVehicle.travelTo(destination);
+    }
+
+    public String bookingTravelDestination(String destination){
+        return rideVehicle.bookingTravelDestination(destination);
     }
 
     public String getStudName() {
         return studName;
     }
 
-    public String getStudStatus() {
-        return studStatus;
-    }
-
-    public Vehicle getRideVehicle() {
-        return rideVehicle;
-    }
 }

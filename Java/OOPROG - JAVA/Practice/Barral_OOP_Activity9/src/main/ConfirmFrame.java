@@ -23,7 +23,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
     private int index;
     private int vehicleIndex;
-    private String selItem;
+    private String selItem, selItemType;
 
 
     private PlaceCard displayCard;
@@ -42,11 +42,12 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
     public ConfirmFrame() {
     }
+
     public ConfirmFrame(int index) {
         this.index = index;
     }
 
-    public ConfirmFrame(App mainWindow,Student student, int index) {
+    public ConfirmFrame(App mainWindow, Student student, int index) {
         this.mainWindow = mainWindow;
         this.student = student;
         this.index = index;
@@ -71,7 +72,6 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         //------------------------------------ BODY ------------------------------------
 
         initConfirmPanel();
-
 
 
         //------------------------------------ Adding of Components ------------------------------------
@@ -133,12 +133,10 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         comboBoxPanel.setPreferredSize(new Dimension(0, 150));
 
 
-
-
 //        System.out.println(vhObjs[1].getVhName());
 
         comboBox = helper.createComboBox(plData.getVehicleNames(),
-                new Dimension(300,30),
+                new Dimension(300, 30),
                 false,
                 Color.WHITE,
                 Color.BLACK,
@@ -148,11 +146,8 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         comboBox.setActionCommand("comboBox");
 
 
-
-
         // Buttons and Buttons Panel
         initButtons();
-
 
 
         confirmPanel.revalidate();
@@ -163,7 +158,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
     }
 
-    private void initButtons(){
+    private void initButtons() {
         // Buttons Panel
 
         buttonsPanel = helper.createPanel(null, new GridLayout(1, 2, 10, 10), true);
@@ -227,40 +222,32 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     }
 
     public void cardCompEvent(String command) {
-
         switch (command) {
             case "confirm":
-                if(bookStatusWindow == null){
+                if (bookStatusWindow == null) {
                     this.dispose();
                     mainWindow.dispose();
                     String placeTitle = plData.getTouristSpots()[index][0];
                     String placeAddress = plData.getTouristSpots()[index][1];
-                    bookStatusWindow = new BookStatusFrame(student, index, vehicleIndex, selItem, placeAddress, placeTitle, mainWindow.getUsername());
-
-                    System.out.printf("Selected Item: %s, at index: %d \n", selItem, vehicleIndex);
+                    bookStatusWindow = new BookStatusFrame(student, index, vehicleIndex, selItem, selItemType, placeAddress, placeTitle, mainWindow.getUsername());
 
                     bookStatusWindow.displayBookingDetails();
-                    System.out.println(bookStatusWindow.toString());
-                    bookStatusWindow.test();
+
+                    System.out.println();
+
 
                 }
-
                 break;
             case "back":
                 mainWindow.setVisible(true);
                 resetIndex();
                 this.setVisible(false);
                 break;
-
             case "comboBox":
                 // Always update the selected item and index
                 selItem = String.valueOf(comboBox.getSelectedItem());
                 vehicleIndex = comboBox.getSelectedIndex();
-
-                // Print the selected item and index for debugging
-                System.out.printf("ComboBox selected: %s, at index: %d \n", selItem, vehicleIndex);
-
-
+                selItemType = plData.getVhArray()[vehicleIndex].getVhType();
                 break;
         }
     }
@@ -268,12 +255,6 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     public void resetIndex() {
         index = -1;
     }
-
-
-
-
-
-
 
 
     private void addComponentToFrame(JComponent comp) {

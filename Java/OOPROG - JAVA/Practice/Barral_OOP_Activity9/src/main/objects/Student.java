@@ -23,4 +23,15 @@ public class Student {
         rideVehicle.travelTo(destination);
     }
 
+    public String getStudName() {
+        return studName;
+    }
+
+    public String getStudStatus() {
+        return studStatus;
+    }
+
+    public Vehicle getRideVehicle() {
+        return rideVehicle;
+    }
 }

@@ -10,20 +10,17 @@ public class Helper {
     protected Border defaultBorder = createLineBorder(Color.WHITE, 5);
 
 
-    public Helper(){
+    public Helper() {
 
     }
 
 
-
-
-
-    public Border createLineBorder(Color lineColor, int thickness){
+    public Border createLineBorder(Color lineColor, int thickness) {
         return BorderFactory.createLineBorder(lineColor, thickness);
     }
 
 
-    public Border createEmptyBorder(int top, int left, int bottom, int right){
+    public Border createEmptyBorder(int top, int left, int bottom, int right) {
         return BorderFactory.createEmptyBorder(top, left, bottom, right);
     }
 
@@ -50,7 +47,6 @@ public class Helper {
         return panel;
     }
 
-
     public JPanel createPanel(Color backgroundColor, LayoutManager layout, Dimension preferredSize, boolean opaque) {
         JPanel panel = new JPanel();
         panel.setBackground(backgroundColor);
@@ -75,8 +71,6 @@ public class Helper {
 
         return button;
     }
-
-
     // Base method for creating a JButton
     public JButton createButton(Color backgroundColor, Color foregroundColor, ActionListener actionListener, String actionCommand) {
         JButton button = new JButton();
@@ -90,7 +84,8 @@ public class Helper {
         return button;
     }
 
-    public JLabel createLabel( Color backgroundColor) {
+
+    public JLabel createLabel(Color backgroundColor) {
 
         JLabel label = new JLabel();
 //        label.setText("<html><p style='color: " + toHexColor(textColor) + "; font-weight: " + (isBold ? "bold" : "normal") + "; font-size: " + fontSize + "px; text-align: center;'>" + text + "</p></html>");
@@ -107,7 +102,7 @@ public class Helper {
         return label;
     }
 
-    public JLabel createLabel(String place,String address, String type, Color backgroundColor, Color textColor, String position, int fontSize) {
+    public JLabel createLabel(String place, String address, String type, Color backgroundColor, Color textColor, String position, int fontSize) {
         JLabel label = new JLabel();
         label.setText("<html>" +
                 "<p style='color: " + toHexColor(textColor) + "; font-weight: normal; font-size: " + fontSize + "px; text-align: " + position + ";'>" +
@@ -120,10 +115,11 @@ public class Helper {
         label.setBackground(backgroundColor);
         return label;
     }
-    public JLabel createLabel(String placeTitle,String placeAddress, String placeDesc, String placeType, Color backgroundColor, Color textColor, String position, int fontSize) {
+
+    public JLabel createLabel(String placeTitle, String placeAddress, String placeDesc, String placeType, Color backgroundColor, Color textColor, String position, int fontSize) {
         JLabel label = new JLabel();
-        label.setText(    "<html>" +
-                "<p style='color: " + textColor + "; font-weight: normal; font-size: " + fontSize + "px; text-align: " +position+";'>" +
+        label.setText("<html>" +
+                "<p style='color: " + textColor + "; font-weight: normal; font-size: " + fontSize + "px; text-align: " + position + ";'>" +
                 "<span style='font-weight: bold;'>" + placeTitle + "</span> <span> - </span><span style='font-weight: bold;'>" + placeType + "</span><br>" +
                 placeDesc + "<br><br>" +
                 placeAddress + "<br>" +
@@ -135,6 +131,16 @@ public class Helper {
     }
 
 
+    public JComboBox<String> createComboBox(String[] items, Dimension size, boolean isEditable, Color background, Color foreground, Font font) {
+        JComboBox<String> comboBox = new JComboBox<>(items);
+        comboBox.setEditable(isEditable);
+        comboBox.setBackground(background);
+        comboBox.setForeground(foreground);
+        comboBox.setFont(font);
+        comboBox.setPreferredSize(size);
+
+        return comboBox;
+    }
 
     // Helper method to convert Color to hex string
     public String toHexColor(Color color) {
@@ -142,11 +148,12 @@ public class Helper {
     }
 
     // Base method for creating an Inset
-    public Insets setInsets(int top, int left, int bottom, int right){
-        return new Insets(top,left,bottom,right);
+    public Insets setInsets(int top, int left, int bottom, int right) {
+        return new Insets(top, left, bottom, right);
     }
+
     // Base method for creating a GridBagConstraint
-    public GridBagConstraints setGbc(int gridx, int gridy, String anchorLocation, Insets insets){
+    public GridBagConstraints setGbc(int gridx, int gridy, String anchorLocation, Insets insets) {
         GridBagConstraints gbc = new GridBagConstraints();
 
         anchorLocation = anchorLocation.toUpperCase();
@@ -192,13 +199,13 @@ public class Helper {
         return gbc;
     }
 
-    public  ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
+    public ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
         Image image = icon.getImage(); // Get the image from the ImageIcon
         Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH); // Resize the image
         return new ImageIcon(resizedImage); // Create a new ImageIcon with the resized image
     }
 
-    public  ImageIcon resizeImageIcon(String filePath, int width, int height) {
+    public ImageIcon resizeImageIcon(String filePath, int width, int height) {
         ImageIcon icon = new ImageIcon(filePath);
         Image image = icon.getImage(); // Get the image from the ImageIcon
         Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH); // Resize the image
@@ -206,16 +213,15 @@ public class Helper {
     }
 
 
-
-
-    public BorderLayout setBorderLayout(int vGap, int hGap){
+    public BorderLayout setBorderLayout(int vGap, int hGap) {
         return new BorderLayout(vGap, hGap);
     }
-    public BorderLayout setBorderLayout(){
+
+    public BorderLayout setBorderLayout() {
         return new BorderLayout();
     }
 
-    public String formatText( String text, Color textColor, int fontSize, boolean isBold, String position){
+    public String formatText(String text, Color textColor, int fontSize, boolean isBold, String position) {
 
         return ("<html><p style='color: " + toHexColor(textColor) + "; font-weight: " + (isBold ? "bold" : "normal") + "; font-size: " + fontSize + "px;  text-align: " + position + ";'>" + text + "</p></html>");
     }

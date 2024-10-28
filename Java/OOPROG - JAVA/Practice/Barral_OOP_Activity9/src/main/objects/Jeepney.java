@@ -22,10 +22,24 @@ public class Jeepney extends Vh implements Vehicle{
 
 
     @Override
-    public void getVehicleImage() {
-
+    public String getVhName() {
+        return super.getVhName();
     }
 
+    @Override
+    public String getVhType() {
+        return super.getVhType();
+    }
+
+    @Override
+    public int getVhSpeed() {
+        return super.getVhSpeed();
+    }
+
+    @Override
+    public int getVhCapacity() {
+        return super.getVhCapacity();
+    }
 
 
 }

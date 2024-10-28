@@ -1,5 +1,7 @@
 package main;
 
+import main.objects.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,8 +10,10 @@ import java.io.IOException;
 
 public class ConfirmFrame extends JFrame implements ActionListener {
 
-//    private Color foreground = new Color(new Color());
+    //    private Color foreground = new Color(new Color());
     private App mainWindow;
+    private Student student;
+    private BookStatusFrame bookStatusWindow;
     private Helper helper = new Helper(); // HelperMethod Class
     private PlaceData plData = PlaceData.getInstance();
 
@@ -18,6 +22,8 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     private JPanel sectionPanel;
 
     private int index;
+    private int vehicleIndex;
+    private String selItem;
 
 
     private PlaceCard displayCard;
@@ -27,15 +33,22 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
     private JPanel comboBoxPanel;
     private JLabel comboBoxLabel;
+    private JComboBox<String> comboBox;
+
 
     private JPanel buttonsPanel;
     private JButton confirmBtn, backBtn;
 
 
+    public ConfirmFrame() {
+    }
+    public ConfirmFrame(int index) {
+        this.index = index;
+    }
 
-    public ConfirmFrame(){}
-    public ConfirmFrame(App mainWindow, int index) {
+    public ConfirmFrame(App mainWindow,Student student, int index) {
         this.mainWindow = mainWindow;
+        this.student = student;
         this.index = index;
         this.setPreferredSize(new Dimension(mainWindow.getWidth(), mainWindow.getHeight()));
         this.setTitle(mainWindow.getTitle());
@@ -45,11 +58,11 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         initMain();
     }
 
-    public void initMain(){
+    public void initMain() {
 
         // Parent Panle
-        parentPanel = helper.createPanel(Color.white, helper.setBorderLayout(),true);
-        parentPanel.setBorder(helper.createEmptyBorder(5,5,5,5));
+        parentPanel = helper.createPanel(Color.white, helper.setBorderLayout(), true);
+        parentPanel.setBorder(helper.createEmptyBorder(5, 5, 5, 5));
 
         // Section Panels (Head,Body, Footer)
         sectionPanel = helper.createPanel(Color.white, null, true);
@@ -60,7 +73,10 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         initConfirmPanel();
 
 
+
         //------------------------------------ Adding of Components ------------------------------------
+
+        addComponent(comboBoxPanel, comboBox);
 
 
         addComponent(buttonsPanel, confirmBtn, BorderLayout.WEST);
@@ -90,70 +106,84 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     }
 
 
-  private void initConfirmPanel(){
+    private void initConfirmPanel() {
 
-      // Confirm Panel Parent
-      confirmPanel = helper.createPanel(null, true, true);
-      confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
+        // Confirm Panel Parent
+        confirmPanel = helper.createPanel(null, true, true);
+        confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
 
-      // Confirm Panel Elements
-      confirmPanelElements = new JPanel[2];
-      for(int i =0; i < confirmPanelElements.length; i++){
-          confirmPanelElements[i] = helper.createPanel(null, helper.setBorderLayout(), true);
-      }
-      confirmPanelElements[0].setPreferredSize(new Dimension(100, 350));
-      confirmPanelElements[1].setPreferredSize(new Dimension(100, 150));
-      confirmPanelElements[1].setLayout(new BorderLayout(5,5));
+        // Confirm Panel Elements
+        confirmPanelElements = new JPanel[2];
+        for (int i = 0; i < confirmPanelElements.length; i++) {
+            confirmPanelElements[i] = helper.createPanel(null, helper.setBorderLayout(), true);
+        }
+        confirmPanelElements[0].setPreferredSize(new Dimension(100, 350));
+        confirmPanelElements[1].setPreferredSize(new Dimension(100, 150));
+        confirmPanelElements[1].setLayout(new BorderLayout(5, 5));
 //      confirmPanelElements[1].setBorder(helper.createEmptyBorder(5,5,5,5));
 
 
+        // Display Card Component
+        displayCard = initPlaceCardData(index);
 
 
-      // Display Card Component
-      displayCard = initPlaceCardData(index);
+        // JComboBox Panel
 
-
-
-      // JComboBox Panel
-
-      comboBoxPanel = helper.createPanel(Color.cyan, null, true);
-      comboBoxPanel.setPreferredSize(new Dimension(0, 150));
+        comboBoxPanel = helper.createPanel(Color.cyan, new FlowLayout(), true);
+        comboBoxPanel.setPreferredSize(new Dimension(0, 150));
 
 
 
 
+//        System.out.println(vhObjs[1].getVhName());
 
-      // JCombo Box
-
-
-      // Buttons Panel
-
-      buttonsPanel = helper.createPanel(null, new GridLayout(1,2, 10,10), true);
-      buttonsPanel.setPreferredSize(new Dimension(0, 50));
-
-
-      // Confirm and Back Buttons
-      confirmBtn = helper.createButton(helper.formatText("Confirm", Color.BLACK, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-      confirmBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
-      confirmBtn.addActionListener(this);
-      confirmBtn.setActionCommand("confirm");
+        comboBox = helper.createComboBox(plData.getVehicleNames(),
+                new Dimension(300,30),
+                false,
+                Color.WHITE,
+                Color.BLACK,
+                new Font("Arial", Font.PLAIN, 14)
+        );
+        comboBox.addActionListener(this);
+        comboBox.setActionCommand("comboBox");
 
 
-      backBtn = helper.createButton(helper.formatText("Back",Color.BLACK,13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-      backBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
-      backBtn.addActionListener(this);
-      backBtn.setActionCommand("back");
 
 
-      confirmPanel.revalidate();
-      confirmPanel.repaint();
+        // Buttons and Buttons Panel
+        initButtons();
 
-      confirmPanelElements[1].revalidate();
-      confirmPanelElements[1].repaint();
 
-  }
 
-    private PlaceCard initPlaceCardData(int i){
+        confirmPanel.revalidate();
+        confirmPanel.repaint();
+
+        confirmPanelElements[1].revalidate();
+        confirmPanelElements[1].repaint();
+
+    }
+
+    private void initButtons(){
+        // Buttons Panel
+
+        buttonsPanel = helper.createPanel(null, new GridLayout(1, 2, 10, 10), true);
+        buttonsPanel.setPreferredSize(new Dimension(0, 50));
+
+
+        // Confirm and Back Buttons
+        confirmBtn = helper.createButton(helper.formatText("Confirm", Color.BLACK, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        confirmBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
+        confirmBtn.addActionListener(this);
+        confirmBtn.setActionCommand("confirm");
+
+
+        backBtn = helper.createButton(helper.formatText("Back", Color.BLACK, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
+        backBtn.addActionListener(this);
+        backBtn.setActionCommand("back");
+    }
+
+    private PlaceCard initPlaceCardData(int i) {
         PlaceCard temp = new PlaceCard();
         String placeTitle = plData.getTouristSpots()[i][0];
         String placeAddress = plData.getTouristSpots()[i][1];
@@ -169,7 +199,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
                 throw new NullPointerException("Image from the database is null!");
             }
 
-            placeImage = helper.resizeImageIcon(tempImg, 500,300);
+            placeImage = helper.resizeImageIcon(tempImg, 500, 300);
 
             if (placeImage.getImageLoadStatus() != MediaTracker.COMPLETE) {
                 throw new IOException("Image failed to load after resizing.");
@@ -196,50 +226,83 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
     }
 
-    public void cardCompEvent(String command){
-        switch(command){
-            case "confirm":
-//                this.setVisible(false);
-                this.dispose();
-                mainWindow.setVisible(true);
+    public void cardCompEvent(String command) {
 
-            break;
+        switch (command) {
+            case "confirm":
+                if(bookStatusWindow == null){
+                    this.dispose();
+                    mainWindow.dispose();
+                    String placeTitle = plData.getTouristSpots()[index][0];
+                    String placeAddress = plData.getTouristSpots()[index][1];
+                    bookStatusWindow = new BookStatusFrame(student, index, vehicleIndex, selItem, placeAddress, placeTitle, mainWindow.getUsername());
+
+                    System.out.printf("Selected Item: %s, at index: %d \n", selItem, vehicleIndex);
+
+                    bookStatusWindow.displayBookingDetails();
+                    System.out.println(bookStatusWindow.toString());
+                    bookStatusWindow.test();
+
+                }
+
+                break;
             case "back":
                 mainWindow.setVisible(true);
                 resetIndex();
                 this.setVisible(false);
-            break;
+                break;
+
+            case "comboBox":
+                // Always update the selected item and index
+                selItem = String.valueOf(comboBox.getSelectedItem());
+                vehicleIndex = comboBox.getSelectedIndex();
+
+                // Print the selected item and index for debugging
+                System.out.printf("ComboBox selected: %s, at index: %d \n", selItem, vehicleIndex);
 
 
+                break;
         }
     }
 
-    public void resetIndex(){
-       index = -1;
+    public void resetIndex() {
+        index = -1;
     }
 
 
-    private void addComponentToFrame(JComponent comp){
+
+
+
+
+
+
+    private void addComponentToFrame(JComponent comp) {
         this.add(comp);
     }
-    private void addComponentToFrame(JComponent comp, String constraint){
-        this.add(comp, constraint);
-    }
-    private void addComponentToFrame(JComponent comp, int constraint){
+
+    private void addComponentToFrame(JComponent comp, String constraint) {
         this.add(comp, constraint);
     }
 
-    private void addComponent(JComponent container, JComponent comp){
+    private void addComponentToFrame(JComponent comp, int constraint) {
+        this.add(comp, constraint);
+    }
+
+    private void addComponent(JComponent container, JComponent comp) {
         container.add(comp);
     }
-    private void addComponent(JComponent container, JComponent comp, String constraint){
-        container.add(comp, constraint);
-    }
-    private void addComponent(JComponent container, JComponent comp, int constraint){
+
+    private void addComponent(JComponent container, JComponent comp, String constraint) {
         container.add(comp, constraint);
     }
 
-    private void addComponent(JComponent container, JComponent comp, GridBagConstraints gbc){
+    private void addComponent(JComponent container, JComponent comp, int constraint) {
+        container.add(comp, constraint);
+    }
+
+    private void addComponent(JComponent container, JComponent comp, GridBagConstraints gbc) {
         container.add(comp, gbc);
     }
+
+
 }

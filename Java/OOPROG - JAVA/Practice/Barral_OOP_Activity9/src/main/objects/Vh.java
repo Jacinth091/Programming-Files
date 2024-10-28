@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 public abstract class Vh {
     private String vhName;
     private String vhType;
-    private ImageIcon vhIcon;
+//    private ImageIcon vhIcon;
     private int vhSpeed;
     private int vhCapacity;
 
@@ -18,10 +18,6 @@ public abstract class Vh {
         this.vhCapacity = vhCapacity;
     }
 
-
-    public abstract void getVehicleImage();
-
-
     public String getVhName() {
         return vhName;
     }
@@ -30,9 +26,9 @@ public abstract class Vh {
         return vhType;
     }
 
-    public ImageIcon getVhIcon() {
-        return vhIcon;
-    }
+//    public ImageIcon getVhIcon() {
+//        return vhIcon;
+//    }
 
     public int getVhSpeed() {
         return vhSpeed;

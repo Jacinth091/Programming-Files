@@ -1,24 +1,25 @@
 package main;
 
-import javax.imageio.ImageIO;
+import main.objects.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class PlaceData{
+public class PlaceData {
 
     public static PlaceData pDInstance;
     private Helper helper = new Helper();
     private final int imageScale = 1;
     private final int imageWidth = 1920 / imageScale, imageHeight = 1080 / imageScale;
-
+    private String[] vehicleNames;
 //    final String imgPathOne = "assets/places";
 //    final String imgPathTwo = "src/assets/places";
 
     final String[] imgPaths = {
             "src",
+            "mmamammama",
             "assets/places",
             "src/assets/places",
 
@@ -134,11 +135,13 @@ public class PlaceData{
 
     };
 
-
-
-
-
-
+    private Vehicle[] vhObjs = {
+            new Jeepney("Jeepney", "Land", 40, 20),
+            new Motorcycle("Motorcycle", "Land", 80, 2),
+            new Helicopter("Helicopter", "Air", 200, 5),
+            new Sailboat("Sailboat", "Water", 30, 15),
+            new Bicycle("Bicycle", "Land", 15, 1)
+    };
 
 
     public void initImages() {
@@ -146,24 +149,24 @@ public class PlaceData{
         File[] paths = new File[imgPaths.length];
         File[] placeImages = null;
 
-        // Load directories and validate paths
+        // Load all the paths in imgPaths String array
         try {
             for (int i = 0; i < paths.length; i++) {
                 paths[i] = new File(imgPaths[i]);
 
-                // Check if path exists and is a directory
+                // Checking if the current path exist or a directory
                 if (paths[i].exists() && paths[i].isDirectory() && !paths[i].getPath().equals("src")) {
                     pathIndex = i;
-                    break;  // Use the first valid path found
+                    break;  // If it is valid, use the index and break out of the loop
                 } else {
-                    System.out.println("Invalid or non-existent path at index " + i + ": " + paths[i].getPath());
+                    System.out.println("Invalid path at index " + i + ": " + paths[i].getPath());
                 }
             }
 
             if (pathIndex == -1) {
                 throw new IOException("No valid paths to initialize images.");
             }
-
+            // Logging into console if valid index found
             System.out.println("Valid path found at index " + pathIndex + ": " + paths[pathIndex].getPath());
             placeImages = paths[pathIndex].listFiles();
 
@@ -177,12 +180,13 @@ public class PlaceData{
             return; // Exit if no valid path or empty directory
         }
 
-        // Initialize and load images with resizing and error handling
+        // Initialize and load images in the array
         touristSpotImages = new ImageIcon[placeImages.length];
         for (int i = 0; i < placeImages.length; i++) {
             String filePath = placeImages[i].getPath();
             try {
                 ImageIcon tempImg = new ImageIcon(filePath);
+                // Check to see if the image load is successful or not
                 if (tempImg.getImageLoadStatus() != MediaTracker.COMPLETE) {
                     throw new NullPointerException("Image failed to load at path: " + filePath);
                 }
@@ -195,18 +199,48 @@ public class PlaceData{
         }
     }
 
+    public void initVehicleNames(){
+        // JCombo Box
+        Vehicle[] vhObjs = {
+                new Jeepney("Jeepney", "Land", 40, 20),
+                new Motorcycle("Motorcycle", "Land", 80, 2),
+                new Helicopter("Helicopter", "Air", 200, 5),
+                new Sailboat("Sailboat", "Water", 30, 15),
+                new Bicycle("Bicycle", "Land", 15, 1)
+        };
 
-    private PlaceData(){}
+        vehicleNames = new String[vhObjs.length];
 
-    public static PlaceData getInstance(){
+        for(int i =0; i < vhObjs.length; i++){
+            vehicleNames[i] = vhObjs[i].getVhName();
+        }
 
-        if(pDInstance == null){
+
+
+
+    }
+    private PlaceData() {
+    }
+
+    public void instanciateObjects(){
+        initImages();
+        initVehicleNames();
+    }
+
+    public static PlaceData getInstance() {
+
+        if (pDInstance == null) {
             pDInstance = new PlaceData();
-            pDInstance.initImages();
+            pDInstance.instanciateObjects();
+
 
         }
 
         return pDInstance;
+    }
+
+    public Vehicle[] getVhArray(){
+        return vhObjs;
     }
 
     public ImageIcon[] getTouristSpotImages() {
@@ -217,6 +251,8 @@ public class PlaceData{
         return touristSpots;
     }
 
-
+    public String[] getVehicleNames(){
+        return vehicleNames;
+    }
 
 }

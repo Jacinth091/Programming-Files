@@ -198,6 +198,16 @@ public class Helper {
         return new ImageIcon(resizedImage); // Create a new ImageIcon with the resized image
     }
 
+    public  ImageIcon resizeImageIcon(String filePath, int width, int height) {
+        ImageIcon icon = new ImageIcon(filePath);
+        Image image = icon.getImage(); // Get the image from the ImageIcon
+        Image resizedImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH); // Resize the image
+        return new ImageIcon(resizedImage); // Create a new ImageIcon with the resized image
+    }
+
+
+
+
     public BorderLayout setBorderLayout(int vGap, int hGap){
         return new BorderLayout(vGap, hGap);
     }

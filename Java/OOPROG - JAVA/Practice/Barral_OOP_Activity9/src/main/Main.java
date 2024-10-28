@@ -8,13 +8,14 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
 
-        App window = new App(500, 700, "SF Lab. Act. #09", true, true, new BorderLayout(), JFrame.EXIT_ON_CLOSE);
+        App window = new App(500, 700, "SF Lab. Act. #09", true, new BorderLayout(), JFrame.EXIT_ON_CLOSE);
         // Call pack() to size the frame to fit the preferred size
-//        window.pack();
-//
-//        // Set visibility last to ensure everything is set up correctly
-//        window.setVisible(true);
-//        window.setLocationRelativeTo(null);
+        window.pack();
+
+        // Set visibility last to ensure everything is set up correctly
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
 
 //        ConfirmFrame cf = new ConfirmFrame();
 //        cf.setLayout(new BorderLayout());

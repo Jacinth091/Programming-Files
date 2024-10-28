@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class App extends JFrame implements ActionListener {
 
@@ -40,7 +41,7 @@ public class App extends JFrame implements ActionListener {
     public App(){
 
     }
-    public App(int width, int height, String title, boolean isVisible, boolean isResizable, LayoutManager layout, int defCloseOper) {
+    public App(int width, int height, String title, boolean isResizable, LayoutManager layout, int defCloseOper) {
         this.setPreferredSize(new Dimension(width, height));
         this.setTitle(title);
         this.setResizable(isResizable);
@@ -48,14 +49,12 @@ public class App extends JFrame implements ActionListener {
         this.setLayout(layout);
 //        loadImgs();
 
-
         initMain();
 
-        validate();
-        pack();
 
-        this.setVisible(isVisible);
-        setLocationRelativeTo(null);
+//        validate();
+//        pack();
+//        setLocationRelativeTo(null);
 
 
     }
@@ -97,27 +96,12 @@ public class App extends JFrame implements ActionListener {
         }
         bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
 
-
-
-            // Body Center (BC Header, BC Body)
-            BC_Panels = new JPanel[2];
-            for(int i = 0; i < BC_Panels.length; i++){
-                BC_Panels[i] = helper.createPanel(Color.white, helper.setBorderLayout(), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-            }
-            BC_Panels[0].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
-            BC_Panels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 400));
-
-            // BC Body (tourist Spots Card Component)
-            // Putting data from the Place Data to the Place Card Component
-            initalizeDataToCard();
-
-
-            // BC Footer (Book Location Button)
-            initBookBtns();
+            initScrollCardPanel();
 
 
 
-        // Adding of Components
+
+        //------------------------------------ Adding of Components ------------------------------------
 
             // Adding of buttons to bodySectionPanels[1] south part
             addComponent(bookLabelPanel, bookBtnLabel);
@@ -126,11 +110,8 @@ public class App extends JFrame implements ActionListener {
 
             addComponent(bookBtnPanel, cancelBookBtn);
 
-
-
         addComponent(bodySectionPanels[1], bookBtnPanel, BorderLayout.EAST);
         addComponent(bodySectionPanels[1], bookLabelPanel, BorderLayout.CENTER);
-
 
             // BC Body
             addComponent(BC_Panels[1], touristSpotScroll);
@@ -150,44 +131,9 @@ public class App extends JFrame implements ActionListener {
         addComponentToFrame(parentPanel, BorderLayout.CENTER);
 
 
-
     }
 
-
-    public void initConfirmPanel(){
-
-        // Parent Panle
-        parentPanel = helper.createPanel(Color.white, helper.setBorderLayout(5,5),true);
-        parentPanel.setBorder(helper.createEmptyBorder(5,5,5,5));
-
-        // Section Panels (Head,Body, Footer)
-        sectionPanels = new JPanel[2];
-        for(int i = 0; i < sectionPanels.length; i++){
-            sectionPanels[i] = helper.createPanel(Color.white, null, true); // Now each element in the array is set to a new JPanel
-            sectionPanels[i].setBorder(helper.createLineBorder(Color.BLACK, 5));
-        }
-        sectionPanels[0].setPreferredSize(new Dimension(parentPanel.getWidth(),70));
-        sectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(),200));
-        sectionPanels[1].setLayout(helper.setBorderLayout(5,5));
-        //------------------------------------ Header ------------------------------------
-
-
-
-
-
-
-
-        //------------------------------------ BODY ------------------------------------
-        // Body Section Panels ( Body Center, Body Footer)
-        bodySectionPanels = new JPanel[2];
-        for(int i = 0; i < bodySectionPanels.length; i++){
-            bodySectionPanels[i] = helper.createPanel(null, helper.setBorderLayout(5,5), new Dimension(parentPanel.getWidth(),50),true); // Now each element in the array is set to a new JPanel
-//            bodySectionPanels[i].setBorder(helper.createEmptyBorder(5,5,5,5));
-        }
-        bodySectionPanels[1].setPreferredSize(new Dimension(parentPanel.getWidth(), 70));
-
-
-
+    public void initScrollCardPanel(){
         // Body Center (BC Header, BC Body)
         BC_Panels = new JPanel[2];
         for(int i = 0; i < BC_Panels.length; i++){
@@ -203,42 +149,6 @@ public class App extends JFrame implements ActionListener {
 
         // BC Footer (Book Location Button)
         initBookBtns();
-
-
-
-        // Adding of Components
-
-        // Adding of buttons to bodySectionPanels[1] south part
-        addComponent(bookLabelPanel, bookBtnLabel);
-
-        addComponent(bookBtnPanel, bookBtn);
-
-        addComponent(bookBtnPanel, cancelBookBtn);
-
-
-
-        addComponent(bodySectionPanels[1], bookBtnPanel, BorderLayout.EAST);
-        addComponent(bodySectionPanels[1], bookLabelPanel, BorderLayout.CENTER);
-
-
-        // BC Body
-        addComponent(BC_Panels[1], touristSpotScroll);
-
-        addComponent(bodySectionPanels[0], BC_Panels[0], BorderLayout.NORTH);
-        addComponent(bodySectionPanels[0], BC_Panels[1], BorderLayout.CENTER);
-
-
-        addComponent(sectionPanels[1], bodySectionPanels[0], BorderLayout.CENTER);
-        addComponent(sectionPanels[1], bodySectionPanels[1], BorderLayout.SOUTH);
-
-
-        addComponent(parentPanel, sectionPanels[0], BorderLayout.NORTH);
-        addComponent(parentPanel, sectionPanels[1], BorderLayout.CENTER);
-
-
-        addComponentToFrame(parentPanel, BorderLayout.CENTER);
-
-
     }
 
 
@@ -257,7 +167,26 @@ public class App extends JFrame implements ActionListener {
             String placeDesc = plData.getTouristSpots()[i][2];
             String placeType = plData.getTouristSpots()[i][3];
             String suggestedVehicle = plData.getTouristSpots()[i][4];
-            ImageIcon placeImage = helper.resizeImageIcon(plData.getTouristSpotImages()[i], 100,100);
+            ImageIcon placeImage = null;
+
+            try {
+                ImageIcon temp = plData.getTouristSpotImages()[i];
+
+                if (temp == null) {
+                    throw new NullPointerException("Image from the database is null!");
+                }
+
+                placeImage = helper.resizeImageIcon(temp, 100, 100);
+
+                if (placeImage.getImageLoadStatus() != MediaTracker.COMPLETE) {
+                    throw new IOException("Image failed to load after resizing.");
+                }
+
+            } catch (NullPointerException | IOException e) {
+                e.printStackTrace();
+                System.out.println("Error loading or resizing image: " + e.getMessage());
+            }
+
 
             touristSpotCard[i] = new PlaceCard(placeTitle, placeAddress, placeDesc, placeType, suggestedVehicle, placeImage);
             touristSpotCard[i].initScrollCardElements();

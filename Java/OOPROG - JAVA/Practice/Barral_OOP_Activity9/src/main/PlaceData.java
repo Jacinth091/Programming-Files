@@ -10,8 +10,20 @@ import java.io.IOException;
 public class PlaceData{
 
     public static PlaceData pDInstance;
+    private Helper helper = new Helper();
+    private final int imageScale = 1;
+    private final int imageWidth = 1920 / imageScale, imageHeight = 1080 / imageScale;
 
-    final String imgPathLoc = "src/assets/places";
+//    final String imgPathOne = "assets/places";
+//    final String imgPathTwo = "src/assets/places";
+
+    final String[] imgPaths = {
+            "src",
+            "assets/places",
+            "src/assets/places",
+
+    };
+
     private ImageIcon[] touristSpotImages;
     private String[][] touristSpots = {
             {
@@ -129,43 +141,58 @@ public class PlaceData{
 
 
 
-    public void initImages(){
+    public void initImages() {
+        int pathIndex = -1;
+        File[] paths = new File[imgPaths.length];
+        File[] placeImages = null;
 
-        File imgPath = new File(imgPathLoc);
-        File[] placeImages = imgPath.listFiles();
-        System.out.println(placeImages.length);
-//        System.out.println(placeImages[0].getPath());
+        // Load directories and validate paths
+        try {
+            for (int i = 0; i < paths.length; i++) {
+                paths[i] = new File(imgPaths[i]);
 
-        if(placeImages == null){
-            System.out.println("PlaceImages is null");
-            return;
+                // Check if path exists and is a directory
+                if (paths[i].exists() && paths[i].isDirectory() && !paths[i].getPath().equals("src")) {
+                    pathIndex = i;
+                    break;  // Use the first valid path found
+                } else {
+                    System.out.println("Invalid or non-existent path at index " + i + ": " + paths[i].getPath());
+                }
+            }
+
+            if (pathIndex == -1) {
+                throw new IOException("No valid paths to initialize images.");
+            }
+
+            System.out.println("Valid path found at index " + pathIndex + ": " + paths[pathIndex].getPath());
+            placeImages = paths[pathIndex].listFiles();
+
+            // Check if the image array is null (no files in directory)
+            if (placeImages == null) {
+                throw new NullPointerException("Image files array is null, check if directory is empty.");
+            }
+
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Directory or image loading failed: " + e.getMessage());
+            return; // Exit if no valid path or empty directory
         }
 
+        // Initialize and load images with resizing and error handling
         touristSpotImages = new ImageIcon[placeImages.length];
-
-        for(int i =0; i < placeImages.length; i++){
-            ImageIcon tempImg;
-            try{
-                String filePath = placeImages[i].getPath();
-                System.out.println(filePath);
-//                tempImg = new ImageIcon(ImageIO.read(placeImages[i]));
-                tempImg = new ImageIcon(filePath) ;
-
-                if(tempImg != null){
-                    touristSpotImages[i] = tempImg;
+        for (int i = 0; i < placeImages.length; i++) {
+            String filePath = placeImages[i].getPath();
+            try {
+                ImageIcon tempImg = new ImageIcon(filePath);
+                if (tempImg.getImageLoadStatus() != MediaTracker.COMPLETE) {
+                    throw new NullPointerException("Image failed to load at path: " + filePath);
                 }
-                else{
-                    System.out.println("Failed to load image: " + filePath);
-                }
+                touristSpotImages[i] = tempImg;
+                System.out.printf("Image %2d loaded successfully from: %s%n", i, filePath);
 
-
-            }catch(Exception e){
-                e.printStackTrace();
+            } catch (NullPointerException e) {
+                System.out.println("Image loading failed for file " + filePath + ": " + e.getMessage());
             }
         }
-        System.out.println();
-
-
     }
 
 

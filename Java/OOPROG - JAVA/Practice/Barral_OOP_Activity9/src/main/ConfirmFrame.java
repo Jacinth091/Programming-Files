@@ -201,7 +201,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
 
         // Confirm and Back Buttons
-        confirmBtn = helper.createButton(helper.formatText("Confirm", Color.White, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        confirmBtn = helper.createButton(helper.formatText("Confirm", Color.WHITE, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         confirmBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
         confirmBtn.setBackground(new Color(105, 232, 86));
         confirmBtn.addActionListener(this);

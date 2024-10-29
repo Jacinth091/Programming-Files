@@ -10,7 +10,7 @@ public class Main {
 
         Student studentOne = new Student("Jacinth", "Traveller");
 
-        App window = new App(500, 700, "SF Lab. Act. #09", true, new BorderLayout(), JFrame.EXIT_ON_CLOSE);
+        App window = new App(studentOne,500, 700, "SF Lab. Act. #09", true, new BorderLayout(), JFrame.EXIT_ON_CLOSE);
         // Call pack() to size the frame to fit the preferred size
         window.pack();
 
@@ -18,8 +18,8 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-        window.getUsername(studentOne.getStudName());
-        window.setStudentClass(studentOne);
+//        window.getUsername(studentOne.getStudName());
+//        window.setStudentClass(studentOne);
 
 
     }

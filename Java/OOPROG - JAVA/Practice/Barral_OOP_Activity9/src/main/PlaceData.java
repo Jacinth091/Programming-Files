@@ -19,12 +19,17 @@ public class PlaceData {
 
     final String[] imgPaths = {
             "src",
-            "mmamammama",
-            "assets/places",
-            "src/assets/places",
-
+                    "mmamammama",
+                    "assets/places",
+                    "src/assets/places",
     };
 
+    final String[] iconPaths = {
+            "assets/icons",
+            "src/assets/icons",
+    };
+
+    private ImageIcon[] iconImgs;
     private ImageIcon[] touristSpotImages;
     private String[][] touristSpots = {
             {
@@ -144,11 +149,10 @@ public class PlaceData {
     };
 
 
-    public void initImages() {
+    public File[] validateImagePaths(){
         int pathIndex = -1;
         File[] paths = new File[imgPaths.length];
-        File[] placeImages = null;
-
+        File[] tempImages = null;
         // Load all the paths in imgPaths String array
         try {
             for (int i = 0; i < paths.length; i++) {
@@ -168,20 +172,67 @@ public class PlaceData {
             }
             // Logging into console if valid index found
             System.out.println("Valid path found at index " + pathIndex + ": " + paths[pathIndex].getPath());
-            placeImages = paths[pathIndex].listFiles();
+            tempImages = paths[pathIndex].listFiles();
 
             // Check if the image array is null (no files in directory)
-            if (placeImages == null) {
+            if (tempImages == null) {
                 throw new NullPointerException("Image files array is null, check if directory is empty.");
             }
 
         } catch (IOException | NullPointerException e) {
             System.out.println("Directory or image loading failed: " + e.getMessage());
-            return; // Exit if no valid path or empty directory
+//            return; // Exit if no valid path or empty directory
         }
 
+        return tempImages;
+
+    }
+
+    public File[] validateIconPaths(){
+        int pathIndex = -1;
+
+        File[] paths = new File[iconPaths.length];
+        File[] tempImages = null;
+        // Load all the paths in iconPaths String array
+        try {
+            for (int i = 0; i < iconPaths.length; i++) {
+                paths[i] = new File(iconPaths[i]);
+
+                // Checking if the current path exist or a directory
+                if (paths[i].exists() && paths[i].isDirectory() && !paths[i].getPath().equals("src")) {
+                    pathIndex = i;
+                    break;  // If it is valid, use the index and break out of the loop
+                } else {
+                    System.out.println("Invalid path at index " + i + ": " + paths[i].getPath());
+                }
+            }
+
+            if (pathIndex == -1) {
+                throw new IOException("No valid paths to initialize images.");
+            }
+            // Logging into console if valid index found
+            System.out.println("Valid path found at index " + pathIndex + ": " + paths[pathIndex].getPath());
+            tempImages = paths[pathIndex].listFiles();
+
+            // Check if the image array is null (no files in directory)
+            if (tempImages == null) {
+                throw new NullPointerException("Image files array is null, check if directory is empty.");
+            }
+
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Directory or image loading failed: " + e.getMessage());
+//            return; // Exit if no valid path or empty directory
+        }
+
+        return tempImages;
+
+    }
+
+    public ImageIcon[] initializePlaceImages(){
+        File[] placeImages = validateImagePaths();
+        ImageIcon[] tempImgs = new ImageIcon[placeImages.length];
         // Initialize and load images in the array
-        touristSpotImages = new ImageIcon[placeImages.length];
+
         for (int i = 0; i < placeImages.length; i++) {
             String filePath = placeImages[i].getPath();
             try {
@@ -190,13 +241,46 @@ public class PlaceData {
                 if (tempImg.getImageLoadStatus() != MediaTracker.COMPLETE) {
                     throw new NullPointerException("Image failed to load at path: " + filePath);
                 }
-                touristSpotImages[i] = tempImg;
+                tempImgs[i] = tempImg;
                 System.out.printf("Image %2d loaded successfully from: %s%n", i, filePath);
 
             } catch (NullPointerException e) {
                 System.out.println("Image loading failed for file " + filePath + ": " + e.getMessage());
             }
         }
+        return tempImgs;
+    }
+
+
+    public ImageIcon[] initializeIcons(){
+        File[] iconImages = validateIconPaths();
+        ImageIcon[] tempImgs = new ImageIcon[iconImages.length];
+        for (int i = 0; i < iconImages.length; i++) {
+            String filePath = iconImages[i].getPath();
+            try {
+                ImageIcon tempImg = new ImageIcon(filePath);
+                // Check to see if the image load is successful or not
+                if (tempImg.getImageLoadStatus() != MediaTracker.COMPLETE) {
+                    throw new NullPointerException("Image failed to load at path: " + filePath);
+                }
+                tempImgs[i] = tempImg;
+                System.out.printf("Image %2d loaded successfully from: %s%n", i, filePath);
+
+            } catch (NullPointerException e) {
+                System.out.println("Image loading failed for file " + filePath + ": " + e.getMessage());
+            }
+        }
+        return tempImgs;
+
+    }
+    public void initImages() {
+
+
+        touristSpotImages = initializePlaceImages();
+        iconImgs = initializeIcons();
+
+
+
     }
 
     public void initVehicleNames(){
@@ -237,6 +321,10 @@ public class PlaceData {
 
     public ImageIcon[] getTouristSpotImages() {
         return touristSpotImages;
+    }
+
+    public ImageIcon[] getIconImgs() {
+        return iconImgs;
     }
 
     public String[][] getTouristSpots() {

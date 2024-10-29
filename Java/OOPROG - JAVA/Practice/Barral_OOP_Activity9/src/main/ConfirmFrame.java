@@ -31,8 +31,8 @@ public class ConfirmFrame extends JFrame implements ActionListener {
     private JPanel confirmPanel;
     private JPanel[] confirmPanelElements;
 
-    private JPanel comboBoxPanel;
-    private JLabel comboBoxLabel;
+    private JPanel comboBoxParent, comboBoxPanel;
+    private JLabel comboBoxLabel, comboBoxLabelTitle;
     private JComboBox<String> comboBox;
 
 
@@ -74,9 +74,20 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         initConfirmPanel();
 
 
+
         //------------------------------------ Adding of Components ------------------------------------
 
+
+        addComponent(comboBoxPanel, comboBoxLabel);
+        comboBoxPanel.add(Box.createVerticalStrut(10));
+        comboBoxPanel.add(Box.createVerticalGlue()); // Adds space before comboBox
         addComponent(comboBoxPanel, comboBox);
+        comboBoxPanel.add(Box.createVerticalGlue()); // Adds space after comboBox
+
+
+
+        addComponent(comboBoxParent, comboBoxPanel, BorderLayout.CENTER);
+        addComponent(comboBoxParent, comboBoxLabelTitle, BorderLayout.NORTH);
 
 
         addComponent(buttonsPanel, confirmBtn, BorderLayout.WEST);
@@ -84,12 +95,12 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
 
         addComponent(confirmPanelElements[0], displayCard, BorderLayout.CENTER);
-        addComponent(confirmPanelElements[1], comboBoxPanel, BorderLayout.CENTER);
+        addComponent(confirmPanelElements[1], comboBoxParent, BorderLayout.CENTER);
         addComponent(confirmPanelElements[1], buttonsPanel, BorderLayout.SOUTH);
 
 
         addComponent(confirmPanel, confirmPanelElements[0]);
-        confirmPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Adds spacing
+        confirmPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adds spacing
         addComponent(confirmPanel, confirmPanelElements[1]);
 
         addComponent(sectionPanel, confirmPanel, BorderLayout.CENTER);
@@ -110,40 +121,28 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
         // Confirm Panel Parent
         confirmPanel = helper.createPanel(null, true, true);
+        confirmPanel.setBackground(null);
         confirmPanel.setLayout(new BoxLayout(confirmPanel, BoxLayout.Y_AXIS));
 
         // Confirm Panel Elements
         confirmPanelElements = new JPanel[2];
         for (int i = 0; i < confirmPanelElements.length; i++) {
             confirmPanelElements[i] = helper.createPanel(null, helper.setBorderLayout(), true);
+            confirmPanelElements[i].setBorder(helper.createCompoundBorder(Color.BLACK, 5, 5,5,5,5));
+
         }
         confirmPanelElements[0].setPreferredSize(new Dimension(100, 350));
         confirmPanelElements[1].setPreferredSize(new Dimension(100, 150));
         confirmPanelElements[1].setLayout(new BorderLayout(5, 5));
-//      confirmPanelElements[1].setBorder(helper.createEmptyBorder(5,5,5,5));
+        confirmPanelElements[1].setBackground(Color.WHITE);
 
 
         // Display Card Component
         displayCard = initPlaceCardData(index);
 
+        // JComboBox Section Initialization
 
-        // JComboBox Panel
-
-        comboBoxPanel = helper.createPanel(Color.cyan, new FlowLayout(), true);
-        comboBoxPanel.setPreferredSize(new Dimension(0, 150));
-
-
-//        System.out.println(vhObjs[1].getVhName());
-
-        comboBox = helper.createComboBox(plData.getVehicleNames(),
-                new Dimension(300, 30),
-                false,
-                Color.WHITE,
-                Color.BLACK,
-                new Font("Arial", Font.PLAIN, 14)
-        );
-        comboBox.addActionListener(this);
-        comboBox.setActionCommand("comboBox");
+        initJComboSection();
 
 
         // Buttons and Buttons Panel
@@ -157,7 +156,43 @@ public class ConfirmFrame extends JFrame implements ActionListener {
         confirmPanelElements[1].repaint();
 
     }
+    private void initJComboSection(){
 
+        // JComboBox Panel Parent
+        comboBoxParent = helper.createPanel(null, new BorderLayout(5,5), true);
+        comboBoxParent.setPreferredSize(new Dimension(0, 150));
+//        comboBoxPanelTitle.setBorder(helper.createEmptyBorder(5,5,5,5));
+
+
+        // JComboBox JLabel Title
+        comboBoxLabelTitle = helper.createLabel("Mode Of Transportation", null, Color.black, 15, false, "center");
+        comboBoxLabelTitle.setHorizontalAlignment(JLabel.CENTER);
+
+
+        // JComboBox Elements Container
+        comboBoxPanel = helper.createPanel(null, null, true);
+        comboBoxPanel.setLayout(new BoxLayout(comboBoxPanel, BoxLayout.X_AXIS));
+        comboBoxPanel.setPreferredSize(new Dimension(0, 150));
+
+        // JCombo Box Label Element
+        comboBoxLabel = helper.createLabel("Choose Vehicle", null, Color.black, 15, true, "center");
+        comboBoxLabel.setHorizontalAlignment(JLabel.CENTER);
+//        comboBoxLabel.setMaximumSize(new Dimension(300, 100));
+
+        comboBox = helper.createComboBox(plData.getVehicleNames(),
+                new Dimension(270, 30),
+                false,
+                Color.white,
+                Color.BLACK,
+                new Font("Arial", Font.PLAIN, 14)
+        );
+        comboBox.setOpaque(false);
+        comboBox.setMaximumSize(new Dimension(270, 50));
+        comboBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+//        comboBox.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        comboBox.addActionListener(this);
+        comboBox.setActionCommand("comboBox");
+    }
     private void initButtons() {
         // Buttons Panel
 
@@ -166,14 +201,16 @@ public class ConfirmFrame extends JFrame implements ActionListener {
 
 
         // Confirm and Back Buttons
-        confirmBtn = helper.createButton(helper.formatText("Confirm", Color.BLACK, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        confirmBtn = helper.createButton(helper.formatText("Confirm", Color.White, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         confirmBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
+        confirmBtn.setBackground(new Color(105, 232, 86));
         confirmBtn.addActionListener(this);
         confirmBtn.setActionCommand("confirm");
 
 
-        backBtn = helper.createButton(helper.formatText("Back", Color.BLACK, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backBtn = helper.createButton(helper.formatText("Back", Color.WHITE, 13, true, "center"), Color.WHITE, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         backBtn.setBorder(helper.createLineBorder(Color.BLACK, 1));
+        backBtn.setBackground(new Color(232, 86, 108));
         backBtn.addActionListener(this);
         backBtn.setActionCommand("back");
     }
@@ -229,7 +266,7 @@ public class ConfirmFrame extends JFrame implements ActionListener {
                     mainWindow.dispose();
                     String placeTitle = plData.getTouristSpots()[index][0];
                     String placeAddress = plData.getTouristSpots()[index][1];
-                    bookStatusWindow = new BookStatusFrame(student, index, vehicleIndex, selItem, selItemType, placeAddress, placeTitle, mainWindow.getUsername());
+                    bookStatusWindow = new BookStatusFrame(student, index, vehicleIndex, selItem, selItemType, placeAddress, placeTitle, student.getStudName());
 
                     bookStatusWindow.displayBookingDetails();
 

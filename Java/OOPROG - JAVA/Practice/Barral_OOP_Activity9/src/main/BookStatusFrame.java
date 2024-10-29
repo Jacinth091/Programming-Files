@@ -63,7 +63,17 @@ public class BookStatusFrame  {
 
         JOptionPane.showMessageDialog(null, bookStatus, "Booking", JOptionPane.INFORMATION_MESSAGE);
 
+        String closingMessage = ("<html>" +
+                "<p style='font-size: 14px; padding: 10px; text-align: center;'>" +
+                "Thank you for using the Booking Program, See you again<br><br>" +
+                "<span style='font-weight: bold;'>Made by:</span> Barral Jacinth Cedric C.<br>" +
+                "<span style='font-weight: bold;'>Course:</span> BSIT 2B" +
+                "</p>" +
+                "</html>");
 
+
+        mainInfoLabel.setText(closingMessage);
+        JOptionPane.showMessageDialog(null, mainInfoLabel, "Goodbye and Thank You", JOptionPane.INFORMATION_MESSAGE);
     }
 
 

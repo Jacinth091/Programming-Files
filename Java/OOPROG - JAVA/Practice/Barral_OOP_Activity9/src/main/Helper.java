@@ -25,7 +25,7 @@ public class Helper {
     }
 
 
-    public static Border createCompoundBorder(Color lineColor, int thickness, int top, int left, int bottom, int right) {
+    public  Border createCompoundBorder(Color lineColor, int thickness, int top, int left, int bottom, int right) {
         Border lineBorder = BorderFactory.createLineBorder(lineColor, thickness);
         Border emptyBorder = BorderFactory.createEmptyBorder(top, left, bottom, right);
         return BorderFactory.createCompoundBorder(lineBorder, emptyBorder);

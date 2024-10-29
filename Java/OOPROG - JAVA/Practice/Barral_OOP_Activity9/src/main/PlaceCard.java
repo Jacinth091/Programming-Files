@@ -83,7 +83,7 @@ public class PlaceCard extends JPanel {
         setLayout(new OverlayLayout(this));
 
         pc_Container = helper.createPanel(null, helper.setBorderLayout(5, 5), new Dimension(this.getWidth(), 200), true);
-        pc_Container.setBorder(helper.createLineBorder(Color.BLACK, 5));
+//        pc_Container.setBorder(helper.createLineBorder(Color.BLACK, 5));
 
 
         pc_Butt = helper.createButton("0", null, null, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

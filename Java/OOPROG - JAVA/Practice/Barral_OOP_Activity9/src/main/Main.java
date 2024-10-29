@@ -1,3 +1,13 @@
+/*
+*   Name: Barral, Jacinth Cedric C.
+*   Date: October 29, 2024
+*   Description: SF Lab. Act. #09 - Decoupling and Dependency Injection in Java OOP: The Traveling Student
+*
+*
+* */
+
+
+
 package main;
 
 import main.objects.*;

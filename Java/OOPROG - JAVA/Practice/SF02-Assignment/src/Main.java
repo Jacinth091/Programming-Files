@@ -17,13 +17,17 @@
 public class Main {
 
     public static void main(String[] args){
-
+      
+      // Storing it in an Array of Animals
         Animal[] animals = {
+               // Lambda Expressions
                 new Animal("Dog", "German Shepherd", "walking", (movement) -> System.out.println(movement)) {},
                 new Animal("Cat", "Bengal", "walking", (movement) -> System.out.println(movement)) {},
                 new Animal("Fish", "Koi", "swimming", (movement) -> System.out.println(movement)) {},
                 new Animal("Shark", "Great White Shark", "swimming", (movement) -> System.out.println(movement)) {},
                 new Animal("Turtle", "Green Sea Turtle", "crawling", (movement) -> System.out.println(movement)) {},
+                
+               // Anonymous Inner Classes
                 new Animal("Fish", "Goldfish", "swimming",new Movable() {
                     @Override
                     public void doMove(String movement) {
@@ -31,7 +35,7 @@ public class Main {
                     }
                 }) {},
 
-                new Animal("Snake", "Python", "slithering",new Movable() {
+                new Animal("Snake", "Cobra", "slithering",new Movable() {
                     @Override
                     public void doMove(String movement) {
                         System.out.println(movement);
@@ -59,7 +63,8 @@ public class Main {
                     }
                 }) {}
         };
-
+        
+        // Displaying the movement of each animal in Animals array
         for(Animal animal : animals){
             animal.move();
 //            System.out.println();

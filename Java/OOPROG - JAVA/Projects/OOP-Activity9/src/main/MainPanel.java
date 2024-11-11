@@ -27,7 +27,7 @@ public class MainPanel extends JPanel implements Runnable{
 
     private final long nanoTime = 1000000000;
 
-    private int FPS = 30;
+    private int FPS = 24;
 
     private KeyInput kPut = new KeyInput();
     private MouseInput mouseIn = new MouseInput(this);

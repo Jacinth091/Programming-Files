@@ -57,7 +57,7 @@ public class Main {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
+//        gbc.anchor = GridBagConstraints.CENTER;
 
         container.add(mp, gbc);
 

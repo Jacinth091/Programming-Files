@@ -1,0 +1,59 @@
+// Online C# Editor for free
+// Write, Edit and Run your C# code using C# Online Compiler
+
+using System;
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        
+        string name = "Jacinth Cedric C. Barral";
+        int num1;
+        int num2;
+        int result =0;
+        char op;
+    
+        Console.WriteLine($"Name: {name}!\n");
+        
+        Console.WriteLine("Simple Calculator!");
+        Console.Write("Num 1: ");
+        num1 = Int32.Parse(Console.ReadLine());
+                
+        Console.Write("Num 2: ");
+        num2 = Convert.ToInt32(Console.ReadLine());
+        
+        Console.Write("Choose an Operator ( + - * /): ");
+        op = Console.ReadLine().ToCharArray()[0];
+        
+        
+        switch(op){
+            case '+':
+                result = num1 + num2;
+            break;
+            case '-':
+                result = num1 - num2;
+            break;
+            case '*':
+                result = num1 * num2;
+            break;
+            case '/':
+                if(num1 == 0){
+                    Console.WriteLine("Undefined!");
+                    result = 0;
+                }
+                result = num1 / num2;
+            break;
+            
+            default:
+                Console.WriteLine($"The {op} is not supported/an operator!");
+                break;
+            
+        }
+        
+        Console.WriteLine($"The result is {result}");
+        
+
+        // Console.WriteLine(num1);
+    }
+}

@@ -11,15 +11,15 @@ public class MyArrayListAct{
         };
         
         String[] mainMenuOpts = {
-            "Add",
-            "Search",
-            "Search 2",
-            "Remove 1",
-            "Remove 2",
-            "Edit 1",
-            "Edit 2",
-            "Get",
-            "Insert",
+            "Add (Object o)",
+            "Search (Object o)",
+            "Search 2 (Object o)",
+            "Remove (Object o)",
+            "Remove (int location)",
+            "Edit (Object old, Object new)",
+            "Edit (int location, Object new)",
+            "Get (int location)",
+            "Insert (Object o. int location)",
             "Go Back"
         };
         
@@ -36,7 +36,12 @@ public class MyArrayListAct{
             
             System.out.print("\nEnter choice: ");
             choice = in.nextInt();
-            in.nextLine();
+            
+            if(!getValidInput(choice, opts.length, 1)){
+                System.out.println("Error: Input is out of range, try again...");
+                continue;
+            }
+            
             switch(choice){
                 case 1:
                     System.out.print("\nEnter size: ");
@@ -58,12 +63,8 @@ public class MyArrayListAct{
         
     }
     
-    public static void displayList(MyArrayList list){
-        
-    }
-    
-    public static void getValidInput(){
-    
+    public static boolean getValidInput(int input, int max, int min){
+        return (input >=min && input <= max);
     }
     
     public static void mainMenu(MyArrayList list ,String[] array, Scanner in){
@@ -74,7 +75,9 @@ public class MyArrayListAct{
         
         while(!exitFlag){
             System.out.println("\nMain Menu\n");
-            System.out.printf("Current List: %s\n", list.toString());
+            System.out.printf("Current List: %s\n", list.toString() + "\n");
+            System.out.println("Array Size: " + list.getSize() + "\n");
+            System.out.println("Number of Items Inside the List: " + list.getCount() + "\n");
             
             for(int i =0; i < array.length; i++){
                 if(i == array.length -1)
@@ -85,16 +88,32 @@ public class MyArrayListAct{
             System.out.print("\nEnter choice: ");
             
             choice = in.nextInt();
+            
+            if(!getValidInput(choice, array.length, 1) && choice != 0){
+                System.out.println("Error: Input is out of range, try again...");
+                continue;
+            }
+            
             in.nextLine();
             System.out.println();
             
             switch(choice){
                 case 1: // Add Items 
-                    System.out.println("Add items until the array is full:");
+                    System.out.println("\nAdd items until the array is full:");
                     
                     for(int i =0; i< list.getSize(); i++){
-                        System.out.print("Add item: ");
-                        list.add(in.nextLine());
+                        System.out.print("\nAdd item: ");
+                        objOld = in.nextLine();
+                        
+                        if(!list.add(objOld)){
+                            System.out.println("\nUnsuccessful operation, try again...\n");
+                            i = i -1;
+                            continue;
+                        }
+                        else{
+                            System.out.printf("\nAdded === %s === in the array successfully...\n", objOld.toString());
+                        }
+
                     }
                     
                     System.out.println("\n" + list.toString());
@@ -103,11 +122,12 @@ public class MyArrayListAct{
                 case 2: // Search Returning true or False
                     System.out.printf("List: %s\n", list.toString());
                     System.out.print("Enter what to search: ");
-                    if(list.search(in.nextLine())){
-                        System.out.println("Item found...");
+                    objOld = in.nextLine();
+                    if(list.search(objOld)){
+                        System.out.printf("\nItem === %s === found...\n", list.get(list.searchPart2(objOld)));
                     }
                     else{
-                        System.out.println("Item not found...");
+                        System.out.printf("\nItem === %s === not found...\n", list.get(list.searchPart2(objOld)));
                     }
                     
                     
@@ -119,107 +139,114 @@ public class MyArrayListAct{
                     location = list.searchPart2(objOld);
                     
                     if(location != -1){
-                        System.out.println("Item found at location " + location);
+                        System.out.printf("\nItem === %s === found at location %d...\n", list.get(list.searchPart2(objOld)), location);
                     }
                     else{
-                        System.out.println("Item not found...");
+                        System.out.printf("\nItem === %s === not found at location %d...\n", list.get(list.searchPart2(objOld)), location);
                     }
                     
                 break;
                 
                 case 4: // Remove function that takes in an Object
                     System.out.printf("List: %s\n", list.toString());
-                    System.out.println("Enter what item to remove: ");
-                    System.out.print("item to remove: ");
+                    System.out.println("\n======== Enter what item to remove from the list========\n");
+                    System.out.print("Item to remove: ");
                     objOld = in.nextLine();
                     
                     if(list.remove(objOld)){
-                        System.out.println("Item " + objOld + "has been successfully removed.");
+                        System.out.println("\nItem " + objOld + "has been successfully removed.\n");
                     }
                     else{
-                        System.out.println("Remove Unsuccessful...");
+                        System.out.println("\nRemove Unsuccessful...\n");
                     }
                 break;
                 
                 case 5: // Remove function that takes in the location of the object
                     System.out.printf("List: %s\n", list.toString());
-                    System.out.println("Enter what location to remove: ");
+                    System.out.println("\n======== Enter the location of the item to remove from the list========\n");
                     System.out.print("Location of the item to remove: ");
-                    location = list.searchPart2(in.nextInt());
+                    location = list.searchPart2(list.get(in.nextInt()));
+                    
                     in.nextLine();
+                    
                     if(list.remove(location)){
-                        System.out.println("Item at" + location + "has been successfully removed.");
+                        System.out.println("\nItem at" + location + "has been successfully removed.\n");
                     }
                     else{
-                        System.out.println("Remove Unsuccessful...");
+                        System.out.println("\nRemove Unsuccessful...\n");
                     }
+                    
                 break;
                 case 6: // Edit function that takes two object as arguments
                     System.out.printf("List: %s\n", list.toString());
                     
-                    System.out.println("Enter what item to edit: ");
-                    System.out.print("Object 1: ");
+                    System.out.println("\n============ Enter what item to edit from the list ============\n ");
+                    System.out.print("Item you want to edit from the list: ");
                     objOld = in.nextLine();
-                    System.out.print("Object 2: ");
+                    
+                    System.out.println();
+                    
+                    System.out.print("New item to edit the item you want to edit: ");
                     objNew = in.nextLine();
                     
                     if(list.edit(objOld, objNew)){
-                        System.out.println("\nItem " + objOld + "has been successfully edit.");
+                        System.out.println("\nItem " + objOld.toString() + "has been successfully edited to" + objNew.toString() + "...\n");
                     }
                     else{
-                        System.out.println("Edit Unsuccessful...");
+                        System.out.println("\nEdit Unsuccessful...\n");
                     }
                 break;
                 case 7: // Edit function that takes in the location of the old object and the new object
                     System.out.printf("List: %s\n", list.toString());
-                    System.out.println("Enter what item to remove: ");
-                    System.out.print("Location 1: ");
+                    System.out.println("\n======== Enter the locations of the item to edit from the list========\n");
+                    System.out.print("Location of Item to remove : ");
                     location = in.nextInt();
                     in.nextLine();
-                    
                     System.out.println();
-                    System.out.print("New Object 2: ");
+                    System.out.print("The item you want to put at location of the item you want to edit: ");
                     objNew = in.nextLine();
                     
                     if(list.edit(location, objNew)){
-                        System.out.println("\nItem at " + location+ "has been successfully edited.");
+                        System.out.println("\nItem at location" + location + "has been successfully edited to" + objNew.toString() + "...\n");
                     }
                     else{
-                        System.out.println("Edit Unsuccessful...");
+                        System.out.println("\nEdit Unsuccessful...\n");
                     }
                 break;
                 
                 case 8: // Get function that returns the index location of the object 
                     System.out.printf("List: %s\n", list.toString());
-                    System.out.println("Enter what Item to get:");
+                    System.out.println("\n============ Enter what item to get from the list ============\n ");
                     System.out.print("Item to get: ");
                     location = list.searchPart2(in.nextInt());
+                    System.out.println();
                     
                     if(location != -1){
                         System.out.println("\nGetting the item at location " + location + " is " + list.get(location));
                     }
                     else{
-                        System.out.println("Unsuccessful getting of item at location " + location);
+                        System.out.println("Unsuccessful operation, try again...");
                     }
                     
                 break;
                 
                 case 9: // Get function that returns the index location of the object 
                     System.out.printf("List: %s\n", list.toString());
-                    System.out.println("Enter what item to insert:");
-                    System.out.print("Item to insert: ");
+                    System.out.println("\n============ Enter what item to insert and the location from the list ============\n ");
+                    System.out.print("\nItem to insert: ");
             
                     objOld = in.nextLine();
                     System.out.println("\nEnter in what location to insert:");
-                    System.out.print("location: ");
+                    System.out.print("\nThe location you want to insert the item: ");
+                    
                     location = in.nextInt();
                     in.nextLine();
                     
                     if(list.insert(objOld, location)){
-                        System.out.println("successfully inserted object: " + objOld + " at location " + location + "...");
+                        System.out.println("\nSuccessfully inserted object: " + objOld + " at location " + location + "...\n");
                     }
                     else{
-                        System.out.println("Unsuccessful insertion of object: " + objOld + " at location " + location + "...");
+                        System.out.println("\nUnsuccessful insertion of object: " + objOld + " at location " + location + "...\n");
                     }
                     
                 break;
@@ -379,13 +406,18 @@ class MyArrayList{
     public int getSize(){
         return items.length;
     }
+    
+    public int getCount(){
+        return count;
+    }
 
     public boolean insert(Object o, int index){
         
-        if(increase_size(1) && !isEmpty() && isLocationValid(index)){
+        if(increase_size(1) && !isEmpty() && isLocationValid(index) && !search(o)){
             Object temp = items[index];
             items[index] = o;
             items[count] = temp;
+            count = count + 1;
             return true;
         }
         return false;

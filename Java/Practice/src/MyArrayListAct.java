@@ -19,6 +19,7 @@ public class MyArrayListAct{
             "Edit 1",
             "Edit 2",
             "Get",
+            "Insert",
             "Go Back"
         };
         
@@ -32,6 +33,7 @@ public class MyArrayListAct{
             for(int i =0; i< opts.length; i++){
                 System.out.printf("%d. %s\n", (i+1), opts[i]);
             }
+            
             System.out.print("\nEnter choice: ");
             choice = in.nextInt();
             in.nextLine();
@@ -39,7 +41,7 @@ public class MyArrayListAct{
                 case 1:
                     System.out.print("\nEnter size: ");
                     list = createArrayList(in);
-
+                    
                     mainMenu(list, mainMenuOpts, in);
                 break;
                 
@@ -60,6 +62,9 @@ public class MyArrayListAct{
         
     }
     
+    public static void getValidInput(){
+    
+    }
     
     public static void mainMenu(MyArrayList list ,String[] array, Scanner in){
         boolean exitFlag = false;
@@ -78,11 +83,13 @@ public class MyArrayListAct{
                     System.out.printf("%d. %s\n", (i+1), array[i]);
             }
             System.out.print("\nEnter choice: ");
+            
             choice = in.nextInt();
             in.nextLine();
             System.out.println();
+            
             switch(choice){
-                case 1:
+                case 1: // Add Items 
                     System.out.println("Add items until the array is full:");
                     
                     for(int i =0; i< list.getSize(); i++){
@@ -93,7 +100,7 @@ public class MyArrayListAct{
                     System.out.println("\n" + list.toString());
                     
                 break;
-                case 2:
+                case 2: // Search Returning true or False
                     System.out.printf("List: %s\n", list.toString());
                     System.out.print("Enter what to search: ");
                     if(list.search(in.nextLine())){
@@ -105,7 +112,7 @@ public class MyArrayListAct{
                     
                     
                 break;
-                case 3:
+                case 3: // searchPart2 returning the index location of the item in the array
                     System.out.printf("List: %s\n", list.toString());
                     System.out.print("Enter what location of the item to search: ");
                     objOld = in.nextLine();
@@ -120,7 +127,7 @@ public class MyArrayListAct{
                     
                 break;
                 
-                case 4:
+                case 4: // Remove function that takes in an Object
                     System.out.printf("List: %s\n", list.toString());
                     System.out.println("Enter what item to remove: ");
                     System.out.print("item to remove: ");
@@ -134,7 +141,7 @@ public class MyArrayListAct{
                     }
                 break;
                 
-                case 5:
+                case 5: // Remove function that takes in the location of the object
                     System.out.printf("List: %s\n", list.toString());
                     System.out.println("Enter what location to remove: ");
                     System.out.print("Location of the item to remove: ");
@@ -147,7 +154,7 @@ public class MyArrayListAct{
                         System.out.println("Remove Unsuccessful...");
                     }
                 break;
-                case 6:
+                case 6: // Edit function that takes two object as arguments
                     System.out.printf("List: %s\n", list.toString());
                     
                     System.out.println("Enter what item to edit: ");
@@ -163,7 +170,7 @@ public class MyArrayListAct{
                         System.out.println("Edit Unsuccessful...");
                     }
                 break;
-                case 7:
+                case 7: // Edit function that takes in the location of the old object and the new object
                     System.out.printf("List: %s\n", list.toString());
                     System.out.println("Enter what item to remove: ");
                     System.out.print("Location 1: ");
@@ -182,7 +189,7 @@ public class MyArrayListAct{
                     }
                 break;
                 
-                case 8:
+                case 8: // Get function that returns the index location of the object 
                     System.out.printf("List: %s\n", list.toString());
                     System.out.println("Enter what Item to get:");
                     System.out.print("Item to get: ");
@@ -193,6 +200,26 @@ public class MyArrayListAct{
                     }
                     else{
                         System.out.println("Unsuccessful getting of item at location " + location);
+                    }
+                    
+                break;
+                
+                case 9: // Get function that returns the index location of the object 
+                    System.out.printf("List: %s\n", list.toString());
+                    System.out.println("Enter what item to insert:");
+                    System.out.print("Item to insert: ");
+            
+                    objOld = in.nextLine();
+                    System.out.println("\nEnter in what location to insert:");
+                    System.out.print("location: ");
+                    location = in.nextInt();
+                    in.nextLine();
+                    
+                    if(list.insert(objOld, location)){
+                        System.out.println("successfully inserted object: " + objOld + " at location " + location + "...");
+                    }
+                    else{
+                        System.out.println("Unsuccessful insertion of object: " + objOld + " at location " + location + "...");
                     }
                     
                 break;
@@ -227,7 +254,7 @@ class MyArrayList{
         this(10);
     }
 
-
+    
     public MyArrayList(int size){   
         if(size >= 5 && size <=50){
             items = new Object[size];
@@ -271,7 +298,7 @@ class MyArrayList{
     }
 
     public boolean add(Object o){
-        if(!isFull()){
+        if(!isFull() && !search(o)){
             items[count] = o;
             count = count +1;
             return true;
@@ -293,7 +320,21 @@ class MyArrayList{
 
         return false;
     }
-
+    private boolean increase_size(int addSize){
+        if(addSize > 0 && (items.length + addSize <= 50)){
+            int newSize =items.length + addSize ;
+            Object[] temp = new Object[newSize];
+            for(int i =0; i< count; i++){
+                temp[i] = items[i];
+            }
+            items= null;
+            items = temp;
+            return true;
+            
+        }
+        return false;
+    }
+    
 
     public boolean remove(int location){
         if(!isEmpty() && isLocationValid(location)){
@@ -317,7 +358,7 @@ class MyArrayList{
 
     public boolean edit(Object o, Object newObj){
 
-        if(!isEmpty()){
+        if(!isEmpty() && !search(newObj)){
             int loc = searchPart2(o);
             if(loc != -1){
                 items[loc] = newObj;
@@ -326,9 +367,9 @@ class MyArrayList{
         }
         return false;
     }
-   public boolean edit(int location, Object newObj){
+    public boolean edit(int location, Object newObj){
 
-        if(!isEmpty() && isLocationValid(location)){
+        if(!isEmpty() && isLocationValid(location) && !search(newObj)){
          items[location] = newObj;
          return true;
         }
@@ -339,14 +380,23 @@ class MyArrayList{
         return items.length;
     }
 
-
+    public boolean insert(Object o, int index){
+        
+        if(increase_size(1) && !isEmpty() && isLocationValid(index)){
+            Object temp = items[index];
+            items[index] = o;
+            items[count] = temp;
+            return true;
+        }
+        return false;
+    }
 
 
     private boolean isFull()
     {
         return count == items.length;
     }
-
+    
     private boolean isEmpty(){
         return count==0;
     }
@@ -357,7 +407,6 @@ class MyArrayList{
     
     
     @Override
-    
     public String toString(){
         String result ="";
         if(!isEmpty()){

@@ -19,7 +19,7 @@ public class MyArrayListAct{
             "Edit (Object old, Object new)",
             "Edit (int location, Object new)",
             "Get (int location)",
-            "Insert (Object o. int location)",
+            "Insert (Object o,  int location)",
             "Go Back"
         };
         

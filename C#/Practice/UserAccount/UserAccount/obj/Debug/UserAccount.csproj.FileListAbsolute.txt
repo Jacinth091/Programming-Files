@@ -5,3 +5,10 @@ C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\UserAccount
 C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.csproj.CoreCompileInputs.cache
 C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.exe
 C:\Users\PCC\Desktop\CODING FILES\ProgLang - Hello World\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.pdb
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\bin\Debug\UserAccount.exe.config
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\bin\Debug\UserAccount.exe
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\bin\Debug\UserAccount.pdb
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.csproj.AssemblyReference.cache
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.csproj.CoreCompileInputs.cache
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.exe
+C:\Users\PCC\Desktop\CODING FILES\Programming Languages\C#\Practice\UserAccount\UserAccount\obj\Debug\UserAccount.pdb

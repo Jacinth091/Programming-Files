@@ -49,7 +49,7 @@ public class TestMySinglyLinkedList
       
       System.out.println("Contents: " + list2);
       
-      System.out.println("Insert By Location : " + list2.insert("Laroco", 3 ));
+      System.out.println("Insert By Location : " + list2.insert("L", 0 ));
       
       System.out.println("Contents: " + list2);
       

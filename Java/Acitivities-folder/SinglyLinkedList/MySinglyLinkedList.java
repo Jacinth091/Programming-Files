@@ -274,12 +274,14 @@ public class MySinglyLinkedList
       return false;
   }
   // Delete All
-  public void deleteAll()
+  public boolean deleteAll()
   {
       if(!isEmpty())
       {
          top = null;
+         return true;
       }
+      return false;
   }
   
   // Edit By Location

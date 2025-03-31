@@ -13,6 +13,21 @@ public class StackNode
       return top == null;
    }
    
+   public int getCount()
+   {
+      int count = 0;
+      if(!isEmpty())
+      {
+         MyNode tempTop = top;
+         while(tempTop != null)
+         {
+            tempTop = tempTop.next;
+            count = count + 1;
+         }        
+      }
+      return count;
+   }
+   
    // Push 
    public boolean push(Object value)
    {
@@ -91,66 +106,35 @@ public class StackNode
    // toString
    
    
-   public String disp()
+   public String toString()
    {
       String result = "";
       MyNode tempCurrent = top;
       MyNode tempPrevious = top;
-      MyNode tempTop = null;
-   
 
-//       while(true)
-//       {
-//          while(tempCurrent.next != tempTop && tempCurrent.next != null)
-//          {
-//             tempCurrent = tempCurrent.next;
-//          }
-//          
-//          result += "[ current ->" + tempCurrent.item.toString() + "]\n";
-//                   
-//    
-//          while(tempPrevious.next != tempCurrent)
-//          {
-//             tempPrevious = tempPrevious.next;
-//          }
-//          result += "[ previous ->" + tempPrevious.item.toString() + "]\n";
-//          tempTop = tempPrevious;
-//          
-//          tempCurrent = top;
-// 
-//          tempPrevious = top;
-//       
-//       }
-
-      while(tempCurrent.next != null || tempPrevious.next != null)
+      if(!isEmpty())
       {
-         tempCurrent = tempCurrent.next;
-         tempPrevious = tempPrevious.next;
-      
-      }
-      result += "[" + tempCurrent.item.toString() + "]\n";
-      tempCurrent = top;
-   
-      while(tempCurrent != top || tempPrevious != top)
-      {
-
-      
-         while(tempCurrent.next != tempPrevious)
-         { 
-            tempCurrent = tempCurrent.next; 
+          while(tempCurrent.next != null || tempPrevious.next != null)
+         {
+            tempCurrent = tempCurrent.next;
+            tempPrevious = tempPrevious.next;
+         
          }
          result += "[" + tempCurrent.item.toString() + "]\n";
-         tempPrevious = tempCurrent;
-            
-   //       while(tempPrevious.next != tempCurrent)
-//          {
-//             tempPrevious = tempPrevious.next;
-//          }
-         // result += "[ previous ->" + tempPrevious.item.toString() + "]\n";
          tempCurrent = top;
       
-      }
+         while(tempCurrent != top || tempPrevious != top)
+         {
+            while(tempCurrent.next != tempPrevious)
+            { 
+               tempCurrent = tempCurrent.next; 
+            }
+            result += "[" + tempCurrent.item.toString() + "]\n";
+            tempPrevious = tempCurrent;
+            tempCurrent = top;
+         }
 
+      }
 
          
       return result;

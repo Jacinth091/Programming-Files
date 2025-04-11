@@ -1,5 +1,3 @@
-package MyQueueArrayAct;
-
 public class QueueArray
 {
    private Object[] items;

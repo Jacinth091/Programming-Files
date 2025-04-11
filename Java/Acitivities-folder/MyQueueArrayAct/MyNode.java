@@ -1,4 +1,3 @@
-package MyQueueArrayAct;
 public class MyNode
 {
    private Object item;

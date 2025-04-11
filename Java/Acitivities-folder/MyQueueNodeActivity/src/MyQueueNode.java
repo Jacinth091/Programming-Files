@@ -99,8 +99,8 @@ public class MyQueueNode
         }
         return choice;
     }
-   public static boolean HandleOperationRedirection(QueueNode queueNode, int choice) throws Exception
-   {
+    public static boolean HandleOperationRedirection(QueueNode queueNode, int choice) throws Exception
+    {
        switch(choice){
            case 1:
                 String input =JOptionPane.showInputDialog(null, "What Item you want to Enqueue?\n", "Enqueue Method", JOptionPane.QUESTION_MESSAGE);
@@ -110,10 +110,13 @@ public class MyQueueNode
                     throw new Exception("Item cannot be Null / Empty!");
                 }
                 else{
-                    if(queueNode.enqueue(input)){
+                    boolean enqueue = queueNode.enqueue(input);
+                    if(enqueue){
                         String item = String.format("Successfully Enqueued \n\t---> %s <---", input);
                         JOptionPane.showMessageDialog(null, item, "Successful Operation", JOptionPane.INFORMATION_MESSAGE );
+//                        queueNode.enqueue(input);
                         JOptionPane.showMessageDialog(null, queueNode.toString(), "Current Items Queued", JOptionPane.PLAIN_MESSAGE);
+                        System.out.println(queueNode.toString());
                         
                     }
                     else

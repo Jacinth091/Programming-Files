@@ -59,25 +59,25 @@ public class QueueNode
       }
       return false;
    }
-   
-   public String toString()
-   {
-      String result ="[";
-      if(!isEmpty())
-      {
-         MyNode tempTop = top;
-         while(tempTop.getNext() != null)
-         {
-            tempTop = tempTop.getNext();
-            result += tempTop.getItem().toString();
-            
-         }
-         
-         
+
+   public String toString() {
+      if(isEmpty()) {
+         return "[]";
       }
-      result = result + "]";
+
+      String result = "[";
+      MyNode tempTop = top;
+
+      result += tempTop.getItem().toString();
+      tempTop = tempTop.getNext();
+
+      while(tempTop != null) {
+         result += ", " + tempTop.getItem().toString();
+         tempTop = tempTop.getNext();
+      }
+
+      result += "]";
       return result;
    }
-   
 
 }

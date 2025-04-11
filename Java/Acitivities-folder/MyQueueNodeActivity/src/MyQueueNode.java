@@ -1,6 +1,6 @@
 
-import javax.swing.JOptionPane;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class MyQueueNode
 {
@@ -55,7 +55,7 @@ public class MyQueueNode
                }
            }
            catch(Exception ex){
-                   JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
            }
        }
    }
@@ -99,11 +99,12 @@ public class MyQueueNode
         }
         return choice;
     }
+
     public static boolean HandleOperationRedirection(QueueNode queueNode, int choice) throws Exception
     {
        switch(choice){
            case 1:
-                String input =JOptionPane.showInputDialog(null, "What Item you want to Enqueue?\n", "Enqueue Method", JOptionPane.QUESTION_MESSAGE);
+                String input = JOptionPane.showInputDialog(null, "What Item you want to Enqueue?\n", "Enqueue Method", JOptionPane.QUESTION_MESSAGE);
                 if(input == null){
                     throw new Exception("Going Back to Queue Node Menu");
                 }else if(input.isEmpty()){
@@ -126,9 +127,26 @@ public class MyQueueNode
                 }
            break;
            case 2:
-
+            JOptionPane.showMessageDialog(null, "Dequeue the first item\n", "Dequeue Method", JOptionPane.WARNING_MESSAGE);
+ 
+              boolean dequeue = queueNode.dequeue();
+              if(dequeue){
+                  String item = String.format("Successfully Dequeued the First Item\n");
+                  JOptionPane.showMessageDialog(null, item, "Successful Operation", JOptionPane.INFORMATION_MESSAGE );
+                  JOptionPane.showMessageDialog(null, queueNode.toString(), "Current Items Queued", JOptionPane.PLAIN_MESSAGE);
+               }
+               else if(queueNode.isEmpty()){
+                  throw new Exception("There was an error dequeing the first item, The Queue is Empty");
+               }
            break;
            case 3:
+                JOptionPane.showMessageDialog(null, "Displaying All Items Queued\n", "To String Method", JOptionPane.WARNING_MESSAGE);
+                if(queueNode.isEmpty()){
+                    throw new Exception("The Queue is Currently Empty!");
+                }
+                else{
+                JOptionPane.showMessageDialog(null, queueNode.toString(), "Current Items Queued", JOptionPane.PLAIN_MESSAGE);
+                }
 
            break;
            case 0:

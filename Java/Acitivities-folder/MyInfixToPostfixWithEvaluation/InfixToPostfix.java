@@ -63,18 +63,28 @@ public class InfixToPostfix
     {
         StackNode postFix = stackNode;
         String result ="";
-        
+        String numStr = "";
         for(int i =0; i<expression.length(); i++)
         {
             
-            char ch=expression.charAt(i); 
+            char ch=expression.charAt(i);
             if(ch =='(')
             {
                 postFix.push(ch);
             }
-            else if((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch >='0' && ch<= '9')) 
+            else if((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch >='0' && ch<= '9'))
             {
-                result += ch;
+
+                numStr += ch;
+                if(i+1 < expression.length()){
+                    char nextCh = expression.charAt(i+1);
+                    if((nextCh>='a' && nextCh<='z') || (nextCh>='A' && nextCh<='Z') || (nextCh >='0' && nextCh<= '9'))
+                        continue;
+                }
+
+                result += numStr;
+                numStr = "";
+                // result +=ch;
             } 
             else if( ch == ')')
             {
@@ -92,7 +102,7 @@ public class InfixToPostfix
                 postFix.pop(); // pop '(' from stack. 
 
             }
-            else if (ch =='+' || ch =='-' || ch == '*' || ch == '/'){
+            else if (ch =='+' || ch =='-' || ch == '*' || ch == '/' || ch =='^'){
                 while(postFix.getCount() > 0 && !postFix.peek().equals('(') && precedence(ch) <= precedence(postFix.peek().toString().charAt(0))) 
                 {
                     String op = postFix.peek().toString();
@@ -117,10 +127,11 @@ public class InfixToPostfix
         return result;
     }
 
-    public static String EvaluatePostfix(StackNode stackNode, String expression)
+    public static String EvaluatePostfix(StackNode stackNode, String expression) throws Exception
     {
         StackNode postFix = stackNode;
         String result = "";
+        String numStr = "";
 
         for(int i =0; i<expression.length(); i++)
         {
@@ -129,47 +140,58 @@ public class InfixToPostfix
             
             if((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch >='0' && ch<= '9'))
             {
-                postFix.push(ch);
+                numStr += ch;
+                if( i+1 < expression.length()){
+                    char nextCh = expression.charAt(i+1);
+                    if((nextCh>='a' && nextCh<='z') || (nextCh>='A' && nextCh<='Z') || (nextCh >='0' && nextCh<= '9'))
+                        continue;
+                }
+                System.out.println(numStr);
+                postFix.push(numStr);
+                numStr = "";
+                // postFix.push(ch);
+
             }
-            else if(ch =='+' || ch =='-' || ch == '*' || ch == '/')
+            else if(ch =='+' || ch =='-' || ch == '*' || ch == '/' || ch =='^')
             {
-                String second = postFix.peek().toString();
-                postFix.pop();
-
-                String first = postFix.peek().toString();
-                postFix.pop();
-                
-                int valueResult = 0;
-
-                switch(ch)
+                if(postFix.peek() != null)
                 {
-                    case '+':
-                    valueResult = Integer.parseInt(first) + Integer.parseInt(second);
-                    break;  
-                    case '-':
-                    valueResult = Integer.parseInt(first) - Integer.parseInt(second);
-                    break;  
-                    case '*':
-                    valueResult = Integer.parseInt(first) * Integer.parseInt(second);
-                    break;  
-                    case '/':
-                    valueResult = Integer.parseInt(first) / Integer.parseInt(second);
-                    break;  
+                    int b = Integer.parseInt(postFix.peek().toString());
+                    postFix.pop();
+                    System.out.println("B: " + b);
+
+
+                    int a = Integer.parseInt(postFix.peek().toString());
+                    postFix.pop();
+                    System.out.println("B: " + a);
+
+
+                    int valueResult = 0;
+
+                    switch(ch)
+                    {
+                        case '+': valueResult = a + b; break;  
+                        case '-': valueResult = a - b; break;  
+                        case '*': valueResult = a * b; break;    
+                        case '/': valueResult = a / b; break;  
+                        case '^': valueResult = (int)Math.pow(a,b); break;
+                    }
+                    System.out.println("Result: " + valueResult);
+
+                    postFix.push(String.valueOf(valueResult));
 
                 }
-                postFix.push(valueResult);
             }
 
 
         }
 
-        while(postFix.getCount() > 0)
-        {
-            String op = postFix.peek().toString();
+        if (postFix.peek() != null) {
+            result = postFix.peek().toString();
             postFix.pop();
-            result += op;
+        } else {
+            throw new Exception("Error: Empty stack at end of evaluation.");
         }
-
 
 
         return result;
@@ -183,7 +205,8 @@ public class InfixToPostfix
 
         else if(ch=='*' || ch=='/')
             return 2;
-
+        else if(ch== '^')
+            return 3;
         return 0;
     }
 
@@ -240,7 +263,9 @@ public class InfixToPostfix
                 else{
                     String postFixResult = ConvertToPostFix(stackNode, input);
                     String evaluatedResult = EvaluatePostfix(stackNode, postFixResult);
-                    String res = String.format("Result Postfix \n--------> %s <--------", evaluatedResult);
+                    // String evaluatedResult = "bombo";
+
+                    String res = String.format("Results:\n\n===> Infix Expression: %s\n===>Postfix Expression: %s\n===>Evaluated Result: %s\n",input,postFixResult, evaluatedResult);
                     JOptionPane.showMessageDialog(null,res, "Postfix Result", JOptionPane.INFORMATION_MESSAGE);
                 }
            break;

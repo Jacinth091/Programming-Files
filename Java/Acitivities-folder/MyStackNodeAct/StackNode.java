@@ -1,4 +1,4 @@
-package MyStackNodeAct;
+ package MyStackNodeAct;
 public class StackNode
 {
    private MyNode top;
@@ -107,39 +107,37 @@ public class StackNode
    // toString
    
    
-   public String toString()
-   {
-      String result = "";
-      MyNode tempCurrent = top;
-      MyNode tempPrevious = top;
+   public String toString() {
+    if (isEmpty()) {
+        return "";  // Return empty if stack is empty
+    }
 
-      if(!isEmpty())
-      {
-          while(tempCurrent.next != null || tempPrevious.next != null)
-         {
-            tempCurrent = tempCurrent.next;
-            tempPrevious = tempPrevious.next;
-         
-         }
-         result += "[" + tempCurrent.item.toString() + "]\n";
-         tempCurrent = top;
-      
-         while(tempCurrent != top || tempPrevious != top)
-         {
-            while(tempCurrent.next != tempPrevious)
-            { 
-               tempCurrent = tempCurrent.next; 
-            }
-            result += "[" + tempCurrent.item.toString() + "]\n";
-            tempPrevious = tempCurrent;
-            tempCurrent = top;
-         }
+    StringBuilder result = new StringBuilder();
+    MyNode current = top;
 
-      }
+    // First, find the bottom node (last node)
+    MyNode bottom = null;
+    while (current != null) {
+        bottom = current;  // Update bottom until we reach the end
+        current = current.next;
+    }
 
-         
-      return result;
-   }
+    // Now traverse from bottom back to top
+    current = bottom;
+    while (current != null) {
+        // To move upwards, we need to find the previous node (since it's singly linked)
+        // This requires re-traversing from the top each time (not efficient, but works)
+        MyNode prev = top;
+        while (prev != null && prev.next != current) {
+            prev = prev.next;
+        }
+        
+        result.append("[").append(current.item).append("]\n");
+        current = prev;  // Move to the previous node
+    }
+
+    return result.toString();
+}
    
 
 }
